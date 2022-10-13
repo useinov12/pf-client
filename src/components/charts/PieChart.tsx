@@ -7,10 +7,26 @@ import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 
-// 'rgba(200, 200, 200, .7)',
-// 'rgba(180, 180, 180, .7)',
-// 'rgba(150, 150, 150, .7)',
-// 'rgba(120, 120, 120, .7)',
+
+const PieChart:React.FC<{
+  radius:string, isFakeData?:boolean
+}> = ({radius, isFakeData}) => {
+  return (
+    <Pie 
+        data={fakeDataset} 
+        // width={width} 
+        // height={height} 
+        options={{
+          responsive: true,
+          maintainAspectRatio: true,
+          radius:radius,
+        }}
+     />
+  )
+}
+
+export default PieChart;
+
 
 export const fakeDataset = {
   labels: ['Grocery', 'Shopping', 'Subsciptions', 'Travel' ],
@@ -49,22 +65,3 @@ function createGradient({
   return gradient;
 }
 
-
-const PieChart:React.FC<{
-  radius:string, isFakeData?:boolean
-}> = ({radius, isFakeData}) => {
-  return (
-    <Pie 
-        data={fakeDataset} 
-        // width={width} 
-        // height={height} 
-        options={{
-          responsive: true,
-          maintainAspectRatio: true,
-          radius:radius,
-        }}
-     />
-  )
-}
-
-export default PieChart;

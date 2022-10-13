@@ -17,7 +17,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 export const options = {
@@ -57,8 +57,8 @@ const VerticalBar:React.FC<{
     <Bar 
         data={fakeDataset} 
         options={options} 
-        width={width} 
-        height={height} 
+        // width={width} 
+        // height={height} 
     />
   )
 }

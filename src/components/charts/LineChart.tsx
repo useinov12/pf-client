@@ -3,12 +3,14 @@ import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
 import {
   Chart as ChartJS,
   CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
   Tooltip,
   Legend,
   Filler,
+  ChartConfiguration,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
@@ -19,7 +21,8 @@ ChartJS.register(
   LineElement,
   Tooltip,
   Legend,
-  Filler
+  Filler,
+  LineController,
 );
 
 const LineChart: React.FC<{
@@ -57,8 +60,8 @@ const LineChart: React.FC<{
       type='line'
       data={chartData}
       options={options}
-      width={width}
-      height={height}
+      // width={width}
+      // height={height}
     />
   );
 };
