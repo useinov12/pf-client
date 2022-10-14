@@ -16,7 +16,7 @@ export async function register(signUpCred: {
       signUpCred,
       { headers }
     );
-    let {data, status } = response
+    const {data, status } = response
     console.log(response)   
     return { status, data, message: 'User succesfully created' };
   } catch (error: any) {
@@ -40,12 +40,12 @@ export async function register(signUpCred: {
 
 export async function login(loginCred: { username: string; password: string }) {
   try {                                                                             //re-do response when backend updated
-    let response = await axios.post(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_PATH}/login`,
       loginCred,
       { headers }
     );
-    let {data, status } = response
+    const { data, status } = response
     console.log(response)                              
     return { status, data, message: 'Successfull login' };
   } catch (error: any) { 
