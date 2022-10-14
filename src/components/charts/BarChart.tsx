@@ -6,7 +6,6 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartConfiguration,
   LineController,
   LineElement,
   PointElement,
@@ -15,6 +14,7 @@ import {
 import { Bar } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 
+import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
 ChartJS.register(
   CategoryScale,
   BarElement,
@@ -26,8 +26,6 @@ ChartJS.register(
   PointElement,
   LinearScale
 );
-import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
-
 const BarChart: React.FC<{
   width: string;
   height: string;

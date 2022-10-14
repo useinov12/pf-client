@@ -1,19 +1,16 @@
 import React, { useRef, useEffect, useState } from 'react';
-import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
+import type { ChartData, ChartArea } from 'chart.js';
 import {
   Chart as ChartJS,
+  registerables,
   CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
   Tooltip,
   Legend,
   Filler,
-  ChartConfiguration,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
 } from 'chart.js';
-import { Chart } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -22,8 +19,10 @@ ChartJS.register(
   Tooltip,
   Legend,
   Filler,
-  LineController,
 );
+
+import { Chart } from 'react-chartjs-2';
+import { faker } from '@faker-js/faker';
 
 const LineChart: React.FC<{
   width: string;
@@ -103,18 +102,21 @@ const data = {
   ],
 };
 
-function createGradient(ctx: CanvasRenderingContext2D, area: ChartArea) {
+function createGradient(ctx: CanvasRenderingContext2D | null, area: ChartArea) {
   const colorStart = 'rgba(253, 224, 71, .6)';
   const colorMid = 'rgba(255,108,35, .7)';
   const colorEnd = 'rgba(255,108,35, 1)';
 
-  const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
+  if (ctx) {
+    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
 
-  gradient.addColorStop(0, colorStart);
-  gradient.addColorStop(0.5, colorMid);
-  gradient.addColorStop(1, colorEnd);
+    gradient.addColorStop(0, colorStart);
+    gradient.addColorStop(0.5, colorMid);
+    gradient.addColorStop(1, colorEnd);
 
-  return gradient;
+    return gradient;
+  }
+  return 'rgba(253, 224, 71, .6)';
 }
 
 const options = {
@@ -146,11 +148,11 @@ const options = {
       ticks: {
         // Include a dollar sign in the ticks
         callback: (value: string | number, index: number, ticks: any) => {
-            const formatter = Intl.NumberFormat('en', {
-                notation: 'compact',
-                compactDisplay: 'short',
-            });
-            return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
+          const formatter = Intl.NumberFormat('en', {
+            notation: 'compact',
+            compactDisplay: 'short',
+          });
+          return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
         },
       },
     },
