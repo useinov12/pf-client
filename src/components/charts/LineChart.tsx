@@ -19,7 +19,7 @@ ChartJS.register(
   LineElement,
   Tooltip,
   Legend,
-  Filler,
+  Filler
 );
 
 import { Chart } from 'react-chartjs-2';
@@ -60,8 +60,8 @@ const LineChart: React.FC<{
       type='line'
       data={chartData}
       options={options}
-      // width={width}
-      // height={height}
+      width={width}
+      height={height}
     />
   );
 };

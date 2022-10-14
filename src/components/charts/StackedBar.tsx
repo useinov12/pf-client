@@ -30,8 +30,8 @@ const StackedBar: React.FC<{
   return (
     <Bar
       data={fakeDataset}
-      // width={width}
-      // height={height}
+      width={width}
+      height={height}
       options={options}
     />
   );

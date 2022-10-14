@@ -11,23 +11,24 @@ export async function register(signUpCred: {
   last_name: string;
 }) {
   try {                                                                             //re-do response when backend updated
-    const { data, status } = await axios.post(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_PATH}/create_user`,
       signUpCred,
       { headers }
     );
-
+    const {data, status } = response
+    console.log(response)   
     return { status, data, message: 'User succesfully created' };
   } catch (error: any) {
     if (error.response.status === 404) {
-        // console.log(error)
+        console.log(error)
       return {
         status: error.response.status,
         data: {},
         message: error.response.data.detail[0].msg,
       };
     } else {
-    //   console.log('Unexpected error: ', error);
+      console.log('Unexpected error: ', error);
       return {
         status: error.response.status,
         data: {},
@@ -39,14 +40,17 @@ export async function register(signUpCred: {
 
 export async function login(loginCred: { username: string; password: string }) {
   try {                                                                             //re-do response when backend updated
-    const { data, status } = await axios.post(
+    const response = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_PATH}/login`,
       loginCred,
       { headers }
-    );                              
+    );
+    const { data, status } = response
+    console.log(response)                              
     return { status, data, message: 'Successfull login' };
   } catch (error: any) { 
     if (error.response.status === 404) { 
+      console.log(error)
       return {
         status: error.response.status,
         data: {},

@@ -13,8 +13,6 @@ const PieChart: React.FC<{
   return (
     <Pie
       data={fakeDataset}
-      // width={width}
-      // height={height}
       options={{
         responsive: true,
         maintainAspectRatio: true,

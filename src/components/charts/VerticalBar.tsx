@@ -32,8 +32,8 @@ const VerticalBar: React.FC<{
     <Bar
       data={fakeDataset}
       options={options}
-      // width={width}
-      // height={height}
+      width={width}
+      height={height}
     />
   );
 };
