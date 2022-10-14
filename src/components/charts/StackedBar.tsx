@@ -17,10 +17,26 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
+
+const StackedBar:React.FC<{
+  width:string, height:string, isFakeData?:boolean
+}> = ({width, height, isFakeData}) => {
+
+return (
+  <Bar 
+      data={fakeDataset} 
+      // width={width} 
+      // height={height} 
+      options={options} 
+   />
+)
+};
+
+export default StackedBar;
 
 export const options = {
   plugins: {
@@ -99,19 +115,5 @@ const fakeDataset = {
   ],
 };
 
-const StackedBar:React.FC<{
-    width:string, height:string, isFakeData?:boolean
-}> = ({width, height, isFakeData}) => {
 
-  return (
-    <Bar 
-        data={fakeDataset} 
-        width={width} 
-        height={height} 
-        options={options} 
-     />
-  )
-};
-
-export default StackedBar;
 
