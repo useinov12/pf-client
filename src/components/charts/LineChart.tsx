@@ -2,10 +2,10 @@ import React, { useRef, useEffect, useState } from 'react';
 import type { ChartData, ChartArea } from 'chart.js';
 import {
   Chart as ChartJS,
-  registerables,
   CategoryScale,
   LinearScale,
   PointElement,
+  LineController,
   LineElement,
   Tooltip,
   Legend,
@@ -14,6 +14,7 @@ import {
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  LineController,
   PointElement,
   LineElement,
   Tooltip,
