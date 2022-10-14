@@ -34,8 +34,8 @@ const BarChart: React.FC<{
   return (
     <Bar
       data={data}
-      // width={width}
-      // height={height}
+      width={width}
+      height={height}
       options={options}
     />
   );
