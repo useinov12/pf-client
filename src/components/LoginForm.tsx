@@ -67,7 +67,7 @@ const LoginForm = ({
     };
     const response = await login(credentials);
 
-    if (response.status === 200) {
+    if (response && response.status === 200) {
       console.log('SUCCESS');
       // Cookies.set('response', data)
       // display success toast
