@@ -17,7 +17,7 @@ export async function register(signUpCred: {
       signUpCred,
       { headers }
     );
-    const { data, status } = response; 
+    const { data, status } = response;
     console.log(response);
     return { status, data, message: 'User succesfully created' };
   } catch (error: any) {
@@ -60,11 +60,11 @@ export async function login(loginCred: { username: string; password: string }) {
       };
     } else {
       console.log('Unexpected error: ', error);
-      // return {
-      //   status: error.response.status,
-      //   data: {},
-      //   message: 'An unexpected error occurred',
-      // };
+      return {
+        status: error.response.status,
+        data: {},
+        message: 'An unexpected error occurred',
+      };
     }
   }
 }
