@@ -8,20 +8,18 @@ import Link from 'next/link';
 
 const User: React.FC = () => {
   const { user, setUser } = React.useContext(UserContext);
-  // const username = user?.email?.slice(0, user?.email.indexOf('@'));
-  // const [username, setUsername] = React.useState<string | null>(null);
+  const [name, setName] = React.useState<string | null>(null);
 
-  // React.useEffect(() => {
-  //   if (user) {
-  //     setUsername(user?.email?.slice(0, user?.email.indexOf('@')));
-  //   }
-  // }, [user]);
+  React.useEffect(() => {
+    if (user) {
+      setName(user.firstName + ' ' + user.lastName);
+    }
+  }, [user]);
 
   async function handleLogOut() {
     Cookies.remove('token');
     setUser(null);
   }
-  console.log('user', user)
 
   return (
     <Menu as={'div'} className={clsx('relative', 'z-40', 'mx-1 mt-2 ')}>
@@ -44,7 +42,7 @@ const User: React.FC = () => {
           //   'focus:ring-offset-2'
         )}
       >
-        {user?.email || 'Account'} 
+        {name || 'Account'}
       </Menu.Button>
       <Menu.Items
         className={clsx(

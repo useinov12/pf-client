@@ -50,15 +50,14 @@ export async function login(loginCred: { username: string; password: string }) {
       loginCred,
       { headers }
     );
-    // const token = data.detail.data.access_token
-    // console.log(data.detail.data.access_token)
+    console.log(status, data)
     return { status, data, message: 'Successfull login' };
   } catch (error: any) {
     console.log(error);
     return {
       status: error.response.status,
       data: error.response.data,
-      message: error.response.data.detail.messege,
+      message: error.response.data.detail.message,
     };
     // if (error.response.status === 403) {
     //   console.log(error);
