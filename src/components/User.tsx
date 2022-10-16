@@ -8,7 +8,15 @@ import Link from 'next/link';
 
 const User: React.FC = () => {
   const { user, setUser } = React.useContext(UserContext);
-  const username = user?.email.slice(0, user?.email.indexOf('@'));
+  // const username = user?.email?.slice(0, user?.email.indexOf('@'));
+  const [username, setUsername] = React.useState<string | null>(null)
+
+
+  React.useEffect(()=>{
+    if(user){
+      setUsername(user?.email?.slice(0, user?.email.indexOf('@')))
+    }
+  }, [user])
 
   async function handleLogOut() {
     Cookies.remove('token');

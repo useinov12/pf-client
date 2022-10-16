@@ -37,10 +37,7 @@ export default function Header() {
             <User />
           ) : (
             <Button
-              className={clsx(
-                'mx-1 mt-2'
-                // 'text-base',
-              )}
+              className='mx-1 mt-2 py-1'
               variant={mode === 'dark' ? 'light' : 'dark'}
               onClick={() => setOpenLoginForm(true)}
             >
@@ -48,10 +45,7 @@ export default function Header() {
             </Button>
           )}
           <Button
-            className={clsx(
-              'mx-1 mt-2'
-              // 'text-base',
-            )}
+            className='mx-1 mt-2'
             variant={mode === 'dark' ? 'light' : 'dark'}
             onClick={() => {
               setMode(mode === 'light' ? 'dark' : 'light');
@@ -65,4 +59,3 @@ export default function Header() {
     </header>
   );
 }
-
