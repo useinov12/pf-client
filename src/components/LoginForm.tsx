@@ -88,12 +88,6 @@ const LoginForm: React.FC<{
     }
   }
 
-  async function handleLogOut() {
-    // unset JWT from cookie
-    // clear user context state
-    //
-    return 1;
-  }
 
   return (
     <div
