@@ -13,19 +13,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div
       className={clsx(
         'w-full overflow-x-hidden',
-        mode === 'dark' ? 'bg-zinc-900' : 'bg-gray-300', 
-        color, 
-        textColor)}
+        mode === 'dark' ? 'bg-zinc-900' : 'bg-gray-50',
+        color,
+        textColor
+      )}
     >
       <Header />
-      <div
-        className={clsx(
-          'relative h-full',
-          'min-h-[90vh] w-screen',
-          'py-8',
-
-        )}
-      >
+      <div className={clsx('relative h-full', 'min-h-[90vh] w-screen', 'py-8')}>
         {children}
       </div>
       <Footer />

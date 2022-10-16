@@ -39,7 +39,8 @@ const StepSection: React.FC<{
           'flex flex-col',
           'justify-start',
           'items-center',
-          'md:items-start'
+          'md:items-start',
+          'max-w-[50%]'
         )}
       >
         <>
