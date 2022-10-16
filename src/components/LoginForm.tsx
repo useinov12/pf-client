@@ -118,7 +118,7 @@ const LoginForm: React.FC<{
           <AiOutlineClose className='text-4xl' />
         </button>
 
-        <p className='mt-10 text-2xl font-semibold'>Sign in to</p>
+        <p className='mt-10 text-2xl font-semibold text-dark'>Sign in to</p>
         <Logo />
         <div className='my-1 h-1 w-full rounded bg-dark' />
 
@@ -169,9 +169,9 @@ const SignUpForm: React.FC<{
     last_name: string;
     password: string;
   };
-  handleRegisterCredentials: any;
-  handleSubmit: any;
-  toggle: any;
+  handleRegisterCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  toggle: boolean;
 }> = ({ credentials, handleRegisterCredentials, handleSubmit, toggle }) => {
   return (
     <form
@@ -272,9 +272,9 @@ const SignInForm: React.FC<{
     last_name: string;
     password: string;
   };
-  handleLogInCredentials: any;
-  handleSubmit: any;
-  toggle: any;
+  handleLogInCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  toggle: boolean;
 }> = ({ credentials, handleLogInCredentials, handleSubmit, toggle }) => {
   return (
     <form
