@@ -16,6 +16,7 @@ import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineLineChart } from 'react-icons/ai';
 
 import plaidSvg from '../assets/plaid.png';
+import toast, { Toaster } from 'react-hot-toast';
 /**
  * SVGR Support
  * Caveat: No React Props Type.
@@ -62,6 +63,7 @@ export default function HomePage() {
             'md:h-[65vh]'
           )}
         >
+          <Toaster />
           <section
             className={clsx(
               'h-full w-full ',
@@ -128,19 +130,19 @@ export default function HomePage() {
           >
             <div
               className={clsx(
-                'h-full w-full rounded-tl-md rounded-tr-md shadow-lg',
-                'transition-all duration-100',
+                'h-full w-full rounded-tl-xl rounded-tr-xl shadow-lg',
+                // 'transition-all duration-100',
                 // 'hover:shadow-lg',
-                'scale-100 hover:scale-[1.003]',
+                // 'scale-100 hover:scale-[1.003]',
                 // 'hover:shadow-gray-700/60',
-                'border-gary-50 border border-solid bg-white'
+                'border-gary-50 border border-solid bg-gray-200'
               )}
             >
               <div
                 className={clsx(
                   'flex items-center',
                   'px-2 sm:py-2',
-                  'overflow-x-scroll'
+                  'overflow-x-scroll',
                 )}
               >
                 {chipsList.map((text) => {
@@ -161,8 +163,8 @@ export default function HomePage() {
                 })}
               </div>
 
-              <div className='my-2 h-[1px] w-full bg-gray-500' />
-              <div className='min-h-80 h-full w-full'>
+              <div className='my-2 h-[1px] w-full bg-gray-300' />
+              <div className='min-h-80 h-full w-full px-4'>
                 {card === 'Banks' && <BanksCard />}
                 {card === 'Expenses' && <ExpensesCard />}
               </div>
