@@ -25,8 +25,8 @@ const StepSection: React.FC<{
       )}
     >
       <StepCard
-        text1={'Set Up'}
-        text2={'Your Plaid Account '}
+        text1={text1}
+        text2={text2}
         imageSrc={imageSrc ?? imageSrc}
         icon={icon ?? icon}
         className={clsx()}
@@ -37,7 +37,7 @@ const StepSection: React.FC<{
           'md:h-48 md:w-3/5 ',
           'p-2 text-xl',
           'flex flex-col',
-          'justify-between',
+          'justify-start',
           'items-center',
           'md:items-start'
         )}
