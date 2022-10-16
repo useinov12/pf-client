@@ -8,13 +8,6 @@ import Button from '../buttons/Button';
 import User from '../User';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { UserContext } from '@/context/UserProvider';
-import ArrowLink from '../links/ArrowLink';
-import ButtonLink from '@/components/links/ButtonLink';
-
-const links = [
-  { href: '/', label: 'Home' },
-  { href: '/', label: 'About' },
-];
 
 export default function Header() {
   const { mode, setMode } = React.useContext(ThemeContext);
