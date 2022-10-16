@@ -6,7 +6,14 @@ import DataLine from '../app-components/DataLine';
 
 const BanksCard: React.FC = () => {
     return (
-      <div className='py-4 h-full w-full'>
+      <div className={clsx(
+        'rounded-md bg-white shadow-sm',
+        'py-4 w-full',
+        'transition-all duration-100',
+        'hover:shadow-md',
+        'scale-100 hover:scale-[1.005]',
+        'hover:shadow-gray-700/60'
+      )}>
         <DataLine text={'Banks'} data={banks}/>
 
         <DataLine text={'Total acconts:'} data={['$17 500']}/>
