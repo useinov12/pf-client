@@ -11,8 +11,8 @@ const User: React.FC = () => {
   const username = user?.email.slice(0, user?.email.indexOf('@'));
 
   async function handleLogOut() {
-    Cookies.remove('token')
-    setUser(null)
+    Cookies.remove('token');
+    setUser(null);
   }
 
   return (
@@ -49,16 +49,18 @@ const User: React.FC = () => {
       >
         <div className='py-1'>
           <Menu.Item>
-            <Link
-              href='/finance'
-              className={clsx(
-                'flex items-center px-4 py-2',
-                'text-sm text-gray-700',
-                'hover:bg-primary-500 hover:text-white'
-              )}
-            >
-              <h4 className='mr-2 font-bold'>PF</h4>
-              Open app
+            <Link href='/finance'>
+              <span
+                className={clsx(
+                  'flex items-center px-4 py-2',
+                  'text-sm text-gray-700',
+                  'hover:bg-primary-500 hover:text-white',
+                  'cursor-pointer'
+                )}
+              >
+                <h4 className='mr-2 font-bold'>PF</h4>
+                Open app
+              </span>
             </Link>
           </Menu.Item>
         </div>
@@ -82,7 +84,7 @@ const User: React.FC = () => {
           <Menu.Item>
             <button
               className={clsx(
-                'flex items-center px-4 py-2 w-full',
+                'flex w-full items-center px-4 py-2',
                 'text-sm text-gray-700',
                 'hover:bg-primary-500 hover:text-white'
               )}
