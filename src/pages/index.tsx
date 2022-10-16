@@ -125,18 +125,15 @@ export default function HomePage() {
           <section
             className={clsx(
               'h-full w-full',
-              'flex flex-col-reverse items-center',
-              'text-gray-800'
+              'flex items-end',
+              'text-gray-800',
             )}
           >
             <div
               className={clsx(
-                'h-full w-full rounded-tl-xl rounded-tr-xl shadow-lg',
-                // 'transition-all duration-100',
-                // 'hover:shadow-lg',
-                // 'scale-100 hover:scale-[1.003]',
-                // 'hover:shadow-gray-700/60',
-                'border-gary-50 border border-solid bg-gray-200'
+                'h-4/5 w-full rounded-tl-xl rounded-tr-xl shadow-xl',
+                'border-gary-50 border border-solid bg-gray-200',
+                'shadow-inner'
               )}
             >
               <div
@@ -150,11 +147,12 @@ export default function HomePage() {
                   return (
                     <Button
                       key={text}
-                      variant={'dark'}
+                      variant={'light'}
                       className={clsx(
-                        'm-1 py-1 px-2 text-sm',
-                        // 'mx-1 py-2 px-2 text-sm',
-                        ''
+                        'text-md my-1 mx-2 py-2 px-3',
+                        'shadow-lg',
+                        'shadow-inner',
+                        'rounded-md'
                       )}
                       onClick={() => setCard(text)}
                     >
