@@ -3,8 +3,8 @@ import { UserContext } from '@/context/UserProvider';
 import clsx from 'clsx';
 import { Menu } from '@headlessui/react';
 import { IoLogOutOutline, IoSettingsSharp } from 'react-icons/io5';
-import Accent from './Accent';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 
 const User: React.FC = () => {
   const { user, setUser } = React.useContext(UserContext);
@@ -49,7 +49,7 @@ const User: React.FC = () => {
       >
         <div className='py-1'>
           <Menu.Item>
-            <a
+            <Link
               href='/finance'
               className={clsx(
                 'flex items-center px-4 py-2',
@@ -59,7 +59,7 @@ const User: React.FC = () => {
             >
               <h4 className='mr-2 font-bold'>PF</h4>
               Open app
-            </a>
+            </Link>
           </Menu.Item>
         </div>
 
@@ -99,36 +99,3 @@ const User: React.FC = () => {
 };
 
 export default User;
-
-function MyDropdown() {
-  return (
-    <Menu>
-      <Menu.Button>More</Menu.Button>
-      <Menu.Items>
-        <Menu.Item>
-          {({ active }) => (
-            <a
-              className={`${active && 'bg-blue-500'}`}
-              href='/account-settings'
-            >
-              Account settings
-            </a>
-          )}
-        </Menu.Item>
-        <Menu.Item>
-          {({ active }) => (
-            <a
-              className={`${active && 'bg-blue-500'}`}
-              href='/account-settings'
-            >
-              Documentation
-            </a>
-          )}
-        </Menu.Item>
-        <Menu.Item disabled>
-          <span className='opacity-75'>Invite a friend (coming soon!)</span>
-        </Menu.Item>
-      </Menu.Items>
-    </Menu>
-  );
-}
