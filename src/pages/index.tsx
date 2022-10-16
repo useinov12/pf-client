@@ -58,7 +58,6 @@ export default function HomePage() {
             'px-2',
             'md:px-4',
             // 'lg:px-8',
-            'min-h-[90vh]',
             'md:min-h-[65vh]',
             'md:h-[65vh]'
           )}
@@ -123,11 +122,7 @@ export default function HomePage() {
           </section>
 
           <section
-            className={clsx(
-              'h-full w-full',
-              'flex items-end',
-              'text-gray-800',
-            )}
+            className={clsx('h-full w-full', 'flex items-end', 'text-gray-800')}
           >
             <div
               className={clsx(
@@ -241,11 +236,9 @@ export default function HomePage() {
               text2={'Your Plaid Account '}
               imageSrc={plaidSvg}
             >
-              <h5 className={clsx('text-md font-extralight uppercase')}>
-                Plaid API
-              </h5>
-              <h3 className={clsx('text-center text-2xl', 'md:text-left')}>
-                The safer way to connect financial accounts
+              <h6 className={clsx(' mb-1  font-extralight')}>Plaid API</h6>
+              <h3 className={clsx('text-center text-2xl', 'mb-2 md:text-left')}>
+                Safer way to connect financial accounts
               </h3>
               <p className={clsx('text-center', 'text-base md:text-left')}>
                 Connect your accounts and control access to them. Easy and
@@ -274,13 +267,11 @@ export default function HomePage() {
               text2={'PersonalFinance'}
               icon={<VscAccount />}
             >
-              <h5 className={clsx('text-md font-extralight uppercase')}>
-                Set up
-              </h5>
+              <h6 className={clsx('text-md mb-1  font-extralight')}>Set up</h6>
               <h3 className={clsx('text-center', 'md:text-left')}>
                 Create Account
               </h3>
-              <h3 className={clsx('text-center', 'md:text-left')}>
+              <h3 className={clsx('text-center', 'mb-2 md:text-left')}>
                 Connect your Plaid
               </h3>
               <p className={clsx('text-center', 'text-base md:text-left')}>
@@ -295,15 +286,15 @@ export default function HomePage() {
               text2={'Your cash flow'}
               icon={<AiOutlineLineChart />}
             >
-              <h5 className={clsx('text-md font-extralight')}>
+              <h6 className={clsx('text-md mb-1 font-extralight')}>
                 PersonalFinance
-              </h5>
-              <h3 className={clsx('text-center', 'md:text-left')}>
+              </h6>
+              <h3 className={clsx('text-center', 'mb-2 md:text-left')}>
                 Checkout Demo
               </h3>
               <p className={clsx('text-center', 'text-base md:text-left')}>
-                Use PersonalFinance charts and tools to track the dynamic of
-                your cash flow.
+                Use PersonalFinance charts and tools to track and analyze your
+                cash flow.
               </p>
               <span className={clsx('my-2 inline-flex items-end gap-1')}>
                 <p className={clsx('text-center', 'text-base md:text-left')}>
