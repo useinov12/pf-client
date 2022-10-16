@@ -12,28 +12,31 @@ export async function register(signUpCred: {
 }) {
   try {
     //re-do response when backend updated
-    const response = await axios.post(
+    const { status, data } = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_PATH}/create_user`,
       signUpCred,
       { headers }
     );
-    const { data, status } = response;
-    console.log(response);
-    return { status, data, message: 'User succesfully created' };
+    console.log(status, data);
+    return {
+      status,
+      data,
+      message: `Your account is ready, ${data.detail.data.first_name}`,
+    };
   } catch (error: any) {
     if (error.response.status === 404) {
       console.log(error);
       return {
         status: error.response.status,
-        data: {},
-        message: error.response.data.detail[0].msg,
+        data: error.response.data,
+        message: error.response.data.detail.message,
       };
     } else {
       console.log('Unexpected error: ', error);
       return {
         status: error.response.status,
-        data: {},
-        message: 'An unexpected error occurred',
+        data: error.response.data,
+        message: error.response.data.detail.message,
       };
     }
   }
@@ -42,30 +45,36 @@ export async function register(signUpCred: {
 export async function login(loginCred: { username: string; password: string }) {
   try {
     //re-do response when backend updated
-    const response = await axios.post(
+    const { status, data } = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_PATH}/login`,
       loginCred,
       { headers }
     );
-    const { data, status } = response;
-    console.log(response);
+    // const token = data.detail.data.access_token
+    // console.log(data.detail.data.access_token)
     return { status, data, message: 'Successfull login' };
   } catch (error: any) {
-    if (error.response.status === 404) {
-      console.log(error);
-      return {
-        status: error.response.status,
-        data: {},
-        message: 'User not found',
-      };
-    } else {
-      console.log('Unexpected error: ', error);
-      return {
-        status: error.response.status,
-        data: {},
-        message: 'An unexpected error occurred',
-      };
-    }
+    console.log(error);
+    return {
+      status: error.response.status,
+      data: error.response.data,
+      message: error.response.data.detail.messege,
+    };
+    // if (error.response.status === 403) {
+    //   console.log(error);
+    //   return {
+    //     status: error.response.status,
+    //     data: error.response.data,
+    //     message: error.response.data.detail.message,
+    //   };
+    // } else {
+    //   console.log('Unexpected error: ', error);
+    //   return {
+    //     status: error.response.status,
+    //     data: error.response.data,
+    //     message: error.response.data.detail.message,
+    //   };
+    // }
   }
 }
 
