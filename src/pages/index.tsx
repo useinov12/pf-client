@@ -296,7 +296,9 @@ export default function HomePage() {
                 Use PersonalFinance charts and tools to track and analyze your
                 cash flow.
               </p>
-              <span className={clsx('my-2 inline-flex items-end gap-1')}>
+              <span className={clsx(
+              'flex flex-col justify-center items-center',
+              'my-2 sm:inline-flex items-end gap-1')}>
                 <p className={clsx('text-center', 'text-base md:text-left')}>
                   Checkout app before signing up
                 </p>
