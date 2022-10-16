@@ -38,15 +38,14 @@ const LoginForm: React.FC<{
     const { status, data, message } = await register(cred);
 
     if (status === 201) {
-      //display toast
       toast.success(message);
-      //open login form
       setCredentials({
         username: '',
         first_name: '',
         last_name: '',
         password: '',
       });
+      setToggle(true);
     } else {
       toast.error(message);
     }
@@ -118,11 +117,11 @@ const LoginForm: React.FC<{
           <AiOutlineClose className='text-4xl' />
         </button>
 
-        <p className='mt-10 text-2xl font-semibold text-dark'>Sign in to</p>
+        <p className='mt-10 text-2xl font-semibold text-gray-500'>Sign in to</p>
         <Logo />
-        <div className='my-1 h-1 w-full rounded bg-dark' />
+        <div className='my-1 h-1 w-3/4 rounded bg-gray-500' />
 
-        <div className='mt-4 flex w-full justify-center text-dark'>
+        <div className='mt-4 flex w-full justify-center '>
           <Button
             variant='light'
             className='shawod-slate-800 flex w-2/4 justify-center shadow-md '
@@ -180,10 +179,10 @@ const SignUpForm: React.FC<{
         toggle === false ? 'block' : 'hidden'
       }`}
     >
-      <h2 className='mt-2 mb-2 text-dark'>Sign Up</h2>
+      <h2 className='mt-2 mb-2 text-gray-500 font-extralight text-center'>Sign Up</h2>
       <label
         htmlFor='username'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg text-gray-500 font-normal'
       >
         Enter email:
       </label>
@@ -201,7 +200,7 @@ const SignUpForm: React.FC<{
 
       <label
         htmlFor='first_name'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg text-gray-500 font-normal'
       >
         Enter your first name:
       </label>
@@ -218,7 +217,7 @@ const SignUpForm: React.FC<{
 
       <label
         htmlFor='last_name'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg text-gray-500 font-normal'
       >
         Enter your last name:
       </label>
@@ -235,7 +234,7 @@ const SignUpForm: React.FC<{
 
       <label
         htmlFor='password'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg text-gray-500 font-normal'
       >
         Enter password:
       </label>
@@ -283,10 +282,10 @@ const SignInForm: React.FC<{
         toggle === true ? 'block' : 'hidden'
       }`}
     >
-      <h2 className='mt-2 mb-2 text-dark'>Sign In</h2>
+      <h2 className='mt-2 mb-2 text-gray-500 text-center font-extralight'>Sign In</h2>
       <label
         htmlFor='username-login'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg text-gray-500 font-normal'
       >
         {' '}
         Enter email:
@@ -305,7 +304,7 @@ const SignInForm: React.FC<{
 
       <label
         htmlFor='password'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg text-gray-500 font-normal'
       >
         {' '}
         Enter password:{' '}
