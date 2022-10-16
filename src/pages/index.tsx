@@ -168,8 +168,8 @@ export default function HomePage() {
 
         <section
           className={clsx(
-            `bg-[url('../assets/blurry-gradient-haikei.svg')]`,
-            `h-full w-screen text-gray-800`
+            `h-full w-screen text-gray-800`,
+            'bg-gradient-to-bl from-sky-400 to-blue-500'
           )}
         >
           <div
@@ -233,7 +233,7 @@ export default function HomePage() {
           >
             <StepSection
               text1={'Set Up'}
-              text2={'Your Plaid Account '}
+              text2={'Plaid Account'}
               imageSrc={plaidSvg}
             >
               <h6 className={clsx(' mb-1  font-extralight')}>Plaid API</h6>
@@ -296,9 +296,12 @@ export default function HomePage() {
                 Use PersonalFinance charts and tools to track and analyze your
                 cash flow.
               </p>
-              <span className={clsx(
-              'flex flex-col justify-center items-center',
-              'my-2 sm:inline-flex items-end gap-1')}>
+              <span
+                className={clsx(
+                  'flex flex-col items-center justify-center',
+                  'my-2 items-end gap-1 sm:inline-flex'
+                )}
+              >
                 <p className={clsx('text-center', 'text-base md:text-left')}>
                   Checkout app before signing up
                 </p>
