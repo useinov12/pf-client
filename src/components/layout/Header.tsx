@@ -3,11 +3,13 @@ import LoginForm from '@/components/LoginForm';
 import clsx from 'clsx';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
-import UnstyledLink from '@/components/links/UnstyledLink';
-import PrimaryLink from '@/components/links/PrimaryLink';
 import Logo from '@/components/Logo';
 import Button from '../buttons/Button';
+import User from '../User';
 import { ThemeContext } from '@/context/ThemeProvider';
+import { UserContext } from '@/context/UserProvider';
+import ArrowLink from '../links/ArrowLink';
+import ButtonLink from '@/components/links/ButtonLink';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -16,6 +18,7 @@ const links = [
 
 export default function Header() {
   const { mode, setMode } = React.useContext(ThemeContext);
+  const { user } = React.useContext(UserContext);
 
   const [openLoginForm, setOpenLoginForm] = React.useState(false);
   return (
@@ -29,21 +32,28 @@ export default function Header() {
         'sm:py-4 lg:px-4'
       )}
     >
-      <LoginForm openLoginForm={openLoginForm} setOpenLoginForm={setOpenLoginForm} />
+      <LoginForm
+        openLoginForm={openLoginForm}
+        setOpenLoginForm={setOpenLoginForm}
+      />
 
       <div className='flex items-center justify-between '>
         <Logo withText={true} mode={mode} />
         <nav className='flex'>
-          <Button
-            className={clsx(
-              'mx-1 mt-2'
-              // 'text-base',
-            )}
-            variant={mode === 'dark' ? 'light' : 'dark'}
-            onClick={() => setOpenLoginForm(true)}
-          >
-            Login
-          </Button>
+          {user ? (
+            <User />
+          ) : (
+            <Button
+              className={clsx(
+                'mx-1 mt-2'
+                // 'text-base',
+              )}
+              variant={mode === 'dark' ? 'light' : 'dark'}
+              onClick={() => setOpenLoginForm(true)}
+            >
+              Login
+            </Button>
+          )}
           <Button
             className={clsx(
               'mx-1 mt-2'
@@ -62,3 +72,4 @@ export default function Header() {
     </header>
   );
 }
+

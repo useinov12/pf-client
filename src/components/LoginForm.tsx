@@ -6,11 +6,19 @@ import Cookies from 'js-cookie';
 import { register, login } from '@/services/user.service';
 import toast from 'react-hot-toast';
 import { AiOutlineClose } from 'react-icons/ai';
+import jwt from 'jsonwebtoken'
+import { UserContext } from '@/context/UserProvider';
+
+
+
 
 const LoginForm: React.FC<{
   openLoginForm: boolean;
   setOpenLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ openLoginForm, setOpenLoginForm }) => {
+
+  const {user, setUser} = React.useContext(UserContext)
+
   const [toggle, setToggle] = React.useState(false);
   const [credentials, setCredentials] = React.useState({
     username: '',
@@ -38,15 +46,14 @@ const LoginForm: React.FC<{
     const { status, data, message } = await register(cred);
 
     if (status === 201) {
-      //display toast
       toast.success(message);
-      //open login form
       setCredentials({
         username: '',
         first_name: '',
         last_name: '',
         password: '',
       });
+      setToggle(true);
     } else {
       toast.error(message);
     }
@@ -63,9 +70,10 @@ const LoginForm: React.FC<{
 
     if (status === 200) {
       console.log(data);
-      Cookies.set('response', data.detail.data.access_token, { secure: true });
+      Cookies.set('token', data.detail.data.access_token, { secure: true });
       toast.success(message);
-      // set user state
+      const usr = jwt.decode(data.detail.data.access_token)
+      setUser({email:usr?.sub})
       setCredentials({
         username: '',
         first_name: '',
@@ -80,12 +88,6 @@ const LoginForm: React.FC<{
     }
   }
 
-  async function handleLogOut() {
-    // unset JWT from cookie
-    // clear user context state
-    //
-    return 1;
-  }
 
   return (
     <div
@@ -118,21 +120,21 @@ const LoginForm: React.FC<{
           <AiOutlineClose className='text-4xl' />
         </button>
 
-        <p className='mt-10 text-2xl font-semibold'>Sign in to</p>
+        <p className='mt-10 text-2xl font-semibold text-gray-600'>Sign in to</p>
         <Logo />
-        <div className='my-1 h-1 w-full rounded bg-dark' />
+        <div className='my-1 h-[2px] w-3/4 rounded bg-gray-700' />
 
-        <div className='mt-4 flex w-full justify-center text-dark'>
+        <div className='mt-4 flex w-full justify-center '>
           <Button
             variant='light'
-            className='shawod-slate-800 flex w-2/4 justify-center shadow-md '
+            className='shawod-slate-800 flex w-2/4 justify-center shadow-md text-gray-600'
             onClick={() => setToggle(true)}
           >
             Sign In
           </Button>
           <Button
             variant='light'
-            className='shawod-slate-800 flex w-2/4 justify-center shadow-md '
+            className='shawod-slate-800 flex w-2/4 justify-center shadow-md text-gray-600'
             onClick={() => setToggle(false)}
           >
             Sign Up
@@ -169,9 +171,9 @@ const SignUpForm: React.FC<{
     last_name: string;
     password: string;
   };
-  handleRegisterCredentials: any;
-  handleSubmit: any;
-  toggle: any;
+  handleRegisterCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  toggle: boolean;
 }> = ({ credentials, handleRegisterCredentials, handleSubmit, toggle }) => {
   return (
     <form
@@ -180,10 +182,12 @@ const SignUpForm: React.FC<{
         toggle === false ? 'block' : 'hidden'
       }`}
     >
-      <h2 className='mt-2 mb-2 text-dark'>Sign Up</h2>
+      <h2 className='mt-2 mb-2 text-center font-extralight text-gray-600'>
+        Sign Up
+      </h2>
       <label
         htmlFor='username'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg font-normal text-gray-500'
       >
         Enter email:
       </label>
@@ -201,7 +205,7 @@ const SignUpForm: React.FC<{
 
       <label
         htmlFor='first_name'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg font-normal text-gray-500'
       >
         Enter your first name:
       </label>
@@ -218,7 +222,7 @@ const SignUpForm: React.FC<{
 
       <label
         htmlFor='last_name'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg font-normal text-gray-500'
       >
         Enter your last name:
       </label>
@@ -235,7 +239,7 @@ const SignUpForm: React.FC<{
 
       <label
         htmlFor='password'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg font-normal text-gray-500'
       >
         Enter password:
       </label>
@@ -272,9 +276,9 @@ const SignInForm: React.FC<{
     last_name: string;
     password: string;
   };
-  handleLogInCredentials: any;
-  handleSubmit: any;
-  toggle: any;
+  handleLogInCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
+  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+  toggle: boolean;
 }> = ({ credentials, handleLogInCredentials, handleSubmit, toggle }) => {
   return (
     <form
@@ -283,10 +287,12 @@ const SignInForm: React.FC<{
         toggle === true ? 'block' : 'hidden'
       }`}
     >
-      <h2 className='mt-2 mb-2 text-dark'>Sign In</h2>
+      <h2 className='mt-2 mb-2 text-center font-extralight text-gray-600'>
+        Sign In
+      </h2>
       <label
         htmlFor='username-login'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg font-normal text-gray-500'
       >
         {' '}
         Enter email:
@@ -305,7 +311,7 @@ const SignInForm: React.FC<{
 
       <label
         htmlFor='password'
-        className='flex-col text-lg font-semibold text-zinc-700'
+        className='flex-col text-lg font-normal text-gray-500'
       >
         {' '}
         Enter password:{' '}

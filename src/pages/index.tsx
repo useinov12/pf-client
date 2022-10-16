@@ -100,6 +100,7 @@ export default function HomePage() {
               </h1>
               <div
                 className={clsx(
+                  'md:hidden',
                   'my-5 h-[2px] w-4/5 rounded',
                   mode === 'light' ? 'bg-gray-700' : 'bg-gray-300'
                 )}
@@ -124,36 +125,34 @@ export default function HomePage() {
           <section
             className={clsx(
               'h-full w-full',
-              'flex flex-col-reverse items-center',
-              'text-gray-800'
+              'flex items-end',
+              'text-gray-800',
             )}
           >
             <div
               className={clsx(
-                'h-full w-full rounded-tl-xl rounded-tr-xl shadow-lg',
-                // 'transition-all duration-100',
-                // 'hover:shadow-lg',
-                // 'scale-100 hover:scale-[1.003]',
-                // 'hover:shadow-gray-700/60',
-                'border-gary-50 border border-solid bg-gray-200'
+                'h-4/5 w-full rounded-tl-xl rounded-tr-xl shadow-xl',
+                'border-gary-50 border border-solid bg-gray-200',
+                'shadow-inner'
               )}
             >
               <div
                 className={clsx(
                   'flex items-center',
                   'px-2 sm:py-2',
-                  'overflow-x-scroll',
+                  'overflow-x-scroll'
                 )}
               >
                 {chipsList.map((text) => {
                   return (
                     <Button
                       key={text}
-                      variant={'dark'}
+                      variant={'light'}
                       className={clsx(
-                        'm-1 py-1 px-2 text-sm',
-                        // 'mx-1 py-2 px-2 text-sm',
-                        ''
+                        'text-md my-1 mx-2 py-2 px-3',
+                        'shadow-lg',
+                        'shadow-inner',
+                        'rounded-md'
                       )}
                       onClick={() => setCard(text)}
                     >
@@ -242,10 +241,13 @@ export default function HomePage() {
               text2={'Your Plaid Account '}
               imageSrc={plaidSvg}
             >
+              <h5 className={clsx('text-md font-extralight uppercase')}>
+                Plaid API
+              </h5>
               <h3 className={clsx('text-center text-2xl', 'md:text-left')}>
                 The safer way to connect financial accounts
               </h3>
-              <p className={clsx('text-center', 'md:text-left')}>
+              <p className={clsx('text-center', 'text-base md:text-left')}>
                 Connect your accounts and control access to them. Easy and
                 accessible experiences for users.
               </p>
@@ -254,13 +256,13 @@ export default function HomePage() {
                   'my-2 inline-flex items-end gap-1 md:self-start '
                 )}
               >
-                <p className={clsx('text-center', 'md:text-left')}>
+                <p className={clsx('text-center', 'text-base md:text-left')}>
                   Read more about Plaid
                 </p>
                 <ArrowLink
                   as={ButtonLink}
                   variant={mode === 'light' ? 'dark' : 'light'}
-                  className='inline-flex items-center p-1 text-sm'
+                  className='inline-flex items-center self-baseline p-1 text-sm'
                   href='#'
                 >
                   PLAID
@@ -272,16 +274,19 @@ export default function HomePage() {
               text2={'PersonalFinance'}
               icon={<VscAccount />}
             >
+              <h5 className={clsx('text-md font-extralight uppercase')}>
+                Set up
+              </h5>
               <h3 className={clsx('text-center', 'md:text-left')}>
-                Create PersonalFinance Account
+                Create Account
               </h3>
               <h3 className={clsx('text-center', 'md:text-left')}>
                 Connect your Plaid
               </h3>
-              <p className={clsx('text-center', 'md:text-left')}>
+              <p className={clsx('text-center', 'text-base md:text-left')}>
                 We use special Plaid Key to display your data in our app. <br />
               </p>
-              <p className={clsx('text-center', 'md:text-left')}>
+              <p className={clsx('text-center', 'text-base md:text-left')}>
                 Not a single piece of Your data is being stored.
               </p>
             </StepSection>
@@ -290,15 +295,20 @@ export default function HomePage() {
               text2={'Your cash flow'}
               icon={<AiOutlineLineChart />}
             >
-              <h2 className={clsx('text-center', 'md:text-left')}>
+              <h5 className={clsx('text-md font-extralight')}>
+                PersonalFinance
+              </h5>
+              <h3 className={clsx('text-center', 'md:text-left')}>
                 Checkout Demo
-              </h2>
-              <p className={clsx('text-center', 'md:text-left')}>
+              </h3>
+              <p className={clsx('text-center', 'text-base md:text-left')}>
                 Use PersonalFinance charts and tools to track the dynamic of
                 your cash flow.
               </p>
-              <span className={clsx('inline-flex items-end gap-1')}>
-                <p>Checkout app before signing up</p>
+              <span className={clsx('my-2 inline-flex items-end gap-1')}>
+                <p className={clsx('text-center', 'text-base md:text-left')}>
+                  Checkout app before signing up
+                </p>
                 <ArrowLink
                   as={ButtonLink}
                   variant={mode === 'light' ? 'dark' : 'light'}
