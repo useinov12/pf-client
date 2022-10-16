@@ -100,6 +100,7 @@ export default function HomePage() {
               </h1>
               <div
                 className={clsx(
+                  'md:hidden',
                   'my-5 h-[2px] w-4/5 rounded',
                   mode === 'light' ? 'bg-gray-700' : 'bg-gray-300'
                 )}
@@ -242,7 +243,9 @@ export default function HomePage() {
               text2={'Your Plaid Account '}
               imageSrc={plaidSvg}
             >
-              <h5 className={clsx('font-thin')}>Plaid API</h5>
+              <h5 className={clsx('text-md font-extralight uppercase')}>
+                Plaid API
+              </h5>
               <h3 className={clsx('text-center text-2xl', 'md:text-left')}>
                 The safer way to connect financial accounts
               </h3>
@@ -261,7 +264,7 @@ export default function HomePage() {
                 <ArrowLink
                   as={ButtonLink}
                   variant={mode === 'light' ? 'dark' : 'light'}
-                  className='inline-flex items-center p-1 text-sm self-baseline'
+                  className='inline-flex items-center self-baseline p-1 text-sm'
                   href='#'
                 >
                   PLAID
@@ -273,7 +276,9 @@ export default function HomePage() {
               text2={'PersonalFinance'}
               icon={<VscAccount />}
             >
-              <h5 className={clsx('font-thin')}>Set up</h5>
+              <h5 className={clsx('text-md font-extralight uppercase')}>
+                Set up
+              </h5>
               <h3 className={clsx('text-center', 'md:text-left')}>
                 Create Account
               </h3>
@@ -292,7 +297,9 @@ export default function HomePage() {
               text2={'Your cash flow'}
               icon={<AiOutlineLineChart />}
             >
-              <h5 className={clsx('font-thin')}>PersonalFinance</h5>
+              <h5 className={clsx('text-md font-extralight')}>
+                PersonalFinance
+              </h5>
               <h3 className={clsx('text-center', 'md:text-left')}>
                 Checkout Demo
               </h3>
@@ -300,7 +307,7 @@ export default function HomePage() {
                 Use PersonalFinance charts and tools to track the dynamic of
                 your cash flow.
               </p>
-              <span className={clsx('inline-flex items-end gap-1 my-2')}>
+              <span className={clsx('my-2 inline-flex items-end gap-1')}>
                 <p className={clsx('text-center', 'text-base md:text-left')}>
                   Checkout app before signing up
                 </p>
