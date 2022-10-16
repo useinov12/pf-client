@@ -1,7 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
 import LineChart from '../charts/LineChart';
-import Chip from '../Chip';
 import DataLine from '../app-components/DataLine';
 
 const BanksCard: React.FC = () => {

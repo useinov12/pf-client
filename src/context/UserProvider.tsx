@@ -1,9 +1,9 @@
 import React from 'react';
 
 type User = {
-  email: string;
-  //   firstName: string;
-  //   lastName: string;
+  username: string;
+  firstName: string;
+  lastName: string;
 };
 
 export const UserContext = React.createContext<{

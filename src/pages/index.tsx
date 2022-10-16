@@ -7,16 +7,15 @@ import UnstyledLink from '@/components/links/UnstyledLink';
 import Accent from '@/components/Accent';
 import Seo from '@/components/Seo';
 
-import BanksCard from '@/components/landing-page-components/BanksCard';
-import ExpensesCard from '@/components/landing-page-components/ExpensesCard';
-import StepCard from '@/components/landing-page-components/StepCard';
+import BanksCard from '@/components/landing-page/BanksCard';
+import ExpensesCard from '@/components/landing-page/ExpensesCard';
 
 import { ThemeContext } from '@/context/ThemeProvider';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineLineChart } from 'react-icons/ai';
 
 import plaidSvg from '../assets/plaid.png';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
 /**
  * SVGR Support
  * Caveat: No React Props Type.
@@ -25,11 +24,9 @@ import toast, { Toaster } from 'react-hot-toast';
  * @see https://stackoverflow.com/questions/68103844/how-to-override-next-js-svg-module-declaration
  */
 
-import Chip from '@/components/Chip';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { IconType } from 'react-icons';
-import StepSection from '@/components/landing-page-components/StepSection';
+import StepSection from '@/components/landing-page/StepSection';
 
 // !STARTERCONF -> Select !STARTERCONF and CMD + SHIFT + F
 // Before you begin editing, follow all comments with `STARTERCONF`,

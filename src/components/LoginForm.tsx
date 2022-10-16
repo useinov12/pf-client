@@ -6,18 +6,14 @@ import Cookies from 'js-cookie';
 import { register, login } from '@/services/user.service';
 import toast from 'react-hot-toast';
 import { AiOutlineClose } from 'react-icons/ai';
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 import { UserContext } from '@/context/UserProvider';
-
-
-
 
 const LoginForm: React.FC<{
   openLoginForm: boolean;
   setOpenLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ openLoginForm, setOpenLoginForm }) => {
-
-  const {user, setUser} = React.useContext(UserContext)
+  const { user, setUser } = React.useContext(UserContext);
 
   const [toggle, setToggle] = React.useState(false);
   const [credentials, setCredentials] = React.useState({
@@ -68,26 +64,35 @@ const LoginForm: React.FC<{
     };
     const { status, data, message } = await login(cred);
 
+    type JwtPayload = {
+      exp: number;
+      first: string;
+      last: string;
+      username: string;
+    };
+
     if (status === 200) {
-      console.log(data);
       Cookies.set('token', data.detail.data.access_token, { secure: true });
       toast.success(message);
-      const usr = jwt.decode(data.detail.data.access_token)
-      setUser({email:usr?.sub})
+
+      const { first, last, username } = jwt.decode(
+        data.detail.data.access_token
+      ) as JwtPayload;
+
+      setUser({ email: username, firstName: first, lastName: last });
+
       setCredentials({
         username: '',
         first_name: '',
         last_name: '',
         password: '',
       });
+
       setOpenLoginForm(false);
     } else {
-      //else display error message
       toast.error(message);
-      console.log(data);
     }
   }
-
 
   return (
     <div
@@ -127,14 +132,14 @@ const LoginForm: React.FC<{
         <div className='mt-4 flex w-full justify-center '>
           <Button
             variant='light'
-            className='shawod-slate-800 flex w-2/4 justify-center shadow-md text-gray-600'
+            className='shawod-slate-800 flex w-2/4 justify-center text-gray-600 shadow-md'
             onClick={() => setToggle(true)}
           >
             Sign In
           </Button>
           <Button
             variant='light'
-            className='shawod-slate-800 flex w-2/4 justify-center shadow-md text-gray-600'
+            className='shawod-slate-800 flex w-2/4 justify-center text-gray-600 shadow-md'
             onClick={() => setToggle(false)}
           >
             Sign Up
