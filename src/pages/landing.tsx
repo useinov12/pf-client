@@ -2,13 +2,15 @@ import React from 'react';
 import clsx from 'clsx';
 import { Toaster } from 'react-hot-toast';
 import { ThemeContext } from '@/context/ThemeProvider';
-
 import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
 import UnstyledLink from '@/components/links/UnstyledLink';
 import Accent from '@/components/Accent';
 import Header from '@/components/layout/Header';
 import Layout from '@/components/layout/Layout';
+
+import { BsArrowDown } from 'react-icons/bs';
+import Button from '@/components/buttons/Button';
 
 const Card = ({ children, className }: { children: any; className: any }) => {
   return (
@@ -24,18 +26,30 @@ const Card = ({ children, className }: { children: any; className: any }) => {
   );
 };
 
+const Ping = () => {
+    return(
+        <span className="flex h-3 w-3 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"/>
+            <span className="inline-flex rounded-full h-3 w-3 bg-sky-500"/>
+        </span>
+    )
+}
+
 export default function HomePage() {
   const appName = 'PersonalFinance';
 
   return (
     <Layout>
       <Toaster />
-      <main className={clsx('max-w-screen-xl', 'mx-auto')}>
+      <main>
+        {/* <main className={clsx('max-w-screen-xl', 'mx-auto')}> */}
         <article
           className={clsx(
             // 'bg-blue-500/50',
             'flex justify-between',
-            'mt-5'
+            'mt-5',
+            'max-w-screen-xl',
+            'mx-auto'
           )}
         >
           <section
@@ -122,51 +136,296 @@ export default function HomePage() {
             </div>
           </section>
         </article>
-        <article>
+        <article className={clsx('max-w-screen-xl', 'mx-auto')}>
           <div
             className={clsx(
               'rounded',
               'h-[12rem] w-[30rem]',
               'border border-red-500 text-center',
-              'mb-44'
+              'mb-60'
             )}
           >
             Opinion Card
           </div>
 
-          <header className='flex gap-5 justify-center mb-44'>
-                <h1 className='text-6xl uppercase tracking-tight font-extrabold'>Track</h1>
-                <h1 className='text-6xl uppercase tracking-tight font-extrabold'>Analyze</h1>
-                <h1 className='text-6xl uppercase tracking-tight font-extrabold'>Influence</h1>
+          <header className='mb-44 flex justify-center gap-5'>
+            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
+              Track
+            </h1>
+            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
+              Analyze
+            </h1>
+            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
+              Influence
+            </h1>
           </header>
 
-          <section className={clsx('mb-44 flex justify-between')}>
+          <section className={clsx('mb-60 flex justify-between')}>
             <div className={clsx('w-1/2', 'flex justify-center')}>
               <div className={clsx('')}>
-                <h2>Clear vision</h2>
-                <p>See what is happening with your finance</p>
+                <h2 className='font-mono tracking-tight'>Clear vision</h2>
+                <p className='mb-5 font-thin'>
+                  See what is happening with your finance
+                </p>
               </div>
             </div>
 
             <div className={clsx('w-1/2', 'flex justify-end')}>
-              <Card className={'h-[12rem] w-[30rem]'}>Checking</Card>
+              <Card className={'h-[12rem] w-[32rem]'}>Checking</Card>
             </div>
           </section>
 
-
-          <section className={clsx('mb-44 flex justify-between')}>
+          <section className={clsx('mb-60 flex justify-between ')}>
             <div className={clsx('w-1/2', 'flex justify-start')}>
-              <Card className={'h-[12rem] w-[30rem]'}>Checking</Card>
+              <Card className={'h-[20rem] w-[32rem]'}>Checking</Card>
             </div>
 
             <div className={clsx('w-1/2', 'flex justify-center')}>
               <div className={clsx('')}>
-                <h2>Clear vision</h2>
-                <p>See what is happening with your finance</p>
+                <h2 className='font-mono tracking-tight'>Fill the gaps</h2>
+                <p className='mb-5 font-thin'>Get your accounts organazied.</p>
+                <p>Build the mental map of your accounts dynamic.</p>
               </div>
             </div>
           </section>
 
+          <section className={clsx('mb-48 flex justify-between')}>
+            <div className={clsx('w-1/2', 'flex justify-center')}>
+              <div className={clsx('')}>
+                <h2 className='font-mono tracking-tight'>Observe patters</h2>
+                <p className='mb-5 font-thin'>
+                  Recognize your bad financial habbits is <br />
+                  the first step to eliminate them
+                </p>
+              </div>
+            </div>
+
+            <div className={clsx('w-1/2', 'flex justify-end')}>
+              <Card className={'h-[27rem] w-[25rem]'}>Checking</Card>
+            </div>
+          </section>
+        </article>
+        
+        <article className={clsx('max-w-screen-xl', 'mx-auto')}>
+          <header className='mb-36 flex justify-center gap-5'>
+            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
+              Smooth expirience
+            </h1>
+          </header>
+          <section className='mb-32 flex justify-around'>
+            <div className='flex translate-y-40 flex-col items-center'>
+              <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
+              <h3 className='mb-2 font-mono font-medium tracking-tight'>
+                Easy to set up
+              </h3>
+              <p className='mb-5 font-thin'>We made the the app intuitive</p>
+            </div>
+
+            <div className='flex flex-col items-center'>
+              <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
+              <h3 className='mb-2 text-center font-mono font-medium tracking-tight'>
+                Safety with Plaid
+              </h3>
+              <p className='mb-5 text-center font-thin'>
+                Plaid is the best <br />
+                bank-data provider on the market
+              </p>
+            </div>
+
+            <div className='flex translate-y-40 flex-col items-center'>
+              <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
+              <h3 className='mb-2 font-mono font-medium tracking-tight'>
+                Fast Data loads
+              </h3>
+              <p className='mb-5 text-center font-thin'>
+                Upload fresh transactions <br />
+                data on login
+              </p>
+            </div>
+          </section>
+
+          <a className='group mb-56 flex cursor-pointer flex-col items-center'>
+            <h1
+              className={clsx(
+                'mb-8 text-center',
+                'transition-colors duration-150',
+                'group-hover:text-red-500 '
+              )}
+            >
+              How it Works?
+            </h1>
+            <BsArrowDown
+              className={clsx(
+                'animate-bounce text-center text-5xl',
+                'transition-colors duration-150',
+                'group-hover:text-red-500'
+              )}
+            />
+          </a>
+        </article>
+        
+        <article>
+          <section
+            className={clsx(
+              `h-full w-screen text-gray-800`,
+              'bg-gradient-to-bl from-sky-400 to-blue-500',
+            )}
+          >
+            <header className='mb-36 flex flex-col items-center gap-5 relative'>
+              <h1 className='my-5 text-5xl font-extrabold uppercase tracking-tight'>
+                Financial tool for your
+                <span
+                  className={clsx(
+                    'text-white',
+                    'ml-2 font-mono font-extrabold tracking-tight '
+                  )}
+                >
+                  Goals
+                </span>
+              </h1>
+              <h2
+                className={clsx(
+                  'font-extrabold tracking-tight',
+                  'text-center uppercase',
+                  'my-4 mb-20 text-2xl'
+                )}
+              >
+                We visualize data provided by {'  '}
+                <span
+                  className={clsx(
+                    'text-white',
+                    'font-mono text-2xl  font-extrabold tracking-tight'
+                  )}
+                >
+                  Plaid API
+                </span>
+              </h2>
+
+              <div
+                className={clsx(
+                  'absolute bottom-14',
+                  'h-[3rem] w-60',
+                  'rounded-lg',
+                  'translate-y-20',
+                  'bg-white',
+                  // 'border border-gray-400',
+                  'shadow-md',
+                  'flex items-center justify-center',
+                  'font-mono text-xl uppercase ring ring-primary-200'
+                )}
+              >
+                Start in 3 steps
+              </div>
+            </header>
+          </section>
+        </article>
+
+
+        <article className='max-w-screen-xl mx-auto flex justify-around mb-28'>
+            <section className='flex flex-col items-center'>
+                <Card className={'w-[16rem] h-[13rem] mb-5'}>Card 1</Card>
+                <div className='flex flex-col items-center justify-center'>
+                    <p className='text-center text-xl font-ligh tracking-wide mb-2 '>
+                        We use special Plaid Key <br/> to display your 
+                        data in <br/>
+                        our app.
+                    </p>
+                    <p className='text-center text-xl font-light tracking-wide'>
+                        Not a single piece of <br/> 
+                        Your data is being stored.
+                    </p>
+                </div>
+            </section>
+            <section className='flex flex-col items-center justify-center'>
+                <Card className={'w-[16rem] h-[13rem] mb-5'}>Card 1</Card>
+                <div className='flex flex-col items-center justify-center'>
+                    <p className='text-center text-xl font-ligh tracking-wide mb-2 '>
+                        In your cabinet connect <br/>
+                        banks by clicking
+                    </p>
+                    <Button className='py-1'>Connect Plaid</Button>
+                    <p className='text-center text-xl font-light tracking-wide'>
+                        If you want to read more <br/>
+                        about Plaid, visit their website 
+                    </p>
+                </div>
+            </section>
+            <section className='flex flex-col items-center'>
+                <Card className={'w-[16rem] h-[13rem] mb-5'}>Card 1</Card>
+                <div className='flex flex-col items-center justify-center'>
+                    <p className='text-center text-xl font-ligh tracking-wide mb-2 '>
+                        Open the {appName} <br/>
+                        app and start using it!
+                    </p>
+                    <ButtonLink 
+                        variant='dark' 
+                        href='#' 
+                        className={clsx(
+                            'relative py-1',
+                            'tracking-wide text-xl font-light ',
+                            'flex justify-around items-center',
+                        )}>
+                        <span>Check Demo</span>
+                        <span className='absolute -top-1 -right-1'>
+                            <Ping/>
+                        </span> 
+                    </ButtonLink>
+                </div>
+            </section>
+        </article>
+
+        <article className={clsx(
+            `h-full w-screen text-gray-800`,
+            'bg-gradient-to-bl from-sky-400 to-blue-500',
+        )}>
+        <section className='max-w-screen-xl mx-auto py-4'>
+                <h1 className='text-center mb-10'>Reviews</h1>
+                <ul className='flex justify-around'>
+                    <li className='flex flex-col justify-center items-center'> 
+                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
+                        <h6>John Doe</h6>
+                        <p>John's review here</p>
+                    </li>
+                    <li className='flex flex-col justify-center items-center'> 
+                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
+                        <h6>John Doe</h6>
+                        <p>John's review here</p>
+                    </li>
+                    <li className='flex flex-col justify-center items-center'> 
+                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
+                        <h6>John Doe</h6>
+                        <p>John's review here</p>
+                    </li>
+                    <li className='flex flex-col justify-center items-center'> 
+                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
+                        <h6>John Doe</h6>
+                        <p>John's review here</p>
+                    </li>
+                    <li className='flex flex-col justify-center items-center'> 
+                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
+                        <h6>John Doe</h6>
+                        <p>John's review here</p>
+                    </li>
+                </ul>
+            </section>
+        </article>
+        <article className='max-w-screen-xl mx-auto'>
+            <section className={clsx(
+                'my-28',
+                'w-full h-[20rem] border-2 border-red-500',
+                'rounded-xl',
+                'flex flex-col',
+                'px-6 py-3'
+            )}>
+                <div className=' h-1/2'>
+                    <h1>{appName}</h1>
+                    <p>Some marketing here</p>
+                </div>
+                <div className=' h-1/2 inline-flex gap-5 items-center justify-end '>
+                    <Button>Try Demo</Button>
+                    <Button>Sign Up</Button>
+                </div>
+            </section>
         </article>
       </main>
     </Layout>
