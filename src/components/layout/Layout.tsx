@@ -10,19 +10,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const textColor = mode === 'dark' ? 'text-gray-300' : 'text-gray-800';
 
   return (
-    <div
-      className={clsx(
-        'w-full overflow-x-hidden',
-        mode === 'dark' ? 'bg-zinc-900' : 'bg-gray-50',
-        color,
-        textColor
-      )}
-    >
-      <Header />
-      <div className={clsx('relative h-full', 'min-h-[90vh] w-screen', 'py-8')}>
-        {children}
+    <>
+      <div
+        className={clsx(
+          'w-screen',
+          'overflow-x-hidden',
+          mode === 'dark' ? 'bg-zinc-900' : 'bg-gray-50',
+          color,
+          textColor
+        )}
+      >
+        <Header />
+        <div
+          className={clsx(
+            'relative h-full',
+            // 'min-h-[90vh]',
+            'w-full',
+            'py-8',
+          )}
+        >
+          {children}
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
