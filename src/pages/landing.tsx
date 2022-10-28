@@ -16,8 +16,9 @@ const Card = ({ children, className }: { children: any; className: any }) => {
   return (
     <div
       className={clsx(
-        'rounded',
-        'border border-red-500 text-center',
+        'rounded-xl',
+        'border-4 border-primary-200 text-center',
+        'bg-gray-300',
         className
       )}
     >
@@ -42,28 +43,30 @@ export default function HomePage() {
     <Layout>
       <Toaster />
       <main>
-        {/* <main className={clsx('max-w-screen-xl', 'mx-auto')}> */}
         <article
           className={clsx(
-            // 'bg-blue-500/50',
-            'flex justify-between',
-            'mt-5',
-            'max-w-screen-xl',
-            'mx-auto'
+            'mt-5 flex mx-auto',
+            //mobile-tablet
+            'flex-col max-w-screen-md',
+            //desktop
+            'lg:flex-row justify-between',
+            'lg:max-w-screen-xl',
           )}
         >
-          <section
-            className={
-              clsx()
-              // 'bg-purple-500/50'
-            }
-          >
+          <section className={clsx(
+            'flex flex-col w-full',
+            'justify-center items-center',
+            //desktop
+            'lg:block lg:w-1/2',
+            'lg:min-h-[75vh]',
+          )}>
             <div>
               <h1
                 className={clsx(
-                  'text-4xl font-extrabold tracking-tight',
-                  'sm:text-6xl md:text-5xl  xl:text-7xl',
-                  'mb-10'
+                    'text-center lg:text-left',
+                    'text-4xl font-extrabold tracking-tight',
+                    'sm:text-5xl md:text-6xl  xl:text-7xl',
+                    'mb-10'
                 )}
               >
                 Take{' '}
@@ -73,22 +76,24 @@ export default function HomePage() {
                 <br />
                 over your money
               </h1>
-              <h2 className='font-mono'>{appName}</h2>
-              <h3 className='font-normal'>
+              <h2 className='font-mono text-center lg:text-left'>{appName}</h2>
+              <h3 className='font-normal text-center lg:text-left'>
                 will help you organize your bank data
               </h3>
             </div>
           </section>
-          <section
-            className={
-              clsx()
-              // 'bg-orange-500/50'
-            }
-          >
+
+          <section className={clsx(
+            'w-full h-[60vh]',
+            'p-5 mt-10',
+            //desktop
+            'lg:p-0',
+            'lg:min-h-[75vh]',
+            'lg:w-1/2 lg:mt-0',
+          )}>
             <div
               className={clsx(
-                // 'bg-gray-600',
-                'h-[39rem] w-[40rem]',
+                'h-full w-full',
                 'grid-rows-10 grid  gap-x-5 gap-y-2'
               )}
             >
@@ -136,62 +141,107 @@ export default function HomePage() {
             </div>
           </section>
         </article>
-        <article className={clsx('max-w-screen-xl', 'mx-auto')}>
-          <div
-            className={clsx(
-              'rounded',
-              'h-[12rem] w-[30rem]',
-              'border border-red-500 text-center',
-              'mb-60'
-            )}
-          >
-            Opinion Card
-          </div>
+        
+        <article className={clsx(
+            'mx-auto mt-10 p-5',
+            'max-w-screen-md',
+            'lg:max-w-screen-xl lg:p-0',
+        )}>
 
-          <header className='mb-44 flex justify-center gap-5'>
-            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
-              Track
-            </h1>
-            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
-              Analyze
-            </h1>
-            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
-              Influence
-            </h1>
+          <section className={clsx(
+            'mb-20 lg:mb-52',
+            'flex flex-col items-center justify-end',
+            'md:flex-row md:justify-between md:items-end',
+            )}>
+            <div className={clsx('md:w-1/2', 'flex justify-start')}>
+              <Card className={'h-[10rem] w-[20rem] sm:h-[10rem] sm:w-[28rem] md:h-[15rem] md:w-[32rem]'}>Checking</Card>
+            </div>
+
+            <div className={clsx(
+                'flex justify-end items-end',
+                'lg:w-1/2 my-8 lg:my-1', 
+                'lg:justify-center',
+                )}>
+
+                <div className={clsx(
+                    'py-2 lg:px-5',
+                    'flex flex-col items-center md:items-end',
+                )}>
+                    <figure className='h-16 w-16 bg-gray-300 rounded-full mb-2'/>
+                    <p className='text-lg text-center sm:text-right '>Get your accounts organazied</p>
+                    <p className='text-lg text-center sm:text-right'>Build the mental map of your accounts dynamic</p>
+                </div>
+            </div>
+          </section>
+
+          <header className='mb-20 lg:mb-40 flex justify-center gap-5'>
+            {['track', 'analyze', 'improve'].map( heading => 
+                <h1 className={clsx(
+                    'font-extrabold uppercase tracking-tight', 
+                    'text-2xl md:text-5xl lg:text-6xl'
+                )}>
+                    {heading}
+                </h1>
+            )}
           </header>
 
-          <section className={clsx('mb-60 flex justify-between')}>
-            <div className={clsx('w-1/2', 'flex justify-center')}>
-              <div className={clsx('')}>
-                <h2 className='font-mono tracking-tight'>Clear vision</h2>
-                <p className='mb-5 font-thin'>
-                  See what is happening with your finance
+            <section className={clsx(
+                'mb-28 md:mb-60 flex flex-col items-center',
+                'md:flex-row md:justify-between'
+            )}>
+                <div className='lg:w-1/2 flex justify-center'>
+                <div className=''>
+                    <h2 className='font-mono tracking-tight'>Clear vision</h2>
+                    <p className='mb-5 font-thin'>
+                    See what is happening with your finance
+                    </p>
+                </div>
+                </div>
+
+                <div className='lg:w-1/2 flex justify-end'>
+                <Card 
+                    className={
+                        'h-[12rem] w-[20rem] sm:h-[12rem] sm:w-[25rem] lg:h-[12rem] lg:w-[32rem]'}
+                > Checking</Card>
+                </div>
+            </section>
+
+
+
+          <section className={clsx(
+                'mb-28 md:mb-60 flex flex-col-reverse items-center',
+                'md:flex-row md:justify-between'
+            )}>
+            <div className='lg:w-1/2 flex justify-start'>
+              <Card className={
+                'h-[15rem] w-[20rem] sm:h-[18rem] sm:w-[25rem] lg:h-[20rem] lg:w-[32rem]'
+                }>Checking</Card>
+            </div>
+
+            <div className={clsx(
+                'lg:w-1/2', 
+                'flex justify-center'
+            )}>
+              <div className='flex flex-col items-center md:items-end'>
+                <h2 className='font-mono tracking-tight'>Fill the gaps</h2>
+                <p className='mb-2 font-thin'>Get your accounts organazied.</p>
+                <p className='text-right mb-2'>
+                    Build the mental map of your 
+                    accounts dynamic.
                 </p>
               </div>
             </div>
-
-            <div className={clsx('w-1/2', 'flex justify-end')}>
-              <Card className={'h-[12rem] w-[32rem]'}>Checking</Card>
-            </div>
           </section>
 
-          <section className={clsx('mb-60 flex justify-between ')}>
-            <div className={clsx('w-1/2', 'flex justify-start')}>
-              <Card className={'h-[20rem] w-[32rem]'}>Checking</Card>
-            </div>
 
-            <div className={clsx('w-1/2', 'flex justify-center')}>
-              <div className={clsx('')}>
-                <h2 className='font-mono tracking-tight'>Fill the gaps</h2>
-                <p className='mb-5 font-thin'>Get your accounts organazied.</p>
-                <p>Build the mental map of your accounts dynamic.</p>
-              </div>
-            </div>
-          </section>
 
-          <section className={clsx('mb-48 flex justify-between')}>
-            <div className={clsx('w-1/2', 'flex justify-center')}>
-              <div className={clsx('')}>
+
+          <section className={clsx(
+                'mb-28 md:mb-60 flex flex-col items-center',
+                'md:flex-row md:justify-between'
+            )}>
+            <div className='lg:w-1/2 flex justify-center'>
+              <div className=''>
                 <h2 className='font-mono tracking-tight'>Observe patters</h2>
                 <p className='mb-5 font-thin'>
                   Recognize your bad financial habbits is <br />
@@ -200,25 +250,32 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className={clsx('w-1/2', 'flex justify-end')}>
-              <Card className={'h-[27rem] w-[25rem]'}>Checking</Card>
+            <div className={clsx('lg:w-1/2 flex justify-end')}>
+              <Card className={
+                'h-[25rem] w-[20rem] sm:h-[27rem] sm:w-[25rem] lg:h-[35rem] lg:w-[32rem]'
+                }>Checking</Card>
             </div>
           </section>
+
+
+
+
+
         </article>
         
         <article className={clsx('max-w-screen-xl', 'mx-auto')}>
-          <header className='mb-36 flex justify-center gap-5'>
-            <h1 className='text-6xl font-extrabold uppercase tracking-tight'>
+          <header className='mb-20 sm:mb-36 flex justify-center gap-5'>
+            <h1 className=' text-center text-3xl md:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight'>
               Smooth expirience
             </h1>
           </header>
-          <section className='mb-32 flex justify-around'>
-            <div className='flex translate-y-40 flex-col items-center'>
+          <section className='mb-32 flex flex-col sm:flex-row justify-around'>
+            <div className='flex sm:translate-y-40 flex-col items-center'>
               <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
-              <h3 className='mb-2 font-mono font-medium tracking-tight'>
+              <h3 className='mb-2 font-mono text-center font-medium tracking-tight'>
                 Easy to set up
               </h3>
-              <p className='mb-5 font-thin'>We made the the app intuitive</p>
+              <p className='mb-5 font-thin text-center'>We made the the app intuitive</p>
             </div>
 
             <div className='flex flex-col items-center'>
@@ -232,10 +289,10 @@ export default function HomePage() {
               </p>
             </div>
 
-            <div className='flex translate-y-40 flex-col items-center'>
+            <div className='flex sm:translate-y-40 flex-col items-center'>
               <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
-              <h3 className='mb-2 font-mono font-medium tracking-tight'>
-                Fast Data loads
+              <h3 className='mb-2 text-center font-mono font-medium tracking-tight'>
+                Fast Data loadss
               </h3>
               <p className='mb-5 text-center font-thin'>
                 Upload fresh transactions <br />
@@ -244,7 +301,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <a className='group mb-56 flex cursor-pointer flex-col items-center'>
+          <a className='group mb-28 sm:mb-56 flex cursor-pointer flex-col items-center'>
             <h1
               className={clsx(
                 'mb-8 text-center',
@@ -272,7 +329,7 @@ export default function HomePage() {
             )}
           >
             <header className='mb-36 flex flex-col items-center gap-5 relative'>
-              <h1 className='my-5 text-5xl font-extrabold uppercase tracking-tight'>
+              <h1 className='my-5 text-center text-3xl md:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight'>
                 Financial tool for your
                 <span
                   className={clsx(
@@ -287,7 +344,7 @@ export default function HomePage() {
                 className={clsx(
                   'font-extrabold tracking-tight',
                   'text-center uppercase',
-                  'my-4 mb-20 text-2xl'
+                  'my-4 mb-20 text-center text-xl md:text-2xl lg:text-3xl'
                 )}
               >
                 We visualize data provided by {'  '}
@@ -308,7 +365,6 @@ export default function HomePage() {
                   'rounded-lg',
                   'translate-y-20',
                   'bg-white',
-                  // 'border border-gray-400',
                   'shadow-md',
                   'flex items-center justify-center',
                   'font-mono text-xl uppercase ring ring-primary-200'
@@ -321,9 +377,13 @@ export default function HomePage() {
         </article>
 
 
-        <article className='max-w-screen-xl mx-auto flex justify-around mb-28'>
+        <article className='max-w-screen-xl mx-auto flex flex-col gap-10 md:gap-0 md:flex-row md:justify-around mb-28'>
             <section className='flex flex-col items-center'>
-                <Card className={'w-[16rem] h-[13rem] mb-5'}>Card 1</Card>
+                <Card 
+                    className={
+                        'w-[16rem] h-[13rem] mb-5'
+                    }
+                >Card 1</Card>
                 <div className='flex flex-col items-center justify-center'>
                     <p className='text-center text-xl font-ligh tracking-wide mb-2 '>
                         We use special Plaid Key <br/> to display your 
@@ -379,8 +439,8 @@ export default function HomePage() {
             'bg-gradient-to-bl from-sky-400 to-blue-500',
         )}>
         <section className='max-w-screen-xl mx-auto py-4'>
-                <h1 className='text-center mb-10'>Reviews</h1>
-                <ul className='flex justify-around'>
+                <h1 className='text-center mb-10 text-3xl'>Reviews</h1>
+                <ul className='flex flex-wrap justify-center gap-5 md:justify-around'>
                     <li className='flex flex-col justify-center items-center'> 
                         <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
                         <h6>John Doe</h6>
@@ -409,13 +469,14 @@ export default function HomePage() {
                 </ul>
             </section>
         </article>
-        <article className='max-w-screen-xl mx-auto'>
+        <article className='max-w-screen-xl mx-auto flex justify-center'>
             <section className={clsx(
                 'my-28',
-                'w-full h-[20rem] border-2 border-red-500',
+                'w-5/6 lg:w-full h-[20rem] border-2 border-red-500',
                 'rounded-xl',
                 'flex flex-col',
-                'px-6 py-3'
+                'px-6 py-3',
+                'mx-4 lg:mx-0'
             )}>
                 <div className=' h-1/2'>
                     <h1>{appName}</h1>
