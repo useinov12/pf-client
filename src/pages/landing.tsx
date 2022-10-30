@@ -9,15 +9,22 @@ import Accent from '@/components/Accent';
 import Header from '@/components/layout/Header';
 import Layout from '@/components/layout/Layout';
 
-import { BsArrowDown } from 'react-icons/bs';
 import Button from '@/components/buttons/Button';
+import LineChart from '@/components/charts/LineChart';
+import PieChart from '@/components/charts/PieChart';
+import BarChart from '@/components/charts/BarChart';
+import Image from 'next/image';
+import { SiCircle } from "react-icons/si";
+import { BsArrowDown, BsArrowLeft, BsArrowRight, BsArrowUpShort, BsArrowDownShort, BsCurrencyDollar } from 'react-icons/bs';
+import { VscAccount } from 'react-icons/vsc';
+import { AiOutlineLineChart } from 'react-icons/ai';
 
 const Card = ({ children, className }: { children: any; className: any }) => {
   return (
     <div
       className={clsx(
         'rounded-xl',
-        'border-4 border-primary-200 text-center',
+        'ring-4 ring-primary-300',
         'bg-gray-300',
         className
       )}
@@ -65,8 +72,8 @@ export default function HomePage() {
                 className={clsx(
                     'text-center lg:text-left',
                     'text-4xl font-extrabold tracking-tight',
-                    'sm:text-5xl md:text-6xl  xl:text-7xl',
-                    'mb-10'
+                    'sm:text-4xl md:text-5xl  xl:text-6xl',
+                    'mb-10 uppercase tracking-tighter'
                 )}
               >
                 Take{' '}
@@ -84,59 +91,143 @@ export default function HomePage() {
           </section>
 
           <section className={clsx(
-            'w-full h-[60vh]',
+            'w-full ',
             'p-5 mt-10',
             //desktop
             'lg:p-0',
-            'lg:min-h-[75vh]',
+            'lg:min-h-[60vh]',
+            'lg:max-h-[65vh]',
             'lg:w-1/2 lg:mt-0',
           )}>
-            <div
-              className={clsx(
-                'h-full w-full',
-                'grid-rows-10 grid  gap-x-5 gap-y-2'
-              )}
+            
+            <div 
+                className='h-full w-full 
+                flex flex-col 
+                sm:grid grid-rows-12 gap-x-5 gap-y-2'
             >
+
               <div
                 className={clsx(
-                  'col-span-4',
-                  'border border-red-500 text-center',
-                  'rounded'
+                    'col-span-4 rounded-lg border border-red-500',
+                    'flex justify-between py-1 px-2'
                 )}
               >
-                Card 1
+                <div className='w-1/2 flex flex-col justify-start'>
+                    <h4 className=' font-serif'>Connected Banks:</h4>
+                    <ul className='flex flex-wrap'>
+                        {['Bank of America', 'Capital One', 'American Express' ]
+                            .map( bank => 
+                                <li className='border border-gray-300 px-2 py-1 rounded-md mr-2 my-1'>
+                                    <h6 className='font-serif'>{bank}</h6>
+                                </li>
+                        )}
+                    </ul>
+                </div>
+                <div className='w-1/2 flex flex-col justify-start'>
+                    <h4 className='font-serif '>Current Bank:</h4>
+                    <h3 className='uppercase text-lg font-serif '>Bank of America</h3>
+                    <h2 className='uppercase font-serif mt-5'>$xxxxx</h2>
+                </div>
               </div>
+
+
               <div
                 className={clsx(
                   'col-span-2',
-                  'row-span-4',
+                  'row-span-3',
                   'row-start-3',
                   'border border-red-500 text-center',
-                  'rounded'
+                  'rounded-lg',
+                  'flex flex-col justify-start items-center px-2',
                 )}
               >
-                Card 2
+                <h3 className='uppercase text-lg  font-serif py-2'>
+                    Transactions
+                </h3>
+                <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded mb-1'/>
+
+                <ul className='flex flex-col w-5/6 '>
+                    { new Array(7).fill(0).map( (_, i) =>
+                        <li className='flex justify-between mb-1'>
+                            <h6 className='font-serif'>Transaction</h6>
+                            <h6 className='font-serif'>$xxxx</h6>
+                        </li> 
+                    )}
+                </ul>
+                <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded mb-1'/>
+
+                <li className='flex justify-between mb-1 w-5/6 my-2'> 
+                    <h6 className='font-serif'>TOTAL</h6>
+                    <h6 className='font-serif'>$ XXXXX</h6>
+                </li>
               </div>
+
               <div
                 className={clsx(
                   'col-span-2',
                   'col-start-3',
-                  'row-span-3',
-                  'border border-red-500 text-center',
-                  'rounded'
+                  'row-span-2',
+                  'border border-red-500',
+                  'rounded-lg px-2 py-1',
+                  'flex flex-col items-center'
                 )}
               >
-                Card 3
+                <h4 className='uppercase text-lg font-serif py-1'>
+                    Summary
+                </h4>
+                <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded mb-1'/>
+                <ul className='flex flex-col items-start w-full'>
+                    <li className='flex justify-between items-center w-full'>
+                        <h6 className=' text-lg font-serif'>
+                            Account #1
+                        </h6>
+                        <h6 className='uppercase text-lg font-serif'>$xxxx</h6>
+                    </li>
+                    <li className='flex justify-between items-center w-full'>
+                        <h6 className=' text-lg font-serif'>
+                            Account #2
+                        </h6>
+                        <h6 className='uppercase text-lg font-serif'>$xxxx</h6>
+                    </li>
+                </ul>
+                
+
               </div>
               <div
                 className={clsx(
                   'col-span-2',
                   'row-span-3',
                   'border border-red-500 text-center',
-                  'rounded'
+                  'rounded-lg',
+                  'flex flex-col items-center'
                 )}
               >
-                Card 4
+                <h4 className='uppercase text-lg font-serif py-2'>
+                    Charts
+                </h4>
+                <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded '/>
+
+                <div className='w-full h-full flex flex-col items-center justify-center '>
+                    <div className='w-5/6 h-28'>
+                        <LineChart width={'100%'} height={'100%'}/>
+                    </div>
+
+                    <div className='w-5/6 flex justify-between'>
+                        <ul className='flex flex-col justify-center'>
+                            {new Array(3).fill(0).map((_,i)=>
+                                <li className=''>
+                                    <h6 className='text-lg font-serif'>
+                                        Dataset #{i+1}
+                                    </h6>
+                                </li>
+                            )}
+                        </ul>
+                        <div className='w-1/2 h-36'>
+                            <PieChart radius='50'/>
+                        </div>
+                    </div>
+                </div>
+                
               </div>
             </div>
           </section>
@@ -153,32 +244,53 @@ export default function HomePage() {
             'flex flex-col items-center justify-end',
             'md:flex-row md:justify-between md:items-end',
             )}>
-            <div className={clsx('md:w-1/2', 'flex justify-start')}>
-              <Card className={'h-[10rem] w-[20rem] sm:h-[10rem] sm:w-[28rem] md:h-[15rem] md:w-[32rem]'}>Checking</Card>
+            <div className={clsx('md:w-1/2', 'flex justify-start ', 'md:-translate-y-8')}>
+              <Card className={clsx(
+                'h-[10rem] w-[20rem]',
+                'sm:h-[10rem] sm:w-[28rem]',
+                'md:h-[15rem] md:w-[32rem]',
+                'text-dark relative', 
+                'overflow-hidden'
+              )}>
+                <div className={clsx(
+                    'bg-primary-300 absolute top-4 left-4 z-40 rounded-md px-2 py-1',
+                    'shadow-lg'
+                )}>
+                    <h3 className='font-mono tracking-tight'>{appName}</h3>
+                </div>
+                <div className={clsx(
+                    `bg-contain bg-[url('../../public/images/sketch.png')]`,
+                    'w-3/4 h-full float-right rounded-tl-[10rem]',
+                    'relative',
+                )}>
+                    <Button variant='light' className='py-[2px] px-7 uppercase absolute bottom-3 right-3 text-lg shadow-lg'>Demo</Button>
+                </div>
+              </Card>
             </div>
 
             <div className={clsx(
                 'flex justify-end items-end',
                 'lg:w-1/2 my-8 lg:my-1', 
-                'lg:justify-center',
+                'lg:justify-start',
                 )}>
 
                 <div className={clsx(
-                    'py-2 lg:px-5',
+                    'pt-2 lg:pl-5',
                     'flex flex-col items-center md:items-end',
+                    'md:translate-y-20'
                 )}>
-                    <figure className='h-16 w-16 bg-gray-300 rounded-full mb-2'/>
-                    <p className='text-lg text-center sm:text-right '>Get your accounts organazied</p>
-                    <p className='text-lg text-center sm:text-right'>Build the mental map of your accounts dynamic</p>
+                    <SiCircle className='h-16 w-16 text-white rounded-full mb-2'/>
+                    <p className='text-xl text-center sm:text-right font-bold'>Financial app that you looking for</p>
+                    <p className='text-xl text-center sm:text-right font-light tracking-tighter'>It was never so easy to look into your own financial state</p>
                 </div>
             </div>
           </section>
 
-          <header className='mb-20 lg:mb-40 flex justify-center gap-5'>
+          <header className='mb-20 md:my-40 flex justify-center gap-2 md:gap-8'>
             {['track', 'analyze', 'improve'].map( heading => 
                 <h1 className={clsx(
-                    'font-extrabold uppercase tracking-tight', 
-                    'text-2xl md:text-5xl lg:text-6xl'
+                    'uppercase tracking-tight', 
+                    'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'
                 )}>
                     {heading}
                 </h1>
@@ -191,31 +303,88 @@ export default function HomePage() {
             )}>
                 <div className='lg:w-1/2 flex justify-center'>
                 <div className=''>
-                    <h2 className='font-mono tracking-tight'>Clear vision</h2>
-                    <p className='mb-5 font-thin'>
-                    See what is happening with your finance
+                    <h1 className='text-3xl font-mono tracking-tighter font-extralight mb-1 text-center md:text-left'>
+                        Clear your vision
+                    </h1>
+                    <h3 className='mb-3 text-xl font-bold text-center md:text-left'>
+                        What is happening with your finance?
+                    </h3>
+                    <p className='text-xl font-bolder tracking-wide text-center md:text-left mb-5'>
+                        Gather all your banks in one place.<br/>
+                        Use charts and tables to see what is happening with your accounts.
                     </p>
                 </div>
                 </div>
 
                 <div className='lg:w-1/2 flex justify-end'>
                 <Card 
-                    className={
-                        'h-[12rem] w-[20rem] sm:h-[12rem] sm:w-[25rem] lg:h-[12rem] lg:w-[32rem]'}
-                > Checking</Card>
+                    className={clsx(
+                        'h-[16rem] w-[20rem] sm:h-[16rem] sm:w-[25rem] lg:h-[16rem] lg:w-[32rem]',
+                        'text-dark p-2'
+                    )}
+                > 
+                    <div className='flex justify-center items-center gap-5 my-2'>
+                        <Button variant='dark' className='py-1 px-5'>
+                            <BsArrowLeft className='text-2xl sm:text-3xl'/>
+                        </Button>
+                        <h2 className='font-serif uppercase text-2xl sm:text-3xl tracking-tight'>Checking</h2>
+                        <Button variant='dark' className='py-1 px-5'>
+                            <BsArrowRight className='text-2xl sm:text-3xl'/>
+                        </Button>
+                    </div>
+                    <div className='w-full h-3/4'>
+                        <LineChart width='100%' height='100%'/>
+                    </div>
+                </Card>
                 </div>
             </section>
-
-
 
           <section className={clsx(
                 'mb-28 md:mb-60 flex flex-col-reverse items-center',
                 'md:flex-row md:justify-between'
             )}>
             <div className='lg:w-1/2 flex justify-start'>
-              <Card className={
-                'h-[15rem] w-[20rem] sm:h-[18rem] sm:w-[25rem] lg:h-[20rem] lg:w-[32rem]'
-                }>Checking</Card>
+              <Card className={clsx(
+                'h-[18rem] w-[20rem]',
+                'sm:h-[18rem] sm:w-[25rem]',
+                'lg:h-[20rem] lg:w-[32rem]',
+                'text-dark p-2'
+              )}>
+                <ul className='flex justify-evenly my-1'>
+                    {['A', 'B', 'C', 'D'].map(letter => 
+                        <li 
+                            className='flex flex-col items-center group
+                            cursor-pointer'
+                        >
+                            <span 
+                                className='px-2 md:px-4 text-xl py-2 border 
+                                border-dark rounded-lg font-serif
+                                transition-all duration-150
+                                group-hover:border-red-500
+                                group-hover:scale-[1.02]'
+                            >
+                                $xxxx
+                            </span>
+                            <h4 
+                                className='font-serif uppercase 
+                                transition-all duration-150
+                                group-hover:translate-y-1
+                                group-hover:text-red-500'
+                            >
+                                Bank {letter}
+                            </h4>
+                        </li>     
+                    )}
+                </ul>
+                <div className='w-full h-3/4 flex'>
+                    <div className='h-full w-1/2'>
+                        <BarChart width='100%' height='100%'/>
+                    </div>
+                    <div className='h-full w-1/2'>
+                        <PieChart radius='60'/>
+                    </div>
+                </div>
+                </Card>
             </div>
 
             <div className={clsx(
@@ -223,17 +392,18 @@ export default function HomePage() {
                 'flex justify-center'
             )}>
               <div className='flex flex-col items-center md:items-end'>
-                <h2 className='font-mono tracking-tight'>Fill the gaps</h2>
-                <p className='mb-2 font-thin'>Get your accounts organazied.</p>
-                <p className='text-right mb-2'>
-                    Build the mental map of your 
-                    accounts dynamic.
+                <h1 className='text-3xl font-mono tracking-tighter font-extralight mb-1 text-center md:text-right'>Fill the gaps</h1>
+                <h3 className='mb-3 text-xl font-bold text-center md:text-right'>Get your accounts organazied</h3>
+                <p className='text-xl font-bolder tracking-wide text-center md:text-right'>
+                    Build the mental map of your accounts dynamic.
+                </p>
+                <p className='text-xl font-bolder tracking-wide text-center md:text-right mb-5'>
+                    Get comfortable knowing your day-to-day
+                    spendings and incomes.
                 </p>
               </div>
             </div>
           </section>
-
-
 
 
           <section className={clsx(
@@ -242,44 +412,101 @@ export default function HomePage() {
             )}>
             <div className='lg:w-1/2 flex justify-center'>
               <div className=''>
-                <h2 className='font-mono tracking-tight'>Observe patters</h2>
-                <p className='mb-5 font-thin'>
-                  Recognize your bad financial habbits is <br />
-                  the first step to eliminate them
+                <h1 className='text-3xl font-mono tracking-tighter font-extralight mb-1 text-center md:text-left'>Observe</h1>
+                <h3 className='mb-3 text-xl font-bold text-center md:text-left'>
+                    See the pattern?
+                </h3>
+                <p className='text-xl font-bolder tracking-wide text-center md:text-left mb-5'>
+                    Recognize your bad financial habbits is <br className='sm:hidden'/>
+                    the first step to eliminate them.
+                </p>
+                <p className='text-xl font-bolder tracking-wide text-center md:text-left mb-5'>
+                    Notice good trends and use them as your foundation.
                 </p>
               </div>
             </div>
 
             <div className={clsx('lg:w-1/2 flex justify-end')}>
-              <Card className={
-                'h-[25rem] w-[20rem] sm:h-[27rem] sm:w-[25rem] lg:h-[35rem] lg:w-[32rem]'
-                }>Checking</Card>
+                <Card className={clsx(
+                    'h-[35rem] w-[20rem]',
+                    'sm:h-[27rem] sm:w-[25rem]',
+                    'lg:h-[35rem] lg:w-[32rem]',
+                    'p-2 text-dark'
+                )}>
+                    <header className='flex justify-evenly items-center my-2'>
+                        <h2 className='text-2xl'>Statistics by week day</h2>
+                        <div className='flex gap-2 items-center'>
+                            <h2 className='text-2xl'>Friday</h2>
+                            <div className='flex flex-col items-center justify-center'>
+                                <Button variant='light' className='py-1 px-2 m-0'>
+                                    <BsArrowUpShort className='text-xl'/>
+                                </Button>
+                                <Button variant='light' className='py-1 px-2  m-0'>
+                                    <BsArrowDownShort className='text-xl'/>
+                                </Button>
+                            </div>
+                        </div>
+                    </header>
+                    <ul className='flex flex-col w-full mb-2'>
+                        {[
+                            ['06/12', '-76'],
+                            ['06/19', '-160'],
+                            ['06/26', '-142'],
+                            ['07/02', '-212'],
+                            ['07/09', '-89'],
+                        ].map(data => 
+                            <li 
+                                className='flex justify-between px-10 
+                                border border-gray-500/20
+                                bg-gray-400/30 rounded py-1 my-1
+                                shadow-sm hover:shadow-inner cursor-default'
+                            >
+                                <h4 className='font-mono font-semibold'>{data[0]}</h4>
+                                <h4 className='font-mono font-semibold flex items-center justify-between w-16'>
+                                    <BsCurrencyDollar className='font-semibold'/>  
+                                    <span >{data[1]}</span>
+                                </h4>
+                            </li>
+                        )}
+                    </ul>
+                    <div className='w-full px-10 flex justify-between items-baseline mb-3'>
+                        <h5 className='font-mono font-semibold'>Average `Friday` total: </h5>
+                        <h5 className='font-mono font-semibold text-xl'>$-150</h5>
+                    </div>
+                    <div className='w-full h-1/3'>
+                        <BarChart width='100%' height='80%' />
+                    </div>
+
+                </Card>
             </div>
           </section>
 
 
 
-
-
         </article>
         
-        <article className={clsx('max-w-screen-xl', 'mx-auto')}>
+        <article className='max-w-screen-xl mx-auto'>
           <header className='mb-20 sm:mb-36 flex justify-center gap-5'>
-            <h1 className=' text-center text-3xl md:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight'>
+            <h1 
+                className='font-extrabold uppercase tracking-tight
+                text-3xl sm:text-4xl md:text-5xl lg:text-6xl'
+            >
               Smooth expirience
             </h1>
+
           </header>
+
           <section className='mb-32 flex flex-col sm:flex-row justify-around'>
             <div className='flex sm:translate-y-40 flex-col items-center'>
-              <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
-              <h3 className='mb-2 font-mono text-center font-medium tracking-tight'>
+                <Image src={'/images/easy-to-setup.png'}  width={150} height={147} className='rounded' />
+              <h3 className='font-mono text-center font-medium tracking-tighter'>
                 Easy to set up
               </h3>
-              <p className='mb-5 font-thin text-center'>We made the the app intuitive</p>
+              <p className='mb-5 font-light text-center text-lg'>We made the the app intuitive</p>
             </div>
 
             <div className='flex flex-col items-center'>
-              <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
+                <Image src={'/images/safety-with-plaid.png'}  width={150} height={147}/>
               <h3 className='mb-2 text-center font-mono font-medium tracking-tight'>
                 Safety with Plaid
               </h3>
@@ -290,7 +517,7 @@ export default function HomePage() {
             </div>
 
             <div className='flex sm:translate-y-40 flex-col items-center'>
-              <figure className='mb-3 h-24 w-24 rounded-md border border-red-500'></figure>
+                <Image src={'/images/fast-data-loads.png'}  width={150} height={147}/>
               <h3 className='mb-2 text-center font-mono font-medium tracking-tight'>
                 Fast Data loadss
               </h3>
@@ -379,11 +606,16 @@ export default function HomePage() {
 
         <article className='max-w-screen-xl mx-auto flex flex-col gap-10 md:gap-0 md:flex-row md:justify-around mb-28'>
             <section className='flex flex-col items-center'>
-                <Card 
-                    className={
-                        'w-[16rem] h-[13rem] mb-5'
-                    }
-                >Card 1</Card>
+                <Card className={clsx(
+                    'w-[16rem] h-[13rem] mb-5',
+                    'text-dark flex flex-col',
+                    'items-center justify-center'
+                )}
+                >
+                    <VscAccount className='text-7xl mb-4'/>
+                    <h2 className='tracking-tight'>Sign Up</h2>
+                    <h2>{appName}</h2>
+                </Card>
                 <div className='flex flex-col items-center justify-center'>
                     <p className='text-center text-xl font-ligh tracking-wide mb-2 '>
                         We use special Plaid Key <br/> to display your 
@@ -397,7 +629,15 @@ export default function HomePage() {
                 </div>
             </section>
             <section className='flex flex-col items-center justify-center'>
-                <Card className={'w-[16rem] h-[13rem] mb-5'}>Card 1</Card>
+                <Card className={clsx(
+                    'w-[16rem] h-[13rem] mb-5',
+                    'text-dark flex flex-col',
+                    'items-center justify-center'
+                )}>
+                    <Image src={'/images/plaid.png'} width={110} height={110}/>
+                    <h2 className='tracking-tight'>Connect</h2>
+                    <h2>Plaid</h2>
+                </Card>
                 <div className='flex flex-col items-center justify-center'>
                     <p className='text-center text-xl font-ligh tracking-wide mb-2 '>
                         In your cabinet connect <br/>
@@ -411,7 +651,15 @@ export default function HomePage() {
                 </div>
             </section>
             <section className='flex flex-col items-center'>
-                <Card className={'w-[16rem] h-[13rem] mb-5'}>Card 1</Card>
+                <Card className={clsx(
+                    'w-[16rem] h-[13rem] mb-5',
+                    'text-dark flex flex-col',
+                    'items-center justify-center'
+                )}>
+                    <AiOutlineLineChart className='text-7xl mb-4'/>
+                    <h2 className='tracking-tight'>Sign Up</h2>
+                    <h2>{appName}</h2>
+                </Card>
                 <div className='flex flex-col items-center justify-center'>
                     <p className='text-center text-xl font-ligh tracking-wide mb-2 '>
                         Open the {appName} <br/>
@@ -439,52 +687,55 @@ export default function HomePage() {
             'bg-gradient-to-bl from-sky-400 to-blue-500',
         )}>
         <section className='max-w-screen-xl mx-auto py-4'>
-                <h1 className='text-center mb-10 text-3xl'>Reviews</h1>
-                <ul className='flex flex-wrap justify-center gap-5 md:justify-around'>
-                    <li className='flex flex-col justify-center items-center'> 
-                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
-                        <h6>John Doe</h6>
-                        <p>John's review here</p>
-                    </li>
-                    <li className='flex flex-col justify-center items-center'> 
-                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
-                        <h6>John Doe</h6>
-                        <p>John's review here</p>
-                    </li>
-                    <li className='flex flex-col justify-center items-center'> 
-                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
-                        <h6>John Doe</h6>
-                        <p>John's review here</p>
-                    </li>
-                    <li className='flex flex-col justify-center items-center'> 
-                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
-                        <h6>John Doe</h6>
-                        <p>John's review here</p>
-                    </li>
-                    <li className='flex flex-col justify-center items-center'> 
-                        <figure className='w-28 h-28 rounded-full border-2 border-white bg-gray-400'/>
-                        <h6>John Doe</h6>
-                        <p>John's review here</p>
-                    </li>
+                <h1 className='text-center mb-10 text-5xl'>Reviews</h1>
+                <ul className='flex flex-wrap items-baseline justify-center gap-5 md:justify-around'>
+                    { reviews.map( ({name, review, image}) =>
+                        <li className='flex flex-col justify-center items-center'> 
+                            <Image src={image} width={120} height={110}/>
+                            <h6 className='font-bold text-3xl my-2'>{name}</h6>
+                            <p className='font-semibold text-lg w-44 h-36 text-center'>{review}</p>
+                        </li>
+                    )}
                 </ul>
             </section>
         </article>
         <article className='max-w-screen-xl mx-auto flex justify-center'>
             <section className={clsx(
                 'my-28',
-                'w-5/6 lg:w-full h-[20rem] border-2 border-red-500',
+                'w-5/6 lg:w-full h-[24rem] border-2 border-red-500',
                 'rounded-xl',
-                'flex flex-col',
-                'px-6 py-3',
-                'mx-4 lg:mx-0'
+                'mx-4 lg:mx-0',
+                'relative',
+                'bg-gray-100',
+                'text-dark overflow-hidden',
+                'md:bg-gradient-to-bl md:from-sky-400 md:to-blue-500',
+                'group'
             )}>
-                <div className=' h-1/2'>
-                    <h1>{appName}</h1>
-                    <p>Some marketing here</p>
+                <div className={clsx(
+                    'h-1/2 absolute',
+                    'bg-primary-300 top-4 left-4 z-40 rounded-md px-2 py-1 shadow-lg',
+                    'md:bg-transparent md:shadow-none',
+                    'md:top-3 md:left-6 md:p-0',
+                )}>
+                    <h1 className='text-4xl drop-shadow-xl'>{appName}</h1>
+                    <p className='font-bold text-2xl tracking-tight text-gray-50 drop-shadow'>
+                        Try and get sence of <br/> 
+                        financial clarity today.
+                    </p>
                 </div>
-                <div className=' h-1/2 inline-flex gap-5 items-center justify-end '>
-                    <Button>Try Demo</Button>
-                    <Button>Sign Up</Button>
+                <div className={clsx(
+                    'w-3/4 h-full flex flex-col px-6 py-3',
+                    `bg-cover bg-[url('../../public/images/banner.png')]`,
+                    'float-right',
+                    'rounded-tl-[10rem]',
+                    'flex justify-end',
+                    'group-hover:blur-sm',
+                    'transition-all duration-100'
+                )}>
+                </div>
+                <div className='absolute bottom-3 right-5 h-1/2 inline-flex gap-5 items-center self-end'>
+                    <Button className='text-2xl px-6 py-1'>Try Demo</Button>
+                    <Button className='text-2xl px-6 py-1'>Sign Up</Button>
                 </div>
             </section>
         </article>
@@ -492,3 +743,36 @@ export default function HomePage() {
     </Layout>
   );
 }
+
+
+
+
+const reviews = [
+    
+    {
+        name:'Sophia',
+        review:'It is easy to use. I like it a lot!',
+        image:'/images/portraits/1.png'
+    },
+    {
+        name:'James',
+        review:'Intuitive interface and beautiful design.',
+        image:'/images/portraits/2.png'
+    },
+    {
+        name:'Noah',
+        review:'The app is fast and realy informative!',
+        image:'/images/portraits/3.png'
+    },
+    {
+        name:'Emma',
+        review:'I love the product! Definitely going to use it!',
+        image:'/images/portraits/4.png'
+    },
+    {
+        name:'Olivia',
+        review:'Realy great idea and nice implementation!',
+        image:'/images/portraits/5.png'
+    },
+
+]
