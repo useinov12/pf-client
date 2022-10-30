@@ -163,7 +163,7 @@ export default function HomePage() {
                         <div className='w-5/6 flex justify-between'>
                             <ul className='flex flex-col justify-center'>
                                 {new Array(3).fill(0).map((_,i)=>
-                                    <li className=''>
+                                    <li className='' key={i}>
                                         <h6 className='text-lg font-serif'>
                                             Dataset #{i+1}
                                         </h6>
