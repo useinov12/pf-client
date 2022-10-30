@@ -8,7 +8,10 @@ module.exports = {
     extend: {
       fontFamily: {
         primary: ['Inter', ...fontFamily.sans],
-        backgroundImage: {},
+        backgroundImage: {
+          sketch: "url('/client/public/images/sketch.png')"
+        },
+        homenaje:['Homenaje', 'regular']
       },
       colors: {
         primary: {
@@ -24,7 +27,7 @@ module.exports = {
           800: 'rgb(var(--tw-color-primary-800) / <alpha-value>)',
           900: 'rgb(var(--tw-color-primary-900) / <alpha-value>)',
         },
-        dark: '#222222',
+        dark: 'rgb(13 13 13)',
       },
       keyframes: {
         flicker: {

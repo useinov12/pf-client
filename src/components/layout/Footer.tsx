@@ -13,36 +13,42 @@ const Footer = () => {
       className={clsx(
         mode === 'dark' ? 'text-white' : 'text-black',
         'bottom-2 z-50',
-        'py-2 border-t border-primary-100',
-        'w-screen'
+        'py-2 border-t ',
+        'w-screen',
+        mode === 'dark' ? 'border-gray-50' : 'border-dark'
       )}
     >
-      <article className='max-w-screen-xl mx-auto flex justify-between w-full'>
-        <section className='my-5'>
-          <h2 >Get in touch</h2>
-          <form className='flex flex-col mb-8'>
-            <input type='email' placeholder='me@email.com' className='rounded my-1 px-1 py-1 text-sm w-44 text-dark'/>
-            <textarea placeholder='Your message' className='rounded my-1 px-1 py-1 text-sm w-56 text-dark'/>
-          </form>
-          <h6 className='justify-self-end'>Got any feedback?</h6>
-        </section>
+        <article className={clsx(
+          'max-w-screen-md lg:max-w-screen-xl lg-px-4 mx-auto',
+          'flex flex-col sm:flex-row justify-center items-center',
+          'sm:justify-between'
+        )}>
+          <section className='my-5 flex flex-col  items-center sm:items-start justify-start'>
+            <h2 className='text-2xl text-center sm:text-start'>Get in touch</h2>
+            <form className='flex flex-col mb-8 items-center sm:items-start'>
+              <input type='email' placeholder='me@email.com' className='rounded my-1 px-1 py-1 text-sm w-44 text-dark'/>
+              <textarea placeholder='Your message' className='rounded my-1 px-1 py-1 text-sm w-56 text-dark'/>
+            </form>
+            <h6 className='justify-self-end'>Got any feedback?</h6>
+          </section>
 
-        <section className='my-5'>
-          <h2>PersonalFinance</h2>
-          <h3 className=' my-2 mb-5'>Contacts</h3>
-          <ul className='my-5'>
-            <li className='my-2 text-md'>
-              <p>Email: xxxxx@company.com</p>
-            </li>
-            <li className='my-2 text-md'>
-              <p>Phone: +1 xxx-xxx-xxxx</p>
-            </li>
-            <li className='my-2 text-md'>
-              <p>Address: xxxxx Street, xxxxx City, XX, 0000</p>
-            </li>
-          </ul>
-        </section>
-      </article>
+          <section className='my-5 flex flex-col'>
+            <h2 className='text-2xl text-center sm:text-start'>PersonalFinance</h2>
+            <h3 className=' my-2 text-2xl text-center sm:text-start'>Contacts</h3>
+            <ul className=' text-xl text-center sm:text-start'>
+              <li className='my-2 text-md'>
+                <p>email: xxxxx@company.com</p>
+              </li>
+              <li className='my-2 text-md'>
+                <p>phone: +1 xxx-xxx-xxxx</p>
+              </li>
+              <li className='my-2 text-md'>
+                <p>address: xxxxx Street, xxxxx City, XXXX</p>
+              </li>
+            </ul>
+          </section>
+        </article>
+
       <section className='text-center'>
           © {new Date().getFullYear()} {''}
           <UnderlineLink href='/' className='pl-1'>

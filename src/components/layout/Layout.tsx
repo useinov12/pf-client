@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className={clsx(
           'w-screen',
           'overflow-x-hidden',
-          mode === 'dark' ? 'bg-zinc-900' : 'bg-gray-50',
+          mode === 'dark' ? 'bg-dark' : 'bg-gray-200',
           color,
           textColor
         )}
@@ -24,7 +24,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div
           className={clsx(
             'relative h-full',
-            // 'min-h-[90vh]',
             'w-full',
             'py-8',
           )}
