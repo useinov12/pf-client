@@ -77,10 +77,10 @@ const labels = [
   'June',
   'July',
   'August',
-  'September',
-  'October',
-  'November',
-  'December',
+  // 'September',
+  // 'October',
+  // 'November',
+  // 'December',
 ];
 const colors = [
   'red',
@@ -141,7 +141,7 @@ const options = {
   },
   scales: {
     y: {
-      display: true,
+      display: false,
       grid: {
         color: 'gray',
       },
