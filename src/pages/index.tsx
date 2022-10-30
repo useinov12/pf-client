@@ -87,7 +87,7 @@ export default function HomePage() {
                         <ul className='flex flex-wrap'>
                             {['Bank of America', 'Capital One', 'American Express' ]
                                 .map( bank => 
-                                    <li className='border border-gray-300 px-2 py-1 rounded-md mr-2 my-1'>
+                                    <li key={bank} className='border border-gray-300 px-2 py-1 rounded-md mr-2 my-1'>
                                         <h6 className='font-serif'>{bank}</h6>
                                     </li>
                             )}
@@ -110,7 +110,7 @@ export default function HomePage() {
 
                     <ul className='flex flex-col w-5/6 '>
                         { new Array(7).fill(0).map( (_, i) =>
-                            <li className='flex justify-between mb-1'>
+                            <li className='flex justify-between mb-1' key={i}>
                                 <h6 className='font-serif'>Transaction</h6>
                                 <h6 className='font-serif'>$xxxx</h6>
                             </li> 
@@ -238,7 +238,7 @@ export default function HomePage() {
 
           <header className='mb-20 md:my-52 flex justify-center gap-2 md:gap-8'>
             {['track', 'analyze', 'improve'].map( heading => 
-                <h1 className={clsx(
+                <h1 key={heading} className={clsx(
                     'uppercase tracking-tight drop-shadow-lg', 
                     'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'
                 )}>
@@ -301,7 +301,7 @@ export default function HomePage() {
                 <div className='w-full h-full p-2'>
                     <ul className='flex justify-evenly my-1'>
                         {['A', 'B', 'C', 'D'].map( letter => 
-                            <li className='flex flex-col items-center group cursor-pointer'>
+                            <li key={letter} className='flex flex-col items-center group cursor-pointer'>
                                 <span 
                                     className='px-2 md:px-4 text-xl py-2 border 
                                     border-dark rounded-lg font-serif
@@ -407,6 +407,7 @@ export default function HomePage() {
                                     border border-gray-500/20
                                     bg-gray-400/30 rounded py-1 my-1
                                     shadow-sm hover:shadow-inner cursor-default'
+                                    key={data[0]}
                                 >
                                     <h4 className='font-mono font-semibold'>{data[0]}</h4>
                                     <h4 className='font-mono font-semibold flex items-center justify-between w-16'>
