@@ -1,8 +1,37 @@
-<!-- //!STARTERCONF Remove this file, this is used as the starter changelog -->
+# Changelog
 
-# ts-nextjs-tailwind-starter changelog
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-This changelog is manually generated and not accurate with the package.json, only to show the changes since the last release.
+### 0.1.1 (2022-10-21)
+
+
+### Features
+
+* toast on login and sign up ([81022c0](https://github.com/useinov12/pf-client/commit/81022c018bfaf97bccb07ff36f71f5a791800915))
+* user component with dropdown and logout feat ([82e5884](https://github.com/useinov12/pf-client/commit/82e58849f0098988db733e9acc425029cf9b4115))
+
+
+### Bug Fixes
+
+* a tag changed to next link ([4741a82](https://github.com/useinov12/pf-client/commit/4741a82ac57a71a03b4e8f523c63508ea320098f))
+* card section content fix ([1913339](https://github.com/useinov12/pf-client/commit/19133396fe719064bd8e4d93f7b2d50db87b0a95))
+* chart production mode webpack resolve ([3741247](https://github.com/useinov12/pf-client/commit/37412477bf5bae34b089ecc6023705392cfdb167))
+* chart production mode webpack resolve ([0826243](https://github.com/useinov12/pf-client/commit/082624370b8492d39790bb3d382b3cb722c31cdf))
+* charts width and height props ([c460b4e](https://github.com/useinov12/pf-client/commit/c460b4e54597953edead234841a762cf7560feef))
+* checker for user context ([34c2816](https://github.com/useinov12/pf-client/commit/34c281629e9e360af1009776e30980a0e000703c))
+* checker for user context ([d7d9c61](https://github.com/useinov12/pf-client/commit/d7d9c6100c86cce66776b46dd90bba8d40a62475))
+* chip import removed ([03470fd](https://github.com/useinov12/pf-client/commit/03470fdff3b6976e18d51c9ecd1f9e8ab2f0489d))
+* classname removed from next link ([2723099](https://github.com/useinov12/pf-client/commit/27230994e08e5ece6a0cc8c0554830642c411886))
+* console log for max ([e736cb7](https://github.com/useinov12/pf-client/commit/e736cb7fc6d5fbd23138861cd03dff4a47f72439))
+* console log for max ([2bed933](https://github.com/useinov12/pf-client/commit/2bed93311baa1c3a5abae9f673203485ccf9ce9a))
+* console log for tests ([4c2289e](https://github.com/useinov12/pf-client/commit/4c2289edd1e122181f66e215d880b87ba82bf168))
+* form card heading color fixed ([5bfd091](https://github.com/useinov12/pf-client/commit/5bfd091095f8e82725292130224ed140c1da88dd))
+* line controller fix ([b5a19aa](https://github.com/useinov12/pf-client/commit/b5a19aaec13840ea8de36edbeee3808ca262b5de))
+* line controller fix ([e9f5071](https://github.com/useinov12/pf-client/commit/e9f5071430cb426e71ac7eb6192f4ee21eb54a54))
+* mobile styles for cards fix ([ba0d617](https://github.com/useinov12/pf-client/commit/ba0d61767a2ea44f6f1bbe69ff0fc349c18d0a1f))
+* response checker ([ffc8f46](https://github.com/useinov12/pf-client/commit/ffc8f46071cf6bdd77551bf884a9f0deaf75f415))
+* temporary api response structurefix ([9b12078](https://github.com/useinov12/pf-client/commit/9b12078e0dcec776f7ad6db5e381dc9a61366095))
+* test logs ([232c134](https://github.com/useinov12/pf-client/commit/232c13409042142e3c1793600466f0c81cc2b2b0))
 
 ## 0.5.4 - 2022-07-22
 
@@ -410,4 +439,3 @@ Snippets: `reg`
 ```
 
 You should also use [Better Comments](https://marketplace.visualstudio.com/items?itemName=aaron-bond.better-comments) extension.
-

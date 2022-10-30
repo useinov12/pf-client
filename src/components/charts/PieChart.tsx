@@ -17,6 +17,11 @@ const PieChart: React.FC<{
         responsive: true,
         maintainAspectRatio: true,
         radius: radius,
+        plugins:{
+          legend:{
+            display:false
+          }
+        }
       }}
     />
   );
@@ -25,7 +30,7 @@ const PieChart: React.FC<{
 export default PieChart;
 
 export const fakeDataset = {
-  labels: ['Grocery', 'Shopping', 'Subsciptions', 'Travel'],
+  labels: ['Data#1', 'Data#2', 'Data#3', 'Data#4'],
   datasets: [
     {
       // label: '# of Votes',

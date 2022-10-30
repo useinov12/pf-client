@@ -1,5 +1,4 @@
 import React, { ChangeEvent } from 'react';
-import Logo from '@/components/Logo';
 import Button from '@/components/buttons/Button';
 import clsx from 'clsx';
 import Cookies from 'js-cookie';
@@ -8,6 +7,7 @@ import toast from 'react-hot-toast';
 import { AiOutlineClose } from 'react-icons/ai';
 import jwt from 'jsonwebtoken';
 import { UserContext } from '@/context/UserProvider';
+import Image from 'next/image';
 
 const LoginForm: React.FC<{
   openLoginForm: boolean;
@@ -107,7 +107,7 @@ const LoginForm: React.FC<{
     >
       <section
         className={clsx(
-          'h-4/5 w-full sm:w-[28rem]',
+          'h-5/6 w-full sm:w-[28rem]',
           'justify-top relative flex ',
           'flex-col items-center rounded-xl bg-white ',
           'p-2 shadow-lg shadow-dark/40',
@@ -125,9 +125,9 @@ const LoginForm: React.FC<{
           <AiOutlineClose className='text-4xl' />
         </button>
 
-        <p className='mt-10 text-2xl font-semibold text-gray-600'>Sign in to</p>
-        <Logo />
-        <div className='my-1 h-[2px] w-3/4 rounded bg-gray-700' />
+        <p className='mt-10 text-xl font-semibold text-dark uppercase'>Sign in to</p>
+        {/* <Image src={'/images/logo.png'} width={110} height={110} /> */}
+        <h3 className='drop-shadow text-dark text-3xl'>PersonalFinance</h3>
 
         <div className='mt-4 flex w-full justify-center '>
           <Button
@@ -182,12 +182,13 @@ const SignUpForm: React.FC<{
 }> = ({ credentials, handleRegisterCredentials, handleSubmit, toggle }) => {
   return (
     <form
+      action='#'
       onSubmit={handleSubmit}
       className={`flex w-full flex-col p-2  ${
         toggle === false ? 'block' : 'hidden'
       }`}
     >
-      <h2 className='mt-2 mb-2 text-center font-extralight text-gray-600'>
+      <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
         Sign Up
       </h2>
       <label
@@ -292,7 +293,7 @@ const SignInForm: React.FC<{
         toggle === true ? 'block' : 'hidden'
       }`}
     >
-      <h2 className='mt-2 mb-2 text-center font-extralight text-gray-600'>
+      <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
         Sign In
       </h2>
       <label

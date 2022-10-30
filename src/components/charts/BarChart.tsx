@@ -43,7 +43,15 @@ const BarChart: React.FC<{
 
 export default BarChart;
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+const labels = [
+  'January', 
+  'February', 
+  'March', 
+  'April', 
+  'May', 
+  'June', 
+  // 'July'
+];
 export const options = {
   responsive: true,
   maintainAspectRatio: false,
