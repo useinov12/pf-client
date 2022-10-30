@@ -634,7 +634,7 @@ export default function HomePage() {
                 <h1 className='text-center mb-10 text-5xl'>Reviews</h1>
                 <ul className='flex flex-wrap items-baseline justify-center gap-5 md:justify-around'>
                     { reviews.map( ({name, review, image}) =>
-                        <li className='flex flex-col justify-center items-center'> 
+                        <li className='flex flex-col justify-center items-center' key={name}> 
                             <Image src={image} width={120} height={110}/>
                             <h6 className='font-bold text-3xl my-2'>{name}</h6>
                             <p className='font-semibold text-lg w-44 h-36 text-center'>{review}</p>
