@@ -56,7 +56,7 @@ export default function HomePage() {
                 <br />
                 over your money
               </h1>
-              <h2 className='font-mono text-center lg:text-left text-3x drop-shadow cursor-default'>
+              <h2 className='font-mono text-center lg:text-left  text-4xl  drop-shadow cursor-default'>
                 {appName}
                 </h2>
               <h3 className='font-normal text-center lg:text-left text-2xl drop-shadow cursor-default'>
@@ -189,7 +189,7 @@ export default function HomePage() {
         )}>
 
           <section className={clsx(
-            'mb-20 lg:mb-80',
+            'mb-20 lg:mb-[25rem]',
             'flex flex-col items-center justify-end',
             'md:flex-row md:justify-between md:items-end',
             )}>
@@ -198,12 +198,14 @@ export default function HomePage() {
                 'h-[10rem] w-[20rem]',
                 'sm:h-[10rem] sm:w-[28rem]',
                 'md:h-[15rem] md:w-[32rem]',
-                'group overflow-hidden'
+                'group overflow-hidden',
+                'transition-all duration-150'
               )}>
                 <div className='text-dark relative h-full w-full p-1'>
                     <div className={clsx(
                         'absolute top-4 left-4 z-30 rounded-md cursor-default',
                         'px-2 py-1 shadow-lg bg-gradient-to-bl from-sky-400 to-blue-400 ',
+                        'shadow-lg'
                     )}>
                         <h3 className='font-mono tracking-tight'>{appName}</h3>
                     </div>
@@ -213,7 +215,14 @@ export default function HomePage() {
                         'group-hover:blur-md rounded-xls'
                     )}>
                     </div>
-                    <Button variant='light' className='py-[2px] px-7 uppercase absolute bottom-4 right-4 text-lg shadow-lg'>Demo</Button>
+                    <div className='absolute bottom-6 right-6'>
+                      <Button variant='dark' className='py-[2px] px-7 uppercase  text-xl shadow-lg relative'>
+                        Demo
+                        <span className='absolute -top-1 -right-1'>
+                          <Ping/>
+                        </span> 
+                      </Button>
+                    </div>
                 </div>
               </Card>
             </div>
@@ -238,12 +247,12 @@ export default function HomePage() {
 
           <header className='mb-20 md:my-52 flex justify-center gap-2 md:gap-8'>
             {['track', 'analyze', 'improve'].map( heading => 
-                <h1 key={heading} className={clsx(
-                    'uppercase tracking-tight drop-shadow-lg', 
-                    'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'
-                )}>
-                    {heading}
-                </h1>
+              <h1 key={heading} className={clsx(
+                  'uppercase tracking-tight drop-shadow-lg', 
+                  'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'
+              )}>
+                  {heading}
+              </h1>
             )}
           </header>
 
@@ -272,11 +281,11 @@ export default function HomePage() {
                     )}> 
                         <div className='p-2 w-full h-full'>
                             <div className='flex justify-center items-center gap-5 my-2'>
-                                <Button variant='dark' className='py-1 px-5'>
+                                <Button variant='dark' className='py-[2px] px-5'>
                                     <BsArrowLeft className='text-2xl sm:text-3xl'/>
                                 </Button>
                                 <h2 className='font-serif uppercase text-2xl sm:text-3xl tracking-tight'>Checking</h2>
-                                <Button variant='dark' className='py-1 px-5'>
+                                <Button variant='dark' className='py-[2px] px-5'>
                                     <BsArrowRight className='text-2xl sm:text-3xl'/>
                                 </Button>
                             </div>
@@ -446,11 +455,11 @@ export default function HomePage() {
 
           <section className='mb-32 flex flex-col sm:flex-row justify-around'>
             <div className='flex sm:translate-y-40 flex-col items-center'>
-                <Image src={'/images/easy-to-setup.png'}  width={150} height={147} className='rounded' />
+                <Image src={'/images/easy-to-setup.png'}  width={150} height={147} />
               <h3 className='font-mono text-center font-medium tracking-tighter'>
                 Easy to set up
               </h3>
-              <p className='mb-5 font-light text-center text-lg'>We made the the app intuitive</p>
+              <p className='mb-5 font-light text-center text-lg'>We made the app intuitive</p>
             </div>
 
             <div className='flex flex-col items-center'>
@@ -526,7 +535,7 @@ export default function HomePage() {
                 <span
                   className={clsx(
                     'text-white',
-                    'font-mono text-2xl  font-extrabold tracking-tight'
+                    'font-mono font-extrabold tracking-tight'
                   )}
                 >
                   Plaid API
@@ -542,7 +551,7 @@ export default function HomePage() {
                   'bg-white',
                   'shadow-md',
                   'flex items-center justify-center',
-                  'font-mono text-xl uppercase ring ring-primary-200'
+                  'font-mono text-xl uppercase ring ring-primary-400'
                 )}
               >
                 Start in 3 steps
@@ -713,12 +722,11 @@ const Card = ({ children, className }: { children: JSX.Element; className: strin
   const Ping = () => {
       return(
           <span className="flex h-3 w-3 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"/>
-              <span className="inline-flex rounded-full h-3 w-3 bg-sky-500"/>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"/>
+              <span className="inline-flex rounded-full h-3 w-3 bg-green-500"/>
           </span>
       )
   }
-
 
 
 const reviews = [
