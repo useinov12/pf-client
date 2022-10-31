@@ -9,10 +9,45 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const PieChart: React.FC<{
   radius: string;
   isFakeData?: boolean;
-}> = ({ radius, isFakeData }) => {
+  data?: number[];
+  labels?: string[];
+}> = ({ radius, isFakeData, data, labels }) => {
+
+  const [chartData, setChartData] = React.useState<any>(fakeDataset)
+
+  React.useEffect(()=>{
+    if(data){
+      setChartData(
+        {
+          labels: labels,
+          datasets: [
+            {
+              data: data,
+              backgroundColor: [
+                'rgba(255, 99, 132, .5)',
+                'rgba(54, 162, 235, .5)',
+                'rgba(255, 206, 86, .5)',
+                'rgba(12, 206, 86, .5)',
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(12, 206, 86, 1)',
+              ],
+              borderWidth: 3,
+            },
+          ],
+        }
+      )
+    }
+    else  setChartData(fakeDataset)
+
+  },[data])
+
   return (
     <Pie
-      data={fakeDataset}
+      data={chartData}
       options={{
         responsive: true,
         maintainAspectRatio: true,
@@ -33,7 +68,6 @@ export const fakeDataset = {
   labels: ['Data#1', 'Data#2', 'Data#3', 'Data#4'],
   datasets: [
     {
-      // label: '# of Votes',
       data: [7, 19, 3, 5],
       backgroundColor: [
         'rgba(70, 70, 70, .2)',
