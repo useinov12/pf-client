@@ -1,11 +1,23 @@
 import React from 'react';
+import gsap from 'gsap'
+import clsx from 'clsx';
 import Card from './Card';
 import PieChart from '../charts/PieChart';
 import LineChart from '../charts/LineChart';
 
+// function numberWithCommas(x:any) {
+//   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+// }
+
 const BlockOfCards = () => {
   const [chartData, setChartData] = React.useState(data[0]);
   const [counter, setCounter] = React.useState(0);
+
+  function countTotal(index:number){
+    return data[index].accounts
+    .map((acc) => acc.sum)
+    .reduce((a: number, b: number) => a + b)
+  }
 
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -17,6 +29,20 @@ const BlockOfCards = () => {
   React.useEffect(() => {
     setChartData(data[counter]);
   }, [counter]);
+
+
+  React.useEffect(()=>{
+    const previousTotal = counter === 0 ? countTotal(2) : countTotal(counter-1);
+    const timeline = gsap.timeline();
+    timeline.from('#total', {
+      textContent: previousTotal,
+      duration: .7,
+      ease: "ease.in",
+      snap: { textContent: 100, },
+      delay:.3
+    });
+  },[chartData])
+
 
   return (
     <div
@@ -32,7 +58,11 @@ const BlockOfCards = () => {
               {data.map(({ bank }) => (
                 <li
                   key={bank}
-                  className='my-1 mr-2 rounded-md border border-gray-300 px-2 py-1'
+                  className={clsx(
+                    'transition-all duration-150',
+                    'my-1 mr-2 rounded-md border border-gray-300 px-2 py-1',
+                    bank === chartData.bank ? 'border-2 border-primary-500' : ''
+                  )}
                 >
                   <h6 className='font-serif'>{bank}</h6>
                 </li>
@@ -42,12 +72,15 @@ const BlockOfCards = () => {
           <div className='flex w-1/2 flex-col justify-start'>
             <h4 className='font-serifs'>Current Bank:</h4>
             <h3 className='font-serif text-lg uppercase '>Bank of America</h3>
-            <h2 className='mt-5 font-serif uppercase'>
-              $
-              {chartData.accounts
-                .map((acc) => acc.sum)
-                .reduce((a: number, b: number) => a + b)}
-            </h2>
+            <div className='mt-2 flex gap-5 items-center justify-center'>
+              <h2 className='font-mono text-4xl'>$</h2>
+              <h2 className=' font-serif uppercase text-4xl' id={'total'} >
+                { chartData.accounts
+                  .map((acc) => acc.sum)
+                  .reduce((a: number, b: number) => a + b)
+                }
+              </h2>
+            </div>
           </div>
         </div>
       </Card>
