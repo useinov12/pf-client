@@ -14,8 +14,8 @@ import { SiCircle } from "react-icons/si";
 import { BsArrowDown, BsArrowLeft, BsArrowRight, BsArrowUpShort, BsArrowDownShort, BsCurrencyDollar } from 'react-icons/bs';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineLineChart } from 'react-icons/ai';
-import Card from '@/components/home-page-components/Card';
-import BlockOfCards from '@/components/home-page-components/BlockOfCards';
+import Card from '@/components/homepage/Card';
+import BlockOfCards from '@/components/homepage/BlockOfCards';
 
 export default function HomePage() {
   const appName = 'PersonalFinance';
