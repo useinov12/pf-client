@@ -161,9 +161,9 @@ const BlockOfCards = () => {
 
   return (
     <div
-      className='float-right flex  flex-col text-dark 
+      className='float-right flex flex-col text-dark 
       sm:grid sm:grid-rows-12 
-      gap-x-5 gap-y-2 p-3 w-max lg:w-full 
+      gap-x-5 gap-y-2 p-3 w-full lg:w-full 
       transition-all duration-300
       rounded-xl drop-shadow shadow-inner 
       ring-4 ring-white bg-gray-100'
@@ -175,7 +175,7 @@ const BlockOfCards = () => {
         <div className='h-3 w-3 bg-green-500/90 rounded-full drop-shadow '/>
       </div>
       {/* ============ BANKS CARD ============ */}
-      <Card className='col-span-4 col-start-1'>
+      <Card className='col-span-4 col-start-1' inner>
         <div className='flex justify-between py-1 px-4'>
           <div className='flex flex-col justify-start w-1/2'>
             <h6 className='drop-shadow-md font-semibold mb-1 text-sm'>Connected Banks:</h6>
@@ -225,7 +225,7 @@ const BlockOfCards = () => {
       </Card>
 
         {/* ============ SUMMARY CARD ============ */}
-      <Card className='col-span-4 col-start-1 row-span-2 row-start-3'>
+      <Card className='col-span-4 col-start-1 row-span-2 row-start-3' inner>
         <div className='flex flex-col items-center px-4 py-1'>
         <h3 className='py-2 font-serif  text-lg uppercase drop-shadow-md font-normal'>
             Summary
@@ -281,7 +281,7 @@ const BlockOfCards = () => {
 
 
       {/* ============ CHARTS CARD ============ */}
-      <Card className='col-span-2 row-span-3 col-start-1 w-full'>
+      <Card className='col-span-2 row-span-3 col-start-1 w-full' inner>
         <div className='flex flex-col items-center'>
           <h4 className='py-2 font-serif text-lg font-normal uppercase'>Charts</h4>
 
@@ -307,7 +307,7 @@ const BlockOfCards = () => {
       </Card>
 
       {/* ============ TRANSACTIONS CARD ============ */}
-      <Card className='col-span-2 col-start-3 row-span-3 row-start-5 w-full' >
+      <Card className='col-span-2 col-start-3 row-span-3 row-start-5 w-full' inner>
         <div className='flex flex-col items-center justify-start px-2 text-center'>
           <h3 className='py-2 font-serif  text-lg uppercase drop-shadow-md font-normal'>
             Transactions
