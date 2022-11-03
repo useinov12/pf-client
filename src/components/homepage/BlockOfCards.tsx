@@ -313,18 +313,20 @@ const BlockOfCards = () => {
             Summary
           </h4>
           <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300' />
+
           <ul className='flex w-5/6 flex-col items-start'>
+            
             {chartData.accounts.map(({ type, sum }, i) => (
               <li
                 className='my-[2px] flex w-full items-center justify-between 
                 rounded bg-gray-100 px-2 drop-shadow-sm'
-                key={`${type}-summary`}
+                key={`summary-${i}`}
               >
                 <h6
                   className='font-serif text-lg font-semibold opacity-0'
                   ref={(el) => (summaryAccTypeRef.current[i] = el)}
                 >
-                  {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
+                  {/* {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''} */}
                 </h6>
                 <div className='flex w-20 items-center justify-start'>
                   <h6 className='font-serif font-semibold'>$</h6>
@@ -332,11 +334,12 @@ const BlockOfCards = () => {
                     className='font-serif text-lg font-semibold uppercase'
                     ref={(el) => (summaryAccSumRef.current[i] = el)}
                   >
-                    {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
+                    {/* {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''} */}
                   </h6>
                 </div>
               </li>
             ))}
+
           </ul>
         </div>
       </Card>
