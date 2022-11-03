@@ -16,7 +16,6 @@ import { faker } from '@faker-js/faker';
 import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 
-
 ChartJS.register(
   CategoryScale,
   BarElement,
@@ -46,7 +45,7 @@ const BarChart: React.FC<{
     datasets: [
       {
         label: 'Dataset 1',
-        data: externalData ? externalData : labels.map(() => faker.datatype.number({ min: 7000, max: 9500 })),
+        data: externalData ? externalData : labels.map(() => 100 ),
       },
     ],
   };
@@ -79,7 +78,8 @@ const BarChart: React.FC<{
   return (
     <Chart
       type='bar'
-      data={data}
+      ref={chartRef}
+      data={chartData}
       width={width}
       height={height}
       options={options}

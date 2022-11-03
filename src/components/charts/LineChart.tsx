@@ -38,13 +38,12 @@ const LineChart: React.FC<{
     datasets: [],
   });
 
-
   const data = {
     labels: labels.map((month) => month.slice(0, 3)),
     datasets: [
       {
         label: 'Dataset 1',
-        data: externalData ? externalData : labels.map(() => faker.datatype.number({ min: 7000, max: 9500 })),
+        data: externalData ? externalData : labels.map(() => 1000),
       },
     ],
   };
@@ -55,12 +54,11 @@ const LineChart: React.FC<{
     if (!chart) {
       return;
     }
-
     const chartData = {
       ...data,
       datasets: data.datasets.map((dataset) => ({
         ...dataset,
-        borderColor: 'rgba(255,108,35, 1)',
+        borderColor: 'rgba(150, 149, 149, 1)',
         backgroundColor: createGradient(chart.ctx, chart.chartArea),
       })),
     };
@@ -71,8 +69,8 @@ const LineChart: React.FC<{
       }, delay)
       return () => clearTimeout(timer)
     }
-    else setChartData(chartData);
-    
+    // else setChartData(chartData);
+
   }, [externalData]);
 
   return (
@@ -116,9 +114,9 @@ const colors = [
 
 
 function createGradient(ctx: CanvasRenderingContext2D | null, area: ChartArea) {
-  const colorStart = 'rgba(253, 224, 71, .6)';
-  const colorMid = 'rgba(255,108,35, .7)';
-  const colorEnd = 'rgba(255,108,35, 1)';
+  const colorStart = 'rgba(208, 208, 208, 0.5)';
+  const colorMid = 'rgba(168, 168, 168, 0.5)';
+  const colorEnd = 'rgba(150, 149, 149, 0.5)';
 
   if (ctx) {
     const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
