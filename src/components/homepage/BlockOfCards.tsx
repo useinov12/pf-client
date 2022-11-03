@@ -144,7 +144,7 @@ const BlockOfCards = () => {
         counter === 0 ? countTransTotal(2) : countTransTotal(counter - 1);
       firstTimeline.current.fromTo(
         transactionsTotalRef.current,
-        { textContent: prevCountRef.current === -1 ? 0 : previousTransTotal  },
+        { textContent: prevCountRef.current === -1 ? 0 : previousTransTotal },
         {
           textContent: countTransTotal(counter),
           duration: 0.1,
@@ -154,66 +154,73 @@ const BlockOfCards = () => {
         }
       );
       /* #endregion */
-
     }
   }, [chartData]);
   /* #endregion */
 
   return (
     <div
-      className='float-right flex  flex-col text-dark 
-      sm:grid sm:grid-rows-12 
-      gap-x-5 gap-y-2 p-3 w-max lg:w-full 
-      transition-all duration-300
-      rounded-xl drop-shadow shadow-inner 
-      ring-4 ring-white bg-gray-100'
+      className='sm:grid-rows-12 float-right flex w-full 
+      flex-col gap-x-5 
+      gap-y-2 rounded-xl bg-gray-100 p-3 text-dark 
+      shadow-inner ring-4
+      ring-white drop-shadow transition-all 
+      duration-300 sm:grid lg:w-full'
       ref={pauseRef}
     >
-      <div className='inline-flex items-center gap-2 mb-2 ml-2'>
-        <div className='h-3 w-3 bg-red-500/90 rounded-full drop-shadow '/>
-        <div className='h-3 w-3 bg-yellow-500/90 rounded-full drop-shadow '/>
-        <div className='h-3 w-3 bg-green-500/90 rounded-full drop-shadow '/>
+      <div className='mb-2 ml-2 inline-flex items-center gap-2'>
+        <div className='h-3 w-3 rounded-full bg-red-500/90 drop-shadow ' />
+        <div className='h-3 w-3 rounded-full bg-yellow-500/90 drop-shadow ' />
+        <div className='h-3 w-3 rounded-full bg-green-500/90 drop-shadow ' />
       </div>
       {/* ============ BANKS CARD ============ */}
-      <Card className='col-span-4 col-start-1'>
-        <div className='flex justify-between py-1 px-4'>
-          <div className='flex flex-col justify-start w-1/2'>
-            <h6 className='drop-shadow-md font-semibold mb-1 text-sm'>Connected Banks:</h6>
-            <ul className='flex flex-wrap'>
+      <Card className='col-span-4 col-start-1' inner>
+        <div className='flex flex-col justify-between py-1 px-4 sm:flex-row'>
+          <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'>
+            <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
+              Connected Banks:
+            </h6>
+            <ul className='flex w-full flex-wrap'>
               {data.map(({ bank }) => (
                 <li
                   key={bank}
                   className={clsx(
                     'drop-shadow-md transition-all duration-200',
-                    'my-1 mr-2 rounded-md border-2 border-gray-300 px-2 py-1 ring-4 ring-transparent',
-                    bank === chartData.bank ? 'ring-4 ring-sky-500' : ''
+                    'my-1 mr-2 rounded-md border-2 border-gray-300 px-2 py-1 ',
+                    bank === chartData.bank
+                      ? 'ring-4 ring-sky-500'
+                      : 'ring-4 ring-transparent'
                   )}
                 >
-                  <h6 className='font-serif drop-shadow-md'>{bank}</h6>
+                  <h6 className='whitespace-nowrap font-serif text-sm drop-shadow-md'>
+                    {bank}
+                  </h6>
                 </li>
               ))}
             </ul>
           </div>
 
-          
           <div
-            className='flex w-1/2 flex-col items-center justify-center rounded' 
+            className='flex flex-col items-center 
+            justify-center rounded sm:w-1/2'
           >
             <h3
-              className='font-serif text-lg uppercase drop-shadow-md font-normal'
+              className='whitespace-nowrap font-serif text-lg 
+              font-normal uppercase drop-shadow-md'
               ref={bankNameRef}
             >
               xxxxxxx
             </h3>
             <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300 ' />
-            <div className='flex items-baseline gap-3 justify-start  w-5/6'>
-
+            <div className='flex w-5/6 items-baseline justify-start  gap-3'>
               <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
 
               <div className='mt-2 flex items-center justify-start gap-5'>
-                <h2 className='font-mono text-4xl drop-shadow-md font-normal'>$</h2>
+                <h2 className='font-mono text-4xl font-normal drop-shadow-md'>
+                  $
+                </h2>
                 <h2
-                  className=' font-mono text-3xl uppercase drop-shadow-md font-light'
+                  className=' font-mono text-3xl font-light uppercase drop-shadow-md'
                   ref={bankTotalRef}
                 >
                   {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
@@ -224,47 +231,51 @@ const BlockOfCards = () => {
         </div>
       </Card>
 
-        {/* ============ SUMMARY CARD ============ */}
-      <Card className='col-span-4 col-start-1 row-span-2 row-start-3'>
+      {/* ============ SUMMARY CARD ============ */}
+      <Card className='col-span-4 col-start-1 row-span-2 row-start-3' inner>
         <div className='flex flex-col items-center px-4 py-1'>
-        <h3 className='py-2 font-serif  text-lg uppercase drop-shadow-md font-normal'>
+          <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
             Summary
-        </h3>
+          </h3>
 
-          <div className='flex justify-between  w-full items-center'>
-
-          <div className='w-2/6 flex justify-center'>
-          <div className='w-1/2 h-full text-center'>
-              <PieChart
-                radius='30'
-                externalData={chartData.accounts.map(({ sum }) => sum)}
-                labels={chartData.accounts.map(({ type }) => type)}
-                delay={1200}
-              />
-          </div>
-          </div>
-            <ul className='flex flex-col items-start self-start w-4/6'>
-              
+          <div className='flex  w-full  items-center justify-between'>
+            <div className='flex w-2/6 justify-center'>
+              <div className='h-full w-1/2 text-center'>
+                <PieChart
+                  radius='30'
+                  externalData={chartData.accounts.map(({ sum }) => sum)}
+                  labels={chartData.accounts.map(({ type }) => type)}
+                  delay={1200}
+                />
+              </div>
+            </div>
+            <ul className='flex w-5/6 sm:w-4/6 flex-col items-start self-start'>
               {chartData.accounts.map(({ type, sum }, i) => (
                 <li
                   className='my-[2px] flex w-full items-center justify-between 
-                  px-2 drop-shadow-sm border-b border-gray-400'
+                  border-b border-gray-400 px-2 drop-shadow-sm'
                   key={`summary-${i}`}
                 >
                   <div className='inline-flex items-center gap-2'>
-                    <span className={clsx(
-                      'h-2 w-2  rounded-full',
-                      i === 0 ? 'bg-stone-300' : i=== 1? 'bg-stone-500' : 'bg-stone-700'
-                    )}/>
+                    <span
+                      className={clsx(
+                        'h-2 w-2  rounded-full',
+                        i === 0
+                          ? 'bg-stone-300'
+                          : i === 1
+                          ? 'bg-stone-500'
+                          : 'bg-stone-700'
+                      )}
+                    />
                     <h6
-                      className='font-mono text-lg font-normal opacity-0'
+                      className='font-mono text-sm sm:text-lg font-normal opacity-0 '
                       ref={(el) => (summaryAccTypeRef.current[i] = el)}
                     >
                       {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
                     </h6>
                   </div>
                   <div className='flex w-24 items-center justify-between'>
-                    <h6 className='font-mono font-normal ml-3'>$</h6>
+                    <h6 className='ml-3 font-mono font-normal'>$</h6>
                     <h6
                       className='font-mono text-lg font-normal uppercase'
                       ref={(el) => (summaryAccSumRef.current[i] = el)}
@@ -272,18 +283,17 @@ const BlockOfCards = () => {
                   </div>
                 </li>
               ))}
-
             </ul>
           </div>
-
         </div>
       </Card>
 
-
       {/* ============ CHARTS CARD ============ */}
-      <Card className='col-span-2 row-span-3 col-start-1 w-full'>
+      <Card className='col-span-2 col-start-1 row-span-3 w-full' inner>
         <div className='flex flex-col items-center'>
-          <h4 className='py-2 font-serif text-lg font-normal uppercase'>Charts</h4>
+          <h4 className='py-2 font-serif text-lg font-normal uppercase'>
+            Charts
+          </h4>
 
           <div className='flex h-full w-full flex-col items-center justify-center '>
             <div className='h-28 w-5/6'>
@@ -307,9 +317,12 @@ const BlockOfCards = () => {
       </Card>
 
       {/* ============ TRANSACTIONS CARD ============ */}
-      <Card className='col-span-2 col-start-3 row-span-3 row-start-5 w-full' >
+      <Card
+        className='col-span-2 col-start-3 row-span-3 row-start-5 w-full'
+        inner
+      >
         <div className='flex flex-col items-center justify-start px-2 text-center'>
-          <h3 className='py-2 font-serif  text-lg uppercase drop-shadow-md font-normal'>
+          <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
             Transactions
           </h3>
 
@@ -323,8 +336,14 @@ const BlockOfCards = () => {
                 <h6 className='text-md font-serif font-normal drop-shadow-md'>
                   #{i + 1}
                 </h6>
-                <div className={clsx('flex w-20 items-center rounded justify-between')}>
-                  <h6 className='font-mono font-normal drop-shadow-md ml-3'>$</h6>
+                <div
+                  className={clsx(
+                    'flex w-20 items-center justify-between rounded'
+                  )}
+                >
+                  <h6 className='ml-3 font-mono font-normal drop-shadow-md'>
+                    $
+                  </h6>
                   <h6
                     className=' transactions text-left font-mono font-normal drop-shadow-md'
                     ref={(el) => (transactionsRef.current[i] = el)}
