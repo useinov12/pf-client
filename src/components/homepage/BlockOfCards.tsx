@@ -6,7 +6,6 @@ import PieChart from '../charts/PieChart';
 import LineChart from '../charts/LineChart';
 
 const BlockOfCards = () => {
-
   const [chartData, setChartData] = React.useState(skeletonData);
   const [counter, setCounter] = React.useState(-1);
 
@@ -316,7 +315,7 @@ const BlockOfCards = () => {
           <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300' />
           <ul className='flex w-5/6 flex-col items-start'>
             {chartData.accounts.map(({ type, sum }, i) => (
-              <li 
+              <li
                 className='my-[2px] flex w-full items-center justify-between 
                 rounded bg-gray-100 px-2 drop-shadow-sm'
                 key={`${type}-summary`}
@@ -400,7 +399,7 @@ export default BlockOfCards;
 gsap.registerEffect({
   name: 'swapText',
   effect: (targets: any, config: any) => {
-    let tl = gsap.timeline({ delay: config.delay });
+    const tl = gsap.timeline({ delay: config.delay });
     tl.to(targets, { opacity: 0, duration: config.duration / 2 });
     tl.add(() => (targets[0].innerText = config.text));
     tl.to(targets, { opacity: 1, duration: config.duration });
