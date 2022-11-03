@@ -69,7 +69,7 @@ const LineChart: React.FC<{
       }, delay)
       return () => clearTimeout(timer)
     }
-    // else setChartData(chartData);
+    else setChartData(chartData);
 
   }, [externalData]);
 

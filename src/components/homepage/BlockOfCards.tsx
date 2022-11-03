@@ -5,6 +5,11 @@ import Card from './Card';
 import PieChart from '../charts/PieChart';
 import LineChart from '../charts/LineChart';
 import BarChart from '../charts/BarChart';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+import '@/lib/swapText'
+
+gsap.registerPlugin(ScrollTrigger)
+
 
 const BlockOfCards = () => {
   const [chartData, setChartData] = React.useState(skeletonData);
@@ -13,7 +18,6 @@ const BlockOfCards = () => {
   const prevCountRef = React.useRef(counter);
 
   const firstTimeline = React.useRef(gsap.timeline());
-  // const secondTimeline = React.useRef(gsap.timeline());
 
   /* #region  Animated elements refs */
   const bankNameRef = React.useRef<HTMLDivElement>(null);
@@ -26,12 +30,12 @@ const BlockOfCards = () => {
 
   const summaryAccTypeRef = React.useRef(new Array(3));
   const summaryAccSumRef = React.useRef(new Array(3));
-
   /* #endregion */
 
   /* #region  Timer */
   /** Update counter every x seconds */
   React.useEffect(() => {
+    gsap.ticker.lagSmoothing(false)
     const delay = counter === -1 ? 3000 : 7400;
 
     const timer = setInterval(() => {
@@ -160,7 +164,7 @@ const BlockOfCards = () => {
 
   return (
     <div
-      className='sm:grid-rows-12 float-right flex w-full 
+      className='sm:grid-rows-12 float-right flex w-full h-auto
       flex-col gap-x-5 
       gap-y-2 rounded-xl bg-gray-100 p-3 text-dark 
       shadow-inner ring-4
@@ -437,7 +441,7 @@ const data = [
       { type: 'Saving', sum: 5000 },
       { type: 'Checking', sum: 500 },
     ],
-    dynamic: [1000, 1200, 1400, 1800, 1400, 1600, 1700, 1900],
+    dynamic: [1000, 1200, 1400, 1800, 1400, 1600, 1700, 1200],
   },
   {
     bank: 'American Express',
@@ -447,7 +451,7 @@ const data = [
       { type: 'Checking-1', sum: 2700 },
       { type: 'Checking-2', sum: 700 },
     ],
-    dynamic: [2200, 1700, 1400, 1800, 1500, 1200, 1100, 1300],
+    dynamic: [2200, 1700, 1400, 1800, 1500, 1200, 1100, 1700],
   },
 ];
 /* #endregion */
