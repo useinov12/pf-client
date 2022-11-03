@@ -26,7 +26,7 @@ const BanksCard = () => {
       <div className='h-full w-full p-2'>
         <ul className='my-1 flex justify-evenly'>
           {banks.map((bank, i) => (
-            <li className='group flex cursor-pointer flex-col items-center'>
+            <li className='group flex cursor-pointer flex-col items-center' key={bank}>
               <span
                 className={clsx(
                   'text-sm drop-shadow-md transition-all duration-200',

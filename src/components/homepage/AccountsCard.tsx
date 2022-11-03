@@ -37,7 +37,7 @@ const AccountsCard = () => {
       <div className='flex h-full w-full flex-col items-start p-2 '>
         <ul className='my-1 flex gap-4'>
           {accounts.map((account, i) => (
-            <li className='group flex cursor-pointer flex-col items-center'>
+            <li className='group flex cursor-pointer flex-col items-center' key={account+i}>
               <span
                 className={clsx(
                     'text-sm drop-shadow-md transition-all duration-200',
