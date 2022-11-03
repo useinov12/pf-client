@@ -441,7 +441,7 @@ const data = [
       { type: 'Saving', sum: 5000 },
       { type: 'Checking', sum: 500 },
     ],
-    dynamic: [1000, 1200, 1400, 1800, 1400, 1600, 1700, 1900],
+    dynamic: [1000, 1200, 1400, 1800, 1400, 1600, 1700, 1200],
   },
   {
     bank: 'American Express',
@@ -451,7 +451,7 @@ const data = [
       { type: 'Checking-1', sum: 2700 },
       { type: 'Checking-2', sum: 700 },
     ],
-    dynamic: [2200, 1700, 1400, 1800, 1500, 1200, 1100, 1300],
+    dynamic: [2200, 1700, 1400, 1800, 1500, 1200, 1100, 1700],
   },
 ];
 /* #endregion */
