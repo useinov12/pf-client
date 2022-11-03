@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Card from './Card';
 import PieChart from '../charts/PieChart';
 import LineChart from '../charts/LineChart';
+import BarChart from '../charts/BarChart';
 
 const BlockOfCards = () => {
   const [chartData, setChartData] = React.useState(skeletonData);
@@ -26,14 +27,12 @@ const BlockOfCards = () => {
   const summaryAccTypeRef = React.useRef(new Array(3));
   const summaryAccSumRef = React.useRef(new Array(3));
 
-  const chartAccTypeRef = React.useRef(new Array(3));
-  const chartAccSumRef = React.useRef(new Array(3));
   /* #endregion */
 
   /* #region  Timer */
   /** Update counter every x seconds */
   React.useEffect(() => {
-    const delay = counter === -1 ? 3000 : 7400;
+    const delay = counter === -1 ? 3000 : 5400;
 
     const timer = setInterval(() => {
       prevCountRef.current = counter; //save prev counter value
@@ -161,64 +160,30 @@ const BlockOfCards = () => {
         }
       );
       /* #endregion */
-
-      /* #region  Charts Card */
-
-      //animate swap previous account types to current
-      secondTimeline.current.fromTo(
-        chartAccTypeRef.current,
-        { textContent: wrapCurrentAccTypes, opacity: 0 },
-        {
-          textContent: wrapCurrentAccTypes,
-          opacity: 1,
-          stagger: 0.2,
-          duration: 0.2,
-          delay: 0.2,
-        }
-      );
-
-      const accSums = chartData.accounts.map(({ sum }) => sum);
-      const accountAbsoluteTotal = accSums.reduce(
-        (a, b) => Math.abs(a) + Math.abs(b)
-      );
-      const accountInPercent = (sum: number) =>
-        (sum * 100) / accountAbsoluteTotal;
-      const accSumsInPercent = accSums.map((sum) =>
-        Number(accountInPercent(sum).toFixed(1))
-      );
-      const wrapSumsInPercent = gsap.utils.wrap(accSumsInPercent);
-
-      //animate swap previous account percents to current
-      secondTimeline.current.to(chartAccSumRef.current, {
-        textContent: wrapSumsInPercent,
-        snap: { textContent: 1 },
-        stagger: 0.2,
-        duration: 0.2,
-        // delay:.2
-      });
-      /* #endregion */
     }
   }, [chartData]);
   /* #endregion */
 
   return (
     <div
-      className='sm:grid-rows-12 float-right flex
-       w-full flex-col gap-x-5 gap-y-2 p-3 
-      text-dark sm:grid lg:w-[90%] transition-all duration-300
-      h-max rounded-xl drop-shadow shadow-inner ring-4 ring-white bg-gray-100'
+      className='float-right flex  flex-col text-dark 
+      sm:grid sm:grid-rows-12 
+      gap-x-5 gap-y-2 p-3 w-max lg:w-full 
+      transition-all duration-300
+      rounded-xl drop-shadow shadow-inner 
+      ring-4 ring-white bg-gray-100'
       ref={pauseRef}
     >
-      <div className='inline-flex items-center gap-2 mb-2'>
-        <div className='h-3 w-3 bg-red-500/90 rounded-full drop-shadow-md '/>
-        <div className='h-3 w-3 bg-yellow-500/90 rounded-full drop-shadow-md '/>
-        <div className='h-3 w-3 bg-green-500/90 rounded-full drop-shadow-md '/>
+      <div className='inline-flex items-center gap-2 mb-2 ml-2'>
+        <div className='h-3 w-3 bg-red-500/90 rounded-full drop-shadow '/>
+        <div className='h-3 w-3 bg-yellow-500/90 rounded-full drop-shadow '/>
+        <div className='h-3 w-3 bg-green-500/90 rounded-full drop-shadow '/>
       </div>
       {/* ============ BANKS CARD ============ */}
-      <Card className='col-span-2 col-start-1'>
-        <div className='flex justify-between py-1 px-2'>
-          <div className='flex w-full flex-col justify-start'>
-            <h4 className=' font-serif drop-shadow-md'>Connected Banks:</h4>
+      <Card className='col-span-4 col-start-1'>
+        <div className='flex justify-between py-1 px-4'>
+          <div className='flex flex-col justify-start w-1/2'>
+            <h6 className='drop-shadow-md font-semibold mb-1 text-sm'>Connected Banks:</h6>
             <ul className='flex flex-wrap'>
               {data.map(({ bank }) => (
                 <li
@@ -234,47 +199,103 @@ const BlockOfCards = () => {
               ))}
             </ul>
           </div>
-        </div>
-      </Card>
-      <Card className='col-span-2 col-start-3'>
-        <div className='flex justify-between py-1 px-2'>
+
+          
           <div
-            className='flex w-full flex-col items-center justify-center rounded' 
+            className='flex w-1/2 flex-col items-center justify-center rounded' 
           >
             <h3
-              className='font-serif text-lg uppercase drop-shadow-md'
+              className='font-serif text-lg uppercase drop-shadow-md font-normal'
               ref={bankNameRef}
             >
               xxxxxxx
             </h3>
             <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300 ' />
-            <h4 className='text-center font-serif drop-shadow-md'>Balance:</h4>
-            <div className='mt-2 flex items-center justify-start gap-5'>
-              <h2 className='font-mono text-4xl drop-shadow-md'>$</h2>
-              <h2
-                className=' font-serif text-4xl uppercase drop-shadow-md'
-                ref={bankTotalRef}
-              >
-                {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
-              </h2>
+            <div className='flex items-baseline gap-3 justify-start  w-5/6'>
+
+              <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
+
+              <div className='mt-2 flex items-center justify-start gap-5'>
+                <h2 className='font-mono text-4xl drop-shadow-md font-normal'>$</h2>
+                <h2
+                  className=' font-mono text-3xl uppercase drop-shadow-md font-light'
+                  ref={bankTotalRef}
+                >
+                  {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
+                </h2>
+              </div>
             </div>
           </div>
         </div>
       </Card>
 
+        {/* ============ SUMMARY CARD ============ */}
+      <Card className='col-span-4 col-start-1 row-span-2 row-start-3'>
+        <div className='flex flex-col items-center px-4 py-1'>
+        <h3 className='py-2 font-serif  text-lg uppercase drop-shadow-md font-normal'>
+            Summary
+        </h3>
+
+          <div className='flex justify-between  w-full items-center'>
+
+          <div className='w-2/6 flex justify-center'>
+          <div className='w-1/2 h-full text-center'>
+              <PieChart
+                radius='30'
+                externalData={chartData.accounts.map(({ sum }) => sum)}
+                labels={chartData.accounts.map(({ type }) => type)}
+                delay={2200}
+              />
+          </div>
+          </div>
+            <ul className='flex flex-col items-start self-start w-4/6'>
+              
+              {chartData.accounts.map(({ type, sum }, i) => (
+                <li
+                  className='my-[2px] flex w-full items-center justify-between 
+                  px-2 drop-shadow-sm border-b border-gray-400'
+                  key={`summary-${i}`}
+                >
+                  <div className='inline-flex items-center gap-2'>
+                    <span className={clsx(
+                      'h-2 w-2  rounded-full',
+                      i === 0 ? 'bg-stone-300' : i=== 1? 'bg-stone-500' : 'bg-stone-700'
+                    )}/>
+                    <h6
+                      className='font-serif text-lg font-semibold opacity-0'
+                      ref={(el) => (summaryAccTypeRef.current[i] = el)}
+                    >
+                      {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
+                    </h6>
+                  </div>
+                  <div className='flex w-20 items-center justify-start'>
+                    <h6 className='font-serif font-semibold'>$</h6>
+                    <h6
+                      className='font-serif text-lg font-semibold uppercase'
+                      ref={(el) => (summaryAccSumRef.current[i] = el)}
+                    />
+                  </div>
+                </li>
+              ))}
+
+            </ul>
+          </div>
+
+        </div>
+      </Card>
+
       {/* ============ TRANSACTIONS CARD ============ */}
-      <Card className='col-span-2 row-span-3 row-start-3'>
+      <Card className='col-span-2 col-start-3 row-span-3 row-start-5 w-full' >
         <div className='flex flex-col items-center justify-start px-2 text-center'>
-          <h3 className='py-2 font-serif  text-lg uppercase drop-shadow-md'>
+          <h3 className='py-2 font-serif  text-lg uppercase drop-shadow-md font-normal'>
             Transactions
           </h3>
-          <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300' />
 
           <ul className='flex w-5/6 flex-col '>
             {chartData.transactions.map((number, i) => (
               <li
-                className='mb-1 flex items-center justify-between 
-                rounded bg-gray-100 px-2 drop-shadow-sm'
+                className='mb-1 flex items-center justify-between
+                border-b border-gray-400'
                 key={i}
               >
                 <h6 className='text-md font-serif font-semibold drop-shadow-md'>
@@ -292,7 +313,6 @@ const BlockOfCards = () => {
               </li>
             ))}
           </ul>
-          <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300' />
 
           <li className='my-2 mb-1 flex w-5/6 justify-between'>
             <h6 className='font-serif text-lg font-semibold drop-shadow-md'>
@@ -313,47 +333,11 @@ const BlockOfCards = () => {
         </div>
       </Card>
 
-      {/* ============ SUMMARY CARD ============ */}
-      <Card className='col-span-2 col-start-3 row-span-2 '>
-        <div className='flex flex-col items-center px-2 py-1'>
-          <h4 className='py-1 font-serif text-lg uppercase drop-shadow-md'>
-            Summary
-          </h4>
-          <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300' />
-
-          <ul className='flex w-full flex-col items-start'>
-            
-            {chartData.accounts.map(({ type, sum }, i) => (
-              <li
-                className='my-[2px] flex w-full items-center justify-between 
-                rounded bg-gray-100 px-2 drop-shadow-sm'
-                key={`summary-${i}`}
-              >
-                <h6
-                  className='font-serif text-lg font-semibold opacity-0'
-                  ref={(el) => (summaryAccTypeRef.current[i] = el)}
-                >
-                  {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
-                </h6>
-                <div className='flex w-20 items-center justify-start'>
-                  <h6 className='font-serif font-semibold'>$</h6>
-                  <h6
-                    className='font-serif text-lg font-semibold uppercase'
-                    ref={(el) => (summaryAccSumRef.current[i] = el)}
-                  />
-                </div>
-              </li>
-            ))}
-
-          </ul>
-        </div>
-      </Card>
 
       {/* ============ CHARTS CARD ============ */}
-      <Card className='col-span-2 row-span-3'>
+      <Card className='col-span-2 row-span-3 col-start-1 w-full'>
         <div className='flex flex-col items-center'>
-          <h4 className='py-2 font-serif text-lg uppercase'>Charts</h4>
-          <div className='mb-2 h-[2px] w-5/6 self-center rounded bg-gray-300' />
+          <h4 className='py-2 font-serif text-lg font-normal uppercase'>Charts</h4>
 
           <div className='flex h-full w-full flex-col items-center justify-center '>
             <div className='h-28 w-5/6'>
@@ -364,36 +348,13 @@ const BlockOfCards = () => {
                 delay={2100}
               />
             </div>
-
-            <div className='flex w-[90%] justify-between'>
-              <ul className='flex flex-col justify-center'>
-                {chartData.accounts.map(({ type, sum }, i) => (
-                  <li
-                    className='my-[2px] flex w-32 justify-between rounded bg-gray-300 px-2 drop-shadow-sm'
-                    key={i}
-                  >
-                    <h6
-                      className='font-serif text-sm font-semibold'
-                      ref={(el) => (chartAccTypeRef.current[i] = el)}
-                    />
-                    <div className='flex items-center justify-start'>
-                      <h6
-                        className='font-serif text-sm font-semibold'
-                        ref={(el) => (chartAccSumRef.current[i] = el)}
-                      />
-                      <h6 className='font-serif text-sm font-semibold'>%</h6>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-              <div className='h-36 w-1/2'>
-                <PieChart
-                  radius='50'
-                  externalData={chartData.accounts.map(({ sum }) => sum)}
-                  labels={chartData.accounts.map(({ type }) => type)}
-                  delay={2200}
-                />
-              </div>
+            <div className='h-28 w-5/6'>
+              <BarChart
+                width={'100%'}
+                height={'100%'}
+                externalData={chartData.dynamic}
+                delay={2300}
+              />
             </div>
           </div>
         </div>
