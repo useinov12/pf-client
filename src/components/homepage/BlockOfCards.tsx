@@ -5,6 +5,10 @@ import Card from './Card';
 import PieChart from '../charts/PieChart';
 import LineChart from '../charts/LineChart';
 import BarChart from '../charts/BarChart';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
+
 
 const BlockOfCards = () => {
   const [chartData, setChartData] = React.useState(skeletonData);
@@ -13,7 +17,6 @@ const BlockOfCards = () => {
   const prevCountRef = React.useRef(counter);
 
   const firstTimeline = React.useRef(gsap.timeline());
-  // const secondTimeline = React.useRef(gsap.timeline());
 
   /* #region  Animated elements refs */
   const bankNameRef = React.useRef<HTMLDivElement>(null);
@@ -26,7 +29,6 @@ const BlockOfCards = () => {
 
   const summaryAccTypeRef = React.useRef(new Array(3));
   const summaryAccSumRef = React.useRef(new Array(3));
-
   /* #endregion */
 
   /* #region  Timer */
@@ -160,7 +162,7 @@ const BlockOfCards = () => {
 
   return (
     <div
-      className='sm:grid-rows-12 float-right flex w-full 
+      className='sm:grid-rows-12 float-right flex w-full h-auto
       flex-col gap-x-5 
       gap-y-2 rounded-xl bg-gray-100 p-3 text-dark 
       shadow-inner ring-4
