@@ -11,7 +11,7 @@ const BlockOfCards = () => {
 
   const prevCountRef = React.useRef(counter);
 
-  const [timeline, setTimeline] = React.useState(() => gsap.timeline());
+  // const [timeline, setTimeline] = React.useState(() => gsap.timeline());
 
   const firstTimeline = React.useRef(gsap.timeline());
   const secondTimeline = React.useRef(gsap.timeline());
@@ -59,9 +59,9 @@ const BlockOfCards = () => {
   React.useLayoutEffect(() => {
     if (counter !== -1) {
       /* #region  Bank name */
-      timeline.swapText(bankNameRef.current, {
+      firstTimeline.current.swapText(bankNameRef.current, {
         text: chartData.bank,
-        delay: 0.3,
+        delay: 0.5,
         duration: 0.3,
       });
       /* #endregion */
@@ -69,7 +69,7 @@ const BlockOfCards = () => {
       /* #region  Bank Total */
       const previousTotal =
         counter === 0 ? countTotal(2) : countTotal(counter - 1);
-      timeline.fromTo(
+      firstTimeline.current.fromTo(
         bankTotalRef.current,
         { textContent: prevCountRef.current === -1 ? 0 : previousTotal },
         {
@@ -77,7 +77,7 @@ const BlockOfCards = () => {
           duration: 0.7,
           ease: 'ease.in',
           snap: { textContent: 100 },
-          delay: 0.1,
+          delay: 0.2,
         }
       );
       /* #endregion */
@@ -207,7 +207,7 @@ const BlockOfCards = () => {
     <div
       className='sm:grid-rows-12 float-right flex
       h-full w-full flex-col gap-x-5 gap-y-2 
-      text-dark sm:grid lg:w-5/6'
+      text-dark sm:grid lg:w-5/6 transition-all duration-300'
       ref={pauseRef}
     >
       {/* ============ BANKS CARD ============ */}
