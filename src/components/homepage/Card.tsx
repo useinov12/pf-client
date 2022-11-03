@@ -8,7 +8,7 @@ const Card = ({ children, className }: { children: JSX.Element; className: strin
           'rounded-lg ',
           'border-2 border-gray-50',
           'bg-gray-50',
-          'shadow-lg',
+          'drop-shadow-lg',
           'text-dark',
           className
         )}
