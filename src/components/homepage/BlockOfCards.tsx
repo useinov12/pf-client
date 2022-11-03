@@ -13,7 +13,7 @@ const BlockOfCards = () => {
   const prevCountRef = React.useRef(counter);
 
   const firstTimeline = React.useRef(gsap.timeline());
-  const secondTimeline = React.useRef(gsap.timeline());
+  // const secondTimeline = React.useRef(gsap.timeline());
 
   /* #region  Animated elements refs */
   const bankNameRef = React.useRef<HTMLDivElement>(null);
@@ -32,7 +32,7 @@ const BlockOfCards = () => {
   /* #region  Timer */
   /** Update counter every x seconds */
   React.useEffect(() => {
-    const delay = counter === -1 ? 3000 : 5400;
+    const delay = counter === -1 ? 3000 : 7400;
 
     const timer = setInterval(() => {
       prevCountRef.current = counter; //save prev counter value
@@ -79,53 +79,13 @@ const BlockOfCards = () => {
       );
       /* #endregion */
 
-      firstTimeline.current.to(pauseRef.current, { delay: 0.7 });
-      secondTimeline.current.to(pauseRef.current, { delay: 0.7 });
-
-      /* #region  Transactions List */
-      const previousTransactions =
-        counter === 0 ? data[2].transactions : data[counter - 1].transactions;
-      const wrapPrevious = gsap.utils.wrap(previousTransactions);
-      const wrapCurrent = gsap.utils.wrap(chartData.transactions);
-
-      firstTimeline.current.fromTo(
-        transactionsRef.current,
-        { textContent: prevCountRef.current === -1 ? 0 : wrapPrevious },
-        {
-          textContent: wrapCurrent,
-          snap: { textContent: 1 },
-          stagger: 0.2,
-          duration: 0.2,
-          delay: 0.2,
-        }
-      );
-      /* #endregion */
-
-      /* #region  Transactions Total */
-      const previousTransTotal =
-        counter === 0 ? countTransTotal(2) : countTransTotal(counter - 1);
-      firstTimeline.current.fromTo(
-        transactionsTotalRef.current,
-        { textContent: previousTransTotal },
-        {
-          textContent: countTransTotal(counter),
-          duration: 0.1,
-          ease: 'ease.in',
-          snap: { textContent: 1 },
-          delay: 0.2,
-        }
-      );
-      /* #endregion */
-
-      firstTimeline.current.to(pauseRef.current, { delay: 1 });
-
-      /* #region  Summary Card */
+      /* #region  SUMMARY CARD */
       const wrapCurrentAccTypes = gsap.utils.wrap(
         chartData.accounts.map((el) => el.type)
       );
 
       //animate account types
-      secondTimeline.current.fromTo(
+      firstTimeline.current.fromTo(
         summaryAccTypeRef.current,
         { textContent: wrapCurrentAccTypes, opacity: 0 },
         {
@@ -147,7 +107,7 @@ const BlockOfCards = () => {
       );
 
       //animate account sums
-      secondTimeline.current.fromTo(
+      firstTimeline.current.fromTo(
         summaryAccSumRef.current,
         { textContent: wrapPreviousAccSums, opacity: 0 },
         {
@@ -160,6 +120,41 @@ const BlockOfCards = () => {
         }
       );
       /* #endregion */
+
+      /* #region  Transactions List */
+      const previousTransactions =
+        counter === 0 ? data[2].transactions : data[counter - 1].transactions;
+      const wrapPrevious = gsap.utils.wrap(previousTransactions);
+      const wrapCurrent = gsap.utils.wrap(chartData.transactions);
+
+      firstTimeline.current.fromTo(
+        transactionsRef.current,
+        { textContent: prevCountRef.current === -1 ? 0 : wrapPrevious },
+        {
+          textContent: wrapCurrent,
+          snap: { textContent: 1 },
+          stagger: 0.3,
+          duration: 0.2,
+        }
+      );
+      /* #endregion */
+
+      /* #region  Transactions Total */
+      const previousTransTotal =
+        counter === 0 ? countTransTotal(2) : countTransTotal(counter - 1);
+      firstTimeline.current.fromTo(
+        transactionsTotalRef.current,
+        { textContent: prevCountRef.current === -1 ? 0 : previousTransTotal  },
+        {
+          textContent: countTransTotal(counter),
+          duration: 0.1,
+          ease: 'ease.in',
+          snap: { textContent: 1 },
+          delay: 0.2,
+        }
+      );
+      /* #endregion */
+
     }
   }, [chartData]);
   /* #endregion */
@@ -244,7 +239,7 @@ const BlockOfCards = () => {
                 radius='30'
                 externalData={chartData.accounts.map(({ sum }) => sum)}
                 labels={chartData.accounts.map(({ type }) => type)}
-                delay={2200}
+                delay={1200}
               />
           </div>
           </div>
@@ -262,16 +257,16 @@ const BlockOfCards = () => {
                       i === 0 ? 'bg-stone-300' : i=== 1? 'bg-stone-500' : 'bg-stone-700'
                     )}/>
                     <h6
-                      className='font-serif text-lg font-semibold opacity-0'
+                      className='font-mono text-lg font-normal opacity-0'
                       ref={(el) => (summaryAccTypeRef.current[i] = el)}
                     >
                       {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
                     </h6>
                   </div>
-                  <div className='flex w-20 items-center justify-start'>
-                    <h6 className='font-serif font-semibold'>$</h6>
+                  <div className='flex w-24 items-center justify-between'>
+                    <h6 className='font-mono font-normal ml-3'>$</h6>
                     <h6
-                      className='font-serif text-lg font-semibold uppercase'
+                      className='font-mono text-lg font-normal uppercase'
                       ref={(el) => (summaryAccSumRef.current[i] = el)}
                     />
                   </div>
@@ -281,6 +276,33 @@ const BlockOfCards = () => {
             </ul>
           </div>
 
+        </div>
+      </Card>
+
+
+      {/* ============ CHARTS CARD ============ */}
+      <Card className='col-span-2 row-span-3 col-start-1 w-full'>
+        <div className='flex flex-col items-center'>
+          <h4 className='py-2 font-serif text-lg font-normal uppercase'>Charts</h4>
+
+          <div className='flex h-full w-full flex-col items-center justify-center '>
+            <div className='h-28 w-5/6'>
+              <LineChart
+                width={'100%'}
+                height={'100%'}
+                externalData={chartData.dynamic}
+                delay={3200}
+              />
+            </div>
+            <div className='h-28 w-5/6'>
+              <BarChart
+                width={'100%'}
+                height={'100%'}
+                externalData={chartData.dynamic}
+                delay={3200}
+              />
+            </div>
+          </div>
         </div>
       </Card>
 
@@ -298,13 +320,13 @@ const BlockOfCards = () => {
                 border-b border-gray-400'
                 key={i}
               >
-                <h6 className='text-md font-serif font-semibold drop-shadow-md'>
+                <h6 className='text-md font-serif font-normal drop-shadow-md'>
                   #{i + 1}
                 </h6>
-                <div className={clsx('flex w-20 items-center rounded')}>
-                  <h6 className='font-serif font-semibold drop-shadow-md'>$</h6>
+                <div className={clsx('flex w-20 items-center rounded justify-between')}>
+                  <h6 className='font-mono font-normal drop-shadow-md ml-3'>$</h6>
                   <h6
-                    className=' transactions text-left font-serif font-semibold drop-shadow-md'
+                    className=' transactions text-left font-mono font-normal drop-shadow-md'
                     ref={(el) => (transactionsRef.current[i] = el)}
                   >
                     {number}
@@ -315,48 +337,21 @@ const BlockOfCards = () => {
           </ul>
 
           <li className='my-2 mb-1 flex w-5/6 justify-between'>
-            <h6 className='font-serif text-lg font-semibold drop-shadow-md'>
+            <h6 className='font-serif text-lg font-normal drop-shadow-md'>
               TOTAL
             </h6>
             <div className='flex items-center justify-start'>
-              <h6 className='font-mono text-xl font-semibold drop-shadow-md'>
+              <h6 className='font-mono text-xl font-normal drop-shadow-md'>
                 $
               </h6>
               <h6
-                className='font-mono text-xl font-semibold drop-shadow-md'
+                className='font-mono text-xl font-normal drop-shadow-md'
                 ref={transactionsTotalRef}
               >
                 {chartData.bank === 'XXXX XXX XXXX' ? '0000' : ''}
               </h6>
             </div>
           </li>
-        </div>
-      </Card>
-
-
-      {/* ============ CHARTS CARD ============ */}
-      <Card className='col-span-2 row-span-3 col-start-1 w-full'>
-        <div className='flex flex-col items-center'>
-          <h4 className='py-2 font-serif text-lg font-normal uppercase'>Charts</h4>
-
-          <div className='flex h-full w-full flex-col items-center justify-center '>
-            <div className='h-28 w-5/6'>
-              <LineChart
-                width={'100%'}
-                height={'100%'}
-                externalData={chartData.dynamic}
-                delay={2100}
-              />
-            </div>
-            <div className='h-28 w-5/6'>
-              <BarChart
-                width={'100%'}
-                height={'100%'}
-                externalData={chartData.dynamic}
-                delay={2300}
-              />
-            </div>
-          </div>
         </div>
       </Card>
     </div>
