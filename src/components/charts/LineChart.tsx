@@ -29,11 +29,25 @@ const LineChart: React.FC<{
   width: string;
   height: string;
   isFakeData?: boolean;
-}> = ({ width, height, isFakeData }) => {
+  externalData?:number[];
+  delay?:number;
+}> = ({ width, height, isFakeData, externalData, delay }) => {
+
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
     datasets: [],
   });
+
+
+  const data = {
+    labels: labels.map((month) => month.slice(0, 3)),
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: externalData ? externalData : labels.map(() => faker.datatype.number({ min: 7000, max: 9500 })),
+      },
+    ],
+  };
 
   useEffect(() => {
     const chart = chartRef.current;
@@ -50,9 +64,16 @@ const LineChart: React.FC<{
         backgroundColor: createGradient(chart.ctx, chart.chartArea),
       })),
     };
-
-    setChartData(chartData);
-  }, []);
+    
+    if(delay){
+      const timer = setTimeout(()=>{
+        setChartData(chartData);
+      }, delay)
+      return () => clearTimeout(timer)
+    }
+    else setChartData(chartData);
+    
+  }, [externalData]);
 
   return (
     <Chart
@@ -93,15 +114,6 @@ const colors = [
   'purple',
 ];
 
-const data = {
-  labels: labels.map((month) => month.slice(0, 3)),
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: labels.map(() => faker.datatype.number({ min: 10000, max: 20000 })),
-    },
-  ],
-};
 
 function createGradient(ctx: CanvasRenderingContext2D | null, area: ChartArea) {
   const colorStart = 'rgba(253, 224, 71, .6)';

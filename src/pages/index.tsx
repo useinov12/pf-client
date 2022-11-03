@@ -14,8 +14,8 @@ import { SiCircle } from "react-icons/si";
 import { BsArrowDown, BsArrowLeft, BsArrowRight, BsArrowUpShort, BsArrowDownShort, BsCurrencyDollar } from 'react-icons/bs';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineLineChart } from 'react-icons/ai';
-
-
+import Card from '@/components/homepage/Card';
+import BlockOfCards from '@/components/homepage/BlockOfCards';
 
 export default function HomePage() {
   const appName = 'PersonalFinance';
@@ -74,111 +74,7 @@ export default function HomePage() {
             'lg:max-h-[65vh]',
             'lg:w-1/2 lg:mt-0',
           )}>
-            
-            <div 
-                className='h-full w-full lg:w-5/6 float-right
-                flex flex-col 
-                sm:grid grid-rows-12 gap-x-5 gap-y-2 text-dark'
-            >
-              <Card className='col-span-4'>
-                <div className='flex justify-between py-1 px-2'>
-                    <div className='w-1/2 flex flex-col justify-start'>
-                        <h4 className=' font-serif'>Connected Banks:</h4>
-                        <ul className='flex flex-wrap'>
-                            {['Bank of America', 'Capital One', 'American Express' ]
-                                .map( bank => 
-                                    <li key={bank} className='border border-gray-300 px-2 py-1 rounded-md mr-2 my-1'>
-                                        <h6 className='font-serif'>{bank}</h6>
-                                    </li>
-                            )}
-                        </ul>
-                    </div>
-                    <div className='w-1/2 flex flex-col justify-start'>
-                        <h4 className='font-serif '>Current Bank:</h4>
-                        <h3 className='uppercase text-lg font-serif '>Bank of America</h3>
-                        <h2 className='uppercase font-serif mt-5'>$xxxxx</h2>
-                    </div>
-                </div>
-              </Card>
-
-              <Card className='col-span-2 row-span-3 row-start-3'>
-                <div className='text-center flex flex-col justify-start items-center px-2'>
-                    <h3 className='uppercase text-lg  font-serif py-2'>
-                        Transactions
-                    </h3>
-                    <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded mb-1'/>
-
-                    <ul className='flex flex-col w-5/6 '>
-                        { new Array(7).fill(0).map( (_, i) =>
-                            <li className='flex justify-between mb-1' key={i}>
-                                <h6 className='font-serif'>Transaction</h6>
-                                <h6 className='font-serif'>$xxxx</h6>
-                            </li> 
-                        )}
-                    </ul>
-                    <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded mb-1'/>
-
-                    <li className='flex justify-between mb-1 w-5/6 my-2'> 
-                        <h6 className='font-serif'>TOTAL</h6>
-                        <h6 className='font-serif'>$ XXXXX</h6>
-                    </li>
-                </div>
-              </Card>
-
-              <Card className='col-span-2 col-start-3 row-span-2'>
-                <div className='px-2 py-1 flex flex-col items-center'>
-                    <h4 className='uppercase text-lg font-serif py-1'>
-                        Summary
-                    </h4>
-                    <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded mb-1'/>
-                    <ul className='flex flex-col items-start w-full'>
-                        <li className='flex justify-between items-center w-full'>
-                            <h6 className=' text-lg font-serif'>
-                                Account #1
-                            </h6>
-                            <h6 className='uppercase text-lg font-serif'>$xxxx</h6>
-                        </li>
-                        <li className='flex justify-between items-center w-full'>
-                            <h6 className=' text-lg font-serif'>
-                                Account #2
-                            </h6>
-                            <h6 className='uppercase text-lg font-serif'>$xxxx</h6>
-                        </li>
-                    </ul>
-                </div>
-              </Card>
-
-              <Card className='col-span-2 row-span-3' >
-                <div className='flex flex-col items-center '>
-                    <h4 className='uppercase text-lg font-serif py-2'>
-                        Charts
-                    </h4>
-                    <div className='w-5/6 self-center h-[2px] bg-gray-300 rounded '/>
-
-                    <div className='w-full h-full flex flex-col items-center justify-center '>
-                        <div className='w-5/6 h-28'>
-                            <LineChart width={'100%'} height={'100%'}/>
-                        </div>
-
-                        <div className='w-5/6 flex justify-between'>
-                            <ul className='flex flex-col justify-center'>
-                                {new Array(3).fill(0).map((_,i)=>
-                                    <li className='' key={i}>
-                                        <h6 className='text-lg font-serif'>
-                                            Dataset #{i+1}
-                                        </h6>
-                                    </li>
-                                )}
-                            </ul>
-                            <div className='w-1/2 h-36'>
-                                <PieChart radius='50'/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-              </Card>
-            </div>
+              <BlockOfCards/>
           </section>
         </article>
         
@@ -193,7 +89,7 @@ export default function HomePage() {
             'flex flex-col items-center justify-end',
             'md:flex-row md:justify-between md:items-end',
             )}>
-            <div className={clsx('md:w-1/2', 'flex justify-start ', 'md:-translate-y-8')}>
+            <div className='md:w-1/2 flex justify-start'>
               <Card className={clsx(
                 'h-[10rem] w-[20rem]',
                 'sm:h-[10rem] sm:w-[28rem]',
@@ -245,7 +141,7 @@ export default function HomePage() {
             </div>
           </section>
 
-          <header className='mb-20 md:my-52 flex justify-center gap-2 md:gap-8'>
+          <header className='mb-20 md:my-52 flex justify-center gap-2 md:gap-8 '>
             {['track', 'analyze', 'improve'].map( heading => 
               <h1 key={heading} className={clsx(
                   'uppercase tracking-tight drop-shadow-lg', 
@@ -443,7 +339,8 @@ export default function HomePage() {
 
         </article>
         
-        <article className='max-w-screen-xl mx-auto'>
+        <article className='max-w-screen-xl mx-auto '>
+        {/* <article className='bg-dark text-white py-10'> */}
           <header className='mb-20 sm:mb-36 flex justify-center gap-5'>
             <h1 
                 className='font-extrabold uppercase tracking-tight
@@ -455,7 +352,11 @@ export default function HomePage() {
 
           <section className='mb-32 flex flex-col sm:flex-row justify-around'>
             <div className='flex sm:translate-y-40 flex-col items-center'>
-                <Image src={'/images/easy-to-setup.png'}  width={150} height={147} />
+              {/* <Card className='w-44 h-44 mb-10'>
+                <div className='w-full h-full flex justify-center items-center'> */}
+                  <Image src={'/images/easy-to-setup.png'}  width={150} height={147} />
+                {/* </div>
+              </Card> */}
               <h3 className='font-mono text-center font-medium tracking-tighter'>
                 Easy to set up
               </h3>
@@ -512,7 +413,7 @@ export default function HomePage() {
               'bg-gradient-to-bl from-sky-400 to-blue-500',
             )}
           >
-            <header className='mb-36 flex flex-col items-center gap-5 relative'>
+            <header className='flex flex-col items-center gap-5 relative'>
               <h1 className='my-5 text-center text-3xl md:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight'>
                 Financial tool for your
                 <span
@@ -560,9 +461,13 @@ export default function HomePage() {
           </section>
         </article>
 
+        {/* <article 
+            className='h-screen md:mt-0 flex flex-col gap-10 
+            md:gap-0 md:flex-row md:justify-around md:items-center pb-28 bg-dark text-white'
+        > */}
         <article 
-            className='mt-20 md:mt-0 max-w-screen-xl mx-auto flex flex-col gap-10 
-            md:gap-0 md:flex-row md:justify-around mb-28'
+            className='mt-40  max-w-screen-xl mx-auto flex flex-col gap-10 
+            md:gap-0 md:flex-row md:justify-around mb-28 '
         >
             <section className='flex flex-col items-center'>
                 <Card className='w-[16rem] h-[13rem] mb-5'>
@@ -657,7 +562,10 @@ export default function HomePage() {
                 'my-28',
                 'w-5/6 lg:w-full h-[24rem]',
                 'mx-4 lg:mx-0',
-                'overflow-hidden'
+                'overflow-hidden',
+                // 'shadow-primary-400 ',
+                'shadow-2xl',
+                'ring-2 ring-white'
             )}>
                 <div 
                     className='w-full h-full relative group
@@ -698,26 +606,7 @@ export default function HomePage() {
 }
 
 
-const Card = ({ children, className }: { children: JSX.Element; className: string }) => {
-    return (
-      <div
-        className={clsx(
-          'rounded-lg ',
-          'border-2 border-gray-50',
-          'bg-gray-50',
-          'shadow-lg',
-          'text-dark',
-          className
-        )}
-      >
-          <div className={clsx(
-              'w-full h-full shadow-inner rounded-lg',
-          )}>
-              {children}
-          </div>
-      </div>
-    );
-  };
+
   
   const Ping = () => {
       return(
