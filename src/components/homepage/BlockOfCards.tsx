@@ -204,14 +204,20 @@ const BlockOfCards = () => {
   return (
     <div
       className='sm:grid-rows-12 float-right flex
-      h-full w-full flex-col gap-x-5 gap-y-2 
-      text-dark sm:grid lg:w-5/6 transition-all duration-300'
+       w-full flex-col gap-x-5 gap-y-2 p-3 
+      text-dark sm:grid lg:w-[90%] transition-all duration-300
+      h-max rounded-xl drop-shadow shadow-inner ring-4 ring-white bg-gray-100'
       ref={pauseRef}
     >
+      <div className='inline-flex items-center gap-2 mb-2'>
+        <div className='h-3 w-3 bg-red-500/90 rounded-full drop-shadow-md '/>
+        <div className='h-3 w-3 bg-yellow-500/90 rounded-full drop-shadow-md '/>
+        <div className='h-3 w-3 bg-green-500/90 rounded-full drop-shadow-md '/>
+      </div>
       {/* ============ BANKS CARD ============ */}
-      <Card className='col-span-4'>
+      <Card className='col-span-2 col-start-1'>
         <div className='flex justify-between py-1 px-2'>
-          <div className='flex w-1/2 flex-col justify-start'>
+          <div className='flex w-full flex-col justify-start'>
             <h4 className=' font-serif drop-shadow-md'>Connected Banks:</h4>
             <ul className='flex flex-wrap'>
               {data.map(({ bank }) => (
@@ -228,9 +234,12 @@ const BlockOfCards = () => {
               ))}
             </ul>
           </div>
+        </div>
+      </Card>
+      <Card className='col-span-2 col-start-3'>
+        <div className='flex justify-between py-1 px-2'>
           <div
-            className='flex w-1/2 flex-col items-center justify-center rounded 
-            border-2 border-gray-300 bg-gray-100 px-2 py-1'
+            className='flex w-full flex-col items-center justify-center rounded' 
           >
             <h3
               className='font-serif text-lg uppercase drop-shadow-md'
@@ -312,7 +321,7 @@ const BlockOfCards = () => {
           </h4>
           <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300' />
 
-          <ul className='flex w-5/6 flex-col items-start'>
+          <ul className='flex w-full flex-col items-start'>
             
             {chartData.accounts.map(({ type, sum }, i) => (
               <li
