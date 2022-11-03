@@ -11,10 +11,12 @@ import {
   PointElement,
   LinearScale,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 
 import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
+import { Chart } from 'react-chartjs-2';
+
+
 ChartJS.register(
   CategoryScale,
   BarElement,
@@ -30,9 +32,53 @@ const BarChart: React.FC<{
   width: string;
   height: string;
   isFakeData?: boolean;
-}> = ({ width, height, isFakeData }) => {
+  externalData?:number[];
+  delay?:number;
+}> = ({ width, height, isFakeData, externalData, delay}) => {
+
+  const chartRef = React.useRef<ChartJS>(null);
+  const [chartData, setChartData] = React.useState<ChartData<'line'>>({
+    datasets: [],
+  });
+
+  const data = {
+    labels: labels.map((month) => month.slice(0, 3)),
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: externalData ? externalData : labels.map(() => faker.datatype.number({ min: 7000, max: 9500 })),
+      },
+    ],
+  };
+
+  React.useEffect(() => {
+    const chart = chartRef.current;
+
+    if (!chart) {
+      return;
+    }
+    const chartData = {
+      ...data,
+      datasets: data.datasets.map((dataset) => ({
+        ...dataset,
+        backgroundColor: 'rgba(120, 113, 108, 1)',
+      })),
+    };
+    
+    if(delay){
+      const timer = setTimeout(()=>{
+        setChartData(chartData);
+      }, delay)
+      return () => clearTimeout(timer)
+    }
+    else setChartData(chartData);
+
+  }, [externalData]);
+
+
   return (
-    <Bar
+    <Chart
+      type='bar'
       data={data}
       width={width}
       height={height}
@@ -44,13 +90,28 @@ const BarChart: React.FC<{
 export default BarChart;
 
 const labels = [
-  'January', 
-  'February', 
-  'March', 
-  'April', 
-  'May', 
-  'June', 
-  // 'July'
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  // 'September',
+  // 'October',
+  // 'November',
+  // 'December',
+];
+const colors = [
+  'red',
+  'orange',
+  'yellow',
+  'lime',
+  'green',
+  'teal',
+  'blue',
+  'purple',
 ];
 export const options = {
   responsive: true,
