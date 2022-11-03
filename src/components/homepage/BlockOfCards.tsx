@@ -6,6 +6,7 @@ import PieChart from '../charts/PieChart';
 import LineChart from '../charts/LineChart';
 import BarChart from '../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
+import '@/lib/swapText'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -34,6 +35,7 @@ const BlockOfCards = () => {
   /* #region  Timer */
   /** Update counter every x seconds */
   React.useEffect(() => {
+    gsap.ticker.lagSmoothing(false)
     const delay = counter === -1 ? 3000 : 7400;
 
     const timer = setInterval(() => {
