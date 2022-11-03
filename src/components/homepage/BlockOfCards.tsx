@@ -11,8 +11,6 @@ const BlockOfCards = () => {
 
   const prevCountRef = React.useRef(counter);
 
-  // const [timeline, setTimeline] = React.useState(() => gsap.timeline());
-
   const firstTimeline = React.useRef(gsap.timeline());
   const secondTimeline = React.useRef(gsap.timeline());
 
@@ -326,16 +324,14 @@ const BlockOfCards = () => {
                   className='font-serif text-lg font-semibold opacity-0'
                   ref={(el) => (summaryAccTypeRef.current[i] = el)}
                 >
-                  {/* {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''} */}
+                  {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
                 </h6>
                 <div className='flex w-20 items-center justify-start'>
                   <h6 className='font-serif font-semibold'>$</h6>
                   <h6
                     className='font-serif text-lg font-semibold uppercase'
                     ref={(el) => (summaryAccSumRef.current[i] = el)}
-                  >
-                    {/* {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''} */}
-                  </h6>
+                  />
                 </div>
               </li>
             ))}
