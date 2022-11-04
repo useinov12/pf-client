@@ -6,16 +6,16 @@ import Accent from '@/components/Accent';
 import Layout from '@/components/layout/Layout';
 
 import Button from '@/components/buttons/Button';
-import LineChart from '@/components/charts/LineChart';
-import PieChart from '@/components/charts/PieChart';
 import BarChart from '@/components/charts/BarChart';
 import Image from 'next/image';
 import { SiCircle } from "react-icons/si";
-import { BsArrowDown, BsArrowLeft, BsArrowRight, BsArrowUpShort, BsArrowDownShort, BsCurrencyDollar } from 'react-icons/bs';
+import { BsArrowDown, BsArrowUpShort, BsArrowDownShort, BsCurrencyDollar } from 'react-icons/bs';
 import { VscAccount } from 'react-icons/vsc';
 import { AiOutlineLineChart } from 'react-icons/ai';
 import Card from '@/components/homepage/Card';
 import BlockOfCards from '@/components/homepage/BlockOfCards';
+import AccountsCard from '@/components/homepage/AccountsCard';
+import BanksCard from '@/components/homepage/BanksCard';
 
 export default function HomePage() {
   const appName = 'PersonalFinance';
@@ -46,7 +46,7 @@ export default function HomePage() {
                 className={clsx(
                     'text-center lg:text-left',
                     'text-4xl font-extrabold',
-                    'sm:text-4xl md:text-5xl  xl:text-7xl',
+                    'sm:text-4xl md:text-5xl  xl:text-6xl',
                     'uppercase tracking-tighter',
                     'drop-shadow cursor-default mb-16'
                 )}
@@ -136,7 +136,10 @@ export default function HomePage() {
                 )}>
                     <SiCircle className='h-16 w-16 rounded-full mb-2'/>
                     <p className='text-xl text-center sm:text-right font-bold'>Financial app that you looking for</p>
-                    <p className='text-xl text-center sm:text-right font-light tracking-tighter'>It was never this easy to look into your own financial state</p>
+                    <p className='text-xl text-center sm:text-right font-light tracking-tighter'>
+                      It was never this easy to 
+                      look into your own financial state
+                    </p>
                 </div>
             </div>
           </section>
@@ -170,27 +173,9 @@ export default function HomePage() {
                 </div>
 
                 <div className='lg:w-1/2 flex justify-end'>
-                    <Card className={clsx(
-                        'h-[16rem] w-[20rem]',
-                        'sm:h-[16rem] sm:w-[25rem]',
-                        'lg:h-[16rem] lg:w-[32rem]'
-                    )}> 
-                        <div className='p-2 w-full h-full'>
-                            <div className='flex justify-center items-center gap-5 my-2'>
-                                <Button variant='dark' className='py-[2px] px-5'>
-                                    <BsArrowLeft className='text-2xl sm:text-3xl'/>
-                                </Button>
-                                <h2 className='font-serif uppercase text-2xl sm:text-3xl tracking-tight'>Checking</h2>
-                                <Button variant='dark' className='py-[2px] px-5'>
-                                    <BsArrowRight className='text-2xl sm:text-3xl'/>
-                                </Button>
-                            </div>
-                            <div className='w-full h-3/4'>
-                                <LineChart width='100%' height='100%'/>
-                            </div>
-                        </div>
-                    </Card>
+                  <AccountsCard/>
                 </div>
+
             </section>
 
           <section className={clsx(
@@ -198,45 +183,7 @@ export default function HomePage() {
                 'md:flex-row md:justify-between'
             )}>
             <div className='lg:w-1/2 flex justify-start'>
-              <Card className={clsx(
-                'h-[18rem] w-[20rem]',
-                'sm:h-[18rem] sm:w-[25rem]',
-                'lg:h-[20rem] lg:w-[32rem]',
-              )}>
-                <div className='w-full h-full p-2'>
-                    <ul className='flex justify-evenly my-1'>
-                        {['A', 'B', 'C', 'D'].map( letter => 
-                            <li key={letter} className='flex flex-col items-center group cursor-pointer'>
-                                <span 
-                                    className='px-2 md:px-4 text-xl py-2 border 
-                                    border-dark rounded-lg font-serif
-                                    transition-all duration-150
-                                    group-hover:border-red-500
-                                    group-hover:scale-[1.02]'
-                                >
-                                    $xxxx
-                                </span>
-                                <h4 
-                                    className='font-serif uppercase 
-                                    transition-all duration-150
-                                    group-hover:translate-y-1
-                                    group-hover:text-red-500'
-                                >
-                                    Bank {letter}
-                                </h4>
-                            </li>     
-                        )}
-                    </ul>
-                    <div className='w-full h-3/4 flex'>
-                        <div className='h-full w-1/2'>
-                            <BarChart width='100%' height='100%'/>
-                        </div>
-                        <div className='h-full w-1/2'>
-                            <PieChart radius='60'/>
-                        </div>
-                    </div>
-                </div>
-                </Card>
+              <BanksCard/>
             </div>
 
             <div className={clsx(
@@ -250,7 +197,7 @@ export default function HomePage() {
                     Build the mental map of your accounts dynamic.
                 </p>
                 <p className='text-xl font-bolder tracking-wide text-center md:text-right mb-5'>
-                    Get comfortable knowing your day-to-day
+                    Get comfortable knowing your day-to-day <br/>
                     spendings and incomes.
                 </p>
               </div>
@@ -577,7 +524,7 @@ export default function HomePage() {
                         'md:bg-transparent md:shadow-none',
                         'md:top-3 md:left-6 md:p-0',
                     )}>
-                        <h1 className='text-4xl drop-shadow'>{appName}</h1>
+                        <h1 className='text-4xl drop-shadow text-white lg:text-dark'>{appName}</h1>
                         <p className='font-bold text-2xl tracking-tight text-gray-50 drop-shadow'>
                             Try and get sence of <br/> 
                             financial clarity today.
@@ -607,15 +554,15 @@ export default function HomePage() {
 
 
 
-  
-  const Ping = () => {
-      return(
-          <span className="flex h-3 w-3 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"/>
-              <span className="inline-flex rounded-full h-3 w-3 bg-green-500"/>
-          </span>
-      )
-  }
+
+const Ping = () => {
+    return(
+        <span className="flex h-3 w-3 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"/>
+            <span className="inline-flex rounded-full h-3 w-3 bg-green-500"/>
+        </span>
+    )
+}
 
 
 const reviews = [
