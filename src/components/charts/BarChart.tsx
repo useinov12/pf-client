@@ -32,8 +32,9 @@ const BarChart: React.FC<{
   height: string;
   isFakeData?: boolean;
   externalData?:number[];
+  labels?:string[];
   delay?:number;
-}> = ({ width, height, isFakeData, externalData, delay}) => {
+}> = ({ width, height, isFakeData, externalData, delay, labels}) => {
 
   const chartRef = React.useRef<ChartJS>(null);
   const [chartData, setChartData] = React.useState<ChartData<'line'>>({
@@ -41,11 +42,12 @@ const BarChart: React.FC<{
   });
 
   const data = {
-    labels: labels.map((month) => month.slice(0, 3)),
+    // labels: labels.map((month) => month.slice(0, 3)),
+    labels: labels ? labels : months.map((month) => month.slice(0, 3)),
     datasets: [
       {
         label: 'Dataset 1',
-        data: externalData ? externalData : labels.map(() => 100 ),
+        data: externalData ? externalData : months.map(() => 100 ),
       },
     ],
   };
@@ -89,7 +91,7 @@ const BarChart: React.FC<{
 
 export default BarChart;
 
-const labels = [
+const months = [
   'January',
   'February',
   'March',
@@ -137,19 +139,19 @@ export const options = {
   },
 };
 
-const data = {
-  labels,
-  datasets: [
-    {
-      //   label: 'LAbEL',
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: (context: ScriptableContext<'bar'>) => {
-        const ctx = context.chart.ctx;
-        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-        gradient.addColorStop(0, '#fde047');
-        gradient.addColorStop(1, '#f97316');
-        return gradient;
-      },
-    },
-  ],
-};
+// const data = {
+//   months,
+//   datasets: [
+//     {
+//       //   label: 'LAbEL',
+//       data: months.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+//       backgroundColor: (context: ScriptableContext<'bar'>) => {
+//         const ctx = context.chart.ctx;
+//         const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+//         gradient.addColorStop(0, '#fde047');
+//         gradient.addColorStop(1, '#f97316');
+//         return gradient;
+//       },
+//     },
+//   ],
+// };
