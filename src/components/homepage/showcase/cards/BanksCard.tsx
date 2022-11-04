@@ -1,9 +1,9 @@
 import React from 'react';
 import clsx from 'clsx';
 import gsap from 'gsap';
-import Card from './Card';
-import PieChart from '../charts/PieChart';
-import BarChart from '../charts/BarChart';
+import Card from '../../Card';
+import PieChart from '../../../charts/PieChart';
+import BarChart from '../../../charts/BarChart';
 import useInterval from '@/hooks/useInterval';
 import '@/lib/swapText';
 
@@ -26,7 +26,10 @@ const BanksCard = () => {
       <div className='h-full w-full p-2'>
         <ul className='my-1 flex justify-evenly'>
           {banks.map((bank, i) => (
-            <li className='group flex cursor-pointer flex-col items-center' key={bank}>
+            <li
+              className='group flex cursor-pointer flex-col items-center'
+              key={bank}
+            >
               <span
                 className={clsx(
                   'text-sm drop-shadow-md transition-all duration-200',
@@ -41,22 +44,22 @@ const BanksCard = () => {
               <h4
                 className={clsx(
                   'font-serif uppercase',
-                  'transition-all duration-150 text-gray-400',
+                  'text-gray-400 transition-all duration-150'
                 )}
               >
                 {banks[counter] === bank ? (
-                    <>
-                        <span className='text-dark'>bank {' '}</span> 
-                        <span
-                            className={clsx(
-                            banks[counter] === bank
-                                ? 'text-sky-600 '
-                                : 'text-gray-400'
-                            )}
-                        >
-                            {banks[counter]}
-                        </span>
-                    </>
+                  <>
+                    <span className='text-dark'>bank </span>
+                    <span
+                      className={clsx(
+                        banks[counter] === bank
+                          ? 'text-sky-600 '
+                          : 'text-gray-400'
+                      )}
+                    >
+                      {banks[counter]}
+                    </span>
+                  </>
                 ) : (
                   `bank ${'X'}`
                 )}
@@ -64,11 +67,11 @@ const BanksCard = () => {
             </li>
           ))}
         </ul>
-        <div className='flex w-full h-auto items-end justify-around'>
+        <div className='flex h-auto w-full items-end justify-around'>
           <div className='h-5/6 w-3/6 '>
-            <BarChart width='100%' height='100%' externalData={data[counter]}/>
+            <BarChart width='100%' height='100%' externalData={data[counter]} />
           </div>
-          <div className='w-2/6 h-auto self-end'>
+          <div className='h-auto w-2/6 self-end'>
             <PieChart radius='20' externalData={data[counter]} />
           </div>
         </div>
@@ -80,8 +83,8 @@ const BanksCard = () => {
 export default BanksCard;
 
 const data = [
-    [1200, 3900, 7400, 4800, 4100, 900, 8700, 3200],
-    [4200, 1700, 1400, 1800, 1100, 3900, 4700, 9200],
-    [7200, 700, 4400, 8800, 8100, 9900, 1700, 4200],
-    [3700, 3200, 3900, 4700, 6200, 4900, 1200, 3900,],
-  ];
+  [1200, 3900, 7400, 4800, 4100, 900, 8700, 3200],
+  [4200, 1700, 1400, 1800, 1100, 3900, 4700, 9200],
+  [7200, 700, 4400, 8800, 8100, 9900, 1700, 4200],
+  [3700, 3200, 3900, 4700, 6200, 4900, 1200, 3900],
+];
