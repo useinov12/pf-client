@@ -8,6 +8,7 @@ import Demo from '@/components/homepage/sections/Demo';
 import Expirience from '@/components/homepage/sections/Expirience';
 import Instructions from '@/components/homepage/sections/Instructions';
 import Reviews from '@/components/homepage/sections/Reviews';
+import Banner from '@/components/homepage/sections/Banner';
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
         <Expirience />
         <Instructions />
         <Reviews />
+        <Banner/>
       </main>
     </Layout>
   );
