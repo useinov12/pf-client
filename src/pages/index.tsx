@@ -16,6 +16,7 @@ import Card from '@/components/homepage/Card';
 import BlockOfCards from '@/components/homepage/BlockOfCards';
 import AccountsCard from '@/components/homepage/AccountsCard';
 import BanksCard from '@/components/homepage/BanksCard';
+import StatisticsCard from '@/components/homepage/StatisticsCard';
 
 export default function HomePage() {
   const appName = 'PersonalFinance';
@@ -226,59 +227,7 @@ export default function HomePage() {
             </div>
 
             <div className='lg:w-1/2 flex justify-end'>
-                <Card className={clsx(
-                    'h-[35rem] w-[20rem]',
-                    'sm:h-[27rem] sm:w-[25rem]',
-                    'lg:h-[35rem] lg:w-[32rem]',
-                )}>
-                    <div className='w-full h-full p-2'>
-                        <header className='flex justify-evenly items-center my-2'>
-                            <h2 className='text-2xl'>Statistics by week day</h2>
-                            <div className='flex gap-2 items-center'>
-                                <h2 className='text-2xl'>Friday</h2>
-                                <div className='flex flex-col items-center justify-center'>
-                                    <Button variant='light' className='py-1 px-2 m-0'>
-                                        <BsArrowUpShort className='text-xl'/>
-                                    </Button>
-                                    <Button variant='light' className='py-1 px-2  m-0'>
-                                        <BsArrowDownShort className='text-xl'/>
-                                    </Button>
-                                </div>
-                            </div>
-                        </header>
-                        <ul className='flex flex-col w-full mb-2'>
-                            {[
-                                ['06/12', '-76'],
-                                ['06/19', '-160'],
-                                ['06/26', '-142'],
-                                ['07/02', '-212'],
-                                ['07/09', '-89'],
-                            ].map(data => 
-                                <li 
-                                    className='flex justify-between px-10 
-                                    border border-gray-500/20
-                                    bg-gray-400/30 rounded py-1 my-1
-                                    shadow-sm hover:shadow-inner cursor-default'
-                                    key={data[0]}
-                                >
-                                    <h4 className='font-mono font-semibold'>{data[0]}</h4>
-                                    <h4 className='font-mono font-semibold flex items-center justify-between w-16'>
-                                        <BsCurrencyDollar className='font-semibold'/>  
-                                        <span >{data[1]}</span>
-                                    </h4>
-                                </li>
-                            )}
-                        </ul>
-                        <div className='w-full px-10 flex justify-between items-baseline mb-3'>
-                            <h5 className='font-mono font-bold'>Average `Friday` total: </h5>
-                            <h5 className='font-mono font-semibold text-xl'>$-150</h5>
-                        </div>
-                        <div className='w-full h-1/3'>
-                            <BarChart width='100%' height='80%' />
-                        </div>
-                    </div>
-
-                </Card>
+              <StatisticsCard/>
             </div>
           </section>
 
