@@ -29,19 +29,19 @@ const AccountsCard = () => {
   return (
     <Card
       className={clsx(
-        'h-[19rem] w-[20rem]',
-        'sm:h-[19rem] sm:w-[25rem]',
-        'lg:h-[19rem] lg:w-[32rem]'
+        'h-[23rem] w-[22rem]',
+        'sm:h-[23rem] sm:w-[25rem]',
+        'lg:h-[23rem] lg:w-[32rem]'
       )}
     >
       <div className='flex h-full w-full flex-col items-start p-2 '>
-        <ul className='my-1 flex gap-4'>
+        <ul className='sm:my-1 flex gap-x-4 flex-wrap sm:flex-nowrap'>
           {accounts.map((account, i) => (
             <li className='group flex cursor-pointer flex-col items-center' key={account+i}>
               <span
                 className={clsx(
                     'text-sm drop-shadow-md transition-all duration-200',
-                    'my-1 rounded-md border-2 border-gray-300 px-2 py-1 ',
+                    'my-1 rounded-md border-2 border-gray-300 px-2 py-1 whitespace-nowrap',
                     accounts[counter] === account
                       ? 'ring-2 ring-sky-500'
                       : 'ring-2 ring-transparent'
@@ -53,7 +53,7 @@ const AccountsCard = () => {
           ))}
         </ul>
         <div className='my-2 flex w-full items-center justify-between gap-5'>
-          <div className='w-60 ml-2 flex items-baseline gap-2 border-b border-gray-500'>
+          <div className='w-60 ml-2 flex items-baseline gap-2 border-b border-gray-500/50'>
             <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
               Account type:
             </h6>
@@ -68,7 +68,7 @@ const AccountsCard = () => {
         <div className='h-3/4 w-full'>
           <LineChart
             width='100%'
-            height='100%'
+            height='80%'
             externalData={data[counter]}
             delay={0}
           />

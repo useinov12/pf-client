@@ -5,7 +5,13 @@ import Image from 'next/image';
 
 const ExpirienceSection = () => {
   return (
-    <article className='mx-auto max-w-screen-xl '>
+    <article className={clsx(
+      'mx-auto',
+      'sm:max-w-screen-sm px-3',
+      'md:max-w-screen-md ',
+      'lg:max-w-screen-lg',
+      'xl:max-w-screen-xl'
+    )}>
       <header className='mb-20 flex justify-center gap-5 sm:mb-36'>
         <h1
           className='text-3xl font-extrabold uppercase
@@ -15,7 +21,7 @@ const ExpirienceSection = () => {
         </h1>
       </header>
 
-      <section className='mb-32 flex flex-col justify-around sm:flex-row'>
+      <section className='mb-20 md:mb-32 flex flex-col justify-around sm:flex-row'>
         <div className='flex flex-col items-center sm:translate-y-40'>
           <Image src={'/images/easy-to-setup.png'} width={150} height={147} />
           <h3 className='text-center font-mono font-medium tracking-tighter'>

@@ -10,10 +10,13 @@ const MainHeroSection = () => {
       className={clsx(
         'mx-auto mt-5 flex',
         //mobile-tablet
-        'max-w-screen-md flex-col',
+        'flex-col',
         //desktop
         'justify-between lg:flex-row',
-        'lg:max-w-screen-xl'
+        'sm:max-w-screen-sm px-3',
+        'md:max-w-screen-md ',
+        'lg:max-w-screen-lg',
+        'xl:max-w-screen-xl'
       )}
     >
       <section

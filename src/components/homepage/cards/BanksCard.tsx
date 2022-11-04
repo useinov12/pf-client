@@ -18,12 +18,12 @@ const BanksCard = () => {
   return (
     <Card
       className={clsx(
-        'h-[18rem] w-[20rem]',
+        'h-[15rem] w-[20rem]',
         'sm:h-[18rem] sm:w-[25rem]',
         'lg:h-[20rem] lg:w-[32rem]'
       )}
     >
-      <div className='h-full w-full p-2'>
+      <div className='h-full w-full p-2 flex flex-col justify-center gap-2'>
         <ul className='my-1 flex justify-evenly'>
           {banks.map((bank, i) => (
             <li
@@ -33,7 +33,7 @@ const BanksCard = () => {
               <span
                 className={clsx(
                   'text-sm drop-shadow-md transition-all duration-200',
-                  'my-1 rounded-md border-2 border-gray-300 px-4 py-1 ',
+                  'my-1 rounded-md border-2 border-gray-300 px-2 sm:px-4 py-1 ',
                   banks[counter] === bank
                     ? 'bg-transparent text-dark ring-2 ring-sky-500'
                     : 'bg-gray-300 text-gray-300 ring-2 ring-transparent'

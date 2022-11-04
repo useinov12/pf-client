@@ -65,7 +65,7 @@ const StatisticsCard = () => {
     <Card
       className={clsx(
         'h-[35rem] w-[20rem]',
-        'sm:h-[27rem] sm:w-[25rem]',
+        'sm:h-[32rem] sm:w-[25rem]',
         'lg:h-[35rem] lg:w-[32rem]'
       )}
     >
@@ -121,6 +121,7 @@ const StatisticsCard = () => {
             height='80%'
             externalData={data[counter].map((day) => Math.abs(day.amount))}
             labels={data[counter].map((day) => day.date)}
+            delay={1800}
           />
         </div>
       </div>
