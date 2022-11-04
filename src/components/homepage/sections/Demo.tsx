@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import DemoCard from './showcase/cards/DemoCard';
+import DemoCard from '../cards/DemoCard';
 import { SiCircle } from 'react-icons/si';
 
 const DemoSection = () => {

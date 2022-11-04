@@ -1,8 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-import AccountsCard from './AccountsCard';
-import BanksCard from './BanksCard';
-import StatisticsCard from './StatisticsCard';
+import AccountsCard from '../cards/AccountsCard';
+import BanksCard from '../cards/BanksCard';
+import StatisticsCard from '../cards/StatisticsCard';
 
 const ShowCaseSection = () => {
   return (

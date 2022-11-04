@@ -1,8 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-import Card from './Card';
+import Card from '../cards/Card';
 import Image from 'next/image';
-import Button from '../buttons/Button';
+import Button from '../../buttons/Button';
 
 const ReviewsSection = () => {
   return (

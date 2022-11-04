@@ -2,9 +2,9 @@ import React from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
 import Card from './Card';
-import PieChart from '../charts/PieChart';
-import LineChart from '../charts/LineChart';
-import BarChart from '../charts/BarChart';
+import PieChart from '../../charts/PieChart';
+import LineChart from '../../charts/LineChart';
+import BarChart from '../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
 import '@/lib/swapText'
 

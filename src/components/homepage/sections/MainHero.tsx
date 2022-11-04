@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import BlockOfCards from './BlockOfCards';
-import Accent from '../Accent';
+import BlockOfCards from '../cards/BlockOfCards';
+import Accent from '../../Accent';
 
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
