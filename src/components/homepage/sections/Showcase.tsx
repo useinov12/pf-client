@@ -9,7 +9,7 @@ const ShowCaseSection = () => {
     <article
       className={clsx(
         'mx-auto mt-10 p-5',
-        'sm:max-w-screen-sm px-3',
+        'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
         'lg:max-w-screen-lg',
         'xl:max-w-screen-xl'
@@ -35,7 +35,7 @@ const ShowCaseSection = () => {
           'md:flex-row md:justify-between'
         )}
       >
-        <div className='lg:w-1/2 pr-2'>
+        <div className='pr-2 lg:w-1/2'>
           <h1 className='mb-1 text-center font-mono text-3xl font-extralight tracking-tighter md:text-left'>
             Clear your vision
           </h1>
@@ -64,7 +64,7 @@ const ShowCaseSection = () => {
           <BanksCard />
         </div>
 
-        <div className='lg:w-1/2 flex justify-center pl-2'>
+        <div className='flex justify-center pl-2 lg:w-1/2'>
           <div className='flex flex-col items-center md:items-end'>
             <h1 className='mb-1 text-center font-mono text-3xl font-extralight tracking-tighter md:text-right'>
               Fill the gaps
