@@ -17,6 +17,7 @@ const InstructionsSection = () => {
             `h-full w-screen text-gray-800`,
             'bg-gradient-to-bl from-sky-400 to-blue-500'
           )}
+          id={'instruction'}
         >
           <div className='relative flex flex-col items-center gap-5'>
             <h1 className='my-5 text-center text-3xl font-extrabold uppercase tracking-tight md:text-5xl lg:text-6xl'>

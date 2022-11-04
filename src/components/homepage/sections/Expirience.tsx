@@ -53,7 +53,7 @@ const ExpirienceSection = () => {
         </div>
       </section>
 
-      <a className='group mb-28 flex cursor-pointer flex-col items-center sm:mb-56'>
+      <a className='group mb-28 flex cursor-pointer flex-col items-center sm:mb-56' href='#instruction'>
         <h1
           className={clsx(
             'mb-8 text-center',
