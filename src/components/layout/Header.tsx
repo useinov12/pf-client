@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LoginForm from '@/components/LoginForm';
+import LoginForm from '@/components/LoginForm/Form';
 import clsx from 'clsx';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
