@@ -16,7 +16,7 @@ const DemoSection = () => {
     >
       <section
         className={clsx(
-          'mb-20 lg:mb-[25rem]',
+          'mb-20 md:mt-20 lg:mt-0 lg:mb-[25rem]',
           'flex flex-col items-center justify-end',
           'md:flex-row md:items-end md:justify-between',
         )}
