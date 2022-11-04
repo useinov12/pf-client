@@ -34,7 +34,7 @@ const InstructionsSection = () => {
             <h2
               className={clsx(
                 'font-extrabold tracking-tight',
-                'text-center uppercase',
+                'text-center uppercase px-10 sm:px-0',
                 'my-4 mb-20 text-center text-xl md:text-2xl lg:text-3xl'
               )}
             >
@@ -55,10 +55,10 @@ const InstructionsSection = () => {
                 'h-[3rem] w-60',
                 'rounded-lg',
                 'translate-y-20',
-                'bg-white',
+                'bg-gray-100',
                 'shadow-md',
-                'flex items-center justify-center',
-                'font-mono text-xl uppercase ring ring-primary-400'
+                'flex items-center justify-center drop-shadow shadow-inner',
+                'font-mono text-xl uppercase ring ring-white'
               )}
             >
               Start in 3 steps
@@ -70,7 +70,7 @@ const InstructionsSection = () => {
       <article
         className={clsx(
           'mx-auto mt-40 mb-28 flex flex-col',
-          'gap-10 md:flex-row md:justify-around md:gap-0',
+          'gap-10 md:flex-row md:gap-x-5 md:justify-around md:items-start md:gap-0',
           'sm:max-w-screen-sm px-3',
           'md:max-w-screen-md ',
           'lg:max-w-screen-lg',
@@ -78,7 +78,7 @@ const InstructionsSection = () => {
         )}
       >
         <section className='flex flex-col items-center'>
-          <Card className='mb-5 h-[13rem] w-[16rem]'>
+          <Card className='mb-5 h-[13rem] w-[14rem]'>
             <div className='flex h-full w-full flex-col items-center justify-center'>
               <VscAccount className='mb-4 text-6xl' />
               <h3 className='tracking-tight'>Sign Up</h3>
@@ -97,7 +97,7 @@ const InstructionsSection = () => {
           </div>
         </section>
         <section className='flex flex-col items-center justify-center'>
-          <Card className='mb-5 h-[13rem] w-[16rem]'>
+          <Card className='mb-5 h-[13rem] w-[14rem]'>
             <div className='flex h-full w-full flex-col items-center justify-center'>
               <Image src={'/images/plaid.png'} width={110} height={110} />
               <h3 className='tracking-tight'>Connect</h3>
@@ -117,7 +117,7 @@ const InstructionsSection = () => {
           </div>
         </section>
         <section className='flex flex-col items-center'>
-          <Card className='mb-5 h-[13rem] w-[16rem]'>
+          <Card className='mb-5 h-[13rem] w-[14rem]'>
             <div className='flex h-full w-full flex-col items-center justify-center'>
               <AiOutlineLineChart className='mb-4 text-6xl' />
               <h3 className='tracking-tight'>Sign Up</h3>
