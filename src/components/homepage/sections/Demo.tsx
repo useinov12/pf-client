@@ -7,9 +7,11 @@ const DemoSection = () => {
   return (
     <article
       className={clsx(
-        'mx-auto p-5',
-        'max-w-screen-md',
-        'lg:max-w-screen-xl lg:p-0',
+        'mx-auto py-5 px-3',
+        'sm:max-w-screen-sm',
+        'md:max-w-screen-md ',
+        'lg:max-w-screen-lg',
+        'xl:max-w-screen-xl'
       )}
     >
       <section

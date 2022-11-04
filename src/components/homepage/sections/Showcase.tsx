@@ -9,8 +9,10 @@ const ShowCaseSection = () => {
     <article
       className={clsx(
         'mx-auto mt-10 p-5',
-        'max-w-screen-md',
-        'lg:max-w-screen-xl lg:p-0'
+        'sm:max-w-screen-sm px-3',
+        'md:max-w-screen-md ',
+        'lg:max-w-screen-lg',
+        'xl:max-w-screen-xl'
       )}
     >
       <header className='mb-20 flex justify-center gap-2 md:my-52 md:gap-8 '>

@@ -18,14 +18,15 @@ export default function Header() {
     <nav
       className={clsx(
         'top-0 z-50 ',
-        'py-3',
+        'py-3 px-3',
         mode === 'dark' ? 'text-white' : 'text-black',
-        'max-w-screen-xl',
         'mx-auto',
         'flex',
         'items-center justify-between',
-        'max-w-screen-md',
-        'lg:max-w-screen-xl'
+        'sm:max-w-screen-sm',
+        'md:max-w-screen-md ',
+        'lg:max-w-screen-lg',
+        'xl:max-w-screen-xl'
       )}
     >
       <LoginForm

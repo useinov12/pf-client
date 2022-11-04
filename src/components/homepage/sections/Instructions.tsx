@@ -66,9 +66,16 @@ const InstructionsSection = () => {
           </div>
         </section>
       </header>
+
       <article
-        className='mx-auto  mt-40 mb-28 flex max-w-screen-xl flex-col 
-          gap-10 md:flex-row md:justify-around md:gap-0 '
+        className={clsx(
+          'mx-auto mt-40 mb-28 flex flex-col',
+          'gap-10 md:flex-row md:justify-around md:gap-0',
+          'sm:max-w-screen-sm px-3',
+          'md:max-w-screen-md ',
+          'lg:max-w-screen-lg',
+          'xl:max-w-screen-xl'
+        )}
       >
         <section className='flex flex-col items-center'>
           <Card className='mb-5 h-[13rem] w-[16rem]'>
