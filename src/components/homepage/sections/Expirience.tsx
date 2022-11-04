@@ -21,7 +21,7 @@ const ExpirienceSection = () => {
         </h1>
       </header>
 
-      <section className='mb-32 flex flex-col justify-around sm:flex-row'>
+      <section className='mb-20 md:mb-32 flex flex-col justify-around sm:flex-row'>
         <div className='flex flex-col items-center sm:translate-y-40'>
           <Image src={'/images/easy-to-setup.png'} width={150} height={147} />
           <h3 className='text-center font-mono font-medium tracking-tighter'>
