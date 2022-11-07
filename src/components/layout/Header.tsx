@@ -54,7 +54,6 @@ export default function Header() {
             variant={mode === 'dark' ? 'light' : 'dark'}
             onClick={() => {
               setMode(mode === 'light' ? 'dark' : 'light');
-              setOpenLoginForm(false);
             }}
           >
             {mode === 'light' ? <FaMoon /> : <FaSun />}
