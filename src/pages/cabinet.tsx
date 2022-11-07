@@ -5,6 +5,9 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import Button from '@/components/buttons/Button';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import Link from 'next/link';
+import { UserContext } from '@/context/UserProvider';
+import { useRouter } from 'next/router';
+import useUser from '@/hooks/useUser';
 
 export default function CabinetPage() {
   const { mode, setMode } = React.useContext(ThemeContext);
@@ -77,7 +80,7 @@ export default function CabinetPage() {
             </div>
             <ul className='scroll-y'>
               {['A', 'B', 'C', 'D'].map((bank, i) =>
-                <li className={clsx(
+                <li key={'cabinet-bank'+i} className={clsx(
                   'flex justify-between items-center px-7 py-3',
                   'border-b border-gray-500/50 mb-4'
                 )}>
