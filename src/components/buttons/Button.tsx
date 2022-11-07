@@ -9,6 +9,10 @@ enum ButtonVariant {
   'ghost',
   'light',
   'dark',
+  'red',
+  'green',
+  'red-outline',
+  'green-outline'
 }
 
 type ButtonProps = {
@@ -78,6 +82,30 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               'bg-gray-900 text-white',
               'border border-gray-600',
               'hover:bg-gray-800 active:bg-gray-700 disabled:bg-gray-700',
+            ],
+            variant === 'red' && [
+              'bg-red-500 text-white',
+              'border border-red-700',
+              'hover:bg-red-700 active:bg-red-600 disabled:bg-gray-700',
+            ],
+            variant === 'green' && [
+              'bg-green-500 text-white',
+              'border border-green-700',
+              'hover:bg-green-700 active:bg-green-600 disabled:bg-gray-700',
+            ],
+            variant === 'red-outline' && [
+              'text-dark',
+              'border border-red-700',
+              'hover:bg-red-300 active:bg-red-400 disabled:bg-gray-700',
+              isDarkBg &&
+              'text-gray-50 hover:bg-red-500 active:bg-red-400 disabled:bg-gray-800',
+            ],
+            variant === 'green-outline' && [
+              'text-dark',
+              'border border-green-700',
+              'hover:bg-green-300 active:bg-green-400 disabled:bg-gray-700',
+              isDarkBg &&
+              'text-gray-50 hover:bg-green-500 active:bg-green-400 disabled:bg-gray-800',
             ],
           ],
           //#endregion  //*======== Variants ===========

@@ -33,7 +33,7 @@ const MainHeroSection = () => {
             className={clsx(
               'text-center lg:text-left',
               'text-4xl font-extrabold',
-              'sm:text-4xl md:text-5xl  xl:text-6xl',
+              'sm:text-4xl md:text-5xl',
               'uppercase tracking-tighter',
               'mb-16 cursor-default drop-shadow'
             )}

@@ -7,7 +7,6 @@ import { ThemeContext } from '@/context/ThemeProvider';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { color, mode } = React.useContext(ThemeContext);
-  const textColor = mode === 'dark' ? 'text-gray-300' : 'text-gray-800';
 
   return (
     <>
@@ -15,9 +14,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         className={clsx(
           'w-screen',
           'overflow-x-hidden',
-          mode === 'dark' ? 'bg-dark' : 'bg-gray-200',
+          mode === 'dark' ? 'bg-dark text-gray-100' : 'bg-gray-200 text-gray-800',
           color,
-          textColor
         )}
       >
         <Header />
