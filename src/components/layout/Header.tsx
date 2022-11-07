@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Form as LoginForm} from '@/components/LoginForm/Form';
+import { Form as LoginForm } from '@/components/LoginForm/Form';
 import clsx from 'clsx';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
@@ -8,6 +8,7 @@ import User from '../User';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { UserContext } from '@/context/UserProvider';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default function Header() {
   const { mode, setMode } = React.useContext(ThemeContext);
@@ -18,7 +19,7 @@ export default function Header() {
     <nav
       className={clsx(
         'top-0 z-50 ',
-        'py-3 px-3',
+        'py-3',
         mode === 'dark' ? 'text-white' : 'text-black',
         'mx-auto',
         'flex',
@@ -33,11 +34,21 @@ export default function Header() {
         openLoginForm={openLoginForm}
         setOpenLoginForm={setOpenLoginForm}
       />
-      <Image src={'/images/logo.png'} width={90} height={80} />
-      <ul className={clsx( 'inline-flex gap-5 items-center')}>
+      <Link href='/'>
+        <Image
+          src={'/images/logo.png'}
+          width={70}
+          height={64}
+          className='cursor-pointer'
+        />
+      </Link>
+      <ul className={clsx('inline-flex items-center gap-2')}>
         <li>
           {user ? (
-            <User />
+            // <User />
+            <Link href='/cabinet'>
+              <Button className='text-md py-1'>Cabinet</Button>
+            </Link>
           ) : (
             <Button
               className='py-1'

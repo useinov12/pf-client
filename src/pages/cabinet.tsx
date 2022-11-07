@@ -5,9 +5,25 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import Button from '@/components/buttons/Button';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import Link from 'next/link';
+import { UserContext } from '@/context/UserProvider';
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 
 export default function CabinetPage() {
   const { mode, setMode } = React.useContext(ThemeContext);
+  const { user, setUser } = React.useContext(UserContext);
+  const router = useRouter()
+
+  async function handleLogout() {
+    Cookies.remove('token');
+    setUser(null);
+  }
+
+  React.useEffect(()=>{
+    if(!user){
+      router.push('/')
+    }
+  }, [user])
 
   return (
     <div
@@ -19,7 +35,7 @@ export default function CabinetPage() {
     >
       <div
         className={clsx(
-          'mx-auto px-3 sm:max-w-screen-sm',
+          'mx-auto sm:max-w-screen-sm',
           'md:max-w-screen-md ',
           'lg:max-w-screen-xl',
           'h-full w-full'
@@ -29,15 +45,25 @@ export default function CabinetPage() {
           <Link href='/'>
             <Image src={'/images/logo.png'} width={70} height={64} className='cursor-pointer' />
           </Link>
-          <Button
-            className='py-2'
-            variant={mode === 'dark' ? 'light' : 'dark'}
-            onClick={() => {
-              setMode(mode === 'light' ? 'dark' : 'light');
-            }}
-          >
-            {mode === 'light' ? <FaMoon /> : <FaSun />}
-          </Button>
+
+          <div className='flex gap-2 items-center'>
+            <Button
+              className='text-md py-1'
+              variant={mode === 'dark' ? 'light' : 'dark'}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+            <Button
+              className='py-2'
+              variant={mode === 'dark' ? 'light' : 'dark'}
+              onClick={() => {
+                setMode(mode === 'light' ? 'dark' : 'light');
+              }}
+            >
+              {mode === 'light' ? <FaMoon /> : <FaSun />}
+            </Button>
+          </div>
         </header>
         <main className='flex flex-col md:flex-row w-full h-5/6 gap-3'>
 

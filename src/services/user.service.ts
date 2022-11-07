@@ -1,8 +1,5 @@
 import axios from 'axios';
-
-const headers = {
-  'Content-Type': 'application/json',
-};
+import instance from '@/lib/axios';
 
 export async function register(signUpCred: {
   username: string;
@@ -12,11 +9,7 @@ export async function register(signUpCred: {
 }) {
   try {
     //re-do response when backend updated
-    const { status, data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_SERVER_PATH}/create_user`,
-      signUpCred,
-      { headers }
-    );
+    const { status, data } = await instance.post(`/create_user`, signUpCred );
     console.log(status, data);
     return {
       status,
@@ -44,12 +37,7 @@ export async function register(signUpCred: {
 
 export async function login(loginCred: { username: string; password: string }) {
   try {
-    //re-do response when backend updated
-    const { status, data } = await axios.post(
-      `${process.env.NEXT_PUBLIC_SERVER_PATH}/login`,
-      loginCred,
-      { headers }
-    );
+    const { status, data } = await instance.post(`/login`, loginCred );
     console.log(status, data)
     return { status, data, message: 'Successfull login' };
   } catch (error: any) {
@@ -59,36 +47,14 @@ export async function login(loginCred: { username: string; password: string }) {
       data: error.response.data,
       message: error.response.data.detail.message,
     };
-    // if (error.response.status === 403) {
-    //   console.log(error);
-    //   return {
-    //     status: error.response.status,
-    //     data: error.response.data,
-    //     message: error.response.data.detail.message,
-    //   };
-    // } else {
-    //   console.log('Unexpected error: ', error);
-    //   return {
-    //     status: error.response.status,
-    //     data: error.response.data,
-    //     message: error.response.data.detail.message,
-    //   };
-    // }
   }
 }
 
-export async function authorize(jwt: string) {
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: `bearer ${jwt}`,
-  };
-  console.log('jwt from Cookies memory', jwt);
-  try {
-    const { data } = await axios.get(
-      `${process.env.NEXT_PUBLIC_SERVER_PATH}/user/home`,
-      { headers }
-    );
 
+//wait backend update
+export async function auth(jwt: string) {
+  try {
+    const { data } = await instance.get( `/user/home`);
     console.log('data', data);
   } catch (error) {
     if (axios.isAxiosError(error)) {
