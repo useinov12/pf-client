@@ -3,8 +3,8 @@ import { Form as LoginForm } from '@/components/LoginForm/Form';
 import clsx from 'clsx';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
-import Button from '../buttons/Button';
-import User from '../User';
+import Button from '../../buttons/Button';
+import User from '../../User';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { UserContext } from '@/context/UserProvider';
 import Image from 'next/image';
