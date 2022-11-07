@@ -5,9 +5,6 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import Button from '@/components/buttons/Button';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import Link from 'next/link';
-import { UserContext } from '@/context/UserProvider';
-import { useRouter } from 'next/router';
-import useUser from '@/hooks/useUser';
 
 export default function CabinetPage() {
   const { mode, setMode } = React.useContext(ThemeContext);
