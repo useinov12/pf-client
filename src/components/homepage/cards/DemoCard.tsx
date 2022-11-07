@@ -34,7 +34,7 @@ const DemoCard = () => {
           />
           <div className='absolute bottom-6 right-6'>
             <Button
-              variant='dark'
+              variant='light'
               className='relative py-[2px] px-7  text-xl uppercase shadow-lg'
             >
               Demo
