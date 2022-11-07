@@ -64,7 +64,6 @@ export default function CabinetPage() {
               {mode === 'light' ? <FaMoon /> : <FaSun />}
             </Button>
           </div>
-            
         </header>
         <main className='flex flex-col md:flex-row w-full h-5/6 gap-3'>
 
