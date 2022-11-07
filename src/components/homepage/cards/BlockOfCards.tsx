@@ -36,7 +36,8 @@ const BlockOfCards = () => {
   /** Update counter every x seconds */
   React.useEffect(() => {
     gsap.ticker.lagSmoothing(false)
-    const delay = counter === -1 ? 3000 : 7400;
+    //if initial load - delay animation for 1.5 sec
+    const delay = counter === -1 ? 1500 : 7400; 
 
     const timer = setInterval(() => {
       prevCountRef.current = counter; //save prev counter value
@@ -166,7 +167,7 @@ const BlockOfCards = () => {
     <div
       className='sm:grid-rows-12 float-right flex w-full h-auto
       flex-col gap-x-5 
-      gap-y-2 rounded-xl bg-gray-100 p-3 text-dark 
+      gap-y-2 rounded-xl bg-gray-50 p-3 text-dark 
       shadow-inner ring-4
       ring-white drop-shadow transition-all 
       duration-300 sm:grid lg:w-full'
@@ -313,7 +314,7 @@ const BlockOfCards = () => {
                 width={'100%'}
                 height={'100%'}
                 externalData={chartData.dynamic}
-                delay={3200}
+                delay={3500}
               />
             </div>
           </div>
