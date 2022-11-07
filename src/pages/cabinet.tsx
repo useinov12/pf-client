@@ -76,7 +76,7 @@ export default function CabinetPage() {
               mode === 'light' ? 'bg-gray-300' : 'bg-gray-900',
             )}>
               <h4 className=''>Connected Banks</h4>
-              <Button variant='green' className='py-1 px-8 text-sm'>Connect</Button>
+              <Button variant='green' className='w-32 py-1 px-8 text-sm'>Add new</Button>
             </div>
             <ul className='scroll-y'>
               {['A', 'B', 'C', 'D'].map((bank, i) =>
@@ -85,7 +85,7 @@ export default function CabinetPage() {
                   'border-b border-gray-500/50 mb-4'
                 )}>
                   <h5 className='font-semibold'> Bank #{bank}</h5>
-                  <Button variant='red' className='px-8 py-1 text-sm'>Remove</Button>
+                  <Button isDarkBg={mode === 'dark' && true} variant='red-outline' className='w-32 px-8 py-1 text-sm'>Remove</Button>
                 </li>
               )}
             </ul>
