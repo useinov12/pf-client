@@ -19,7 +19,7 @@ export default function Header() {
     <nav
       className={clsx(
         'top-0 z-50 ',
-        'py-3',
+        'py-3 px-3',
         mode === 'dark' ? 'text-white' : 'text-black',
         'mx-auto',
         'flex',
