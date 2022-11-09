@@ -3,117 +3,136 @@ import clsx from 'clsx';
 import AccountsCard from '../cards/AccountsCard';
 import BanksCard from '../cards/BanksCard';
 import StatisticsCard from '../cards/StatisticsCard';
+import { FaChartPie } from 'react-icons/fa';
+import Path from '../Path';
+import { ThemeContext } from '@/context/ThemeProvider';
 
 const ShowCaseSection = () => {
+  const { mode } = React.useContext(ThemeContext);
   return (
     <article
       className={clsx(
-        'mx-auto mt-10 p-5',
+        'mx-auto',
         'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
         'lg:max-w-screen-lg',
-        'xl:max-w-screen-xl'
+        'xl:max-w-screen-xl',
+        'mt-20 lg:mt-0'
       )}
     >
-      <header className='mb-20 flex justify-center gap-2 md:my-52 md:gap-8 '>
-        {['track', 'analyze', 'improve'].map((heading) => (
-          <h1
-            key={heading}
+      <div className='flex w-full flex-col gap-3 lg:flex-row'>
+        <div className='flex flex-col items-center justify-center lg:items-start'>
+          <FaChartPie className='my-2 h-16 w-16' />
+          <Path height={400} className='hidden lg:block' />
+        </div>
+
+        <div className='w-full'>
+          <div className='w-full'>
+            <div className='flex w-full flex-col items-center lg:items-start'>
+              <h2 className='cursor-default text-center font-mono text-2xl tracking-tight drop-shadow lg:text-left'>
+                All banks in one place
+              </h2>
+              <h3 className='cursor-default text-center text-lg font-normal drop-shadow lg:text-left'>
+                Track, analyze and improve
+              </h3>
+            </div>
+          </div>
+
+          <div className='mb-10 h-full w-full md:mb-0'>
+            <ul
+              className={clsx(
+                'mt-5 h-full w-full rounded-lg lg:h-56 ',
+                'flex flex-wrap items-center justify-center gap-1 sm:flex-nowrap lg:flex-nowrap'
+              )}
+            >
+              {cards.map((card, i) => (
+                <li
+                  key={card.title}
+                  className={clsx(
+                    'flex-col items-center rounded',
+                    'h-40 w-full  border p-2 sm:w-1/3 md:h-56 md:w-1/3 lg:w-full',
+                    mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+                    mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+                  )}
+                >
+                  <h4>{card.title}</h4>
+                  <h5>{card.text}</h5>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {sections.map((section, i) => (
+        <React.Fragment key={i}>
+          <section
             className={clsx(
-              'uppercase tracking-tight drop-shadow-lg',
-              'text-3xl sm:text-4xl md:text-5xl lg:text-6xl'
+              'flex flex-col items-start',
+              'mb-48 mt-40 lg:my-2 lg:flex-row lg:justify-between',
+              'rounded-lg border p-3 ',
+              mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+              mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
             )}
           >
-            {heading}
-          </h1>
-        ))}
-      </header>
+            <div className='flex flex-col items-start pr-2 lg:w-1/3'>
+              <h1 className='mb-1 text-left font-mono text-3xl font-extralight tracking-tighter'>
+                {section.title}
+              </h1>
+              <h3 className='mb-3 text-left text-xl font-bold'>
+                {section.secondTitle}
+              </h3>
+              <p className='font-bolder mb-5 text-left text-xl tracking-wide '>
+                {section.text}
+              </p>
+            </div>
 
-      <section
-        className={clsx(
-          'mb-28 flex flex-col items-center md:mb-72',
-          'md:flex-row md:justify-between'
-        )}
-      >
-        <div className='pr-2 lg:w-1/2'>
-          <h1 className='mb-1 text-center font-mono text-3xl font-extralight tracking-tighter md:text-left'>
-            Clear your vision
-          </h1>
-          <h3 className='mb-3 text-center text-xl font-bold md:text-left'>
-            What is happening with your finance?
-          </h3>
-          <p className='font-bolder mb-5 text-center text-xl tracking-wide md:text-left'>
-            Gather all your banks in one place.
-            <br />
-            Use charts and tables to see what is happening with your accounts.
-          </p>
-        </div>
+            <div className='flex w-full justify-center lg:w-1/2'>
+              {section.card}
+            </div>
+          </section>
 
-        <div className='flex justify-end lg:w-1/2'>
-          <AccountsCard />
-        </div>
-      </section>
-
-      <section
-        className={clsx(
-          'mb-28 flex flex-col-reverse items-center md:mb-72',
-          'md:flex-row md:justify-between'
-        )}
-      >
-        <div className='flex justify-start lg:w-1/2'>
-          <BanksCard />
-        </div>
-
-        <div className='flex justify-center pl-2 lg:w-1/2'>
-          <div className='flex flex-col items-center md:items-end'>
-            <h1 className='mb-1 text-center font-mono text-3xl font-extralight tracking-tighter md:text-right'>
-              Fill the gaps
-            </h1>
-            <h3 className='mb-3 text-center text-xl font-bold md:text-right'>
-              Get your accounts organazied
-            </h3>
-            <p className='font-bolder text-center text-xl tracking-wide md:text-right'>
-              Build the mental map of your accounts dynamic.
-            </p>
-            <p className='font-bolder mb-5 text-center text-xl tracking-wide md:text-right'>
-              Get comfortable knowing your day-to-day <br />
-              spendings and incomes.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section
-        className={clsx(
-          'mb-28 flex flex-col items-center md:mb-72',
-          'md:flex-row md:justify-between'
-        )}
-      >
-        <div className='flex justify-center lg:w-1/2'>
-          <div className='pr-2'>
-            <h1 className='mb-1 text-center font-mono text-3xl font-extralight tracking-tighter md:text-left'>
-              Observe
-            </h1>
-            <h3 className='mb-3 text-center text-xl font-bold md:text-left'>
-              See the pattern?
-            </h3>
-            <p className='font-bolder mb-5 text-center text-xl tracking-wide md:text-left'>
-              Recognize your bad financial habbits is{' '}
-              <br className='sm:hidden' />
-              the first step to eliminate them.
-            </p>
-            <p className='font-bolder mb-5 text-center text-xl tracking-wide md:text-left'>
-              Notice good trends and use them as your foundation.
-            </p>
-          </div>
-        </div>
-
-        <div className='flex justify-end lg:w-1/2'>
-          <StatisticsCard />
-        </div>
-      </section>
+          <Path height={300} className='hidden rotate-180 lg:block' />
+        </React.Fragment>
+      ))}
     </article>
   );
 };
 
 export default ShowCaseSection;
+
+const sections = [
+  {
+    card: <BanksCard />,
+    title: 'Clear your vision', 
+    secondTitle: 'Get your accounts organazied',
+    text: 'Build the mental map of your accounts dynamic. Get comfortable knowing your day-to-day spendings and incomes.',
+  },
+  {
+    card: <AccountsCard />,
+    title: 'Fill the gaps',
+    secondTitle: 'Get your accounts organazied',
+    text: '  Gather all your banks in one place. Use charts and tables to see what is happening with your accounts.',
+  },
+  {
+    card: <StatisticsCard />,
+    title: 'Observe',
+    secondTitle: 'See the pattern?',
+    text: 'Recognize your bad financial habbits is the first step to eliminate them. Notice good trends and use them as your foundation.',
+  },
+];
+
+const cards = [
+  {
+    title: 'Banks',
+    text: 'Your banks in one click',
+  },
+  {
+    title: 'Accounts',
+    text: 'All types of accounts',
+  },
+  {
+    title: 'Transactions',
+    text: 'List of all transactions',
+  },
+];
