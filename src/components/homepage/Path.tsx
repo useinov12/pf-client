@@ -23,7 +23,7 @@ const Path = ({height, className}:{height:number, className?:string}) => {
             y2={height}
             gradientUnits='userSpaceOnUse'
           >
-            <stop stop-color='#00B2FF' />
+            <stop stopColor='#00B2FF' />
             <stop offset='0.689583' stopColor='#2F7BEC' />
             <stop offset='1' stopColor='#1159C7' />
           </linearGradient>
