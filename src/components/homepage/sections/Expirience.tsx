@@ -101,12 +101,15 @@ const cards = [
         ,
       </span>
     ),
-    text: [
-      'Best bank-data provider on the market. Read more about',
-      <ArrowLink href='https://plaid.com' className='mx-1'>
-        Plaid
-      </ArrowLink>,
-    ],
+    text: (
+      <span>
+        'Best bank-data provider on the market. Read more about',
+        <ArrowLink href='https://plaid.com' className='mx-1'>
+          Plaid
+        </ArrowLink>
+      </span>
+    ),
+
     icon: <RiSafe2Fill className='h-16 w-16' />,
   },
   {
