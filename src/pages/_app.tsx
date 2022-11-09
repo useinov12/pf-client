@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 import ThemeProvider from '@/context/ThemeProvider';
 import UserProvider from '@/context/UserProvider';
+import LoginFormProvider from '@/context/LoginFormProvider';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <UserProvider>
-        <Component {...pageProps} />
+        <LoginFormProvider>
+          <Component {...pageProps} />
+        </LoginFormProvider>
       </UserProvider>
     </ThemeProvider>
   );
