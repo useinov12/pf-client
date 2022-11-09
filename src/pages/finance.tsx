@@ -1,16 +1,13 @@
 import React from 'react';
 import clsx from 'clsx';
-import Image from 'next/image';
 import { ThemeContext } from '@/context/ThemeProvider';
-import Button from '@/components/buttons/Button';
-import Link from 'next/link';
-import Layout from '@/components/finance/layout';
+import Layout from './../components/finance/layout';
 import LineChart from '@/components/charts/LineChart';
 import PieChart from '@/components/charts/PieChart';
 import MultipleLineChart from '@/components/charts/MultipleLinesChart';
 
 export default function FinanceApp() {
-  const { mode, setMode } = React.useContext(ThemeContext);
+  const { mode } = React.useContext(ThemeContext);
   return (
     <Layout>
       <main className='flex h-full w-full gap-2'>
