@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import type { ChartData, ChartArea } from 'chart.js';
+import React, { useRef, useState } from 'react';
+import type { ChartData } from 'chart.js';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -25,13 +25,20 @@ ChartJS.register(
 import { Chart } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 
-const LineChart: React.FC<{
+
+interface Dataset{
+    label: string;
+    data: number[];
+}
+
+const MultipleLineChart: React.FC<{
   width: string;
   height: string;
   isFakeData?: boolean;
-  externalData?:number[];
+  externalData?:Dataset[];
   delay?:number;
-}> = ({ width, height, isFakeData, externalData, delay }) => {
+  labels?:string[] | number[];
+}> = ({ width, height, isFakeData, externalData, delay, labels }) => {
 
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
@@ -39,13 +46,8 @@ const LineChart: React.FC<{
   });
 
   const data = {
-    labels: labels.map((month) => month.slice(0, 3)),
-    datasets: [
-      {
-        label: '',
-        data: externalData ? externalData : labels.map(() => 1000),
-      },
-    ],
+    labels: months.map((month) => month.slice(0, 3)),
+    datasets:  fakeDatasets
   };
 
   React.useEffect(() => {
@@ -54,13 +56,21 @@ const LineChart: React.FC<{
     if (!chart) {
       return;
     }
+    
     const chartData = {
-      ...data,
-      datasets: data.datasets.map((dataset) => ({
+      labels:labels ? labels : months,
+
+      datasets: externalData ? 
+      externalData.map((dataset, i) => ({
         ...dataset,
-        borderColor: 'rgba(150, 149, 149, 1)',
-        backgroundColor: createGradient(chart.ctx, chart.chartArea),
-      })),
+        borderColor: colors[i],
+        backgroundColor: 'transparent',
+      })) :
+      data.datasets.map((dataset, i) => ({
+        ...dataset,
+        borderColor: colors[i],
+        backgroundColor: 'transparent',
+      }))
     };
     
     if(delay){
@@ -85,22 +95,9 @@ const LineChart: React.FC<{
   );
 };
 
-export default LineChart;
+export default MultipleLineChart;
 
-const labels = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  // 'September',
-  // 'October',
-  // 'November',
-  // 'December',
-];
+
 const colors = [
   'red',
   'orange',
@@ -112,23 +109,35 @@ const colors = [
   'purple',
 ];
 
+const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+];
 
-function createGradient(ctx: CanvasRenderingContext2D | null, area: ChartArea) {
-  const colorStart = 'rgba(208, 208, 208, 0.5)';
-  const colorMid = 'rgba(168, 168, 168, 0.5)';
-  const colorEnd = 'rgba(150, 149, 149, 0.5)';
-
-  if (ctx) {
-    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-
-    gradient.addColorStop(0, colorStart);
-    gradient.addColorStop(0.5, colorMid);
-    gradient.addColorStop(1, colorEnd);
-
-    return gradient;
-  }
-  return 'rgba(253, 224, 71, .6)';
-}
+const fakeDatasets = [
+    {
+        label: 'Dataset 1',
+        data: months.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+    },
+    {
+        label: 'Dataset 2',
+        data: months.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
+        borderColor: 'rgb(53, 162, 235)',
+        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+    },
+]
 
 const options = {
   responsive: true,
@@ -176,3 +185,4 @@ const options = {
     },
   },
 };
+

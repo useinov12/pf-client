@@ -56,7 +56,7 @@ const ReviewsSection = () => {
                       <h4 className='font-normal text-lg'>{review.name}</h4>
                     </div>
                     <div className='md:mt-5'>
-                      <span className='py-2 font-normal font-serif text-md'>"{review.review}"</span>
+                      <span className='py-2 font-normal font-serif text-md'>&quot;{review.review}&quot;</span>
                     </div>
                   </li>
                 )}
