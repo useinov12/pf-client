@@ -11,12 +11,13 @@ import Image from 'next/image';
 import SignUp from './SignUp';
 import Login from './Login';
 import Card from '../homepage/cards/Card';
+import { useRouter } from 'next/router';
+import { LoginFormContext } from '@/context/LoginFormProvider';
 
-const Form: React.FC<{
-  openLoginForm: boolean;
-  setOpenLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ openLoginForm, setOpenLoginForm }) => {
-  const { user, setUser } = React.useContext(UserContext);
+const Form: React.FC = () => {
+  const { setUser } = React.useContext(UserContext);
+  const {openLoginForm, setOpenLoginForm} = React.useContext(LoginFormContext);
+  const router = useRouter()
 
   const [toggle, setToggle] = React.useState(false);
   const [credentials, setCredentials] = React.useState({
@@ -77,6 +78,7 @@ const Form: React.FC<{
     if (status === 200) {
       Cookies.set('token', data.detail.data.access_token, { secure: true });
       toast.success(message);
+      router.push('/cabinet')
 
       const { first, last, username } = jwt.decode(
         data.detail.data.access_token
@@ -110,7 +112,7 @@ const Form: React.FC<{
     >
       <Card
         className={clsx(
-          'h-5/6 w-full sm:w-[28rem]',
+          'h-full w-full sm:w-[28rem]',
           'justify-top relative flex ',
           'flex-col items-center rounded-xl  ',
           'shadow-lg shadow-dark/40',
@@ -132,8 +134,8 @@ const Form: React.FC<{
           <p className='mt-10 text-lg font-normal uppercase text-dark'>
             Sign in to
           </p>
-          {/* <Image src={'/images/logo.png'} width={110} height={110} /> */}
-          <h3 className='text-3xl text-dark drop-shadow'>PersonalFinance</h3>
+          <Image src={'/images/logo.png'} width={80} height={70} />
+          <h3 className='text-2xl text-dark drop-shadow'>PersonalFinance</h3>
 
           <div className='mt-4 flex w-full justify-center '>
             <Button

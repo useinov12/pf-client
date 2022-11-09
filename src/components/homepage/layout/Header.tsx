@@ -9,12 +9,13 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import { UserContext } from '@/context/UserProvider';
 import Image from 'next/image';
 import Link from 'next/link';
+import { LoginFormContext } from '@/context/LoginFormProvider';
 
 export default function Header() {
   const { mode, setMode } = React.useContext(ThemeContext);
+  const { setOpenLoginForm } = React.useContext(LoginFormContext);
   const { user } = React.useContext(UserContext);
 
-  const [openLoginForm, setOpenLoginForm] = React.useState(false);
   return (
     <nav
       className={clsx(
@@ -30,10 +31,8 @@ export default function Header() {
         'xl:max-w-screen-xl'
       )}
     >
-      <LoginForm
-        openLoginForm={openLoginForm}
-        setOpenLoginForm={setOpenLoginForm}
-      />
+      <LoginForm/>
+      
       <Link href='/'>
         <Image
           src={'/images/logo.png'}
