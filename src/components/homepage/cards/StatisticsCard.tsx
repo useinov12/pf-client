@@ -63,13 +63,12 @@ const StatisticsCard = () => {
 
   return (
     <Card
-      className={clsx(
-        'h-[35rem] w-[20rem]',
-        'sm:h-[32rem] sm:w-[25rem]',
-        'lg:h-[35rem] lg:w-[32rem]'
-      )}
+      className='h-full w-full'
     >
       <div className='flex h-full w-full flex-col items-center p-2'>
+        <h6 className='mb-1 self-start pl-2 text-lg font-semibold drop-shadow-md'>
+          Transactions
+        </h6>
         <header className='my-2 flex w-5/6 items-center justify-between'>
           <h6 className='text-md mb-1 font-semibold drop-shadow-md'>
             Statistics by week day
@@ -86,8 +85,7 @@ const StatisticsCard = () => {
             <li
               className='my-1 flex cursor-default 
                         justify-between
-                        border-b border-gray-500/20 px-10
-                        py-1'
+                        border-b border-gray-500/20 px-10'
               key={data.date}
             >
               <h4
@@ -115,10 +113,10 @@ const StatisticsCard = () => {
             <h5 className='font-mono text-xl font-semibold' ref={averegeRef} />
           </div>
         </div>
-        <div className='h-1/3 w-full'>
+        <div className='h-1/4 w-full'>
           <BarChart
             width='100%'
-            height='80%'
+            height='100%'
             externalData={data[counter].map((day) => Math.abs(day.amount))}
             labels={data[counter].map((day) => day.date)}
             delay={1800}

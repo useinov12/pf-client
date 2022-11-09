@@ -166,21 +166,23 @@ const BlockOfCards = () => {
   return (
     <div
       className='sm:grid-rows-12 float-right flex w-full h-auto
-      flex-col gap-x-5 
+      flex-col gap-x-5 my-16
       gap-y-2 rounded-xl bg-gray-50 p-3 text-dark 
-      shadow-inner ring-4
+      shadow-inner
       ring-white drop-shadow transition-all 
-      duration-300 sm:grid lg:w-full'
+      duration-300 sm:grid'
       ref={pauseRef}
     >
       <div className='mb-2 ml-2 inline-flex items-center gap-2'>
         <div className='h-3 w-3 rounded-full bg-red-500/90 drop-shadow ' />
-        <div className='h-3 w-3 rounded-full bg-yellow-500/90 drop-shadow ' />
-        <div className='h-3 w-3 rounded-full bg-green-500/90 drop-shadow ' />
+        <div className='h-3 w-3 rounded-full bg-yellow-400/90 drop-shadow ' />
+        <div className='h-3 w-3 rounded-full bg-green-400/90 drop-shadow ' />
       </div>
+
       {/* ============ BANKS CARD ============ */}
       <Card className='col-span-4 col-start-1' inner>
         <div className='flex flex-col justify-between py-1 px-4 sm:flex-row'>
+
           <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'>
             <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
               Connected Banks:
@@ -207,7 +209,7 @@ const BlockOfCards = () => {
 
           <div
             className='flex flex-col items-center 
-            justify-center rounded sm:w-1/2'
+            justify-center rounded sm:w-1/2 '
           >
             <h3
               className='whitespace-nowrap font-serif text-lg 
@@ -217,15 +219,16 @@ const BlockOfCards = () => {
               xxxxxxx
             </h3>
             <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300 ' />
+
             <div className='flex w-5/6 items-baseline justify-start  gap-3'>
               <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
 
               <div className='mt-2 flex items-center justify-start gap-5'>
-                <h2 className='font-mono text-4xl font-normal drop-shadow-md'>
+                <h2 className='font-mono text-3xl font-normal drop-shadow-md'>
                   $
                 </h2>
                 <h2
-                  className=' font-mono text-3xl font-light uppercase drop-shadow-md'
+                  className=' font-mono text-2xl font-light uppercase drop-shadow-md'
                   ref={bankTotalRef}
                 >
                   {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
@@ -237,7 +240,7 @@ const BlockOfCards = () => {
       </Card>
 
       {/* ============ SUMMARY CARD ============ */}
-      <Card className='col-span-4 col-start-1 row-span-2 row-start-3' inner>
+      <Card className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block ' inner>
         <div className='flex flex-col items-center px-4 py-1'>
           <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
             Summary
@@ -273,7 +276,7 @@ const BlockOfCards = () => {
                       )}
                     />
                     <h6
-                      className='font-mono text-sm sm:text-lg font-normal opacity-0 '
+                      className='font-mono text-sm sm:text-md font-normal opacity-0 '
                       ref={(el) => (summaryAccTypeRef.current[i] = el)}
                     >
                       {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
@@ -282,7 +285,7 @@ const BlockOfCards = () => {
                   <div className='flex w-24 items-center justify-between'>
                     <h6 className='ml-3 font-mono font-normal'>$</h6>
                     <h6
-                      className='font-mono text-lg font-normal uppercase'
+                      className='font-mono text-md font-normal uppercase'
                       ref={(el) => (summaryAccSumRef.current[i] = el)}
                     />
                   </div>
@@ -294,7 +297,7 @@ const BlockOfCards = () => {
       </Card>
 
       {/* ============ CHARTS CARD ============ */}
-      <Card className='col-span-2 col-start-1 row-span-3 w-full' inner>
+      <Card className='col-span-4 md:col-span-2 col-start-1 row-span-3 w-full' inner>
         <div className='flex flex-col items-center'>
           <h4 className='py-2 font-serif text-lg font-normal uppercase'>
             Charts
@@ -323,7 +326,7 @@ const BlockOfCards = () => {
 
       {/* ============ TRANSACTIONS CARD ============ */}
       <Card
-        className='col-span-2 col-start-3 row-span-3 row-start-5 w-full'
+        className='col-span-2 col-start-3 row-span-3 row-start-5 w-full hidden md:block'
         inner
       >
         <div className='flex flex-col items-center justify-start px-2 text-center'>
@@ -440,7 +443,7 @@ const data = [
     accounts: [
       { type: 'Credit', sum: -2200 },
       { type: 'Saving', sum: 5000 },
-      { type: 'Checking', sum: 500 },
+      { type: 'Checking', sum: 1100 },
     ],
     dynamic: [1000, 1200, 1400, 1800, 1400, 1600, 1700, 1200],
   },

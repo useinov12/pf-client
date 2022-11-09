@@ -9,21 +9,21 @@ import '@/lib/swapText';
 
 const BanksCard = () => {
   const banks = ['A', 'B', 'C', 'D'];
+  const total = [1200, 3000, 7000, -2400]
   const [counter, setCounter] = React.useState(0);
 
   useInterval(() => {
     setCounter((prev) => (prev === 3 ? 0 : prev + 1));
-  }, 4000);
+  }, 3000);
 
   return (
     <Card
-      className={clsx(
-        'h-[15rem] w-[20rem]',
-        'sm:h-[18rem] sm:w-[25rem]',
-        'lg:h-[20rem] lg:w-[32rem]'
-      )}
+      className='h-full w-full'
     >
       <div className='h-full w-full p-2 flex flex-col justify-center gap-2'>
+        <h6 className='mb-1 text-lg pl-2 font-semibold drop-shadow-md'>
+          Banks
+        </h6>
         <ul className='my-1 flex justify-evenly'>
           {banks.map((bank, i) => (
             <li
@@ -33,17 +33,18 @@ const BanksCard = () => {
               <span
                 className={clsx(
                   'text-sm drop-shadow-md transition-all duration-200',
-                  'my-1 rounded-md border-2 border-gray-300 px-2 sm:px-4 py-1 ',
+                  'my-1 rounded-md border-2 border-gray-300 px-2 sm:px-4 py-1 font-semibold',
                   banks[counter] === bank
                     ? 'bg-transparent text-dark ring-2 ring-sky-500'
                     : 'bg-gray-300 text-gray-300 ring-2 ring-transparent'
                 )}
               >
-                $xxxx
+                <span>$</span> 
+                <span>{total[i]}</span> 
               </span>
-              <h4
+              <h5
                 className={clsx(
-                  'font-serif uppercase',
+                  'text-md md:text-xl font-serif uppercase',
                   'text-gray-400 transition-all duration-150'
                 )}
               >
@@ -63,7 +64,7 @@ const BanksCard = () => {
                 ) : (
                   `bank ${'X'}`
                 )}
-              </h4>
+              </h5>
             </li>
           ))}
         </ul>

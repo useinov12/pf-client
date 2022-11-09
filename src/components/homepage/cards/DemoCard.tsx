@@ -12,7 +12,6 @@ const DemoCard = () => {
           'sm:h-[10rem] sm:w-[28rem]',
           'md:h-[15rem] md:w-[32rem]',
           'group overflow-hidden',
-          'transition-all duration-150'
         )}
       >
         <div className='relative h-full w-full p-1 text-dark'>
@@ -29,7 +28,8 @@ const DemoCard = () => {
             className={clsx(
               `bg-[url('../../public/images/sketch.png')] bg-contain`,
               'float-right h-full w-3/4 rounded-tl-[10rem] rounded-tr-xl rounded-br-xl ',
-              'rounded-xls group-hover:blur-md'
+              'rounded-xls group-hover:blur-sm',
+              'transition-all duration-150'
             )}
           />
           <div className='absolute bottom-6 right-6'>

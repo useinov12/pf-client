@@ -13,18 +13,16 @@ const Card = ({
   return (
     <div
       className={clsx(
-        'drop-shadow',
-        'bg-gray-50 text-dark',
-        ' shadow-inner drop-shadow',
-        inner ?  'rounded-lg border-2  border-gray-50 ring-transparent ' 
-        : 'rounded-xl ring-4 ring-white',
+        'drop-shadow-xl',
+        'bg-gray-50 text-dark border border-gray-300',
+        ' drop-shadow rounded-lg',
+        inner && 'drop-shadow-none',
         className
       )}
     >
       <div
         className={clsx(
-          'h-full w-full rounded-xl shadow-inner',
-          inner ?? 'rounded-lg'
+          'h-full w-full rounded-xl'
         )}
       >
         {children}
