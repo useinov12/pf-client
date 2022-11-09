@@ -92,12 +92,15 @@ const cards = [
   },
   {
     title: 'Safety with Plaid',
-    secondTitle: [
-      'Best bank-data provider on the market. Read more about',
-      <ArrowLink href='https://plaid.com' className='mx-1'>
-        Plaid
-      </ArrowLink>,
-    ],
+    secondTitle: (
+      <span>
+        Best bank-data provider on the market. Read more about,
+        <ArrowLink href='https://plaid.com' className='mx-1'>
+          Plaid
+        </ArrowLink>
+        ,
+      </span>
+    ),
     text: [
       'Best bank-data provider on the market. Read more about',
       <ArrowLink href='https://plaid.com' className='mx-1'>
