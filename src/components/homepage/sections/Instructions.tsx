@@ -1,14 +1,15 @@
 import React from 'react';
 import clsx from 'clsx';
-import Card from '../cards/Card';
 import { VscAccount } from 'react-icons/vsc';
 import Image from 'next/image';
 import Button from '../../buttons/Button';
 import ButtonLink from '../../links/ButtonLink';
 import { AiOutlineLineChart } from 'react-icons/ai';
 import Ping from '../../Ping';
+import { ThemeContext } from '@/context/ThemeProvider';
 
 const InstructionsSection = () => {
+  const { mode } = React.useContext(ThemeContext)
   return (
     <>
       <header>
@@ -20,7 +21,7 @@ const InstructionsSection = () => {
           id={'instruction'}
         >
           <div className='relative flex flex-col items-center gap-5'>
-            <h1 className='my-5 text-center text-3xl font-extrabold uppercase tracking-tight md:text-5xl lg:text-6xl'>
+            <h1 className='my-20 text-center text-3xl font-extrabold uppercase tracking-tight md:text-4xl lg:text-5xl'>
               Financial tool for your
               <span
                 className={clsx(
@@ -31,23 +32,6 @@ const InstructionsSection = () => {
                 Goals
               </span>
             </h1>
-            <h2
-              className={clsx(
-                'font-extrabold tracking-tight',
-                'text-center uppercase px-10 sm:px-0',
-                'my-4 mb-20 text-center text-xl md:text-2xl lg:text-3xl'
-              )}
-            >
-              We visualize data provided by {'  '}
-              <span
-                className={clsx(
-                  'text-white',
-                  'font-mono font-extrabold tracking-tight'
-                )}
-              >
-                Plaid API
-              </span>
-            </h2>
 
             <div
               className={clsx(
@@ -70,71 +54,68 @@ const InstructionsSection = () => {
       <article
         className={clsx(
           'mx-auto mt-40 mb-28 flex flex-col',
-          'gap-10 md:flex-row md:gap-x-5 md:justify-around md:items-start md:gap-0',
+          'gap-10 md:gap-x-5 items-center md:gap-0',
           'sm:max-w-screen-sm px-3',
           'md:max-w-screen-md ',
           'lg:max-w-screen-lg',
           'xl:max-w-screen-xl'
         )}
       >
-        <section className='flex flex-col items-center'>
-          <Card className='mb-5 h-[13rem] w-[14rem]'>
-            <div className='flex h-full w-full flex-col items-center justify-center'>
-              <VscAccount className='mb-4 text-6xl' />
-              <h3 className='tracking-tight'>Sign Up</h3>
-              <h3>PersonalFinance</h3>
-            </div>
-          </Card>
-          <div className='flex flex-col items-center justify-center'>
-            <p className='font-ligh mb-2 text-center text-xl tracking-wide '>
-              We use special Plaid Key <br /> to display your data in <br />
-              our app.
-            </p>
-            <p className='text-center text-xl font-light tracking-wide'>
-              Not a single piece of <br />
-              Your data is being stored.
+        <InstructionCard>
+          <div className={clsx(
+            'py-2 md:px-10 flex flex-col justify-center items-center md:border-r ',
+            mode === 'light' ? '' : 'bg-gray-200',
+            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+          )}>
+            <VscAccount className='mb-4 text-6xl  text-dark ' />
+            <h3 className='tracking-tight whitespace-nowrap text-dark '>Sign Up</h3>
+          </div>
+
+          <div className='px-5 flex flex-col justify-center items-start '>
+            <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
+              We use special Plaid Key to display your data in our app.
             </p>
           </div>
-        </section>
-        <section className='flex flex-col items-center justify-center'>
-          <Card className='mb-5 h-[13rem] w-[14rem]'>
-            <div className='flex h-full w-full flex-col items-center justify-center'>
-              <Image src={'/images/plaid.png'} width={110} height={110} />
-              <h3 className='tracking-tight'>Connect</h3>
-              <h3>Plaid</h3>
-            </div>
-          </Card>
-          <div className='flex flex-col items-center justify-center'>
-            <p className='font-ligh mb-2 text-center text-xl tracking-wide '>
-              In your cabinet connect <br />
-              banks by clicking
-            </p>
-            <Button className='py-1'>Connect Plaid</Button>
-            <p className='text-center text-xl font-light tracking-wide'>
-              If you want to read more <br />
-              about Plaid, visit their website
-            </p>
+        </InstructionCard>
+
+        <InstructionCard>
+          <div className={clsx(
+            'py-2 md:px-9 flex flex-col justify-center items-center md:border-r',
+            mode === 'light' ? '' : 'bg-gray-200',
+            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+          )}>
+            <Image src={'/images/plaid.png'} width={110} height={110} />
+            <h3 className='tracking-tight whitespace-nowrap text-dark'>Connect</h3>
           </div>
-        </section>
-        <section className='flex flex-col items-center'>
-          <Card className='mb-5 h-[13rem] w-[14rem]'>
-            <div className='flex h-full w-full flex-col items-center justify-center'>
-              <AiOutlineLineChart className='mb-4 text-6xl' />
-              <h3 className='tracking-tight'>Sign Up</h3>
-              <h3>PersonalFinance</h3>
-            </div>
-          </Card>
-          <div className='flex flex-col items-center justify-center'>
-            <p className='font-ligh mb-2 text-center text-xl tracking-wide '>
-              Open the PersonalFinance <br />
-              app and start using it!
+
+          <div className='px-5 flex flex-col justify-center items-center md:items-start '>
+            <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
+              In your cabinet connect  banks by clicking
+            </p>
+            <Button className='py-1 my-2'>Add bank</Button>
+          </div>
+        </InstructionCard>
+
+        <InstructionCard>
+          <div className={clsx(
+            'py-2 md:px-9 flex flex-col justify-center items-center md:border-r',
+            mode === 'light' ? '' : 'bg-gray-200',
+            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+          )}>
+            <AiOutlineLineChart className='mb-4 text-6xl  text-dark ' />
+            <h3 className='tracking-tight whitespace-nowrap text-dark'>Connect</h3>
+          </div>
+
+          <div className='px-5 flex flex-col justify-center items-center md:items-start '>
+            <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
+              Open the PersonalFinance app and start using it!
             </p>
             <ButtonLink
-              variant='dark'
+              variant={mode === 'dark' ? 'light' : 'dark'}
               href='#'
               className={clsx(
-                'relative py-1',
-                'text-xl font-light tracking-wide ',
+                'relative py-1 my-2',
+                'text-md tracking-wide ',
                 'flex items-center justify-around'
               )}
             >
@@ -144,10 +125,27 @@ const InstructionsSection = () => {
               </span>
             </ButtonLink>
           </div>
-        </section>
+        </InstructionCard>
       </article>
     </>
   );
 };
 
 export default InstructionsSection;
+
+
+
+
+const InstructionCard = ({children}:{children:JSX.Element[]}) => {
+  const { mode } = React.useContext(ThemeContext)
+  return (
+    <section className={clsx(
+      'mb-5 h-full w-full lg:w-5/6 md:h-48  border rounded flex flex-col md:flex-row',
+      'overflow-hidden', 
+      mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+      mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+    )}>
+      {children}
+    </section>
+  )
+}

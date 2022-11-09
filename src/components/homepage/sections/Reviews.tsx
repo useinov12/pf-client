@@ -1,36 +1,77 @@
 import React from 'react';
+import clsx from 'clsx';
+import { SiCircle } from 'react-icons/si';
 import Image from 'next/image';
+import { ThemeContext } from '@/context/ThemeProvider';
+import Path from '../Path';
+
 
 const ReviewsSection = () => {
+  const { mode } = React.useContext(ThemeContext)
   return (
-    <>
-      <article
-        className='h-full w-screen bg-gradient-to-bl
-              from-sky-400 to-blue-500 text-gray-800'
+    <article
+      className={clsx(
+        'mx-auto px-3',
+        'sm:max-w-screen-sm',
+        'md:max-w-screen-md ',
+        'lg:max-w-screen-lg',
+        'xl:max-w-screen-xl mt-2'
+      )}
+    >
+      <section
+        className='flex flex-col items-center justify-end '
       >
-        <section className='mx-auto max-w-screen-xl py-4'>
-          <h1 className='mb-10 text-center text-5xl'>Reviews</h1>
-          <ul className='flex flex-wrap items-baseline justify-center gap-5 md:justify-around'>
-            {reviews.map(({ name, review, image }) => (
-              <li
-                className='flex flex-col items-center justify-center'
-                key={name}
-              >
-                <Image src={image} width={120} height={110} />
-                <h6 className='my-2 text-3xl font-bold'>{name}</h6>
-                <p className='h-36 w-44 text-center text-lg font-semibold'>
-                  {review}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      </article>
-    </>
+        <div className='flex flex-col lg:flex-row w-full gap-3'>
+
+          <div className='flex flex-col items-center justify-center lg:items-start'>
+            <SiCircle className='mb-2 h-16 w-16 rounded-full' />
+            <Path height={500} className='hidden lg:block rotate-180' /> 
+          </div>
+
+          <div>
+            <div className='flex flex-col items-center lg:items-start  w-full '>
+              <h2 className='cursor-default text-center font-mono tracking-tight text-2xl drop-shadow lg:text-left'>
+                App that you looking for
+              </h2>
+              <h3 className='cursor-default text-center text-lg font-normal drop-shadow lg:text-left'>
+                It was never this easy to look into your own financial state
+              </h3>
+            </div>
+            <div className='flex h-full w-full'>
+              <ul className={clsx(
+                'w-full h-full lg:h-56 rounded-lg mt-5',
+                'flex gap-1 flex-wrap items-center justify-center lg:flex-nowrap'
+              )}>
+                {reviews.map((review, i) =>
+                  <li 
+                    key={review.name} 
+                    className={clsx(
+                      'rounded flex-col items-center',
+                      'py-2 px-2 border w-full h-32 sm:h-40 sm:w-32 md:h-48 md:w-40 xl:w-48 ', 
+                      mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+                      mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
+                    )}>
+                    <div className='flex items-baseline gap-1'>
+                      <Image src={review.image} width={80} height={75}/>
+                      <h4 className='font-normal text-lg'>{review.name}</h4>
+                    </div>
+                    <div className='md:mt-5'>
+                      <span className='py-2 font-normal font-serif text-md'>"{review.review}"</span>
+                    </div>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </article>
   );
 };
 
 export default ReviewsSection;
+
 
 const reviews = [
   {

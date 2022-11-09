@@ -35,7 +35,7 @@ export default function CabinetPage() {
     >
       <div
         className={clsx(
-          'mx-auto sm:max-w-screen-sm',
+          'mx-auto sm:max-w-screen-sm px-3',
           'md:max-w-screen-md ',
           'lg:max-w-screen-xl',
           'h-full w-full'
@@ -93,16 +93,20 @@ export default function CabinetPage() {
           <section className={clsx(
             'md:w-4/5 h-full border rounded overflow-hidden',
             mode === 'light' ? 'border-dark/50' : 'border-gray-500/50',
+            'relative'
           )}>
             <div className={clsx(
               'flex items-center justify-between px-7 py-4',
               mode === 'light' ? 'bg-gray-300' : 'bg-gray-900',
             )}>
               <h4 className=''>Connected Banks</h4>
-              <Button variant='green' className='w-32 py-1 px-8 text-sm'>Add new</Button>
+              <div className='inline-flex gap-2'>
+                <Button variant='light' className='w-32 py-1 px-8 text-sm whitespace-nowrap'>Open App</Button>
+                <Button variant='green' className='w-32 py-1 px-8 text-sm'>Add new</Button>
+              </div>
             </div>
-            <ul className='scroll-y'>
-              {['A', 'B', 'C', 'D'].map((bank, i) =>
+            <ul className='scroll-y overflow-y-scroll h-full'>
+              {['A', 'B', 'C', 'D','A','A', 'B', 'C', 'D','A','A', 'B', 'C', 'D','A',].map((bank, i) =>
                 <li key={'cabinet-bank'+i} className={clsx(
                   'flex justify-between items-center px-7 py-3',
                   'border-b border-gray-500/50 mb-4'
