@@ -42,13 +42,13 @@ const LineChart: React.FC<{
     labels: labels.map((month) => month.slice(0, 3)),
     datasets: [
       {
-        label: 'Dataset 1',
+        label: '',
         data: externalData ? externalData : labels.map(() => 1000),
       },
     ],
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     const chart = chartRef.current;
 
     if (!chart) {
@@ -153,7 +153,7 @@ const options = {
     y: {
       display: false,
       grid: {
-        color: 'gray',
+        color: 'transparent',
       },
       autoSkip: true,
       ticks: {
