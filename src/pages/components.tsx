@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 import Button from '@/components/buttons/Button';
-import Layout from '@/components/layout/Layout';
+import Layout from '@/components/homepage/layout/Layout';
 import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
 import PrimaryLink from '@/components/links/PrimaryLink';

@@ -21,9 +21,15 @@ export default function CabinetPage() {
 
   React.useEffect(()=>{
     if(!user){
-      router.push('/')
+      const timer = setTimeout(()=>{
+        router.push('/')
+      }, 2000)
     }
   }, [user])
+
+  if(!user){
+    return <h2>Redirecting...</h2>
+  }
 
   return (
     <div
@@ -106,7 +112,7 @@ export default function CabinetPage() {
               </div>
             </div>
             <ul className='scroll-y overflow-y-scroll h-full'>
-              {['A', 'B', 'C', 'D','A','A', 'B', 'C', 'D','A','A', 'B', 'C', 'D','A',].map((bank, i) =>
+              {['A', 'B', 'C', 'D'].map((bank, i) =>
                 <li key={'cabinet-bank'+i} className={clsx(
                   'flex justify-between items-center px-7 py-3',
                   'border-b border-gray-500/50 mb-4'
