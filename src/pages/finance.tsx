@@ -1,12 +1,16 @@
 import React from 'react';
 import clsx from 'clsx';
 import { ThemeContext } from '@/context/ThemeProvider';
-import Layout from './../components/finance/layout';
+// import Layout from '@/components/finance/layout';
 import LineChart from '@/components/charts/LineChart';
 import PieChart from '@/components/charts/PieChart';
 import MultipleLineChart from '@/components/charts/MultipleLinesChart';
 
+
 export default function FinanceApp() {
+  return (<>app</>)
+}
+/* export default function FinanceApp() {
   const { mode } = React.useContext(ThemeContext);
   return (
     <Layout>
@@ -36,7 +40,7 @@ export default function FinanceApp() {
       </main>
     </Layout>
   );
-}
+} */
 
 const OverviewSection = () => {
   const { mode, setMode } = React.useContext(ThemeContext);
