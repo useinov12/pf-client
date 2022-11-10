@@ -1,4 +1,5 @@
 import React from 'react';
+import { faker } from '@faker-js/faker';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,8 +9,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
+import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -17,7 +17,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend,
+  Legend
 );
 
 import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';
@@ -28,7 +28,8 @@ const StackedBar: React.FC<{
   isFakeData?: boolean;
 }> = ({ width, height, isFakeData }) => {
   return (
-    <Bar
+    <Chart
+      type='bar'
       data={fakeDataset}
       width={width}
       height={height}
