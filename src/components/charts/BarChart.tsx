@@ -4,6 +4,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  BarController,
   BarElement,
   Title,
   Tooltip,
@@ -13,6 +14,7 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  BarController,
   Title,
   Tooltip,
   Legend

@@ -7,6 +7,7 @@ import {
   Tooltip,
   Legend,
   LineController,
+  BarController,
   LineElement,
   PointElement,
   LinearScale,
@@ -17,6 +18,7 @@ import { faker } from '@faker-js/faker';
 ChartJS.register(
   CategoryScale,
   BarElement,
+  BarController,
   Title,
   Tooltip,
   Legend,
