@@ -2,13 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import { ThemeContext } from '@/context/ThemeProvider';
 // import Layout from '@/components/finance/layout';
-import LineChart from '@/components/charts/LineChart';
-import PieChart from '@/components/charts/PieChart';
-import MultipleLineChart from '@/components/charts/MultipleLinesChart';
+// import LineChart from '@/components/charts/LineChart';
+// import PieChart from '@/components/charts/PieChart';
+// import MultipleLineChart from '@/components/charts/MultipleLinesChart';
 
 
 export default function FinanceApp() {
-  return (<>app</>)
+  return (<div>app</div>)
 }
 /* export default function FinanceApp() {
   const { mode } = React.useContext(ThemeContext);
@@ -46,7 +46,7 @@ const OverviewSection = () => {
   const { mode, setMode } = React.useContext(ThemeContext);
   return (
     <section>
-      <h4
+      {/* <h4
         className={clsx(
           'text-md w-full px-4 text-right font-semibold py-2 border-b',
           mode === 'light' ? 'bg-gray-300' : 'bg-gray-900',
@@ -114,7 +114,7 @@ const OverviewSection = () => {
       <div className='flex justify-end gap-10 px-8'>
         <h5>Total</h5>
         <h5>$xxxxx</h5>
-      </div>
+      </div> */}
     </section>
   );
 };

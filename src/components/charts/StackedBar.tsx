@@ -1,23 +1,29 @@
 import React from 'react';
-import { faker } from '@faker-js/faker';
 import {
   Chart as ChartJS,
   CategoryScale,
-  LinearScale,
   BarElement,
   Title,
   Tooltip,
   Legend,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
+import { faker } from '@faker-js/faker';
 
 ChartJS.register(
   CategoryScale,
-  LinearScale,
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale
 );
 
 import type { ChartData, ChartArea, ScriptableContext } from 'chart.js';

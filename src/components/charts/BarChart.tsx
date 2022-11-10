@@ -2,11 +2,14 @@ import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
-  LinearScale,
   BarElement,
   Title,
   Tooltip,
   Legend,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
 } from 'chart.js';
 
 import type { ChartData } from 'chart.js';
@@ -14,12 +17,16 @@ import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
-  LinearScale,
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale
 );
+
 const BarChart: React.FC<{
   width: string;
   height: string;
