@@ -75,18 +75,19 @@ const BarChart: React.FC<{
     else setChartData(chartData);
 
   }, [externalData]);
+  return <div>Bar Chart</div>
 
 
-  return (
-    <Chart
-      type='bar'
-      ref={chartRef}
-      data={chartData}
-      width={width}
-      height={height}
-      options={options}
-    />
-  );
+  // return (
+  //   <Chart
+  //     type='bar'
+  //     ref={chartRef}
+  //     data={chartData}
+  //     width={width}
+  //     height={height}
+  //     options={options}
+  //   />
+  // );
 };
 
 export default BarChart;
