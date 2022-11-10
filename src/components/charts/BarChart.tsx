@@ -1,31 +1,24 @@
 import React from 'react';
+import type { ChartData } from 'chart.js';
 import {
   Chart as ChartJS,
   CategoryScale,
+  LinearScale,
   BarElement,
   Title,
   Tooltip,
   Legend,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale,
 } from 'chart.js';
-
-import type { ChartData } from 'chart.js';
-import { Chart } from 'react-chartjs-2';
-
 ChartJS.register(
   CategoryScale,
+  LinearScale,
   BarElement,
   Title,
   Tooltip,
-  Legend,
-  LineController,
-  LineElement,
-  PointElement,
-  LinearScale
+  Legend
 );
+import { Bar, Chart } from 'react-chartjs-2';
+import { faker } from '@faker-js/faker';
 
 const BarChart: React.FC<{
   width: string;
@@ -75,19 +68,19 @@ const BarChart: React.FC<{
     else setChartData(chartData);
 
   }, [externalData]);
-  return <div>Bar Chart</div>
 
+  // return <div>Bar Chart</div>
 
-  // return (
-  //   <Chart
-  //     type='bar'
-  //     ref={chartRef}
-  //     data={chartData}
-  //     width={width}
-  //     height={height}
-  //     options={options}
-  //   />
-  // );
+  return (
+    <Chart
+      type='bar'
+      ref={chartRef}
+      data={chartData}
+      width={width}
+      height={height}
+      options={options}
+    />
+  );
 };
 
 export default BarChart;
