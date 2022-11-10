@@ -3,25 +3,26 @@ import type { ChartData } from 'chart.js';
 import {
   Chart as ChartJS,
   CategoryScale,
-  LinearScale,
-  PointElement,
-  LineController,
-  LineElement,
+  BarElement,
+  Title,
   Tooltip,
   Legend,
-  Filler,
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale,
 } from 'chart.js';
 ChartJS.register(
   CategoryScale,
-  LinearScale,
-  LineController,
-  PointElement,
-  LineElement,
+  BarElement,
+  Title,
   Tooltip,
   Legend,
-  Filler
+  LineController,
+  LineElement,
+  PointElement,
+  LinearScale
 );
-
 import { Chart } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
 
