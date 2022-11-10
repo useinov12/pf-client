@@ -3,10 +3,10 @@ import {
   Chart as ChartJS,
   CategoryScale,
   BarElement,
+  BarController,
   Title,
   Tooltip,
   Legend,
-  LineController,
   LineElement,
   PointElement,
   LinearScale,
@@ -17,10 +17,10 @@ import { faker } from '@faker-js/faker';
 ChartJS.register(
   CategoryScale,
   BarElement,
+  BarController,
   Title,
   Tooltip,
   Legend,
-  LineController,
   LineElement,
   PointElement,
   LinearScale
