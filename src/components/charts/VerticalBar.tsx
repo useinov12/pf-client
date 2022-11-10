@@ -1,9 +1,6 @@
 import React from 'react';
 import type { ChartData, ChartArea } from 'chart.js';
-
-import { Bar } from 'react-chartjs-2';
 import { faker } from '@faker-js/faker';
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -13,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -29,7 +27,8 @@ const VerticalBar: React.FC<{
   isFakeData?: boolean;
 }> = ({ width, height, isFakeData }) => {
   return (
-    <Bar
+    <Chart
+      type='bar'
       data={fakeDataset}
       options={options}
       width={width}
@@ -69,23 +68,3 @@ const fakeDataset = {
     },
   ],
 };
-
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-// } from 'chart.js';
-
-// ChartJS.register(
-//   CategoryScale,
-//   LinearScale,
-//   BarElement,
-//   Title,
-//   Tooltip,
-//   Legend,
-// );
-// import Chart from 'chart.js/auto'
