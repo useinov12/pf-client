@@ -11,11 +11,12 @@ const ReviewsSection = () => {
   return (
     <article
       className={clsx(
-        'mx-auto px-3',
-        'sm:max-w-screen-sm',
-        'md:max-w-screen-md ',
-        'lg:max-w-screen-lg',
-        'xl:max-w-screen-xl mt-2'
+        'mx-auto px-3 mt-2',
+        'sm:max-w-screen-sm ',
+        // 'md:max-w-screen-md ',
+        'md:max-w-screen-lg ',
+        'lg:max-w-screen-xl',
+        // 'xl:max-w-screen-xl'
       )}
     >
       <section
@@ -29,7 +30,7 @@ const ReviewsSection = () => {
           </div>
 
           <div>
-            <div className='flex flex-col items-center lg:items-start  w-full '>
+            <div className='flex flex-col items-center lg:items-start  w-full mb-10 lg:mb-0'>
               <h2 className='cursor-default text-center font-mono tracking-tight text-2xl drop-shadow lg:text-left'>
                 App that you looking for
               </h2>
@@ -37,17 +38,16 @@ const ReviewsSection = () => {
                 It was never this easy to look into your own financial state
               </h3>
             </div>
-            <div className='flex h-full w-full'>
+            <div className='flex h-max w-full items-center justify-center'>
               <ul className={clsx(
-                'w-full h-full lg:h-56 rounded-lg mt-5',
-                'flex gap-1 flex-wrap items-center justify-center lg:flex-nowrap'
+                'grid gap-x-1 gap-y-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5',
               )}>
                 {reviews.map((review, i) =>
                   <li 
                     key={review.name} 
                     className={clsx(
                       'rounded flex-col items-center',
-                      'py-2 px-2 border w-full h-32 sm:h-40 sm:w-32 md:h-48 md:w-40 xl:w-48 ', 
+                      'py-2 px-2 border  h-32 sm:h-40  md:h-48 ', 
                       mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
                       mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
                     )}>

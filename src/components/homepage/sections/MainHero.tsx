@@ -19,8 +19,9 @@ const MainHeroSection = () => {
         'justify-between lg:flex-row',
         'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
-        'lg:max-w-screen-lg',
-        'xl:max-w-screen-xl', 
+        // 'lg:max-w-screen-lg',
+        'lg:max-w-screen-xl',
+        // 'xl:max-w-screen-xl', 
         'mb-10 md:mb-0'
       )}
     >
@@ -41,7 +42,7 @@ const MainHeroSection = () => {
               'sm:text-4xl md:text-5xl',
               'uppercase tracking-tighter',
               'mb-16 cursor-default drop-shadow',
-              'lg:mb-72'
+              'lg:mb-20 pr-4'
             )}
           >
             Take <Accent>control</Accent>
@@ -83,8 +84,8 @@ const MainHeroSection = () => {
               </ArrowLink>
             </div>
           </div>
-          <div className='hidden lg:block'>
-            <Path height={400}/>
+          <div className='hidden lg:block mt-3'>
+            <Path height={600}/>
           </div>
         </div>
         
@@ -93,8 +94,8 @@ const MainHeroSection = () => {
       <section
         className={clsx(
           'w-fulls',
-          'mt-10 lg:p-5',
-          'md:mt-0',
+          'my-12',
+          'lg:mt-0',
           //desktop
           'lg:p-0',
           'lg:min-h-[60vh]',

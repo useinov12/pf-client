@@ -71,7 +71,7 @@ const InstructionsSection = () => {
             <h3 className='tracking-tight whitespace-nowrap text-dark '>Sign Up</h3>
           </div>
 
-          <div className='px-5 flex flex-col justify-center items-start '>
+          <div className='px-5 flex flex-col justify-center items-start my-4'>
             <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
               We use special Plaid Key to display your data in our app.
             </p>
@@ -84,7 +84,7 @@ const InstructionsSection = () => {
             mode === 'light' ? '' : 'bg-gray-200',
             mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
           )}>
-            <Image src={'/images/plaid.png'} width={110} height={110} />
+            <Image src={'/images/plaid.png'} width={100} height={100} />
             <h3 className='tracking-tight whitespace-nowrap text-dark'>Connect</h3>
           </div>
 

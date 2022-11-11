@@ -16,8 +16,9 @@ const ExpirienceSection = () => {
         'mx-auto',
         'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
-        'lg:max-w-screen-lg',
-        'mb-20 lg:mb-0 xl:max-w-screen-xl'
+        'lg:max-w-screen-xl',
+        'xl:max-w-screen-xl',
+        'mt-20 lg:mt-0'
       )}
     >
       <div className='flex w-full flex-col gap-3 lg:flex-row'>
@@ -98,7 +99,6 @@ const cards = [
         <ArrowLink href='https://plaid.com' className='mx-1'>
           Plaid
         </ArrowLink>
-        ,
       </span>
     ),
     icon: <RiSafe2Fill className='h-16 w-16' />,
