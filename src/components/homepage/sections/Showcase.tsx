@@ -4,6 +4,9 @@ import AccountsCard from '../cards/AccountsCard';
 import BanksCard from '../cards/BanksCard';
 import StatisticsCard from '../cards/StatisticsCard';
 import { FaChartPie } from 'react-icons/fa';
+import { BsPiggyBankFill } from 'react-icons/bs';
+import { MdSwitchAccount } from 'react-icons/md';
+import { FaMoneyBillWave } from 'react-icons/fa';
 import Path from '../Path';
 import { ThemeContext } from '@/context/ThemeProvider';
 
@@ -15,7 +18,7 @@ const ShowCaseSection = () => {
         'mx-auto',
         'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
-        'lg:max-w-screen-lg',
+        'lg:max-w-screen-xl',
         'xl:max-w-screen-xl',
         'mt-20 lg:mt-0'
       )}
@@ -38,25 +41,24 @@ const ShowCaseSection = () => {
             </div>
           </div>
 
-          <div className='mb-10 h-full w-full md:mb-0'>
-            <ul
-              className={clsx(
-                'mt-5 h-full w-full rounded-lg lg:h-56 ',
-                'flex flex-wrap items-center justify-center gap-1 sm:flex-nowrap lg:flex-nowrap'
-              )}
-            >
+          <div className='my-10 h-full w-full md:my-0'>
+            <ul className='grid gap-2 lg:grid-cols-3'>
               {cards.map((card, i) => (
                 <li
                   key={card.title}
                   className={clsx(
                     'flex-col items-center rounded',
-                    'h-40 w-full  border p-2 sm:w-1/3 md:h-56 md:w-1/3 lg:w-full',
+                    ' border p-2  md:h-60 ',
                     mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
                     mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
                   )}
                 >
-                  <h4>{card.title}</h4>
-                  <h5>{card.text}</h5>
+                  <div className='flex items-center justify-start gap-2'>
+                    {card.icon}
+                    <h4 className='md:text-xl'>{card.title}</h4>
+                  </div>
+                  <h5 className='mb-2 font-normal'>{card.secondTitle}</h5>
+                  {card.content}
                 </li>
               ))}
             </ul>
@@ -76,13 +78,13 @@ const ShowCaseSection = () => {
             )}
           >
             <div className='flex flex-col items-start pr-2 lg:w-1/3'>
-              <h1 className='mb-1 text-left font-mono text-3xl font-extralight tracking-tighter'>
+              <h2 className='mb-1 text-left  text-4xl font-extralight tracking-tighter'>
                 {section.title}
-              </h1>
+              </h2>
               <h3 className='mb-3 text-left text-xl font-bold'>
                 {section.secondTitle}
               </h3>
-              <p className='font-bolder mb-5 text-left text-xl tracking-wide '>
+              <p className='font-bolder mb-5 text-left text-lg tracking-wide '>
                 {section.text}
               </p>
             </div>
@@ -92,7 +94,7 @@ const ShowCaseSection = () => {
             </div>
           </section>
 
-          <Path height={300} className='hidden rotate-180 lg:block' />
+          <Path height={250} className='hidden rotate-180 lg:block' />
         </React.Fragment>
       ))}
     </article>
@@ -104,7 +106,7 @@ export default ShowCaseSection;
 const sections = [
   {
     card: <BanksCard />,
-    title: 'Clear your vision', 
+    title: 'Clear your vision',
     secondTitle: 'Get your accounts organazied',
     text: 'Build the mental map of your accounts dynamic. Get comfortable knowing your day-to-day spendings and incomes.',
   },
@@ -122,17 +124,109 @@ const sections = [
   },
 ];
 
+const BanksContent = () => {
+  const { mode } = React.useContext(ThemeContext);
+  return (
+    <ul className='flex flex-wrap items-center gap-2'>
+      {banks.map((bank, i) => (
+        <li
+          key={bank}
+          className={clsx(
+            'rounded-md border bg-transparent px-3 py-1 ring-4 ring-transparent drop-shadow',
+            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+            i === 2 && 'bg-sky-500 text-white ring-sky-600'
+          )}
+        >
+          <h4 className='text-sm drop-shadow'>{bank}</h4>
+        </li>
+      ))}
+    </ul>
+  );
+};
+const AccountsContent = () => {
+  const { mode } = React.useContext(ThemeContext);
+  return (
+    <ul className='flex flex-wrap items-center gap-2'>
+      {accounts.map((account, i) => (
+        <li
+          key={account}
+          className={clsx(
+            'rounded-md border bg-transparent px-3 py-1 ring-4 ring-transparent drop-shadow w-full',
+            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+            i === 2 && 'bg-sky-500 text-white ring-sky-600'
+          )}
+        >
+          <h4 className='text-sm drop-shadow'>{account}</h4>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const TransactionsContent = () => {
+  const { mode } = React.useContext(ThemeContext);
+  return (
+    <ul className='flex flex-wrap items-center gap-2'>
+      {transactions.map((transaction, i) => (
+        <li
+          key={transaction[0]}
+          className={clsx(
+            'rounded-md border bg-transparent px-3 py-1 ring-4 ring-transparent drop-shadow w-full',
+            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+            i === 1 && 'bg-sky-500 text-white ring-sky-600',
+            'flex justify-between'
+          )}
+        >
+          <h5 className='text-sm drop-shadow'>{transaction[0]}</h5>
+          <h5 className='text-sm drop-shadow'>{transaction[1]}</h5>
+          <h5 className='text-sm drop-shadow'>$xxxx</h5>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
 const cards = [
   {
+    icon: <BsPiggyBankFill className='h-12 w-12' />,
     title: 'Banks',
-    text: 'Your banks in one click',
+    secondTitle: 'Your banks in one click',
+    content: <BanksContent/>,
   },
   {
+    icon: <MdSwitchAccount className='h-12 w-12' />,
     title: 'Accounts',
-    text: 'All types of accounts',
+    secondTitle: 'All types of accounts',
+    content: <AccountsContent/> ,
   },
   {
+    icon: <FaMoneyBillWave className='h-12 w-12' />,
     title: 'Transactions',
-    text: 'List of all transactions',
+    secondTitle: 'List of all transactions',
+    content: <TransactionsContent/>,
   },
 ];
+
+const banks = [
+  'Capital One',
+  'Bank Of America',
+  'Chase',
+  'Wells Fargo',
+  'Citibank',
+  'PNC',
+  'American Express',
+];
+
+const accounts = [
+  'Checking',
+  'Saving',
+  'Credit',
+  'Other accounts'
+]
+
+const transactions = [
+  ['07/14/2022', 'PURCHASE'],
+  ['05/15/2022', 'DEPOSIT'],
+  ['03/12/2022', 'PURCHASE'],
+  ['06/21/2022', 'LOAN'],
+]
