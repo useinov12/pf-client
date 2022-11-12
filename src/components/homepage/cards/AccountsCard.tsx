@@ -28,9 +28,9 @@ const AccountsCard = () => {
 
   return (
     <Card
-      className='h-full w-full'
+      className='min-h-[17rem] w-full'
     >
-      <div className='flex h-full w-full flex-col items-start p-2 '>
+      <div className='flex h-full w-full flex-col items-start p-2'>
        <h6 className='mb-1 text-lg pl-2 font-semibold drop-shadow-md'>
           Accounts
         </h6>

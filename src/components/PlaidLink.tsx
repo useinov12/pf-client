@@ -21,7 +21,7 @@ async function requestLinkToken() {
 
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_SERVER_PATH}/link_token`,
+      `${process.env.NEXT_PUBLIC_SERVER_PATH}/link/token/create`,
       { headers }
     );
 
@@ -32,7 +32,7 @@ async function requestLinkToken() {
     };
   } catch (e: any) {
     console.log('error', e);
-    return { status: e.status, data: {}, message: e.data.detail.message };
+    return { status: e.status, data: {}, message: 'Something happened with Plaid link.' };
   }
 }
 async function requestPublicToken(token: string) {
@@ -45,10 +45,10 @@ async function requestPublicToken(token: string) {
   try {
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_SERVER_PATH}/access_token`,
-      { public_token: token, name:'BofA' },
+      { public_token: token, name: 'BofA' },
       { headers }
     );
-      console.log('REQUEST PUBLIC TOKEN',response)
+    console.log('REQUEST PUBLIC TOKEN', response);
     return {
       status: 200,
       data: response.data.detail.data,
@@ -67,16 +67,18 @@ const PlaidLink = () => {
     const { status, data, message } = await requestLinkToken();
 
     if (status === 201) {
-      // console.log('createLinkToken', data)
-      setToken(data);
+      console.log('createLinkToken', data)
+      // setToken(data);
+      setToken('link-development-42567e6c-ae29-4351-9bf2-292334ace7b1');
+      // setToken('link-development-534806b0-d83c-4fe5-8334-8b43cd778945');
     }
   };
 
-  // get a link_token from your API when component mounts
   React.useEffect(() => {
     createLinkToken();
   }, []);
 
+  /* #region   get a link_token from your API when component mounts */
   const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
     // send public_token to your server
     // https://plaid.com/docs/api/tokens/#token-exchange-flow
@@ -95,6 +97,7 @@ const PlaidLink = () => {
     // https://plaid.com/docs/link/web/#onexit
     console.log(error, metadata);
   }, []);
+  /* #endregion */
 
   const config: PlaidLinkOptions = {
     token,
@@ -121,7 +124,7 @@ const PlaidLink = () => {
         'rounded-none'
       )}
       onClick={() => open()}
-      disabled={!ready}
+      // disabled={!ready}
     >
       Connect Plaid
     </Button>

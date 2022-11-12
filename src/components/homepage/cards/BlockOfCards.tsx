@@ -166,7 +166,7 @@ const BlockOfCards = () => {
   return (
     <div
       className='sm:grid-rows-12 float-right flex w-full h-auto
-      flex-col gap-x-5 my-16
+      flex-col gap-x-5
       gap-y-2 rounded-xl bg-gray-50 p-3 text-dark 
       shadow-inner
       ring-white drop-shadow transition-all 

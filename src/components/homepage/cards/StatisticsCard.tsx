@@ -63,7 +63,7 @@ const StatisticsCard = () => {
 
   return (
     <Card
-      className='h-full w-full'
+      className='h-full w-full lg:w-4/6'
     >
       <div className='flex h-full w-full flex-col items-center p-2'>
         <h6 className='mb-1 self-start pl-2 text-lg font-semibold drop-shadow-md'>
@@ -89,28 +89,28 @@ const StatisticsCard = () => {
               key={data.date}
             >
               <h4
-                className='font-mono font-normal'
+                className='font-mono font-normal text-lg'
                 ref={(el) => (datesRef.current[i] = el)}
               />
               <div className='flex w-16 items-center justify-between'>
-                <h5 className='font-mono text-xl font-normal'>$</h5>
+                <h5 className='font-mono text-lg font-normal'>$</h5>
                 <h5
-                  className='font-mono text-xl font-normal'
+                  className='font-mono text-lg font-normal'
                   ref={(el) => (amountRefs.current[i] = el)}
                 />
               </div>
             </li>
           ))}
         </ul>
-        <div className='mb-3 flex w-full items-baseline justify-between px-10'>
-          <div className='font-semiblod flex items-baseline justify-start gap-1 font-mono'>
+        <div className='mb-3 flex w-full items-baseline justify-between pl-10 gap-3'>
+          <div className='font-semiblod flex items-baseline justify-start gap-1 font-mono text-md'>
             Average
             <h6 className='font-mono font-semibold' ref={averageDayRef} />
             total:{' '}
           </div>
           <div className='flex w-28 items-center justify-start'>
-            <h5 className='font-mono text-xl font-semibold'>$</h5>
-            <h5 className='font-mono text-xl font-semibold' ref={averegeRef} />
+            <h5 className='font-mono text-lg font-semibold'>$</h5>
+            <h5 className='font-mono text-lg font-semibold' ref={averegeRef} />
           </div>
         </div>
         <div className='h-1/4 w-full'>
@@ -119,7 +119,7 @@ const StatisticsCard = () => {
             height='100%'
             externalData={data[counter].map((day) => Math.abs(day.amount))}
             labels={data[counter].map((day) => day.date)}
-            delay={1800}
+            delay={2000}
           />
         </div>
       </div>

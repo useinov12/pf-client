@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { UserContext } from '@/context/UserProvider';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import PlaidLink from '@/components/PlaidLink';
 
 export default function CabinetPage() {
   const { mode, setMode } = React.useContext(ThemeContext);
@@ -108,7 +109,8 @@ export default function CabinetPage() {
               <h4 className=''>Connected Banks</h4>
               <div className='inline-flex gap-2'>
                 <Button variant='light' className='w-32 py-1 px-8 text-sm whitespace-nowrap'>Open App</Button>
-                <Button variant='green' className='w-32 py-1 px-8 text-sm'>Add new</Button>
+                {/* <Button variant='green' className='w-32 py-1 px-8 text-sm'>Add new</Button> */}
+                <PlaidLink/>
               </div>
             </div>
             <ul className='scroll-y overflow-y-scroll h-full'>
