@@ -102,7 +102,7 @@ const StatisticsCard = () => {
             </li>
           ))}
         </ul>
-        <div className='mb-3 flex w-full items-baseline justify-between pl-10 gap-3'>
+        <div className='mb-3 flex w-full items-baseline justify-between lg:pl-10 gap-3'>
           <div className='font-semiblod flex items-baseline justify-start gap-1 font-mono text-md'>
             Average
             <h6 className='font-mono font-semibold' ref={averageDayRef} />
