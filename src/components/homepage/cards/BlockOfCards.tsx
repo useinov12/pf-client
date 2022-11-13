@@ -174,39 +174,46 @@ const BlockOfCards = () => {
 
   return (
     <div
-      className='sm:grid-rows-12 float-right flex h-auto w-full
-      flex-col gap-x-5
-      gap-y-2 rounded-xl bg-gray-50 p-3 text-dark 
-      shadow-inner
-      ring-white drop-shadow transition-all 
-      duration-300 sm:grid'
+      className={clsx(
+        'h-auto w-full my-4',
+        'rounded-xl bg-gray-50 p-3 text-dark ',
+        ' ring-white drop-shadow ',
+        'transition-all duration-300'
+      )}
       ref={pauseRef}
     >
-      <div className='mb-2 ml-2 inline-flex items-center gap-2'>
-        <div className='h-3 w-3 rounded-full bg-red-500/90 drop-shadow ' />
-        <div className='h-3 w-3 rounded-full bg-yellow-400/90 drop-shadow ' />
-        <div className='h-3 w-3 rounded-full bg-green-400/90 drop-shadow ' />
-      </div>
+      <header>
+        <div className='mb-2 ml-2 inline-flex items-center gap-2'>
+          <div className='h-3 w-3 rounded-full bg-red-500/90 drop-shadow ' />
+          <div className='h-3 w-3 rounded-full bg-yellow-400/90 drop-shadow ' />
+          <div className='h-3 w-3 rounded-full bg-green-400/90 drop-shadow ' />
+        </div>
+      </header>
 
-      <BankCard
-        chartData={chartData}
-        bankNameRef={bankNameRef}
-        bankTotalRef={bankTotalRef}
-      />
+      <section className='flex gap-2 flex-col md:flex-row'>
+        <div className='flex md:w-1/2 flex-col gap-y-2'>
+          <BankCard
+            chartData={chartData}
+            bankNameRef={bankNameRef}
+            bankTotalRef={bankTotalRef}
+          />
 
-      <SummaryCard
-        chartData={chartData}
-        summaryAccTypeRef={summaryAccSumRef}
-        summaryAccSumRef={summaryAccSumRef}
-      />
+          <TransactionsCard
+            chartData={chartData}
+            transactionsRef={transactionsRef}
+            transactionsTotalRef={transactionsTotalRef}
+          />
+        </div>
 
-      <ChartCard chartData={chartData} />
-
-      <TransactionsCard
-        chartData={chartData}
-        transactionsRef={transactionsRef}
-        transactionsTotalRef={transactionsTotalRef}
-      />
+        <div className='flex md:w-1/2 flex-col gap-y-2'>
+          <SummaryCard
+            chartData={chartData}
+            summaryAccTypeRef={summaryAccSumRef}
+            summaryAccSumRef={summaryAccSumRef}
+          />
+          <ChartCard chartData={chartData} />
+        </div>
+      </section>
     </div>
   );
 };
@@ -224,9 +231,11 @@ const BankCard = ({
   bankTotalRef: React.RefObject<HTMLDivElement>;
 }) => {
   return (
-    <Card className='col-span-4 col-start-1' inner>
-      <div className='flex flex-col justify-between py-1 px-4 sm:flex-row'>
-        <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'>
+    <Card className='col-span-4 col-start-1 w-full' inner>
+      {/* <section className='flex flex-col justify-between py-1 px-4 sm:flex-row'> */}
+      <section className='flex flex-col justify-between py-1 px-4 '>
+        {/* <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'> */}
+        <div className='mb-3 flex flex-col justify-start items-start'>
           <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
             Connected Banks:
           </h6>
@@ -252,7 +261,7 @@ const BankCard = ({
 
         <div
           className='flex flex-col items-center 
-        justify-center rounded sm:w-1/2 '
+          justify-center rounded  '
         >
           <h3
             className='whitespace-nowrap font-serif text-lg 
@@ -263,7 +272,7 @@ const BankCard = ({
           </h3>
           <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300 ' />
 
-          <div className='flex w-5/6 items-baseline justify-start  gap-3'>
+          <div className='flex w-5/6 items-baseline justify-center  gap-3'>
             <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
 
             <div className='mt-2 flex items-center justify-start gap-5'>
@@ -279,7 +288,7 @@ const BankCard = ({
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </Card>
   );
 };
@@ -362,17 +371,14 @@ const SummaryCard = ({
 /* #region  CHART CARD */
 const ChartCard = ({ chartData }: { chartData: ChartData }) => {
   return (
-    <Card
-      className='col-span-4 col-start-1 row-span-3 w-full md:col-span-2'
-      inner
-    >
+    <Card inner className='col-span-4 col-start-1 row-span-3 md:col-span-2'>
       <div className='flex flex-col items-center'>
         <h4 className='py-2 font-serif text-lg font-normal uppercase'>
           Charts
         </h4>
 
         <div className='flex h-full w-full flex-col items-center justify-center '>
-          <div className='h-28 w-5/6'>
+          <div className='h-20 w-5/6'>
             <LineChart
               width={'100%'}
               height={'100%'}
@@ -380,7 +386,7 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
               delay={3200}
             />
           </div>
-          <div className='h-28 w-5/6'>
+          <div className='h-20 w-5/6'>
             <BarChart
               width={'100%'}
               height={'100%'}
@@ -463,8 +469,6 @@ const TransactionsCard = ({
 };
 /* #endregion */
 
-
-
 /* #region  Gsap swap text effect */
 gsap.registerEffect({
   name: 'swapText',
@@ -507,18 +511,8 @@ const skeletonData = {
 
 const data = [
   {
-    bank: 'Bank of America',
-    transactions: [-23, -17, -85, 400, -120, -30, 512],
-    accounts: [
-      { type: 'Checking', sum: 4200 },
-      { type: 'Saving', sum: 9700 },
-      { type: 'Credit', sum: -1700 },
-    ],
-    dynamic: [1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200],
-  },
-  {
     bank: 'Capital One',
-    transactions: [-403, -28, -159, 90, -320, 1230, 420],
+    transactions: [-403, -28, -159],
     accounts: [
       { type: 'Credit', sum: -2200 },
       { type: 'Saving', sum: 5000 },
@@ -527,8 +521,18 @@ const data = [
     dynamic: [1000, 1200, 1400, 1800, 1400, 1600, 1700, 1200],
   },
   {
+    bank: 'Bank of America',
+    transactions: [-23, -17, -85],
+    accounts: [
+      { type: 'Checking', sum: 4200 },
+      { type: 'Saving', sum: 9700 },
+      { type: 'Credit', sum: -1700 },
+    ],
+    dynamic: [1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200],
+  },
+  {
     bank: 'American Express',
-    transactions: [-120, -500, 297, 300, 720, 30, 730],
+    transactions: [-120, -500, 297],
     accounts: [
       { type: 'Saving', sum: 12000 },
       { type: 'Checking-1', sum: 2700 },
