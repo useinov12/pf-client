@@ -5,14 +5,23 @@ import Card from './Card';
 import PieChart from '../../charts/PieChart';
 import LineChart from '../../charts/LineChart';
 import BarChart from '../../charts/BarChart';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
-import '@/lib/swapText'
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import '@/lib/swapText';
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
+interface ChartData {
+  bank: string;
+  transactions: number[];
+  accounts: {
+    type: string;
+    sum: number;
+  }[];
+  dynamic: number[];
+}
 
 const BlockOfCards = () => {
-  const [chartData, setChartData] = React.useState(skeletonData);
+  const [chartData, setChartData] = React.useState<ChartData>(skeletonData);
   const [counter, setCounter] = React.useState(-1);
 
   const prevCountRef = React.useRef(counter);
@@ -35,9 +44,9 @@ const BlockOfCards = () => {
   /* #region  Timer */
   /** Update counter every x seconds */
   React.useEffect(() => {
-    gsap.ticker.lagSmoothing(false)
+    gsap.ticker.lagSmoothing(false);
     //if initial load - delay animation for 1.5 sec
-    const delay = counter === -1 ? 1500 : 7400; 
+    const delay = counter === -1 ? 1500 : 7400;
 
     const timer = setInterval(() => {
       prevCountRef.current = counter; //save prev counter value
@@ -165,7 +174,7 @@ const BlockOfCards = () => {
 
   return (
     <div
-      className='sm:grid-rows-12 float-right flex w-full h-auto
+      className='sm:grid-rows-12 float-right flex h-auto w-full
       flex-col gap-x-5
       gap-y-2 rounded-xl bg-gray-50 p-3 text-dark 
       shadow-inner
@@ -179,212 +188,282 @@ const BlockOfCards = () => {
         <div className='h-3 w-3 rounded-full bg-green-400/90 drop-shadow ' />
       </div>
 
-      {/* ============ BANKS CARD ============ */}
-      <Card className='col-span-4 col-start-1' inner>
-        <div className='flex flex-col justify-between py-1 px-4 sm:flex-row'>
+      <BankCard
+        chartData={chartData}
+        bankNameRef={bankNameRef}
+        bankTotalRef={bankTotalRef}
+      />
 
-          <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'>
-            <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
-              Connected Banks:
-            </h6>
-            <ul className='flex w-full flex-wrap'>
-              {data.map(({ bank }) => (
-                <li
-                  key={bank}
-                  className={clsx(
-                    'drop-shadow-md transition-all duration-200',
-                    'my-1 mr-2 rounded-md border-2 border-gray-300 px-2 py-1 ',
-                    bank === chartData.bank
-                      ? 'ring-4 ring-sky-500'
-                      : 'ring-4 ring-transparent'
-                  )}
-                >
-                  <h6 className='whitespace-nowrap font-serif text-sm drop-shadow-md'>
-                    {bank}
-                  </h6>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <SummaryCard
+        chartData={chartData}
+        summaryAccTypeRef={summaryAccSumRef}
+        summaryAccSumRef={summaryAccSumRef}
+      />
 
-          <div
-            className='flex flex-col items-center 
-            justify-center rounded sm:w-1/2 '
-          >
-            <h3
-              className='whitespace-nowrap font-serif text-lg 
-              font-normal uppercase drop-shadow-md'
-              ref={bankNameRef}
-            >
-              xxxxxxx
-            </h3>
-            <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300 ' />
+      <ChartCard chartData={chartData} />
 
-            <div className='flex w-5/6 items-baseline justify-start  gap-3'>
-              <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
+      <TransactionsCard
+        chartData={chartData}
+        transactionsRef={transactionsRef}
+        transactionsTotalRef={transactionsTotalRef}
+      />
+    </div>
+  );
+};
 
-              <div className='mt-2 flex items-center justify-start gap-5'>
-                <h2 className='font-mono text-3xl font-normal drop-shadow-md'>
-                  $
-                </h2>
-                <h2
-                  className=' font-mono text-2xl font-light uppercase drop-shadow-md'
-                  ref={bankTotalRef}
-                >
-                  {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
-                </h2>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card>
+export default BlockOfCards;
 
-      {/* ============ SUMMARY CARD ============ */}
-      <Card className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block ' inner>
-        <div className='flex flex-col items-center px-4 py-1'>
-          <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
-            Summary
-          </h3>
-
-          <div className='flex  w-full  items-center justify-between'>
-            <div className='flex w-2/6 justify-center'>
-              <div className='h-full w-1/2 text-center'>
-                <PieChart
-                  radius='30'
-                  externalData={chartData.accounts.map(({ sum }) => sum)}
-                  labels={chartData.accounts.map(({ type }) => type)}
-                  delay={1200}
-                />
-              </div>
-            </div>
-            <ul className='flex w-5/6 sm:w-4/6 flex-col items-start self-start'>
-              {chartData.accounts.map(({ type, sum }, i) => (
-                <li
-                  className='my-[2px] flex w-full items-center justify-between 
-                  border-b border-gray-400 px-2 drop-shadow-sm'
-                  key={`summary-${i}`}
-                >
-                  <div className='inline-flex items-center gap-2'>
-                    <span
-                      className={clsx(
-                        'h-2 w-2  rounded-full',
-                        i === 0
-                          ? 'bg-stone-300'
-                          : i === 1
-                          ? 'bg-stone-500'
-                          : 'bg-stone-700'
-                      )}
-                    />
-                    <h6
-                      className='font-mono text-sm sm:text-md font-normal opacity-0 '
-                      ref={(el) => (summaryAccTypeRef.current[i] = el)}
-                    >
-                      {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
-                    </h6>
-                  </div>
-                  <div className='flex w-24 items-center justify-between'>
-                    <h6 className='ml-3 font-mono font-normal'>$</h6>
-                    <h6
-                      className='font-mono text-md font-normal uppercase'
-                      ref={(el) => (summaryAccSumRef.current[i] = el)}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Card>
-
-      {/* ============ CHARTS CARD ============ */}
-      <Card className='col-span-4 md:col-span-2 col-start-1 row-span-3 w-full' inner>
-        <div className='flex flex-col items-center'>
-          <h4 className='py-2 font-serif text-lg font-normal uppercase'>
-            Charts
-          </h4>
-
-          <div className='flex h-full w-full flex-col items-center justify-center '>
-            <div className='h-28 w-5/6'>
-              <LineChart
-                width={'100%'}
-                height={'100%'}
-                externalData={chartData.dynamic}
-                delay={3200}
-              />
-            </div>
-            <div className='h-28 w-5/6'>
-              <BarChart
-                width={'100%'}
-                height={'100%'}
-                externalData={chartData.dynamic}
-                delay={3500}
-              />
-            </div>
-          </div>
-        </div>
-      </Card>
-
-      {/* ============ TRANSACTIONS CARD ============ */}
-      <Card
-        className='col-span-2 col-start-3 row-span-3 row-start-5 w-full hidden md:block'
-        inner
-      >
-        <div className='flex flex-col items-center justify-start px-2 text-center'>
-          <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
-            Transactions
-          </h3>
-
-          <ul className='flex w-5/6 flex-col '>
-            {chartData.transactions.map((number, i) => (
+/* #region  BANK CARD */
+const BankCard = ({
+  chartData,
+  bankNameRef,
+  bankTotalRef,
+}: {
+  chartData: ChartData;
+  bankNameRef: React.RefObject<HTMLDivElement>;
+  bankTotalRef: React.RefObject<HTMLDivElement>;
+}) => {
+  return (
+    <Card className='col-span-4 col-start-1' inner>
+      <div className='flex flex-col justify-between py-1 px-4 sm:flex-row'>
+        <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'>
+          <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
+            Connected Banks:
+          </h6>
+          <ul className='flex w-full flex-wrap'>
+            {data.map(({ bank }) => (
               <li
-                className='mb-1 flex items-center justify-between
-                border-b border-gray-400'
-                key={i}
+                key={bank}
+                className={clsx(
+                  'drop-shadow-md transition-all duration-200',
+                  'my-1 mr-2 rounded-md border-2 border-gray-300 px-2 py-1 ',
+                  bank === chartData.bank
+                    ? 'ring-4 ring-sky-500'
+                    : 'ring-4 ring-transparent'
+                )}
               >
-                <h6 className='text-md font-serif font-normal drop-shadow-md'>
-                  #{i + 1}
+                <h6 className='whitespace-nowrap font-serif text-sm drop-shadow-md'>
+                  {bank}
                 </h6>
-                <div
-                  className={clsx(
-                    'flex w-20 items-center justify-between rounded'
-                  )}
-                >
-                  <h6 className='ml-3 font-mono font-normal drop-shadow-md'>
-                    $
-                  </h6>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div
+          className='flex flex-col items-center 
+        justify-center rounded sm:w-1/2 '
+        >
+          <h3
+            className='whitespace-nowrap font-serif text-lg 
+          font-normal uppercase drop-shadow-md'
+            ref={bankNameRef}
+          >
+            xxxxxxx
+          </h3>
+          <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300 ' />
+
+          <div className='flex w-5/6 items-baseline justify-start  gap-3'>
+            <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
+
+            <div className='mt-2 flex items-center justify-start gap-5'>
+              <h2 className='font-mono text-3xl font-normal drop-shadow-md'>
+                $
+              </h2>
+              <h2
+                className=' font-mono text-2xl font-light uppercase drop-shadow-md'
+                ref={bankTotalRef}
+              >
+                {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+};
+/* #endregion */
+
+/* #region  SUMMARY CARD */
+const SummaryCard = ({
+  chartData,
+  summaryAccTypeRef,
+  summaryAccSumRef,
+}: {
+  chartData: ChartData;
+  summaryAccTypeRef: React.MutableRefObject<any[]>;
+  summaryAccSumRef: React.MutableRefObject<any[]>;
+}) => {
+  return (
+    <Card
+      className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block '
+      inner
+    >
+      <div className='flex flex-col items-center px-4 py-1'>
+        <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
+          Summary
+        </h3>
+
+        <div className='flex  w-full  items-center justify-between'>
+          <div className='flex w-2/6 justify-center'>
+            <div className='h-full w-1/2 text-center'>
+              <PieChart
+                radius='30'
+                externalData={chartData.accounts.map(({ sum }) => sum)}
+                labels={chartData.accounts.map(({ type }) => type)}
+                delay={1200}
+              />
+            </div>
+          </div>
+          <ul className='flex w-5/6 flex-col items-start self-start sm:w-4/6'>
+            {chartData.accounts.map(({ type, sum }, i) => (
+              <li
+                className='my-[2px] flex w-full items-center justify-between 
+              border-b border-gray-400 px-2 drop-shadow-sm'
+                key={`summary-${i}`}
+              >
+                <div className='inline-flex items-center gap-2'>
+                  <span
+                    className={clsx(
+                      'h-2 w-2  rounded-full',
+                      i === 0
+                        ? 'bg-stone-300'
+                        : i === 1
+                        ? 'bg-stone-500'
+                        : 'bg-stone-700'
+                    )}
+                  />
                   <h6
-                    className=' transactions text-left font-mono font-normal drop-shadow-md'
-                    ref={(el) => (transactionsRef.current[i] = el)}
+                    className='sm:text-md font-mono text-sm font-normal opacity-0 '
+                    ref={(el) => (summaryAccTypeRef.current[i] = el)}
                   >
-                    {number}
+                    {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
                   </h6>
+                </div>
+                <div className='flex w-24 items-center justify-between'>
+                  <h6 className='ml-3 font-mono font-normal'>$</h6>
+                  <h6
+                    className='text-md font-mono font-normal uppercase'
+                    ref={(el) => (summaryAccSumRef.current[i] = el)}
+                  />
                 </div>
               </li>
             ))}
           </ul>
-
-          <li className='my-2 mb-1 flex w-5/6 justify-between'>
-            <h6 className='font-serif text-lg font-normal drop-shadow-md'>
-              TOTAL
-            </h6>
-            <div className='flex items-center justify-start'>
-              <h6 className='font-mono text-xl font-normal drop-shadow-md'>
-                $
-              </h6>
-              <h6
-                className='font-mono text-xl font-normal drop-shadow-md'
-                ref={transactionsTotalRef}
-              >
-                {chartData.bank === 'XXXX XXX XXXX' ? '0000' : ''}
-              </h6>
-            </div>
-          </li>
         </div>
-      </Card>
-    </div>
+      </div>
+    </Card>
   );
 };
-export default BlockOfCards;
+
+/* #endregion */
+
+/* #region  CHART CARD */
+const ChartCard = ({ chartData }: { chartData: ChartData }) => {
+  return (
+    <Card
+      className='col-span-4 col-start-1 row-span-3 w-full md:col-span-2'
+      inner
+    >
+      <div className='flex flex-col items-center'>
+        <h4 className='py-2 font-serif text-lg font-normal uppercase'>
+          Charts
+        </h4>
+
+        <div className='flex h-full w-full flex-col items-center justify-center '>
+          <div className='h-28 w-5/6'>
+            <LineChart
+              width={'100%'}
+              height={'100%'}
+              externalData={chartData.dynamic}
+              delay={3200}
+            />
+          </div>
+          <div className='h-28 w-5/6'>
+            <BarChart
+              width={'100%'}
+              height={'100%'}
+              externalData={chartData.dynamic}
+              delay={3500}
+            />
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+};
+
+/* #endregion */
+
+/* #region  TRANSACTIONS CARD */
+const TransactionsCard = ({
+  chartData,
+  transactionsRef,
+  transactionsTotalRef,
+}: {
+  chartData: ChartData;
+  transactionsRef: React.MutableRefObject<any[]>;
+  transactionsTotalRef: React.MutableRefObject<any>;
+}) => {
+  return (
+    <Card
+      className='col-span-2 col-start-3 row-span-3 row-start-5 hidden w-full md:block'
+      inner
+    >
+      <div className='flex flex-col items-center justify-start px-2 text-center'>
+        <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
+          Transactions
+        </h3>
+
+        <ul className='flex w-5/6 flex-col '>
+          {chartData.transactions.map((number, i) => (
+            <li
+              className='mb-1 flex items-center justify-between
+            border-b border-gray-400'
+              key={i}
+            >
+              <h6 className='text-md font-serif font-normal drop-shadow-md'>
+                #{i + 1}
+              </h6>
+              <div
+                className={clsx(
+                  'flex w-20 items-center justify-between rounded'
+                )}
+              >
+                <h6 className='ml-3 font-mono font-normal drop-shadow-md'>$</h6>
+                <h6
+                  className=' transactions text-left font-mono font-normal drop-shadow-md'
+                  ref={(el) => (transactionsRef.current[i] = el)}
+                >
+                  {number}
+                </h6>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <li className='my-2 mb-1 flex w-5/6 justify-between'>
+          <h6 className='font-serif text-lg font-normal drop-shadow-md'>
+            TOTAL
+          </h6>
+          <div className='flex items-center justify-start'>
+            <h6 className='font-mono text-xl font-normal drop-shadow-md'>$</h6>
+            <h6
+              className='font-mono text-xl font-normal drop-shadow-md'
+              ref={transactionsTotalRef}
+            >
+              {chartData.bank === 'XXXX XXX XXXX' ? '0000' : ''}
+            </h6>
+          </div>
+        </li>
+      </div>
+    </Card>
+  );
+};
+/* #endregion */
+
+
 
 /* #region  Gsap swap text effect */
 gsap.registerEffect({
