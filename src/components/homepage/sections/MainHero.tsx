@@ -6,79 +6,100 @@ import { RiBankFill } from 'react-icons/ri';
 import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
 import Path from '../Path';
+import { ThemeContext } from '@/context/ThemeProvider';
 
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
   // const pathRef = React.useRef<SVGRectElement | null >(null);
+  const { mode } = React.useContext(ThemeContext);
+  
   return (
     <article
       className={clsx(
-        'mx-auto mt-5 ',
+        'w-full h-full',
+        // 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-500 via-gray-50 to-gray-500'
+      )}
+    >
+      <div className={clsx(
+        'mx-auto',
         //desktop
         'justify-between lg:flex-row',
         'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
         'lg:max-w-screen-xl',
-        'mb-10 md:mb-0'
-      )}
-    >
-      <section
-        className={clsx(
-          'flex w-full flex-col',
-          'items-center justify-center',
-          //desktop
-        )}
-      >
-        <div className='w-full text-center my-20'>
-          <h1
-            className={clsx(
-              'text-4xl font-extrabold',
-              'sm:text-4xl md:text-5xl',
-              'uppercase tracking-tighter',
-              'mb-16 cursor-default drop-shadow',
-              'pr-4 lg:mb-20'
-            )}
-          >
-            Take <Accent>control</Accent>
-             {' '}
-            over your money
-          </h1>
-        </div>
-      </section>
-
-      <section className='flex flex-col items-center justify-end '>
-        <div className='flex w-full flex-col gap-3  lg:flex-row'>
-          <div className='flex flex-col items-center justify-center  lg:items-start'>
-            <RiBankFill className='mb-2 h-16 w-16' />
-            <Path height={700} className='hidden rotate-180 lg:block' />
-          </div>
-        <div className='w-full'>
-          <div className='mb-10 flex w-full flex-col  items-center lg:mb-0 lg:items-start'>
-            <h2 className='cursor-default text-center font-mono text-2xl tracking-tight drop-shadow lg:text-left'>
-              PersonalFinance
-            </h2>
-            <h3 className='cursor-default text-center text-lg font-normal drop-shadow lg:text-left'>
-              will help you organize your bank data
-            </h3>
-            <ArrowLink
-              as={ButtonLink}
-              href='/'
+        // 'mb-10 md:mb-0',
+      )}>
+        <section
+          className={clsx(
+            'flex w-full flex-col',
+            'items-center justify-center h-[70vh]',
+          )}
+        >
+          <div className={clsx(
+            'w-full text-center',
+            mode === 'dark' ? 'text-white' : 'text-gray-900',
+          )}>
+            <h1
               className={clsx(
-                'py-1 px-1',
-                'rounded text-center lg:text-start',
-                'text-lg'
+                'text-4xl font-extrabold',
+                'sm:text-4xl md:text-6xl',
+                'uppercase tracking-tight',
+                'cursor-default',
+                'pr-4 drop-shadow-xl',
+                'transition-all duration-150 delay-75 mb-3',
+                
               )}
             >
-              Take a look at Demo version
-            </ArrowLink>
-          </div>
+              Take control
+              {' '}
+              over your money
+            </h1>
+            <h3 className={clsx(
+              'drop-shadow-xl font-semibold',
+              'transition-all duration-150 delay-75 '
+            )}>
+              A financial app that let's you gather and analyze bank data in usefull way.
+            </h3>
 
-          <div className=' w-full h-auto my-4'>
-            <BlockOfCards />
           </div>
-        </div>
-        </div>
-      </section>
+        </section>
+
+        <section className='flex flex-col items-center justify-end'>
+          <div className='flex w-full flex-col gap-3  lg:flex-row'>
+            <div className='flex flex-col items-center justify-center  lg:items-start'>
+              <RiBankFill className='mb-2 h-16 w-16' />
+              <Path height={700} className='hidden rotate-180 lg:block' />
+            </div>
+          <div className='w-full'>
+            <div className='mb-6 flex w-full flex-col  items-center lg:mb-0 lg:items-start'>
+              <h2 className='cursor-default text-center font-mono text-2xl tracking-tight drop-shadow lg:text-left'>
+                PersonalFinance
+              </h2>
+              <h3 className='cursor-default text-center text-xl font-normal drop-shadow lg:text-lefts'>
+                will help you organize your bank data
+              </h3>
+              <ArrowLink
+                as={ButtonLink}
+                href='/'
+                className={clsx(
+                  'py-1 px-3',
+                  'rounded text-center',
+                  'text-xl lg:my-2'
+                )}
+              >
+                Take a look at Demo version
+              </ArrowLink>
+            </div>
+
+            <div 
+              className=' w-full h-auto my-4 '
+            >
+              <BlockOfCards />
+            </div>
+          </div>
+          </div>
+        </section>
+      </div>
 
     </article>
   );
