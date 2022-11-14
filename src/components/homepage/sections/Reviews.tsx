@@ -30,7 +30,7 @@ const ReviewsSection = () => {
           <div className=''>
 
             <div className='flex flex-col items-center lg:items-start  w-full mb-10 lg:mb-3 '>
-              <h2 className='cursor-default text-center font-mono tracking-tight text-2xl drop-shadow lg:text-left'>
+              <h2 className='cursor-default text-center tracking-tight text-2xl drop-shadow lg:text-left'>
                 App that you looking for
               </h2>
               <h3 className='cursor-default text-center text-lg font-normal drop-shadow lg:text-left'>
@@ -53,10 +53,10 @@ const ReviewsSection = () => {
                     )}>
                     <div className='flex items-baseline gap-1'>
                       <Image src={review.image} width={80} height={75}/>
-                      <h4 className='font-normal text-lg'>{review.name}</h4>
+                      <h3 className=''>{review.name}</h3>
                     </div>
                     <div className='md:mt-5'>
-                      <span className='py-2 font-normal font-serif text-md'>&quot;{review.review}&quot;</span>
+                      <span className='py-2 font-normal font-serif text-lg'>&quot;{review.review}&quot;</span>
                     </div>
                   </li>
                 )}
