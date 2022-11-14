@@ -9,112 +9,111 @@ import Ping from '../../Ping';
 import { ThemeContext } from '@/context/ThemeProvider';
 
 const InstructionsSection = () => {
-  const { mode } = React.useContext(ThemeContext)
+  const { mode } = React.useContext(ThemeContext);
   return (
-    <>
-      <header>
-        <section
+    <article>
+      <header
+        className={clsx(
+          'relative',
+          `h-full min-h-[40vh] w-screen `,
+          `bg-opacity-80 bg-[url('/images/hexagon.png')] bg-cover`,
+          `bg-contain`,
+          'border-b-2  ',
+          mode === 'light' ? 'border-white' : 'border-gray-200',
+          'drop-shadow'
+        )}
+      >
+        <div
           className={clsx(
-            `h-full w-screen text-gray-800`,
-            'bg-gradient-to-bl from-sky-400 to-blue-500'
+            'absloute bottom-0 left-0 z-30 h-[40vh]  w-full',
+            'bg-gradient-to-b',
+            mode === 'dark'
+              ? 'from-transparent via-transparent/50 to-transparent/80'
+              : 'from-transparent via-transparent/10 to-transparent/30'
           )}
-          id={'instruction'}
-        >
-          <div className='relative flex flex-col items-center gap-5'>
-            <h1 className='my-20 text-center text-3xl font-extrabold uppercase tracking-tight md:text-4xl lg:text-5xl'>
-              Financial tool for your
-              <span
-                className={clsx(
-                  'text-white',
-                  'ml-2 font-mono font-extrabold tracking-tight '
-                )}
-              >
-                Goals
-              </span>
-            </h1>
+        />
 
-            <div
-              className={clsx(
-                'absolute bottom-14',
-                'h-[3rem] w-60',
-                'rounded-lg',
-                'translate-y-20',
-                'bg-gray-100',
-                'shadow-md',
-                'flex items-center justify-center drop-shadow shadow-inner',
-                'font-mono text-xl uppercase ring ring-white'
-              )}
-            >
-              Start in 3 steps
-            </div>
-          </div>
-        </section>
+        <div className='absolute inset-0 flex flex-col items-center justify-center gap-5 '>
+          <Heading />
+          <StartInThreeSteps />
+        </div>
       </header>
-
       <article
         className={clsx(
           'mx-auto mt-40 mb-28 flex flex-col',
-          'gap-10 md:gap-x-5 items-center md:gap-0',
-          'sm:max-w-screen-sm px-3',
+          'items-center gap-10 md:gap-0 md:gap-x-5',
+          'px-3 sm:max-w-screen-sm',
           'md:max-w-screen-md ',
           'lg:max-w-screen-lg',
           'xl:max-w-screen-xl'
         )}
       >
         <InstructionCard>
-          <div className={clsx(
-            'py-2 md:px-10 flex flex-col justify-center items-center md:border-r ',
-            mode === 'light' ? '' : 'bg-gray-200',
-            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-          )}>
+          <div
+            className={clsx(
+              'flex flex-col items-center justify-center py-2 md:border-r md:px-10 md:w-52',
+              mode === 'light' ? '' : 'bg-gray-200',
+              mode === 'light' ? 'border-dark/50' : 'border-gray-400/50'
+            )}
+          >
             <VscAccount className='mb-4 text-6xl  text-dark ' />
-            <h3 className='tracking-tight whitespace-nowrap text-dark '>Sign Up</h3>
+            <h3 className='whitespace-nowrap tracking-tight text-dark '>
+              Sign Up
+            </h3>
           </div>
 
-          <div className='px-5 flex flex-col justify-center items-start my-4'>
-            <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
+          <div className='my-4 flex flex-col items-start justify-center px-5'>
+            <p className='mb-2 w-full text-center text-xl font-light tracking-wide md:w-4/6 md:text-left'>
               We use special Plaid Key to display your data in our app.
             </p>
           </div>
         </InstructionCard>
 
         <InstructionCard>
-          <div className={clsx(
-            'py-2 md:px-9 flex flex-col justify-center items-center md:border-r',
-            mode === 'light' ? '' : 'bg-gray-200',
-            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-          )}>
+          <div
+            className={clsx(
+              'flex flex-col items-center justify-center py-2 md:border-r md:px-9 md:w-52',
+              mode === 'light' ? '' : 'bg-gray-200',
+              mode === 'light' ? 'border-dark/50' : 'border-gray-400/50'
+            )}
+          >
             <Image src={'/images/plaid.png'} width={100} height={100} />
-            <h3 className='tracking-tight whitespace-nowrap text-dark'>Connect</h3>
+            <h3 className='whitespace-nowrap tracking-tight text-dark'>
+              Connect
+            </h3>
           </div>
 
-          <div className='px-5 flex flex-col justify-center items-center md:items-start my-4'>
-            <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
-              In your cabinet connect  banks by clicking
+          <div className='my-4 flex flex-col items-center justify-center px-5 md:items-start'>
+            <p className='mb-2 w-full text-center text-xl font-light tracking-wide md:w-4/6 md:text-left'>
+              In your cabinet connect banks by clicking
             </p>
-            <Button className='py-1 my-2'>Add bank</Button>
+            <Button className='my-2 py-1'>Add bank</Button>
           </div>
         </InstructionCard>
 
         <InstructionCard>
-          <div className={clsx(
-            'py-2 md:px-9 flex flex-col justify-center items-center md:border-r',
-            mode === 'light' ? '' : 'bg-gray-200',
-            mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-          )}>
+          <div
+            className={clsx(
+              'flex flex-col items-center justify-center py-2 md:border-r md:px-9 md:w-52',
+              mode === 'light' ? '' : 'bg-gray-200',
+              mode === 'light' ? 'border-dark/50' : 'border-gray-400/50'
+            )}
+          >
             <AiOutlineLineChart className='mb-4 text-6xl  text-dark ' />
-            <h3 className='tracking-tight whitespace-nowrap text-dark'>Connect</h3>
+            <h3 className='whitespace-nowrap tracking-tight text-dark'>
+              Connect
+            </h3>
           </div>
 
-          <div className='px-5 flex flex-col justify-center items-center md:items-start my-4'>
-            <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
+          <div className='my-4 flex flex-col items-center justify-center px-5 md:items-start'>
+            <p className='mb-2 w-full text-center text-xl font-light tracking-wide md:w-4/6 md:text-left'>
               Open the PersonalFinance app and start using it!
             </p>
             <ButtonLink
               variant={mode === 'dark' ? 'light' : 'dark'}
               href='#'
               className={clsx(
-                'relative py-1 my-2',
+                'relative my-2 py-1',
                 'text-md tracking-wide ',
                 'flex items-center justify-around'
               )}
@@ -127,25 +126,58 @@ const InstructionsSection = () => {
           </div>
         </InstructionCard>
       </article>
-    </>
+    </article>
   );
 };
 
 export default InstructionsSection;
 
-
-
-
-const InstructionCard = ({children}:{children:JSX.Element[]}) => {
-  const { mode } = React.useContext(ThemeContext)
+const Heading = () => {
+  const { mode } = React.useContext(ThemeContext);
   return (
-    <section className={clsx(
-      'mb-5 h-full w-full lg:w-5/6 md:h-48  border rounded flex flex-col md:flex-row',
-      'overflow-hidden', 
-      mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-      mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
-    )}>
+    <h1
+      className={clsx(
+        'text-3xl  md:text-4xl lg:text-6xl',
+        'font-extrabold uppercase tracking-tight',
+        'drop-shadow-lg',
+        mode === 'light' ? 'text-gray-900' : 'text-white',
+        'opacity-100'
+      )}
+    >
+      Financial tool for your Goals
+    </h1>
+  );
+};
+
+const StartInThreeSteps = () => {
+  return (
+    <div
+      className={clsx(
+        'absolute bottom-14 h-[3rem] w-60',
+        'translate-y-20 rounded-lg',
+        'bg-gray-100 text-gray-900',
+        'flex items-center justify-center shadow-inner drop-shadow',
+        'font-mono text-xl uppercase ring ring-white',
+        'opacity-100'
+      )}
+    >
+      Start in 3 steps
+    </div>
+  );
+};
+
+const InstructionCard = ({ children }: { children: JSX.Element[] }) => {
+  const { mode } = React.useContext(ThemeContext);
+  return (
+    <section
+      className={clsx(
+        'mb-5 flex h-full w-full flex-col  rounded border md:h-48 md:flex-row lg:w-4/6',
+        'overflow-hidden',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+      )}
+    >
       {children}
     </section>
-  )
-}
+  );
+};
