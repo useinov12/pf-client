@@ -9,12 +9,12 @@ export const ThemeContext = React.createContext<{
     setMode:React.Dispatch<any>
 }>({
     color:'sky',
-    mode:'light',
+    mode:'dark',
     setMode:()=>{}
 });
 
 const ThemeProvider:React.FC<{children:JSX.Element}>=  ({children}) => {
-    const [mode, setMode] = React.useState<'dark' | 'light'>('light');
+    const [mode, setMode] = React.useState<'dark' | 'light'>('dark');
     const [color, setColor] = React.useState<Color>('sky');
 
     return (
