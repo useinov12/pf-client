@@ -31,17 +31,14 @@ const ShowcaseSection = () => {
         </div>
 
         <div className='w-full'>
-          <div className='w-full'>
-            <div className='flex w-full flex-col items-center lg:items-start'>
-              <h2 className='cursor-default text-center font-mono text-2xl tracking-tight drop-shadow lg:text-left'>
+            <div className='flex w-full flex-col items-center lg:items-start my-3'>
+              <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
                 All banks in one place
               </h2>
               <h3 className='cursor-default text-center text-lg font-normal drop-shadow lg:text-left'>
                 Track, analyze and improve
               </h3>
             </div>
-          </div>
-
           <div className='my-10 h-full w-full md:my-0'>
             <ul className='grid gap-2 lg:grid-cols-3'>
               {cards.map((card, i) => (
@@ -72,14 +69,15 @@ const ShowcaseSection = () => {
           <section
             className={clsx(
               'flex flex-col items-start',
-              'mb-48 mt-40 lg:my-2 lg:flex-row lg:justify-between',
+              'mb-48 mt-40',
+              'lg:my-2 lg:flex-row lg:justify-between',
               'rounded-lg border p-3 ',
               mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
               mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
             )}
           >
-            <div className='flex flex-col items-start pr-2 lg:w-1/3'>
-              <h2 className='mb-1 text-left  text-4xl font-extralight tracking-tighter'>
+            <div className='flex flex-col items-start pr-2 lg:w-1/3 self-center'>
+              <h2 className='mb-1 text-left text-4xl tracking-tighter'>
                 {section.title}
               </h2>
               <h3 className='mb-3 text-left text-xl font-bold'>
@@ -90,12 +88,12 @@ const ShowcaseSection = () => {
               </p>
             </div>
 
-            <div className='flex w-full justify-center lg:w-1/2'>
+            <div className='flex justify-center self-center w-full sm:w-5/6 lg:w-1/2'>
               {section.card}
             </div>
           </section>
 
-          <Path height={250} className='hidden rotate-180 lg:block' />
+          <Path height={200} className='hidden rotate-180 lg:block' />
         </React.Fragment>
       ))}
     </article>
