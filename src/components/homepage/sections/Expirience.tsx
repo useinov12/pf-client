@@ -18,12 +18,13 @@ const ExpirienceSection = () => {
         'md:max-w-screen-md ',
         'lg:max-w-screen-xl',
         'xl:max-w-screen-xl',
-        'mt-20 mb-20 lg:mt-0'
+        'mt-20 lg:mt-0'
       )}
     >
       <div className='flex w-full flex-col gap-3 lg:flex-row'>
         <div className='flex flex-col items-center justify-start lg:items-start'>
           <TbSpeedboat className='mb-2 h-24 w-24 rounded-full' />
+          <Path height={350} />
         </div>
 
         <div className='w-full'>
