@@ -191,7 +191,7 @@ const Form: React.FC = () => {
 export { Form };
 
 const isValidEmailInput = (email: string) => {
-  const validRegex = /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm;
+  const validRegex = /^[A-Za-z0-9_!#$%&'*+=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm;
 
   if (email.match(validRegex)) {
     return true;
