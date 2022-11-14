@@ -3,7 +3,6 @@ import Header from './Header';
 import Footer from './Footer';
 import clsx from 'clsx';
 import LoginFormProvider from '@/context/LoginFormProvider';
-
 import { ThemeContext } from '@/context/ThemeProvider';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
@@ -18,7 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           mode === 'dark' ? 'text-gray-100' : 'text-gray-800',
           mode === 'dark' 
           ? 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black ' 
-          // : 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-100 via-gray-300 to-gray-500',
           : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-100 to-gray-700 ',
           color,
         )}

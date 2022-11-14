@@ -21,7 +21,8 @@ const ShowcaseSection = () => {
         'md:max-w-screen-md ',
         'lg:max-w-screen-xl',
         'xl:max-w-screen-xl',
-        'mt-20 mb-20 lg:mt-0'
+        'mt-20 mb-20 lg:mt-0',
+        'snap-start'
       )}
     >
       <div className='flex w-full flex-col gap-3 lg:flex-row lg:items-start'>

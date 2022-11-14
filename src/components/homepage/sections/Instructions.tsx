@@ -11,7 +11,7 @@ import { ThemeContext } from '@/context/ThemeProvider';
 const InstructionsSection = () => {
   const { mode } = React.useContext(ThemeContext);
   return (
-    <article>
+    <article className='snap-start'>
       <header
         className={clsx(
           'relative',
