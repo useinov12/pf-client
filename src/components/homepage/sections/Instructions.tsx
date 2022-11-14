@@ -88,7 +88,7 @@ const InstructionsSection = () => {
             <h3 className='tracking-tight whitespace-nowrap text-dark'>Connect</h3>
           </div>
 
-          <div className='px-5 flex flex-col justify-center items-center md:items-start '>
+          <div className='px-5 flex flex-col justify-center items-center md:items-start my-4'>
             <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
               In your cabinet connect  banks by clicking
             </p>
@@ -106,7 +106,7 @@ const InstructionsSection = () => {
             <h3 className='tracking-tight whitespace-nowrap text-dark'>Connect</h3>
           </div>
 
-          <div className='px-5 flex flex-col justify-center items-center md:items-start '>
+          <div className='px-5 flex flex-col justify-center items-center md:items-start my-4'>
             <p className='font-light mb-2 text-xl tracking-wide w-full text-center md:text-left md:w-4/6'>
               Open the PersonalFinance app and start using it!
             </p>

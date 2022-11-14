@@ -22,15 +22,10 @@ export default function CabinetPage() {
 
   React.useEffect(()=>{
     if(!user){
-      const timer = setTimeout(()=>{
-        router.push('/')
-      }, 2000)
+      router.push('/')
     }
   }, [user])
 
-  if(!user){
-    return <h2>Redirecting...</h2>
-  }
 
   return (
     <div

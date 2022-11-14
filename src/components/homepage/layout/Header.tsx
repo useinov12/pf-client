@@ -27,10 +27,7 @@ export default function Header() {
         'items-center justify-between',
         'sm:max-w-screen-sm',
         'md:max-w-screen-lg ',
-        // 'md:max-w-screen-md ',
         'lg:max-w-screen-xl',
-        // 'lg:max-w-screen-lg',
-        // 'xl:max-w-screen-xl'
       )}
     >
       <LoginForm/>

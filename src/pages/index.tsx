@@ -1,5 +1,4 @@
 import React from 'react';
-import { Toaster } from 'react-hot-toast';
 import Layout from '@/components/homepage/layout/Layout';
 
 import MainHero from '@/components/homepage/sections/MainHero';
@@ -12,7 +11,6 @@ import Banner from '@/components/homepage/sections/Banner';
 export default function HomePage() {
   return (
     <Layout>
-      <Toaster />
       <main>
         <MainHero />
         <Reviews />

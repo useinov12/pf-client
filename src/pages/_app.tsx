@@ -2,6 +2,7 @@ import { AppProps } from 'next/app';
 import ThemeProvider from '@/context/ThemeProvider';
 import UserProvider from '@/context/UserProvider';
 import LoginFormProvider from '@/context/LoginFormProvider';
+import { Toaster } from 'react-hot-toast';
 
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
@@ -14,13 +15,16 @@ import '@/styles/colors.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider>
-      <UserProvider>
-        <LoginFormProvider>
-          <Component {...pageProps} />
-        </LoginFormProvider>
-      </UserProvider>
-    </ThemeProvider>
+    <>
+      <Toaster />
+      <ThemeProvider>
+        <UserProvider>
+          <LoginFormProvider>
+            <Component {...pageProps} />
+          </LoginFormProvider>
+        </UserProvider>
+      </ThemeProvider>
+    </>
   );
 }
 

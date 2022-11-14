@@ -10,8 +10,9 @@ import { FaMoneyBillWave } from 'react-icons/fa';
 import Path from '../Path';
 import { ThemeContext } from '@/context/ThemeProvider';
 
-const ShowCaseSection = () => {
+const ShowcaseSection = () => {
   const { mode } = React.useContext(ThemeContext);
+  
   return (
     <article
       className={clsx(
@@ -101,7 +102,7 @@ const ShowCaseSection = () => {
   );
 };
 
-export default ShowCaseSection;
+export default ShowcaseSection;
 
 const sections = [
   {

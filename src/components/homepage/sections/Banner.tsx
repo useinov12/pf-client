@@ -16,7 +16,7 @@ const Banner = () => {
         'md:rounded-xl md:ring-4 md:ring-primary-500',
         'lg:max-w-screen-lg',
         'xl:max-w-screen-xl',
-        'relative '
+        'relative md:my-10'
       )}
     >
       <div
