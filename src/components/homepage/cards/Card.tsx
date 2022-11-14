@@ -14,7 +14,7 @@ const Card = ({
     <div
       className={clsx(
         'drop-shadow-xl',
-        'bg-gray-200 text-dark border border-gray-300',
+        'bg-gray-100 text-dark border-2 border-gray-300',
         ' drop-shadow rounded-lg',
         inner && 'drop-shadow-none',
         className

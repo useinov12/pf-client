@@ -88,14 +88,14 @@ const StatisticsCard = () => {
                         border-b border-gray-500/20 px-10'
               key={data.date}
             >
-              <h4
-                className='font-mono font-normal text-lg'
+              <h6
+                className='font-mono font-normal text-mds'
                 ref={(el) => (datesRef.current[i] = el)}
               />
               <div className='flex w-16 items-center justify-between'>
-                <h5 className='font-mono text-lg font-normal'>$</h5>
-                <h5
-                  className='font-mono text-lg font-normal'
+                <h6 className='font-mono text-mds font-normal'>$</h6>
+                <h6
+                  className='font-mono text-mds font-normal'
                   ref={(el) => (amountRefs.current[i] = el)}
                 />
               </div>
@@ -134,21 +134,21 @@ const data = [
     { date: '06/12', amount: -76 },
     { date: '06/19', amount: -28 },
     { date: '06/26', amount: -144 },
-    { date: '07/02', amount: 25 },
+    { date: '07/02', amount: 45 },
     { date: '07/09', amount: -200 },
   ],
   [
-    { date: '06/13', amount: -22 },
+    { date: '06/13', amount: -222 },
     { date: '06/20', amount: 120 },
     { date: '06/27', amount: -320 },
-    { date: '07/03', amount: 98 },
+    { date: '07/03', amount: 918 },
     { date: '07/10', amount: -170 },
   ],
   [
     { date: '06/14', amount: -46 },
     { date: '06/21', amount: 660 },
-    { date: '06/28', amount: -15 },
+    { date: '06/28', amount: -50 },
     { date: '07/04', amount: -212 },
-    { date: '07/11', amount: -13 },
+    { date: '07/11', amount: -23 },
   ],
 ];
