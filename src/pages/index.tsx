@@ -14,8 +14,8 @@ export default function HomePage() {
       <main>
         <MainHero />
         <Reviews />
-        <Showcase />
         <Expirience />
+        <Showcase />
         <Instructions />
         <Banner />
       </main>

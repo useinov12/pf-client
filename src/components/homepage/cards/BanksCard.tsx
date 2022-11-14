@@ -18,7 +18,7 @@ const BanksCard = () => {
 
   return (
     <Card
-      className='h-full w-full'
+      className='h-auto w-full'
     >
       <div className='h-full w-full p-2 flex flex-col justify-center gap-2'>
         <h6 className='mb-1 text-lg pl-2 font-semibold drop-shadow-md'>

@@ -51,13 +51,13 @@ const InstructionsSection = () => {
         <InstructionCard>
           <div
             className={clsx(
-              'flex flex-col items-center justify-center py-2 md:border-r md:px-10 md:w-52',
+              'flex flex-col items-center justify-center py-2 md:border-r md:px-10 md:max-w-[10rem]',
               mode === 'light' ? '' : 'bg-gray-200',
               mode === 'light' ? 'border-dark/50' : 'border-gray-400/50'
             )}
           >
             <VscAccount className='mb-4 text-6xl  text-dark ' />
-            <h3 className='whitespace-nowrap tracking-tight text-dark '>
+            <h3 className='whitespace-nowrap tracking-tight text-dark text-2xl'>
               Sign Up
             </h3>
           </div>
@@ -72,13 +72,13 @@ const InstructionsSection = () => {
         <InstructionCard>
           <div
             className={clsx(
-              'flex flex-col items-center justify-center py-2 md:border-r md:px-9 md:w-52',
+              'flex flex-col items-center justify-center py-2 md:border-r md:px-9 md:max-w-[10rem]',
               mode === 'light' ? '' : 'bg-gray-200',
               mode === 'light' ? 'border-dark/50' : 'border-gray-400/50'
             )}
           >
             <Image src={'/images/plaid.png'} width={100} height={100} />
-            <h3 className='whitespace-nowrap tracking-tight text-dark'>
+            <h3 className='whitespace-nowrap tracking-tight text-dark text-2xl'>
               Connect
             </h3>
           </div>
@@ -94,14 +94,14 @@ const InstructionsSection = () => {
         <InstructionCard>
           <div
             className={clsx(
-              'flex flex-col items-center justify-center py-2 md:border-r md:px-9 md:w-52',
+              'flex flex-col items-center justify-center py-2 md:border-r md:px-9 md:max-w-[10rem]',
               mode === 'light' ? '' : 'bg-gray-200',
               mode === 'light' ? 'border-dark/50' : 'border-gray-400/50'
             )}
           >
-            <AiOutlineLineChart className='mb-4 text-6xl  text-dark ' />
-            <h3 className='whitespace-nowrap tracking-tight text-dark'>
-              Connect
+            <AiOutlineLineChart className='mb-4 text-6xl  text-dark' />
+            <h3 className='whitespace-nowrap tracking-tight text-dark text-2xl'>
+              Analyze
             </h3>
           </div>
 
@@ -171,9 +171,9 @@ const InstructionCard = ({ children }: { children: JSX.Element[] }) => {
   return (
     <section
       className={clsx(
-        'mb-5 flex h-full w-full flex-col  rounded border md:h-48 md:flex-row lg:w-4/6',
+        'mb-5 flex h-full w-full flex-col  rounded-xl border md:h-48 md:flex-row lg:w-4/6',
         'overflow-hidden',
-        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-300/50',
         mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
       )}
     >

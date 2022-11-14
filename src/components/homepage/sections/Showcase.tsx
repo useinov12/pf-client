@@ -21,16 +21,17 @@ const ShowcaseSection = () => {
         'md:max-w-screen-md ',
         'lg:max-w-screen-xl',
         'xl:max-w-screen-xl',
-        'mt-20 lg:mt-0'
+        'mt-20 mb-20 lg:mt-0'
       )}
     >
-      <div className='flex w-full flex-col gap-3 lg:flex-row'>
+      <div className='flex w-full flex-col gap-3 lg:flex-row lg:items-start'>
         <div className='flex flex-col items-center justify-center lg:items-start'>
           <FaChartPie className='my-2 h-16 w-16' />
-          <Path height={400} className='hidden lg:block' />
+          {/* <Path height={400} className='hidden lg:block' /> */}
         </div>
 
         <div className='w-full'>
+
             <div className='flex w-full flex-col items-center lg:items-start my-3'>
               <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
                 All banks in one place
@@ -39,6 +40,7 @@ const ShowcaseSection = () => {
                 Track, analyze and improve
               </h3>
             </div>
+
           <div className='my-10 h-full w-full md:my-0'>
             <ul className='grid gap-2 lg:grid-cols-3'>
               {cards.map((card, i) => (
@@ -60,42 +62,43 @@ const ShowcaseSection = () => {
                 </li>
               ))}
             </ul>
+          {sections.map((section, i) => (
+            <React.Fragment key={i}>
+              <section
+                className={clsx(
+                  'flex flex-col items-start lg:items-center',
+                  'mb-48 mt-40 h-auto',
+                  'lg:my-2 lg:flex-row lg:justify-between',
+                  'rounded-lg border p-3 ',
+                  mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+                  mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+                )}
+              >
+                <div className='flex flex-col items-start pr-2 lg:w-1/3 self-center'>
+                  <h2 className='mb-1 text-left text-4xl tracking-tighter'>
+                    {section.title}
+                  </h2>
+                  <h3 className='mb-3 text-left text-xl font-bold'>
+                    {section.secondTitle}
+                  </h3>
+                  <p className='font-bolder mb-5 text-left text-lg tracking-wide drop-shadow'>
+                    {section.text}
+                  </p>
+                </div>
+
+                <div className='flex justify-center self-center w-full sm:w-5/6 lg:w-1/2'>
+                  {section.card}
+                </div>
+              </section>
+
+              {/* <Path height={200} className='hidden rotate-180 lg:block' /> */}
+            </React.Fragment>
+          ))}
           </div>
+
         </div>
       </div>
 
-      {sections.map((section, i) => (
-        <React.Fragment key={i}>
-          <section
-            className={clsx(
-              'flex flex-col items-start',
-              'mb-48 mt-40',
-              'lg:my-2 lg:flex-row lg:justify-between',
-              'rounded-lg border p-3 ',
-              mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-              mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
-            )}
-          >
-            <div className='flex flex-col items-start pr-2 lg:w-1/3 self-center'>
-              <h2 className='mb-1 text-left text-4xl tracking-tighter'>
-                {section.title}
-              </h2>
-              <h3 className='mb-3 text-left text-xl font-bold'>
-                {section.secondTitle}
-              </h3>
-              <p className='font-bolder mb-5 text-left text-lg tracking-wide '>
-                {section.text}
-              </p>
-            </div>
-
-            <div className='flex justify-center self-center w-full sm:w-5/6 lg:w-1/2'>
-              {section.card}
-            </div>
-          </section>
-
-          <Path height={200} className='hidden rotate-180 lg:block' />
-        </React.Fragment>
-      ))}
     </article>
   );
 };
@@ -112,7 +115,7 @@ const sections = [
   {
     card: <AccountsCard />,
     title: 'Fill the gaps',
-    secondTitle: 'Get your accounts organazied',
+    secondTitle: 'Build the mental map',
     text: '  Gather all your banks in one place. Use charts and tables to see what is happening with your accounts.',
   },
   {
