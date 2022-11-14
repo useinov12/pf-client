@@ -71,7 +71,7 @@ const BlockOfCards = () => {
   /* #region  Animation Sequence */
   React.useLayoutEffect(() => {
     if (counter !== -1) {
-      /* #region  Bank name */
+      /* #region  BANK NAME  */
       firstTimeline.current.swapText(bankNameRef.current, {
         text: chartData.bank,
         delay: 0.5,
@@ -79,7 +79,7 @@ const BlockOfCards = () => {
       });
       /* #endregion */
 
-      /* #region  Bank Total */
+      /* #region  BANK TOTAL Total */
       const previousTotal =
         counter === 0 ? countTotal(2) : countTotal(counter - 1);
       firstTimeline.current.fromTo(
@@ -137,7 +137,7 @@ const BlockOfCards = () => {
       );
       /* #endregion */
 
-      /* #region  Transactions List */
+      /* #region  TRANSACTONS LIST */
       const previousTransactions =
         counter === 0 ? data[2].transactions : data[counter - 1].transactions;
       const wrapPrevious = gsap.utils.wrap(previousTransactions);
@@ -155,7 +155,7 @@ const BlockOfCards = () => {
       );
       /* #endregion */
 
-      /* #region  Transactions Total */
+      /* #region  TRANSACTIONS TOTAL */
       const previousTransTotal =
         counter === 0 ? countTransTotal(2) : countTransTotal(counter - 1);
       firstTimeline.current.fromTo(
@@ -177,7 +177,7 @@ const BlockOfCards = () => {
   return (
     <div
       className={clsx(
-        'h-auto w-full my-4',
+        'h-auto w-full lg:w-3/6 my-4 lg:my-0',
         'rounded-xl  p-3 text-dark ',
         ' ring-white drop-shadow ',
         'transition-all duration-300',
@@ -326,7 +326,7 @@ const SummaryCard = ({
                 radius='30'
                 externalData={chartData.accounts.map(({ sum }) => sum)}
                 labels={chartData.accounts.map(({ type }) => type)}
-                delay={1200}
+                delay={1600}
               />
             </div>
           </div>
