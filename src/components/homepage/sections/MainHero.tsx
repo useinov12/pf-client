@@ -55,7 +55,7 @@ const MainHeroSection = () => {
               'drop-shadow-xl font-semibold',
               'transition-all duration-150 delay-75 '
             )}>
-              A financial app that let's you gather and analyze bank data in usefull way.
+               A financial app lets you gather and analyze bank data in a helpful way.
             </h3>
 
           </div>
