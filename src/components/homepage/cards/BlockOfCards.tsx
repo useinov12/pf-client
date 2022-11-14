@@ -6,6 +6,7 @@ import PieChart from '../../charts/PieChart';
 import LineChart from '../../charts/LineChart';
 import BarChart from '../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { ThemeContext } from '@/context/ThemeProvider';
 import '@/lib/swapText';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -21,6 +22,7 @@ interface ChartData {
 }
 
 const BlockOfCards = () => {
+  const { mode } = React.useContext(ThemeContext);
   const [chartData, setChartData] = React.useState<ChartData>(skeletonData);
   const [counter, setCounter] = React.useState(-1);
 
@@ -176,9 +178,12 @@ const BlockOfCards = () => {
     <div
       className={clsx(
         'h-auto w-full my-4',
-        'rounded-xl bg-gray-50 p-3 text-dark ',
+        'rounded-xl  p-3 text-dark ',
         ' ring-white drop-shadow ',
-        'transition-all duration-300'
+        'transition-all duration-300',
+        'border',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
       )}
       ref={pauseRef}
     >
