@@ -16,8 +16,9 @@ import { LoginFormContext } from '@/context/LoginFormProvider';
 
 const Form: React.FC = () => {
   const { setUser } = React.useContext(UserContext);
-  const {openLoginForm, setOpenLoginForm} = React.useContext(LoginFormContext);
-  const router = useRouter()
+  const { openLoginForm, setOpenLoginForm } =
+    React.useContext(LoginFormContext);
+  const router = useRouter();
 
   const [toggle, setToggle] = React.useState(false);
   const [credentials, setCredentials] = React.useState({
@@ -25,6 +26,7 @@ const Form: React.FC = () => {
     first_name: '',
     last_name: '',
     password: '',
+    passwordChecker: '',
   });
 
   function handleCredentials(e: ChangeEvent<HTMLInputElement>) {
@@ -34,6 +36,7 @@ const Form: React.FC = () => {
     });
   }
 
+  /* #region  On Form Submit */
   async function onSubmitRegister(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -43,6 +46,17 @@ const Form: React.FC = () => {
       first_name: credentials.first_name,
       last_name: credentials.last_name,
     };
+
+    if (!isPasswordMatch(credentials.password, credentials.passwordChecker)) {
+      toast.error('Password does not match!');
+      return;
+    };
+
+    if (hasMissingInputs(cred)) {
+      toast.error(`Fill all missing fields!`);
+      return;
+    };
+
     const { status, data, message } = await register(cred);
 
     if (status === 201) {
@@ -52,6 +66,7 @@ const Form: React.FC = () => {
         first_name: '',
         last_name: '',
         password: '',
+        passwordChecker: '',
       });
       setToggle(true);
     } else {
@@ -66,19 +81,17 @@ const Form: React.FC = () => {
       username: credentials.username,
       password: credentials.password,
     };
-    const { status, data, message } = await login(cred);
 
-    type JwtPayload = {
-      exp: number;
-      first: string;
-      last: string;
-      username: string;
-    };
+    if (!isValidEmailInput(credentials.username)) {
+      toast.error('Invalid email address!');
+      return;
+    }
+    const { status, data, message } = await login(cred);
 
     if (status === 200) {
       Cookies.set('token', data.detail.data.access_token, { secure: true });
       toast.success(message);
-      router.push('/cabinet')
+      router.push('/cabinet');
 
       const { first, last, username } = jwt.decode(
         data.detail.data.access_token
@@ -91,6 +104,7 @@ const Form: React.FC = () => {
         first_name: '',
         last_name: '',
         password: '',
+        passwordChecker: '',
       });
 
       setOpenLoginForm(false);
@@ -98,6 +112,7 @@ const Form: React.FC = () => {
       toast.error(message);
     }
   }
+  /* #endregion */
 
   return (
     <div
@@ -120,7 +135,7 @@ const Form: React.FC = () => {
           'transition-all duration-200'
         )}
       >
-        <section className='w-full h-full flex flex-col items-center px-2'>
+        <section className='flex h-full w-full flex-col items-center px-2'>
           <button
             className={clsx(
               'absolute right-3 top-3',
@@ -158,20 +173,55 @@ const Form: React.FC = () => {
             toggle={toggle}
             credentials={credentials}
             handleSubmit={onSubmitRegister}
-            handleRegisterCredentials={handleCredentials}
+            handleCredentials={handleCredentials}
           />
 
           <Login
             toggle={toggle}
             credentials={credentials}
             handleSubmit={onSubmitLogin}
-            handleLogInCredentials={handleCredentials}
+            handleCredentials={handleCredentials}
           />
-
         </section>
       </Card>
     </div>
   );
 };
 
-export {Form};
+export { Form };
+
+const isValidEmailInput = (email: string) => {
+  const validRegex = /^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm;
+
+  if (email.match(validRegex)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+const isPasswordMatch = (pass1: string, pass2: string) => {
+  return pass1 === pass2;
+};
+
+const hasMissingInputs = (cred: Omit<Credentials, 'passwordChecker'>) => {
+  for (const value of Object.values(cred)) {
+    if (value === '') return true;
+  }
+  return false;
+};
+
+interface JwtPayload {
+  exp: number;
+  first: string;
+  last: string;
+  username: string;
+}
+
+export interface Credentials {
+  username: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  passwordChecker: string;
+}
