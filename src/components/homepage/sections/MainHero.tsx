@@ -10,14 +10,12 @@ import { ThemeContext } from '@/context/ThemeProvider';
 
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
-  // const pathRef = React.useRef<SVGRectElement | null >(null);
   const { mode } = React.useContext(ThemeContext);
   
   return (
     <article
       className={clsx(
         'w-full h-full',
-        // 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-500 via-gray-50 to-gray-500'
       )}
     >
       <div className={clsx(
@@ -27,7 +25,6 @@ const MainHeroSection = () => {
         'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
         'lg:max-w-screen-xl',
-        // 'mb-10 md:mb-0',
       )}>
         <section
           className={clsx(

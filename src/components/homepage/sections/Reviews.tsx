@@ -13,24 +13,23 @@ const ReviewsSection = () => {
       className={clsx(
         'mx-auto px-3 mt-2',
         'sm:max-w-screen-sm ',
-        // 'md:max-w-screen-md ',
         'md:max-w-screen-lg ',
         'lg:max-w-screen-xl',
-        // 'xl:max-w-screen-xl'
       )}
     >
       <section
         className='flex flex-col items-center justify-end '
       >
-        <div className='flex flex-col lg:flex-row w-full gap-3'>
+        <div className='flex flex-col lg:flex-row w-full gap-3 '>
 
           <div className='flex flex-col items-center justify-center lg:items-start'>
             <SiCircle className='mb-2 h-16 w-16 rounded-full' />
             <Path height={500} className='hidden lg:block rotate-180' /> 
           </div>
 
-          <div>
-            <div className='flex flex-col items-center lg:items-start  w-full mb-10 lg:mb-0'>
+          <div className=''>
+
+            <div className='flex flex-col items-center lg:items-start  w-full mb-10 lg:mb-3 '>
               <h2 className='cursor-default text-center font-mono tracking-tight text-2xl drop-shadow lg:text-left'>
                 App that you looking for
               </h2>
@@ -38,16 +37,17 @@ const ReviewsSection = () => {
                 It was never this easy to look into your own financial state
               </h3>
             </div>
-            <div className='flex h-max w-full items-center justify-center'>
+
+            <div className='flex h-max w-full items-center sm:items-start justify-center '>
               <ul className={clsx(
-                'grid gap-x-1 gap-y-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5',
+                'grid gap-x-1 gap-y-1 sm:grid-cols-2 md:grid-cols-3',
               )}>
                 {reviews.map((review, i) =>
                   <li 
                     key={review.name} 
                     className={clsx(
                       'rounded flex-col items-center',
-                      'py-2 px-2 border  h-32 sm:h-40  md:h-48 ', 
+                      'py-2 px-2 border  h-32 sm:h-40  md:h-48 w-full', 
                       mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
                       mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
                     )}>

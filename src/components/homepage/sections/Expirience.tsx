@@ -39,7 +39,7 @@ const ExpirienceSection = () => {
             </div>
           </div>
 
-          <div className='mt-4 flex h-full w-full'>
+          <div className='my-4 flex h-full w-full'>
             <ul
               className={clsx(
                 'w-full rounded-lg lg:h-60',
