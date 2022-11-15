@@ -11,7 +11,7 @@ import Banner from '@/components/homepage/sections/Banner';
 export default function HomePage() {
   return (
     <Layout>
-      <main>
+      <main className='snap-y'>
         <MainHero />
         <Reviews />
         <Expirience />
