@@ -109,7 +109,7 @@ const PlaidLink = () => {
 
   const config: PlaidLinkOptions = {
     token,
-    receivedRedirectUri: window.location.href,
+    receivedRedirectUri:'https://pf-client-kdih.vercel.app/cabinet',
     onSuccess,
     onEvent,
     onExit,
