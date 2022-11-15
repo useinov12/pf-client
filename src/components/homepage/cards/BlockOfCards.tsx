@@ -46,7 +46,6 @@ const BlockOfCards = () => {
   /* #region  Timer */
   /** Update counter every x seconds */
   React.useEffect(() => {
-    gsap.ticker.lagSmoothing(false);
     //if initial load - delay animation for 1.5 sec
     const delay = counter === -1 ? 1500 : 7400;
 
@@ -69,7 +68,8 @@ const BlockOfCards = () => {
   /* #endregion */
 
   /* #region  Animation Sequence */
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
+    gsap.ticker.lagSmoothing(false);
     if (counter !== -1) {
       /* #region  BANK NAME  */
       firstTimeline.current.swapText(bankNameRef.current, {

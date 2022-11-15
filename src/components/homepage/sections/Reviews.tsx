@@ -15,6 +15,7 @@ const ReviewsSection = () => {
         'sm:max-w-screen-sm ',
         'md:max-w-screen-lg ',
         'lg:max-w-screen-xl',
+        'snap-start'
       )}
     >
       <section

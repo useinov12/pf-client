@@ -1,18 +1,21 @@
 import React, { ChangeEvent } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
+import { Credentials } from './Form';
 
-const SignUp: React.FC<{
-  credentials: {
-    username: string;
-    first_name: string;
-    last_name: string;
-    password: string;
-  };
-  handleRegisterCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
+interface SignUpProps {
+  credentials: Credentials;
+  handleCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   toggle: boolean;
-}> = ({ credentials, handleRegisterCredentials, handleSubmit, toggle }) => {
+}
+
+const SignUp: React.FC<SignUpProps> = ({
+  credentials,
+  handleCredentials,
+  handleSubmit,
+  toggle,
+}) => {
   return (
     <form
       action='#'
@@ -35,7 +38,7 @@ const SignUp: React.FC<{
         type='text'
         name='username'
         value={credentials.username}
-        onChange={(e) => handleRegisterCredentials(e)}
+        onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'
@@ -52,7 +55,7 @@ const SignUp: React.FC<{
         type='text'
         name='first_name'
         value={credentials.first_name}
-        onChange={(e) => handleRegisterCredentials(e)}
+        onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'
@@ -69,7 +72,7 @@ const SignUp: React.FC<{
         type='text'
         name='last_name'
         value={credentials.last_name}
-        onChange={(e) => handleRegisterCredentials(e)}
+        onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'
@@ -86,7 +89,23 @@ const SignUp: React.FC<{
         type='password'
         name='password'
         value={credentials.password}
-        onChange={(e) => handleRegisterCredentials(e)}
+        onChange={(e) => handleCredentials(e)}
+        className={clsx(
+          'shawod-slate-800 mb-1 rounded',
+          'border-gray-300 text-dark shadow-md'
+        )}
+      />
+      <label
+        htmlFor='passwordChecker'
+        className='flex-col text-lg font-normal text-gray-500'
+      >
+        Re-enter password:
+      </label>
+      <input
+        type='password'
+        name='passwordChecker'
+        value={credentials.passwordChecker}
+        onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'

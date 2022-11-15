@@ -14,7 +14,7 @@ const MainHeroSection = () => {
   const { mode } = React.useContext(ThemeContext);
 
   return (
-    <article className={clsx('h-full w-full')}>
+    <article className='h-full w-full snap-start'>
       <div
         className={clsx(
           'mx-auto',
@@ -22,7 +22,7 @@ const MainHeroSection = () => {
           'justify-between lg:flex-row',
           'px-3 sm:max-w-screen-sm',
           'md:max-w-screen-md ',
-          'lg:max-w-screen-xl'
+          'lg:max-w-screen-xl',
         )}
       >
         <section

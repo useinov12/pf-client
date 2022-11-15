@@ -1,15 +1,18 @@
 import axios from 'axios';
-import instance from '@/lib/axios';
+import axiosInstance from '@/lib/axios';
+import toast from 'react-hot-toast';
 
-export async function register(signUpCred: {
+interface Credentials {
   username: string;
   password: string;
   first_name: string;
   last_name: string;
-}) {
+}
+
+export async function register(signUpCred: Credentials) {
   try {
     //re-do response when backend updated
-    const { status, data } = await instance.post(`/create_user`, signUpCred );
+    const { status, data } = await axiosInstance.post(`/create_user`, signUpCred);
     console.log(status, data);
     return {
       status,
@@ -25,36 +28,42 @@ export async function register(signUpCred: {
         message: error.response.data.detail.message,
       };
     } else {
-      console.log('Unexpected error: ', error);
+      return {
+        status: error.response.status,
+        data: error.response.data,
+        message: 'An unexpected error occurred :(  Try again.',
+      };
+    }
+  }
+}
+
+export async function login(
+  loginCred: Pick<Credentials, 'username' | 'password'>
+) {
+  try {
+    const { status, data } = await axiosInstance.post(`/login`, loginCred);
+    return { status, data, message: 'Successfull login' };
+  } catch (error: any) {
+    
+    if(error.response.status === 403){
       return {
         status: error.response.status,
         data: error.response.data,
         message: error.response.data.detail.message,
       };
     }
-  }
-}
-
-export async function login(loginCred: { username: string; password: string }) {
-  try {
-    const { status, data } = await instance.post(`/login`, loginCred );
-    console.log(status, data)
-    return { status, data, message: 'Successfull login' };
-  } catch (error: any) {
-    console.log(error);
     return {
       status: error.response.status,
       data: error.response.data,
-      message: error.response.data.detail.message,
+      message: 'An unexpected error occurred :(  Try again.',
     };
   }
 }
 
-
-//wait backend update
-export async function auth(jwt: string) {
+//wait backend update -> SWR/Query
+export async function auth() {
   try {
-    const { data } = await instance.get( `/user/home`);
+    const { data } = await axiosInstance.get(`/user/home`);
     console.log('data', data);
   } catch (error) {
     if (axios.isAxiosError(error)) {

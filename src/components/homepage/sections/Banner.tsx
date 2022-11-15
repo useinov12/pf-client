@@ -11,10 +11,10 @@ const Banner = () => {
       className={clsx(
         'mx-auto flex justify-start',
         'w-full overflow-hidden',
-        `h-[25rem] bg-[url('../../public/images/banner.png')] bg-cover`,
+        `h-[25rem] bg-[url('../../public/images/banner.png')] bg-contain`,
         'md:max-w-screen-md',
         'md:rounded-xl md:ring-4 md:ring-primary-500',
-        'lg:max-w-screen-lg',
+        'lg:max-w-screen-xl',
         'xl:max-w-screen-xl',
         'relative md:my-10'
       )}
