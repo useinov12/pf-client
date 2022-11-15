@@ -43,7 +43,7 @@ const ShowcaseSection = () => {
             </div>
 
           <div className='my-10 h-full w-full md:my-0'>
-            <ul className='grid gap-2 lg:grid-cols-3'>
+            <ul className='grid gap-2 sm:grid-cols-2 lg:grid-cols-3'>
               {cards.map((card, i) => (
                 <li
                   key={card.title}
