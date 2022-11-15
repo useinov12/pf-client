@@ -14,8 +14,7 @@ const Banner = () => {
         `h-[25rem] bg-[url('../../public/images/banner.png')] bg-contain`,
         'md:max-w-screen-md',
         'md:rounded-xl md:ring-4 md:ring-primary-500',
-        'lg:max-w-screen-xl',
-        'xl:max-w-screen-xl',
+        'lg:max-w-screen-xl lg:w-5/6',
         'relative md:my-10'
       )}
     >
