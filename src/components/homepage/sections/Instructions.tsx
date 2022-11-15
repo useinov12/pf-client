@@ -16,7 +16,7 @@ const InstructionsSection = () => {
         className={clsx(
           'relative',
           `h-full min-h-[40vh] w-screen `,
-          `bg-opacity-80 bg-[url('/images/hexagon.png')] bg-cover`,
+          `bg-opacity-80 bg-[url('/images/hexagon.png')] bg-auto md:bg-contain`,
           `bg-contain`,
           'border-b-2  ',
           mode === 'light' ? 'border-white' : 'border-gray-200',
@@ -137,11 +137,11 @@ const Heading = () => {
   return (
     <h1
       className={clsx(
-        'text-3xl  md:text-4xl lg:text-6xl',
+        'text-4xl  md:text-5xl lg:text-6xl',
         'font-extrabold uppercase tracking-tight',
         'drop-shadow-lg',
         mode === 'light' ? 'text-gray-900' : 'text-white',
-        'opacity-100'
+        'opacity-100 text-center'
       )}
     >
       Financial tool for your Goals
