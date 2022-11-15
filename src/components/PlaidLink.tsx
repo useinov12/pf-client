@@ -32,7 +32,11 @@ async function requestLinkToken() {
     };
   } catch (e: any) {
     console.log('error', e);
-    return { status: e.status, data: {}, message: 'Something happened with Plaid link.' };
+    return {
+      status: e.status,
+      data: {},
+      message: 'Something happened with Plaid link.',
+    };
   }
 }
 async function requestPublicToken(token: string) {
@@ -62,16 +66,20 @@ async function requestPublicToken(token: string) {
 
 const PlaidLink = () => {
   const [token, setToken] = useState<string | null>(null);
+  const [link, setLink] = useState<string>('');
 
   const createLinkToken = async () => {
-    const { status, data, message } = await requestLinkToken();
+    // const { status, data, message } = await requestLinkToken();
 
-    if (status === 201) {
-      console.log('createLinkToken', data)
-      // setToken(data);
-      setToken('link-development-42567e6c-ae29-4351-9bf2-292334ace7b1');
-      // setToken('link-development-534806b0-d83c-4fe5-8334-8b43cd778945');
-    }
+    setToken(link);
+    console.log('CREATED_LINK_TOKEN', link);
+
+    // if (status === 201) {
+    //   // console.log('CREATED_LINK_TOKEN', data)
+    //   console.log('CREATED_LINK_TOKEN', link);
+    //   // setToken(data);
+    //   setToken(link);
+    // }
   };
 
   React.useEffect(() => {
@@ -101,6 +109,7 @@ const PlaidLink = () => {
 
   const config: PlaidLinkOptions = {
     token,
+    receivedRedirectUri: window.location.href,
     onSuccess,
     onEvent,
     onExit,
@@ -113,21 +122,34 @@ const PlaidLink = () => {
     // exit
   } = usePlaidLink(config);
 
+  function handleTokenInput(e: React.ChangeEvent<HTMLInputElement>) {
+    console.log(e.target.value);
+    setLink(e.target.value);
+  }
+
   return (
-    <Button
-      className={clsx(
-        'flex items-center px-4 py-2',
-        'text-sm text-gray-700',
-        'hover:bg-primary-500 hover:text-white',
-        'cursor-pointer',
-        'w-full',
-        'rounded-none'
-      )}
-      onClick={() => open()}
-      // disabled={!ready}
-    >
-      Connect Plaid
-    </Button>
+    <div>
+      <input
+        type='text'
+        value={link}
+        onChange={(e) => handleTokenInput(e)}
+        className='text-dark'
+      />
+      <Button
+        className={clsx(
+          'flex items-center px-4 py-2',
+          'text-sm text-gray-700',
+          'hover:bg-primary-500 hover:text-white',
+          'cursor-pointer',
+          'w-full',
+          'rounded-none'
+        )}
+        onClick={() => open()}
+        // disabled={!ready}
+      >
+        Connect Plaid
+      </Button>
+    </div>
   );
 };
 
