@@ -13,6 +13,15 @@ import { ThemeContext } from '@/context/ThemeProvider';
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
   const { mode } = React.useContext(ThemeContext);
+  const [isLoaded, setIsLoaded ] = React.useState(false) 
+
+
+  React.useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setIsLoaded(true)
+    })
+    return ()=> clearTimeout(timer)
+  },[])
 
   return (
     <article className='h-full w-full snap-start'>
@@ -24,6 +33,7 @@ const MainHeroSection = () => {
           'px-3 sm:max-w-screen-sm',
           'md:max-w-screen-md ',
           'lg:max-w-screen-xl',
+          isLoaded && 'fade-in-start'
         )}
       >
         <section
@@ -31,6 +41,7 @@ const MainHeroSection = () => {
             'flex w-full flex-col',
             'h-screen items-center justify-center'
           )}
+          data-fade='1'
         >
           <div
             className={clsx(

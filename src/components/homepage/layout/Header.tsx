@@ -16,6 +16,16 @@ export default function Header() {
   const { setOpenLoginForm } = React.useContext(LoginFormContext);
   const { user } = React.useContext(UserContext);
 
+  const [isLoaded, setIsLoaded ] = React.useState(false) 
+
+
+  React.useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setIsLoaded(true)
+    })
+    return ()=> clearTimeout(timer)
+  },[])
+
   return (
     <nav
       className={clsx(
@@ -23,52 +33,54 @@ export default function Header() {
         'py-3 px-3',
         mode === 'dark' ? 'text-white' : 'text-black',
         'mx-auto',
-        'flex',
-        'items-center justify-between',
         'sm:max-w-screen-sm',
         'md:max-w-screen-lg ',
         'lg:max-w-screen-xl',
+        isLoaded && 'fade-in-start'
       )}
     >
-      <LoginForm/>
-      
-      <Link href='/'>
-        <Image
-          src={'/images/logo.png'}
-          width={70}
-          height={64}
-          className='cursor-pointer'
-        />
-      </Link>
-      <ul className={clsx('inline-flex items-center gap-2')}>
-        <li>
-          {user ? (
-            // <User />
-            <Link href='/cabinet'>
-              <Button className='text-md py-1'>Cabinet</Button>
-            </Link>
-          ) : (
+      <div className='flex items-center justify-between' data-fade='1'>
+        
+        <Link href='/'>
+          <Image
+            src={'/images/logo.png'}
+            width={70}
+            height={64}
+            className='cursor-pointer'
+          />
+        </Link>
+        <ul className={clsx('inline-flex items-center gap-2')}>
+          <li>
+            {user ? (
+              // <User />
+              <Link href='/cabinet'>
+                <Button className='text-md py-1'>Cabinet</Button>
+              </Link>
+            ) : (
+              <Button
+                className='py-1'
+                variant={mode === 'dark' ? 'light' : 'dark'}
+                onClick={() => setOpenLoginForm(true)}
+              >
+                Login
+              </Button>
+            )}
+          </li>
+          <li>
             <Button
-              className='py-1'
+              className='py-2'
               variant={mode === 'dark' ? 'light' : 'dark'}
-              onClick={() => setOpenLoginForm(true)}
+              onClick={() => {
+                setMode(mode === 'light' ? 'dark' : 'light');
+              }}
             >
-              Login
+              {mode === 'light' ? <FaMoon /> : <FaSun />}
             </Button>
-          )}
-        </li>
-        <li>
-          <Button
-            className='py-2'
-            variant={mode === 'dark' ? 'light' : 'dark'}
-            onClick={() => {
-              setMode(mode === 'light' ? 'dark' : 'light');
-            }}
-          >
-            {mode === 'light' ? <FaMoon /> : <FaSun />}
-          </Button>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+
+      <LoginForm/>
     </nav>
   );
 }
