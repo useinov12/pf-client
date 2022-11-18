@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import LoginFormProvider from '@/context/LoginFormProvider';
 import { ThemeContext } from '@/context/ThemeProvider';
 
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { color, mode } = React.useContext(ThemeContext);
 
@@ -23,10 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       >
         <Header />
         <div
-          className={clsx(
-            'relative h-full',
-            'w-full',
-          )}
+          className='relative h-full w-full'
         >
           {children}
         </div>

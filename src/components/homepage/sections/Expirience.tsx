@@ -24,7 +24,7 @@ const ExpirienceSection = () => {
     >
       <div className='flex w-full flex-col lg:gap-3 lg:flex-row'>
         <div className='flex flex-col items-center justify-start lg:items-start'>
-          <TbSpeedboat className='lg:mb-2 h-24 w-24 rounded-full' />
+          <TbSpeedboat className='lg:mb-2 h-20 w-20 rounded-full' />
           <Path height={350} className='hidden lg:block'/>
         </div>
 
@@ -32,7 +32,7 @@ const ExpirienceSection = () => {
           <div className='w-full'>
             <div className='lg:mt-4 flex w-full flex-col items-center lg:items-start'>
               <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
-                Smooth Expirience
+                Smooth Experience
               </h2>
               <h3 className='cursor-default text-center text-xl font-normal drop-shadow lg:text-left'>
                 Intuitive, easy and secure

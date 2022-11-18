@@ -48,7 +48,7 @@ const ReviewsSection = () => {
                     key={review.name} 
                     className={clsx(
                       'rounded flex-col items-center',
-                      'py-2 px-2 border  h-32 sm:h-40  md:h-48 w-full', 
+                      'py-2 px-2 border  h-40  md:h-48 w-full', 
                       mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
                       mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
                     )}>

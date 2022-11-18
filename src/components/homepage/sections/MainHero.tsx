@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import BlockOfCards from '../cards/BlockOfCards';
 import Accent from '../../Accent';
 import { RiBankFill } from 'react-icons/ri';
+import { BsArrowDownShort } from 'react-icons/bs';
 import { AiFillCheckSquare } from 'react-icons/ai';
 import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
@@ -12,6 +13,15 @@ import { ThemeContext } from '@/context/ThemeProvider';
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
   const { mode } = React.useContext(ThemeContext);
+  const [isLoaded, setIsLoaded ] = React.useState(false) 
+
+
+  React.useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setIsLoaded(true)
+    })
+    return ()=> clearTimeout(timer)
+  },[])
 
   return (
     <article className='h-full w-full snap-start'>
@@ -23,13 +33,15 @@ const MainHeroSection = () => {
           'px-3 sm:max-w-screen-sm',
           'md:max-w-screen-md ',
           'lg:max-w-screen-xl',
+          isLoaded && 'fade-in-start'
         )}
       >
         <section
           className={clsx(
             'flex w-full flex-col',
-            'h-[70vh] items-center justify-center'
+            'h-screen items-center justify-center'
           )}
+          data-fade='1'
         >
           <div
             className={clsx(
@@ -55,13 +67,16 @@ const MainHeroSection = () => {
                 'transition-all delay-75 duration-150 '
               )}
             >
-              A financial app lets you gather and analyze bank data in a helpful
+              A financial app that lets you gather and analyze bank data in a helpful
               way.
             </h3>
           </div>
+          <a className='my-20 cursor-pointer animate-bounce' href='#showcase-start'>
+            <BsArrowDownShort className='w-14 h-14'/>
+          </a>
         </section>
 
-        <section className='flex flex-col items-center justify-end'>
+        <section className='flex flex-col items-center justify-end' id='showcase-start' >
           <div className='flex w-full flex-col gap-3  lg:flex-row'>
             <div className='flex flex-col items-center justify-center  lg:items-start'>
               <RiBankFill className='mb-2 h-16 w-16' />
