@@ -19,7 +19,7 @@
     "format:check": "prettier -c .",
     "postbuild": "next-sitemap --config next-sitemap.config.js",
     "prepare": "cd .. && husky install front/.husky",
-    "release": "standard-version",
+    "release": "standard-version"
   },
   "dependencies": {
     "@faker-js/faker": "^7.5.0",
