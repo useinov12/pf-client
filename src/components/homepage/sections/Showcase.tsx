@@ -70,7 +70,7 @@ const ShowcaseSection = () => {
                   'flex flex-col items-start lg:items-center',
                   'mb-48 mt-40 h-auto',
                   'lg:my-2 lg:flex-row lg:justify-between',
-                  'rounded-lg border p-3 ',
+                  'rounded border p-3 ',
                   mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
                   mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
                 )}
