@@ -5,8 +5,17 @@ import clsx from 'clsx';
 import LoginFormProvider from '@/context/LoginFormProvider';
 import { ThemeContext } from '@/context/ThemeProvider';
 
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { color, mode } = React.useContext(ThemeContext);
+  const [isLoaded, setIsLoaded ] = React.useState(false) 
+
+
+  React.useEffect(()=>{
+    const timer = setTimeout(()=>{
+      setIsLoaded(true)
+    })
+  },[])
 
   return (
     <LoginFormProvider>
@@ -19,14 +28,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           ? 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black ' 
           : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-100 to-gray-700 ',
           color,
+          isLoaded && 'fade-in-start'
         )}
       >
-        <Header />
+        <div data-fade='1'>
+          <Header />
+        </div>
         <div
-          className={clsx(
-            'relative h-full',
-            'w-full',
-          )}
+          className='relative h-full w-full'
+          data-fade='2'
         >
           {children}
         </div>
