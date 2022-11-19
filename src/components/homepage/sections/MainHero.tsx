@@ -9,9 +9,8 @@ import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
 import Path from '../Path';
 import { ThemeContext } from '@/context/ThemeProvider';
-import Button from '@/components/buttons/Button';
+import ManualLinkTest from '@/components/ManualLinkTest';
 
-import { PlaidContext } from '@/context/PlaidTokenProvider';
 
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
@@ -19,20 +18,10 @@ const MainHeroSection = () => {
   const [isLoaded, setIsLoaded] = React.useState(false);
 
 
-
-
-  const {token, setToken} = React.useContext(PlaidContext)
-
-  const [link, setLink] = React.useState<string>('');
-
-  function handleTokenInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setLink(e.target.value);
-  }
-
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    });
+    }, 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -83,22 +72,7 @@ const MainHeroSection = () => {
               A financial app that lets you gather and analyze bank data in a
               helpful way.
             </h3>
-            <div className='m-3'>
-              <input
-                type='text'
-                value={link}
-                onChange={(e) => handleTokenInput(e)}
-                className='p-1 text-dark'
-              />
-              <Button
-                onClick={() => {
-                  setToken(link);
-                  console.log('LINK_TOKEN_SET', link);
-                }}
-              >
-                set token
-              </Button>
-            </div>
+            <ManualLinkTest/>
           </div>
           <a
             className='my-20 animate-bounce cursor-pointer'
