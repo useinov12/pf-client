@@ -68,6 +68,8 @@ const PlaidLink = () => {
   const [token, setToken] = useState<string | null>(null);
   const [link, setLink] = useState<string>('');
 
+  const [redirectURI, setRedirectURI] = React.useState<string | undefined>(undefined)
+
   const createLinkToken = async () => {
     // const { status, data, message } = await requestLinkToken();
 
@@ -104,12 +106,15 @@ const PlaidLink = () => {
     // log onExit callbacks from Link, handle errors
     // https://plaid.com/docs/link/web/#onexit
     console.log(error, metadata);
+    console.log('ON EVENT CALL', window.location.href);
+    setRedirectURI('https://pf-client-kdih.vercel.app/cabinet')
   }, []);
   /* #endregion */
 
   const config: PlaidLinkOptions = {
     token,
-    receivedRedirectUri:'https://pf-client-kdih.vercel.app/cabinet',
+    // receivedRedirectUri:'https://pf-client-kdih.vercel.app/cabinet', 
+    receivedRedirectUri:redirectURI, 
     onSuccess,
     onEvent,
     onExit,
