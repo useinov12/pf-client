@@ -71,7 +71,7 @@ const PlaidLink = () => {
   const createLinkToken = async () => {
     // const { status, data, message } = await requestLinkToken();
 
-    setToken(link);
+    setToken('link-development-86427900-85c9-4ab0-9881-d1e15672f4bd');
     console.log('CREATED_LINK_TOKEN', link);
 
     // if (status === 201) {
@@ -123,18 +123,23 @@ const PlaidLink = () => {
   } = usePlaidLink(config);
 
   function handleTokenInput(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value);
     setLink(e.target.value);
   }
 
   return (
     <div>
-      <input
-        type='text'
-        value={link}
-        onChange={(e) => handleTokenInput(e)}
-        className='text-dark'
-      />
+      <div className='m-3'>
+        <input
+          type='text'
+          value={link}
+          onChange={(e) => handleTokenInput(e)}
+          className='text-dark p-1'
+        />
+        <Button onClick={()=>{
+          setToken(link)
+          console.log('LINK_TOKEN_SET', link)
+        }}>set token</Button>
+      </div>
       <Button
         className={clsx(
           'flex items-center px-4 py-2',
