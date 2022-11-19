@@ -11,6 +11,7 @@ import {
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Button from './buttons/Button';
+import { PlaidContext } from '@/context/PlaidTokenProvider';
 
 async function requestLinkToken() {
   const jwt = Cookies.get('token');
@@ -65,16 +66,18 @@ async function requestPublicToken(token: string) {
 }
 
 const PlaidLink = () => {
-  const [token, setToken] = useState<string | null>(null);
-  const [link, setLink] = useState<string>('');
+  // const [token, setToken] = useState<string | null>(null);
+  // const [link, setLink] = useState<string>('');
+
+  const {token} = React.useContext(PlaidContext)
 
   const [redirectURI, setRedirectURI] = React.useState<string | undefined>(undefined)
 
   const createLinkToken = async () => {
     // const { status, data, message } = await requestLinkToken();
 
-    setToken('link-development-86427900-85c9-4ab0-9881-d1e15672f4bd');
-    console.log('CREATED_LINK_TOKEN', link);
+    // setToken('link-development-86427900-85c9-4ab0-9881-d1e15672f4bd');
+    // console.log('CREATED_LINK_TOKEN', link);
 
     // if (status === 201) {
     //   // console.log('CREATED_LINK_TOKEN', data)
@@ -127,24 +130,10 @@ const PlaidLink = () => {
     // exit
   } = usePlaidLink(config);
 
-  function handleTokenInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setLink(e.target.value);
-  }
+
 
   return (
     <div>
-      <div className='m-3'>
-        <input
-          type='text'
-          value={link}
-          onChange={(e) => handleTokenInput(e)}
-          className='text-dark p-1'
-        />
-        <Button onClick={()=>{
-          setToken(link)
-          console.log('LINK_TOKEN_SET', link)
-        }}>set token</Button>
-      </div>
       <Button
         className={clsx(
           'flex items-center px-4 py-2',
@@ -155,7 +144,7 @@ const PlaidLink = () => {
           'rounded-none'
         )}
         onClick={() => open()}
-        // disabled={!ready}
+        disabled={!ready}
       >
         Connect Plaid
       </Button>

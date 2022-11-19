@@ -9,19 +9,32 @@ import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
 import Path from '../Path';
 import { ThemeContext } from '@/context/ThemeProvider';
+import Button from '@/components/buttons/Button';
+
+import { PlaidContext } from '@/context/PlaidTokenProvider';
 
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
   const { mode } = React.useContext(ThemeContext);
-  const [isLoaded, setIsLoaded ] = React.useState(false) 
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
 
-  React.useEffect(()=>{
-    const timer = setTimeout(()=>{
-      setIsLoaded(true)
-    })
-    return ()=> clearTimeout(timer)
-  },[])
+
+
+  const {token, setToken} = React.useContext(PlaidContext)
+
+  const [link, setLink] = React.useState<string>('');
+
+  function handleTokenInput(e: React.ChangeEvent<HTMLInputElement>) {
+    setLink(e.target.value);
+  }
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    });
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <article className='h-full w-full snap-start'>
@@ -67,16 +80,38 @@ const MainHeroSection = () => {
                 'transition-all delay-75 duration-150 '
               )}
             >
-              A financial app that lets you gather and analyze bank data in a helpful
-              way.
+              A financial app that lets you gather and analyze bank data in a
+              helpful way.
             </h3>
+            <div className='m-3'>
+              <input
+                type='text'
+                value={link}
+                onChange={(e) => handleTokenInput(e)}
+                className='p-1 text-dark'
+              />
+              <Button
+                onClick={() => {
+                  setToken(link);
+                  console.log('LINK_TOKEN_SET', link);
+                }}
+              >
+                set token
+              </Button>
+            </div>
           </div>
-          <a className='my-20 cursor-pointer animate-bounce' href='#showcase-start'>
-            <BsArrowDownShort className='w-14 h-14'/>
+          <a
+            className='my-20 animate-bounce cursor-pointer'
+            href='#showcase-start'
+          >
+            <BsArrowDownShort className='h-14 w-14' />
           </a>
         </section>
 
-        <section className='flex flex-col items-center justify-end' id='showcase-start' >
+        <section
+          className='flex flex-col items-center justify-end'
+          id='showcase-start'
+        >
           <div className='flex w-full flex-col gap-3  lg:flex-row'>
             <div className='flex flex-col items-center justify-center  lg:items-start'>
               <RiBankFill className='mb-2 h-16 w-16' />
