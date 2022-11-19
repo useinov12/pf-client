@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
+import PlaidTokenProvider from '@/context/PlaidTokenProvider';
 
 /**
  * !STARTERCONF info
@@ -17,13 +18,15 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Toaster />
-      <ThemeProvider>
-        <UserProvider>
-          <LoginFormProvider>
-            <Component {...pageProps} />
-          </LoginFormProvider>
-        </UserProvider>
-      </ThemeProvider>
+      <PlaidTokenProvider>
+        <ThemeProvider>
+          <UserProvider>
+            <LoginFormProvider>
+              <Component {...pageProps} />
+            </LoginFormProvider>
+          </UserProvider>
+        </ThemeProvider>
+      </PlaidTokenProvider>
     </>
   );
 }
