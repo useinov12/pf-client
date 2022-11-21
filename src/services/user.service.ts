@@ -1,25 +1,21 @@
 import axios from 'axios';
-import axiosInstance from '@/lib/axios';
-import toast from 'react-hot-toast';
+import { Credentials, LoginCredentials } from './api';
+import { 
+  createNewUser as apiCreateNewUser,
+  loginUser as  apiLoginUser,
+  getCurrentSession as apiGetCurrentSession
+} from './api';
 
-interface Credentials {
-  username: string;
-  password: string;
-  first_name: string;
-  last_name: string;
-}
+
+// re-do error handling
 
 export async function register(signUpCred: Credentials) {
   try {
-    //re-do response when backend updated
-    const { status, data } = await axiosInstance.post(`/create_user`, signUpCred);
+    const { status, data } = await apiCreateNewUser(signUpCred);
     console.log(status, data);
-    return {
-      status,
-      data,
-      message: `Your account is ready, ${data.detail.data.first_name}`,
-    };
+    return data;
   } catch (error: any) {
+    
     if (error.response.status === 404) {
       console.log(error);
       return {
@@ -37,14 +33,11 @@ export async function register(signUpCred: Credentials) {
   }
 }
 
-export async function login(
-  loginCred: Pick<Credentials, 'username' | 'password'>
-) {
+export async function login( loginCred:LoginCredentials ) {
   try {
-    const { status, data } = await axiosInstance.post(`/login`, loginCred);
+    const { status, data } = await apiLoginUser(loginCred);
     return { status, data, message: 'Successfull login' };
   } catch (error: any) {
-    
     if(error.response.status === 403){
       return {
         status: error.response.status,
@@ -63,7 +56,7 @@ export async function login(
 //wait backend update -> SWR/Query
 export async function auth() {
   try {
-    const { data } = await axiosInstance.get(`/user/home`);
+    const { data } = await apiGetCurrentSession();
     console.log('data', data);
   } catch (error) {
     if (axios.isAxiosError(error)) {

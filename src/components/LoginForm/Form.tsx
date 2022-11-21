@@ -13,6 +13,7 @@ import Login from './Login';
 import Card from '../homepage/cards/Card';
 import { useRouter } from 'next/router';
 import { LoginFormContext } from '@/context/LoginFormProvider';
+import { Credentials } from '@/services/api';
 
 const Form: React.FC = () => {
   const { setUser } = React.useContext(UserContext);
@@ -216,12 +217,4 @@ interface JwtPayload {
   first: string;
   last: string;
   username: string;
-}
-
-export interface Credentials {
-  username: string;
-  first_name: string;
-  last_name: string;
-  password: string;
-  passwordChecker: string;
 }
