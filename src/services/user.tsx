@@ -1,32 +1,39 @@
 import { Dispatch, createContext, useReducer, useContext } from 'react';
+import Cookies from 'js-cookie';
+import toast from 'react-hot-toast';
 
 import {
   Credentials,
   createNewUser as apiCreateNewUser,
+  loginUser as apiLoginUser,
   LoginCredentials,
 } from './api';
 
-/**
- * @desc()
- * */
-export async function registerUser(signUpCred: Credentials) {
+export async function register(signUpCred: Credentials){
   try {
-    const { status, data } = await apiCreateNewUser(signUpCred);
-    return { status, data, message: 'You are successfully registered!' };
+    const { status } = await apiCreateNewUser(signUpCred);
+    toast.success('You are successfully registered!');
+    return { status:status };
   } catch (error: any) {
     if (error.response.status === 404) {
-      console.log(error);
-      return {
-        status: error.response.status,
-        data: error.response.data,
-        message: error.response.data.detail.message,
-      };
+      toast.error(error.response.data.detail.message);
     } else {
-      return {
-        status: error.response.status,
-        data: error.response.data,
-        message: 'An unexpected error occurred :(  Try again.',
-      };
+      toast.error('An unexpected error occurred :(  Try again.');
+    }
+    return {status:error.response.status}
+  }
+}
+
+export async function login(loginCred: LoginCredentials) {
+  try {
+    const { data } = await apiLoginUser(loginCred);
+    Cookies.set('token', data.detail.data.access_token, { secure: true });
+    toast.success('Successfull login');
+  } catch (error: any) {
+    if (error.response.status === 403) {
+      toast.error('The email address or password you entered is invalid');
+    } else {
+      toast.error('An unexpected error occurred :(  Try again.');
     }
   }
 }
