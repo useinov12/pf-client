@@ -9,6 +9,13 @@ import {
   LoginCredentials,
 } from './api';
 
+/**
+ * *Sends Post request to Server*\
+ * Notifies user about results of the request with `toast`
+ * @description `register` is an `Action` - API call that 
+ * does not have an effect on cached entity data
+ * @returns {number} `Status Code`
+ * */
 export async function register(signUpCred: Credentials){
   try {
     const { status } = await apiCreateNewUser(signUpCred);
@@ -24,6 +31,13 @@ export async function register(signUpCred: Credentials){
   }
 }
 
+/**
+ * *Authentificate user*\
+ * Sets JWT as a cookie\
+ * Notifies user about results of the request with `toast`
+ * @description `login` is an `Action` - API call that 
+ * does not have an effect on cached entity data
+ */
 export async function login(loginCred: LoginCredentials) {
   try {
     const { data } = await apiLoginUser(loginCred);
