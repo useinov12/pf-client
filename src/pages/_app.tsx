@@ -8,6 +8,8 @@ import '@/styles/globals.css';
 // !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
 import '@/styles/colors.css';
 import PlaidTokenProvider from '@/context/PlaidTokenProvider';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const queryClient = new QueryClient();
 
 /**
  * !STARTERCONF info
@@ -18,15 +20,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Toaster />
-      <PlaidTokenProvider>
-        <ThemeProvider>
-          <UserProvider>
-            <LoginFormProvider>
-              <Component {...pageProps} />
-            </LoginFormProvider>
-          </UserProvider>
-        </ThemeProvider>
-      </PlaidTokenProvider>
+      <QueryClientProvider client={queryClient}>
+        <PlaidTokenProvider>
+          <ThemeProvider>
+            <UserProvider>
+              <LoginFormProvider>
+                <Component {...pageProps} />
+              </LoginFormProvider>
+            </UserProvider>
+          </ThemeProvider>
+        </PlaidTokenProvider>
+      </QueryClientProvider>
     </>
   );
 }
