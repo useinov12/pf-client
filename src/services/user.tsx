@@ -41,29 +41,32 @@ export async function register(signUpCred: Credentials) {
  * **@description** `login` is an `Action` - API call that
  * does not have an effect on cached entity data
  * @param {LoginCredentials} LoginCredentials
+ * @returns {number} `Status Code`
  */
 export async function login(loginCred: LoginCredentials) {
   try {
-    const { data } = await apiLoginUser(loginCred);
+    const { status, data } = await apiLoginUser(loginCred);
     Cookies.set('token', data.detail.data.access_token, { secure: true });
     toast.success('Successfull login');
+    return {status:status}
   } catch (error: any) {
     if (error.response.status === 403) {
       toast.error('The email address or password you entered is invalid');
     } else {
       toast.error('An unexpected error occurred :(  Try again.');
     }
+    return {status: error.response.status}
   }
 }
 
- /**
+/**
  * **Authorize current User**\
  * A custom hook that wraps a react-query hook\
  * **@description**
  * `useUser` is a `Query Hook` -  API call that
  * api call that influences a cached entity
  *  */
-  export function useUser(){
+export function useUser(){
     return useQuery(['user'], apiGetMe, {
       retry: 0,
       // should be refetched in the background every x hours
