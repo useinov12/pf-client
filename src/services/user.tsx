@@ -56,14 +56,14 @@ export async function login(loginCred: LoginCredentials) {
   }
 }
 
-/**
+ /**
  * **Authorize current User**\
  * A custom hook that wraps a react-query hook\
  * **@description**
  * `useUser` is a `Query Hook` -  API call that
  * api call that influences a cached entity
  *  */
-export function useUser(){
+  export function useUser(){
     return useQuery(['user'], apiGetMe, {
       retry: 0,
       // should be refetched in the background every x hours
