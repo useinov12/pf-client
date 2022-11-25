@@ -12,7 +12,7 @@ import {
 } from './api';
 
 // Idea to toggle :
-//  use app level Context as a single point of truce
+//  use app level Context as a single point of truth
 //  do not bother
 
 // PROTECTED ROUTES
@@ -44,7 +44,7 @@ export async function register(signUpCred: Credentials) {
 }
 
 /**
- * **Authentificate user**\
+ * ** Login user**\
  * Sets JWT as a cookie\
  * Notifies user about results of the request with `toast`\
  * **@description** `login` is an `Action` - API call that
@@ -69,11 +69,12 @@ export async function login(loginCred: LoginCredentials) {
 }
 
 /**
- * **Authorize current User**\
+ * **Auth current User**\
  * A custom hook that wraps a react-query hook\
  * **@description**
  * `useUser` is a `Query Hook` -  API call that
- * api call that influences a cached entity
+ * influences a cached entity
+ * @returns currently logged in user
  *  */
 export function useUser() {
   return useQuery(['user'], apiGetMe, {
@@ -121,72 +122,15 @@ interface JwtPayload {
 //   );
 // }
 
-/**
- * @desc()
- * */
-export default function useCurrentUser() {
-  const context = useContext(UserContext);
+// /**
+//  * @desc()
+//  * */
+// export default function useCurrentUser() {
+//   const context = useContext(UserContext);
 
-  if (!context) {
-    throw new Error(`useUsers must be used within a UsersProvider`);
-  }
+//   if (!context) {
+//     throw new Error(`useUsers must be used within a UsersProvider`);
+//   }
 
-  return context;
-}
-
-interface User {
-  username: string;
-  first_name: string;
-  last_name: string;
-}
-
-interface UserState {
-  user: User;
-}
-
-type UserStateActions =
-  | { type: 'SUCCESSFUL_LOGIN' }
-  | { type: 'FAILED_LOGIN' }
-  | { type: 'SUCCESSFUL_MUTATE' }
-  | { type: 'FAILED_MUTATE' };
-
-interface UserContextShape extends UserState {
-  dispatch: Dispatch<UserStateActions>;
-  setUser: (user: User | null) => void;
-  login: (credentials: LoginCredentials) => void;
-}
-
-const initialState: UserContextShape = {
-  user: {
-    username: '',
-    first_name: '',
-    last_name: '',
-  },
-  login: () => {},
-  dispatch: () => {},
-  setUser: () => {},
-};
-
-/**
- * @desc()
- * */
-const UserContext = createContext<UserContextShape>(initialState);
-
-/**
- * @desc()
- * */
-export function UserProvider(props: any) {
-  const [userState, dispatch] = useReducer(reducer, initialState);
-
-  return <UserContext.Provider value={{}} {...props} />;
-}
-
-function reducer(state: UserState, action: UserStateActions | any) {
-  switch (action.type) {
-    case 'SUCCESSFUL_LOGIN':
-      return state;
-    default:
-      console.warn('unknown action: ', action.type, action.payload);
-      return state;
-  }
-}
+//   return context;
+// }
