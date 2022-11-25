@@ -21,7 +21,7 @@ export async function requestPublicToken(token: string) {
       message: response.data.detail.message,
     };
   } catch (e: any) {
-    console.log('error', e);
+    console.log('plaid error', e);
     return { status: e.status, data: {}, message: e.data.detail.message };
   }
 }
@@ -45,7 +45,7 @@ export async function requestLinkToken() {
       message: response.data.detail.message,
     };
   } catch (e: any) {
-    console.log('error', e);
+    console.log('plaid link error', e);
     return {
       status: e.status,
       data: {},
