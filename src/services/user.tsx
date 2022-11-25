@@ -1,4 +1,4 @@
-import { Dispatch, createContext, useReducer, useContext } from 'react';
+import React, { Dispatch, createContext, useReducer, useContext } from 'react';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
@@ -10,6 +10,15 @@ import {
   loginUser as apiLoginUser,
   getMe as apiGetMe,
 } from './api';
+
+// Idea to toggle :
+//  use app level Context as a single point of truce
+//  do not bother
+
+// PROTECTED ROUTES
+// https://www.youtube.com/watch?v=DHZSYYTCTbA
+// https://www.carlrippon.com/setting-app-state-with-react-query/
+// https://tkdodo.eu/blog/react-query-as-a-state-manager
 
 /**
  * *Sends Post request to Server*\
@@ -48,14 +57,14 @@ export async function login(loginCred: LoginCredentials) {
     const { status, data } = await apiLoginUser(loginCred);
     Cookies.set('token', data.detail.data.access_token, { secure: true });
     toast.success('Successfull login');
-    return {status:status}
+    return { status: status };
   } catch (error: any) {
     if (error.response.status === 403) {
       toast.error('The email address or password you entered is invalid');
     } else {
       toast.error('An unexpected error occurred :(  Try again.');
     }
-    return {status: error.response.status}
+    return { status: error.response.status };
   }
 }
 
@@ -66,12 +75,63 @@ export async function login(loginCred: LoginCredentials) {
  * `useUser` is a `Query Hook` -  API call that
  * api call that influences a cached entity
  *  */
-export function useUser(){
-    return useQuery(['user'], apiGetMe, {
-      retry: 0,
-      // should be refetched in the background every x hours
-      // staleTime: 1000 * 60 * 60 * x,
-    });
+export function useUser() {
+  return useQuery(['user'], apiGetMe, {
+    retry: 3,
+    // should be refetched in the background every x hours
+    // staleTime: 1000 * 60 * 60 * x,
+  });
+}
+
+interface JwtPayload {
+  exp: number;
+  first: string;
+  last: string;
+  username: string;
+}
+
+// type User = {
+//   firstName: string;
+//   lastName: string;
+//   username: string;
+// };
+
+// interface UserContext {
+//   isLogged: boolean;
+//   user: User | undefined;
+//   setUser: React.Dispatch<User | undefined>;
+//   setIsLogged: React.Dispatch<boolean>;
+// }
+
+// export const UserContext = createContext<UserContext>({
+//   isLogged: false,
+//   user: undefined,
+//   setUser: () => {},
+//   setIsLogged: () => {},
+// });
+
+// export function UserProvider(props: any) {
+//   const [isLogged, setIsLogged] = React.useState(false);
+//   const [user, setUser] = React.useState<User | undefined>(undefined);
+//   return (
+//     <UserContext.Provider
+//       value={{ isLogged, setIsLogged, user, setUser }}
+//       {...props}
+//     />
+//   );
+// }
+
+/**
+ * @desc()
+ * */
+export default function useCurrentUser() {
+  const context = useContext(UserContext);
+
+  if (!context) {
+    throw new Error(`useUsers must be used within a UsersProvider`);
+  }
+
+  return context;
 }
 
 interface User {
@@ -129,16 +189,4 @@ function reducer(state: UserState, action: UserStateActions | any) {
       console.warn('unknown action: ', action.type, action.payload);
       return state;
   }
-}
-/**
- * @desc()
- * */
-export default function useCurrentUser() {
-  const context = useContext(UserContext);
-
-  if (!context) {
-    throw new Error(`useUsers must be used within a UsersProvider`);
-  }
-
-  return context;
 }
