@@ -1,30 +1,40 @@
-import * as React from 'react';
-import { Form as LoginForm } from '@/components/LoginForm/Form';
+import React from 'react';
 import clsx from 'clsx';
-import { FaMoon, FaSun } from 'react-icons/fa';
-
-import Button from '../../buttons/Button';
-import User from '../../User';
-import { ThemeContext } from '@/context/ThemeProvider';
-import { UserContext } from '@/context/UserProvider';
+import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
+import Button from '@/components/buttons/Button';
+import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
+import { FaMoon, FaSun } from 'react-icons/fa';
+import { ThemeContext } from '@/context/ThemeProvider';
 import { LoginFormContext } from '@/context/LoginFormProvider';
+import { useUser } from '@/services/user';
 
 export default function Header() {
   const { mode, setMode } = React.useContext(ThemeContext);
   const { setOpenLoginForm } = React.useContext(LoginFormContext);
-  const { user } = React.useContext(UserContext);
 
-  const [isLoaded, setIsLoaded ] = React.useState(false) 
+  const [isLoaded, setIsLoaded] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
+  const { data, isLoading } = useUser();
 
-  React.useEffect(()=>{
-    const timer = setTimeout(()=>{
-      setIsLoaded(true)
-    })
-    return ()=> clearTimeout(timer)
-  },[])
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  React.useEffect(() => {
+    if (Cookies.get('token')) {
+      console.log(Cookies.get('token'));
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+
+  }, []);
 
   return (
     <nav
@@ -40,7 +50,6 @@ export default function Header() {
       )}
     >
       <div className='flex items-center justify-between' data-fade='1'>
-        
         <Link href='/'>
           <Image
             src={'/images/logo.png'}
@@ -51,20 +60,12 @@ export default function Header() {
         </Link>
         <ul className={clsx('inline-flex items-center gap-2')}>
           <li>
-            {user ? (
-              // <User />
-              <Link href='/cabinet'>
-                <Button className='text-md py-1'>Cabinet</Button>
-              </Link>
-            ) : (
-              <Button
-                className='py-1'
-                variant={mode === 'dark' ? 'light' : 'dark'}
-                onClick={() => setOpenLoginForm(true)}
-              >
-                Login
-              </Button>
-            )}
+            <LoginButton
+              mode={mode}
+              isLoggedIn={isLoggedIn}
+              setOpenLoginForm={setOpenLoginForm}
+              isLoading={isLoading}
+            />
           </li>
           <li>
             <Button
@@ -80,7 +81,44 @@ export default function Header() {
         </ul>
       </div>
 
-      <LoginForm/>
+      <LoginForm />
     </nav>
   );
 }
+
+const LoginButton = ({
+  mode,
+  isLoggedIn,
+  setOpenLoginForm,
+  isLoading,
+}: {
+  mode: string;
+  isLoggedIn: boolean;
+  isLoading: boolean;
+  setOpenLoginForm: any;
+}) => {
+  return (
+    <>
+      {isLoggedIn ? (
+        <Link href='/cabinet'>
+          <Button
+            variant={mode === 'dark' ? 'light' : 'dark'}
+            className='text-md py-1'
+            isLoading={isLoading}
+          >
+            Cabinet
+          </Button>
+        </Link>
+      ) : (
+        <Button
+          className='py-1'
+          variant={mode === 'dark' ? 'light' : 'dark'}
+          onClick={() => setOpenLoginForm(true)}
+          isLoading={isLoading}
+        >
+          Login
+        </Button>
+      )}
+    </>
+  );
+};
