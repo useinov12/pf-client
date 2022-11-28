@@ -9,12 +9,10 @@ import Card from '@/components/homepage/cards/Card';
 import { useRouter } from 'next/router';
 import { AiOutlineClose } from 'react-icons/ai';
 import { LoginFormContext } from '@/context/LoginFormProvider';
-// import { UserContext } from '@/context/UserProvider';
 import { login, register } from '@/services/user';
 
 export const LoginCardComponent: React.FC = () => {
   const router = useRouter();
-  // const { setUser } = React.useContext(UserContext);
   const { openLoginForm, setOpenLoginForm } =
     React.useContext(LoginFormContext);
 
