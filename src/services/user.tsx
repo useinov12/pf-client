@@ -11,15 +11,6 @@ import {
   getMe as apiGetMe,
 } from './api';
 
-// Idea to toggle :
-//  use app level Context as a single point of truth
-//  do not bother
-
-// PROTECTED ROUTES
-// https://www.youtube.com/watch?v=DHZSYYTCTbA
-// https://www.carlrippon.com/setting-app-state-with-react-query/
-// https://tkdodo.eu/blog/react-query-as-a-state-manager
-
 /**
  * *Sends Post request to Server*\
  * Notifies user about results of the request with `toast`
@@ -68,69 +59,42 @@ export async function login(loginCred: LoginCredentials) {
   }
 }
 
-/**
- * **Auth current User**\
- * A custom hook that wraps a react-query hook\
- * **@description**
- * `useUser` is a `Query Hook` -  API call that
- * influences a cached entity
- * @returns currently logged in user
- *  */
-export function useUser() {
-  return useQuery(['user'], apiGetMe, {
-    retry: 3,
-    // should be refetched in the background every x hours
-    // staleTime: 1000 * 60 * 60 * x,
-  });
-}
 
-interface JwtPayload {
-  exp: number;
-  first: string;
-  last: string;
+
+
+export type User = {
+  firstName: string;
+  lastName: string;
   username: string;
+};
+
+interface UserContextShape {
+  user: User | null;
+  isLoading: boolean;
+  handleLogout:()=>void
 }
 
-// type User = {
-//   firstName: string;
-//   lastName: string;
-//   username: string;
-// };
+export const UserContext = createContext<UserContextShape>({
+  user: null,
+  isLoading: true,
+  handleLogout:()=>{}
+});
 
-// interface UserContext {
-//   isLogged: boolean;
-//   user: User | undefined;
-//   setUser: React.Dispatch<User | undefined>;
-//   setIsLogged: React.Dispatch<boolean>;
-// }
+export function UserProvider(props: any) {
+  const { data, isLoading } = useQuery(['user'], apiGetMe);
 
-// export const UserContext = createContext<UserContext>({
-//   isLogged: false,
-//   user: undefined,
-//   setUser: () => {},
-//   setIsLogged: () => {},
-// });
+  const [user, setUser] = React.useState(data);
 
-// export function UserProvider(props: any) {
-//   const [isLogged, setIsLogged] = React.useState(false);
-//   const [user, setUser] = React.useState<User | undefined>(undefined);
-//   return (
-//     <UserContext.Provider
-//       value={{ isLogged, setIsLogged, user, setUser }}
-//       {...props}
-//     />
-//   );
-// }
+  function handleLogout() {
+    Cookies.remove('token');
+    setUser(undefined)
+  }
 
-// /**
-//  * @desc()
-//  * */
-// export default function useCurrentUser() {
-//   const context = useContext(UserContext);
+  React.useEffect(() => {
+    setUser(data);
+  }, [isLoading]);
 
-//   if (!context) {
-//     throw new Error(`useUsers must be used within a UsersProvider`);
-//   }
+  return <UserContext.Provider value={{ user, isLoading, handleLogout }} {...props} />;
+}
 
-//   return context;
-// }
+export const useUser = () => React.useContext(UserContext);

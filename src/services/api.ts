@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import https from 'https';
+import { User } from './user';
 
 const agent = new https.Agent({
   rejectUnauthorized: false,
@@ -26,17 +27,25 @@ export interface Credentials {
 }
 export type LoginCredentials = Pick<Credentials, 'username' | 'password'>;
 
+function modifyResponseShape(data: any): User {
+  return data.detail.data;
+}
+
 // USER API
-export const createNewUser = (credentials: Credentials) => api.post(`/create_user`, credentials);
+export const createNewUser = (credentials: Credentials) =>
+  api.post(`/create_user`, credentials);
 
-export const loginUser = (credentials: LoginCredentials) => api.post(`/login`, credentials);
+export const loginUser = (credentials: LoginCredentials) =>
+  api.post(`/login`, credentials);
 
-export const getMe = async () => {
-  const { data } = await api.get(`/user`);
-  return data;
-};
-
-// export const getMe = async () => await api.get(`/user`);
+export async function getMe() {
+  const response = await api.get(`/user`);
+  if (response.status !== 200) {
+    throw new Error('Problem fetching user');
+  }
+  const { data } = response;
+  return modifyResponseShape(data);
+}
 
 
 // PLAID APIs

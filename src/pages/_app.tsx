@@ -1,35 +1,30 @@
+import React from 'react';
 import { AppProps } from 'next/app';
-import ThemeProvider from '@/context/ThemeProvider';
-import UserProvider from '@/context/UserProvider';
-import LoginFormProvider from '@/context/LoginFormProvider';
 import { Toaster } from 'react-hot-toast';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import PlaidTokenProvider from '@/context/PlaidTokenProvider';
+import { UserProvider } from '@/services/user';
+import ThemeProvider from '@/context/ThemeProvider';
+import LoginFormProvider from '@/context/LoginFormProvider';
 
 import '@/styles/globals.css';
-// !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
-import '@/styles/colors.css';
-import PlaidTokenProvider from '@/context/PlaidTokenProvider';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-const queryClient = new QueryClient();
-
-/**
- * !STARTERCONF info
- * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
- */
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const queryClient = new QueryClient();
+
   return (
     <>
       <Toaster />
       <QueryClientProvider client={queryClient}>
-        <PlaidTokenProvider>
-          <ThemeProvider>
-            <UserProvider>
+        <UserProvider>
+          <PlaidTokenProvider>
+            <ThemeProvider>
               <LoginFormProvider>
                 <Component {...pageProps} />
               </LoginFormProvider>
-            </UserProvider>
-          </ThemeProvider>
-        </PlaidTokenProvider>
+            </ThemeProvider>
+          </PlaidTokenProvider>
+        </UserProvider>
       </QueryClientProvider>
     </>
   );

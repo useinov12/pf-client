@@ -5,28 +5,36 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import Button from '@/components/buttons/Button';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import Link from 'next/link';
-import { UserContext } from '@/context/UserProvider';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
-import PlaidLink from '@/components/PlaidLink';
+import Loading from '@/components/Loading';
+import { UserContext, useUser } from '@/services/user';
+import { LoginFormContext } from '@/context/LoginFormProvider';
 
 export default function CabinetPage() {
-  const { mode, setMode } = React.useContext(ThemeContext);
-  const { user, setUser } = React.useContext(UserContext);
-  const router = useRouter()
+  const {setOpenLoginForm} = React.useContext(LoginFormContext)
+  const router = useRouter();
+  const { user, isLoading } = useUser();
 
-  async function handleLogout() {
-    Cookies.remove('token');
-    setUser(null);
+  if(isLoading){
+    return <Loading/>
   }
 
-  React.useEffect(()=>{
-    if(!user){
-      router.push('/')
-    }
-  }, [user])
+  if(!user){
+    setOpenLoginForm(true)
+    router.push('/')
+    return <Loading/>
+  }
+  console.log('CABINET LOADED USER', user)
+  return <Cabinet/>
+
+}
 
 
+const Cabinet = () => {
+  const router = useRouter();
+  const { mode, setMode } = React.useContext(ThemeContext);
+  const {handleLogout} = React.useContext(UserContext)
   return (
     <div
       className={clsx(
@@ -37,7 +45,7 @@ export default function CabinetPage() {
     >
       <div
         className={clsx(
-          'mx-auto sm:max-w-screen-sm px-3',
+          'mx-auto px-3 sm:max-w-screen-sm',
           'md:max-w-screen-md ',
           'lg:max-w-screen-xl',
           'h-full w-full'
@@ -45,10 +53,15 @@ export default function CabinetPage() {
       >
         <header className='flex items-center justify-between py-3'>
           <Link href='/'>
-            <Image src={'/images/logo.png'} width={70} height={64} className='cursor-pointer' />
+            <Image
+              src={'/images/logo.png'}
+              width={70}
+              height={64}
+              className='cursor-pointer'
+            />
           </Link>
 
-          <div className='flex gap-2 items-center'>
+          <div className='flex items-center gap-2'>
             <Button
               className='text-md py-1'
               variant={mode === 'dark' ? 'light' : 'dark'}
@@ -67,61 +80,83 @@ export default function CabinetPage() {
             </Button>
           </div>
         </header>
-        <main className='flex flex-col md:flex-row w-full h-5/6 gap-3'>
-
-          <section className={clsx(
-            'md:w-1/4 md:h-full  lg:px-7 py-7 border rounded-md',
-            'flex justify-around md:flex-col  md:justify-start items-center',
-            mode === 'light' ? 'border-dark/50' : 'border-gray-500/50',
-            'drop-shadow'
-          )}>
-              <div className='flex flex-col justify-center items-center'>
-                <figure className='mb-3 w-16 h-16 rounded-full ring-4 ring-primary-300 '/>
-                <h4 className='mb-5'>John Doe</h4>
-              </div>
-              <div>
-                <Button className={clsx(
-                  'flex justify-center items-center py-1  my-1 text-sm',
+        <main className='flex h-5/6 w-full flex-col gap-3 md:flex-row'>
+          <section
+            className={clsx(
+              'rounded-md border  py-7 md:h-full md:w-1/4 lg:px-7',
+              'flex items-center justify-around  md:flex-col md:justify-start',
+              mode === 'light' ? 'border-dark/50' : 'border-gray-500/50',
+              'drop-shadow'
+            )}
+          >
+            <div className='flex flex-col items-center justify-center'>
+              <figure className='mb-3 h-16 w-16 rounded-full ring-4 ring-primary-300 ' />
+              <h4 className='mb-5'>John Doe</h4>
+            </div>
+            <div>
+              <Button
+                className={clsx(
+                  'my-1 flex items-center justify-center  py-1 text-sm',
                   'w-36'
-                )}>Change Name</Button>
-                <Button variant='red' className={clsx(
-                  'flex justify-center items-center py-1  my-1 text-sm',
+                )}
+              >
+                Change Name
+              </Button>
+              <Button
+                variant='red'
+                className={clsx(
+                  'my-1 flex items-center justify-center  py-1 text-sm',
                   'w-36'
-                )}>Delete account</Button>
-              </div>
+                )}
+              >
+                Delete account
+              </Button>
+            </div>
           </section>
 
-
-          <section className={clsx(
-            'md:w-4/5 h-full border rounded overflow-hidden',
-            mode === 'light' ? 'border-dark/50' : 'border-gray-500/50',
-            'relative'
-          )}>
-            <div className={clsx(
-              'flex items-center justify-between px-7 py-4',
-              mode === 'light' ? 'bg-gray-300' : 'bg-gray-900',
-            )}>
+          <section
+            className={clsx(
+              'h-full overflow-hidden rounded border md:w-4/5',
+              mode === 'light' ? 'border-dark/50' : 'border-gray-500/50',
+              'relative'
+            )}
+          >
+            <div
+              className={clsx(
+                'flex items-center justify-between px-7 py-4',
+                mode === 'light' ? 'bg-gray-300' : 'bg-gray-900'
+              )}
+            >
               <h4 className=''>Connected Banks</h4>
               <div className='inline-flex gap-2'>
                 {/* <Button variant='light' className='w-32 py-1 px-8 text-sm whitespace-nowrap'>Open App</Button> */}
                 {/* <Button variant='green' className='w-32 py-1 px-8 text-sm'>Add new</Button> */}
-                <PlaidLink/>
+                {/* <PlaidLink /> */}
               </div>
             </div>
-            <ul className='scroll-y overflow-y-scroll h-full'>
-              {['A', 'B', 'C', 'D'].map((bank, i) =>
-                <li key={'cabinet-bank'+i} className={clsx(
-                  'flex justify-between items-center px-7 py-3',
-                  'border-b border-gray-500/50 mb-4'
-                )}>
+            <ul className='scroll-y h-full overflow-y-scroll'>
+              {['A', 'B', 'C', 'D'].map((bank, i) => (
+                <li
+                  key={'cabinet-bank' + i}
+                  className={clsx(
+                    'flex items-center justify-between px-7 py-3',
+                    'mb-4 border-b border-gray-500/50'
+                  )}
+                >
                   <h5 className='font-semibold'> Bank #{bank}</h5>
-                  <Button isDarkBg={mode === 'dark' && true} variant='red-outline' className='w-32 px-8 py-1 text-sm'>Remove</Button>
+                  <Button
+                    isDarkBg={mode === 'dark' && true}
+                    variant='red-outline'
+                    className='w-32 px-8 py-1 text-sm'
+                  >
+                    Remove
+                  </Button>
                 </li>
-              )}
+              ))}
             </ul>
           </section>
         </main>
       </div>
     </div>
   );
-}
+};
