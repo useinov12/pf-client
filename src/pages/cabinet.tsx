@@ -5,7 +5,6 @@ import { ThemeContext } from '@/context/ThemeProvider';
 import Button from '@/components/buttons/Button';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import Link from 'next/link';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import Loading from '@/components/Loading';
 import { UserContext, useUser } from '@/services/user';
@@ -25,7 +24,7 @@ export default function CabinetPage() {
     router.push('/')
     return <Loading/>
   }
-  console.log('CABINET LOADED USER', user)
+
   return <Cabinet/>
 
 }

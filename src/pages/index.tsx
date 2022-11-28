@@ -7,10 +7,13 @@ import Expirience from '@/components/homepage/sections/Expirience';
 import Instructions from '@/components/homepage/sections/Instructions';
 import Reviews from '@/components/homepage/sections/Reviews';
 import Banner from '@/components/homepage/sections/Banner';
+// import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
 
 export default function HomePage() {
+
   return (
     <Layout>
+      {/* <LoginForm /> */}
       <main className='snap-y'>
         <MainHero />
         <Reviews />
