@@ -8,7 +8,7 @@ export const LoginFormContext = React.createContext<{
     setOpenLoginForm:()=>{}
 });
 
-const LoginFormProvider:React.FC<{children:JSX.Element}>=  ({children}) => {
+const LoginFormProvider:React.FC<{children:React.ReactElement}>=  ({children}) => {
     const [openLoginForm, setOpenLoginForm] = React.useState<boolean>(false);
 
     return (
