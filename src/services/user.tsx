@@ -10,9 +10,11 @@ import {
   loginUser as apiLoginUser,
   getMe as apiGetMe,
 } from './api';
+import { useRouter } from 'next/router';
+import { LoginFormContext } from '@/context/LoginFormProvider';
 
 /**
- * *Sends Post request to Server*\
+ * **Sends Post request to Server**\
  * Notifies user about results of the request with `toast`
  * @description `register` is an `Action` - API call that
  * does not have an effect on cached entity data
@@ -35,7 +37,7 @@ export async function register(signUpCred: Credentials) {
 }
 
 /**
- * ** Login user**\
+ * **Login user**\
  * Sets JWT as a cookie\
  * Notifies user about results of the request with `toast`\
  * **@description** `login` is an `Action` - API call that
@@ -59,9 +61,6 @@ export async function login(loginCred: LoginCredentials) {
   }
 }
 
-
-
-
 export type User = {
   firstName: string;
   lastName: string;
@@ -71,30 +70,34 @@ export type User = {
 interface UserContextShape {
   user: User | null;
   isLoading: boolean;
+  isSuccess: boolean;
   handleLogout:()=>void
 }
 
 export const UserContext = createContext<UserContextShape>({
   user: null,
   isLoading: true,
+  isSuccess: false,
   handleLogout:()=>{}
 });
 
 export function UserProvider(props: any) {
-  const { data, isLoading } = useQuery(['user'], apiGetMe);
+  const router = useRouter();
+  const { data, isLoading, isSuccess } = useQuery(['user'], apiGetMe);
 
   const [user, setUser] = React.useState(data);
 
   function handleLogout() {
     Cookies.remove('token');
     setUser(undefined)
+    router.push('/')
   }
 
   React.useEffect(() => {
     setUser(data);
-  }, [isLoading]);
+  }, [data]);
 
-  return <UserContext.Provider value={{ user, isLoading, handleLogout }} {...props} />;
+  return <UserContext.Provider value={{ user, isLoading, isSuccess, handleLogout }} {...props} />;
 }
 
 export const useUser = () => React.useContext(UserContext);

@@ -9,24 +9,26 @@ import { useRouter } from 'next/router';
 import Loading from '@/components/Loading';
 import { UserContext, useUser } from '@/services/user';
 import { LoginFormContext } from '@/context/LoginFormProvider';
+import PlaidLink from '@/components/PlaidLink';
+
+import { requestLinkToken } from '@/services/api';
 
 export default function CabinetPage() {
-  const {setOpenLoginForm} = React.useContext(LoginFormContext)
-  const router = useRouter();
+
+  // const {setOpenLoginForm} = React.useContext(LoginFormContext)
+
+  // const router = useRouter();
   const { user, isLoading } = useUser();
 
   if(isLoading){
     return <Loading/>
   }
 
-  if(!user){
-    setOpenLoginForm(true)
-    router.push('/')
-    return <Loading/>
+  if(user !== null){
+    return <Cabinet/>
   }
 
-  return <Cabinet/>
-
+  return <Loading/>
 }
 
 
@@ -61,6 +63,7 @@ const Cabinet = () => {
           </Link>
 
           <div className='flex items-center gap-2'>
+            
             <Button
               className='text-md py-1'
               variant={mode === 'dark' ? 'light' : 'dark'}
@@ -130,7 +133,7 @@ const Cabinet = () => {
               <div className='inline-flex gap-2'>
                 {/* <Button variant='light' className='w-32 py-1 px-8 text-sm whitespace-nowrap'>Open App</Button> */}
                 {/* <Button variant='green' className='w-32 py-1 px-8 text-sm'>Add new</Button> */}
-                {/* <PlaidLink /> */}
+                <PlaidLink />
               </div>
             </div>
             <ul className='scroll-y h-full overflow-y-scroll'>

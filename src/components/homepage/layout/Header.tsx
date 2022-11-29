@@ -1,39 +1,26 @@
 import React from 'react';
 import clsx from 'clsx';
-import Cookies from 'js-cookie';
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/buttons/Button';
-import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
 import { FaMoon, FaSun } from 'react-icons/fa';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { LoginFormContext } from '@/context/LoginFormProvider';
-import { useUser } from '@/services/user';
+import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
+import { User, useUser } from '@/services/user';
+// import { requestLinkToken } from '@/services/api';
+import { requestLinkToken } from '@/services/plaid';
 
-export default function Header() {
-  const { mode, setMode } = React.useContext(ThemeContext);
-  const { setOpenLoginForm } = React.useContext(LoginFormContext);
+export default function Header({user}:{user:User | null }) {
+  const { mode } = React.useContext(ThemeContext);
 
   const [isLoaded, setIsLoaded] = React.useState(false);
-  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-
-  const { data, isLoading } = useUser();
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 100);
     return () => clearTimeout(timer);
-  }, []);
-
-  React.useEffect(() => {
-    if (Cookies.get('token')) {
-      console.log(Cookies.get('token'));
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-
   }, []);
 
   return (
@@ -50,6 +37,7 @@ export default function Header() {
       )}
     >
       <div className='flex items-center justify-between' data-fade='1'>
+        <Button onClick={requestLinkToken}>create</Button>
         <Link href='/'>
           <Image
             src={'/images/logo.png'}
@@ -58,67 +46,57 @@ export default function Header() {
             className='cursor-pointer'
           />
         </Link>
-        <ul className={clsx('inline-flex items-center gap-2')}>
+        <ul className='inline-flex items-center gap-2'>
+          <li>{user ? <CabinetLink /> : <LoginButton />}</li>
           <li>
-            <LoginButton
-              mode={mode}
-              isLoggedIn={isLoggedIn}
-              setOpenLoginForm={setOpenLoginForm}
-              isLoading={isLoading}
-            />
-          </li>
-          <li>
-            <Button
-              className='py-2'
-              variant={mode === 'dark' ? 'light' : 'dark'}
-              onClick={() => {
-                setMode(mode === 'light' ? 'dark' : 'light');
-              }}
-            >
-              {mode === 'light' ? <FaMoon /> : <FaSun />}
-            </Button>
+            <ThemeButton />
           </li>
         </ul>
       </div>
-
       <LoginForm />
     </nav>
   );
 }
 
-const LoginButton = ({
-  mode,
-  isLoggedIn,
-  setOpenLoginForm,
-  isLoading,
-}: {
-  mode: string;
-  isLoggedIn: boolean;
-  isLoading: boolean;
-  setOpenLoginForm: any;
-}) => {
+const CabinetLink = () => {
+  const { mode, setMode } = React.useContext(ThemeContext);
   return (
-    <>
-      {isLoggedIn ? (
-        <Link href='/cabinet'>
-          <Button
-            variant={mode === 'dark' ? 'light' : 'dark'}
-            className='text-md py-1'
-            isLoading={isLoading}
-          >
-            Cabinet
-          </Button>
-        </Link>
-      ) : (
-        <Button
-          className='py-1'
-          variant={mode === 'dark' ? 'light' : 'dark'}
-          onClick={() => setOpenLoginForm(true)}
-          isLoading={isLoading}
-        >
-          Login
-        </Button>
-      )}
-    </>
+    <Link href='/cabinet'>
+      <Button
+        variant={mode === 'dark' ? 'light' : 'dark'}
+        className='text-md py-1'
+      >
+        Cabinet
+      </Button>
+    </Link>
+  );
+};
+
+const LoginButton = () => {
+  const { setOpenLoginForm } = React.useContext(LoginFormContext);
+  const { mode } = React.useContext(ThemeContext);
+  return (
+    <Button
+      className='py-1'
+      variant={mode === 'dark' ? 'light' : 'dark'}
+      onClick={() => setOpenLoginForm(true)}
+    >
+      Login
+    </Button>
+  );
+};
+
+const ThemeButton = () => {
+  const { mode, setMode } = React.useContext(ThemeContext);
+  return (
+    <Button
+      className='py-2'
+      variant={mode === 'dark' ? 'light' : 'dark'}
+      onClick={() => {
+        setMode(mode === 'light' ? 'dark' : 'light');
+      }}
+    >
+      {mode === 'light' ? <FaMoon /> : <FaSun />}
+    </Button>
   );
 };
