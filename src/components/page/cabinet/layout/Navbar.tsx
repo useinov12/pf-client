@@ -1,6 +1,6 @@
 import Logo from '@/components/Logo';
 import Button from '@/components/buttons/Button';
-import ThemeButton from '../../homepage/ThemeButton';
+import ThemeButton from '../../landing/ThemeButton';
 
 const Navbar = () => {
   return (
