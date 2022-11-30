@@ -3,18 +3,18 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import Link from 'next/link';
 import Button from '@/components/buttons/Button';
-import { FaMoon, FaSun } from 'react-icons/fa';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { LoginFormContext } from '@/context/LoginFormProvider';
 import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
-import { User, useUser } from '@/services/user';
-// import { requestLinkToken } from '@/services/api';
-import { requestLinkToken } from '@/services/plaid';
+import { useUser } from '@/services/user';
+import ThemeButton from '../ThemeButton';
 
-export default function Header({user}:{user:User | null }) {
+export default function Header() {
   const { mode } = React.useContext(ThemeContext);
 
   const [isLoaded, setIsLoaded] = React.useState(false);
+
+  const { user } = useUser();
 
   React.useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,7 +37,6 @@ export default function Header({user}:{user:User | null }) {
       )}
     >
       <div className='flex items-center justify-between' data-fade='1'>
-        <Button onClick={requestLinkToken}>create</Button>
         <Link href='/'>
           <Image
             src={'/images/logo.png'}
@@ -59,11 +58,10 @@ export default function Header({user}:{user:User | null }) {
 }
 
 const CabinetLink = () => {
-  const { mode, setMode } = React.useContext(ThemeContext);
   return (
     <Link href='/cabinet'>
       <Button
-        variant={mode === 'dark' ? 'light' : 'dark'}
+        variant='theme-dependent'
         className='text-md py-1'
       >
         Cabinet
@@ -74,11 +72,10 @@ const CabinetLink = () => {
 
 const LoginButton = () => {
   const { setOpenLoginForm } = React.useContext(LoginFormContext);
-  const { mode } = React.useContext(ThemeContext);
   return (
     <Button
       className='py-1'
-      variant={mode === 'dark' ? 'light' : 'dark'}
+      variant='theme-dependent'
       onClick={() => setOpenLoginForm(true)}
     >
       Login
@@ -86,17 +83,4 @@ const LoginButton = () => {
   );
 };
 
-const ThemeButton = () => {
-  const { mode, setMode } = React.useContext(ThemeContext);
-  return (
-    <Button
-      className='py-2'
-      variant={mode === 'dark' ? 'light' : 'dark'}
-      onClick={() => {
-        setMode(mode === 'light' ? 'dark' : 'light');
-      }}
-    >
-      {mode === 'light' ? <FaMoon /> : <FaSun />}
-    </Button>
-  );
-};
+
