@@ -120,7 +120,7 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
   // // if user in context -> render page
   // return <>{children}</>;
 
-  return user ? <>{children}</> : withUserQuery({children})
+  return user ? <>{children}</> : WithUserQuery({children})
 }
 
 export const useQueryCurrentUser = () => {
@@ -128,10 +128,10 @@ export const useQueryCurrentUser = () => {
 };
 
 
-const withUserQuery = ({children}:{children:JSX.Element }) => {
+const WithUserQuery = ({children}:{children:JSX.Element }) => {
   const router = useRouter();
   const { data, isLoading, isSuccess } = useQueryCurrentUser();
-  const { user, handleSetUser } = useUser();
+  const { handleSetUser } = useUser();
     
     useEffect(() => {
       if (!isLoading) {
