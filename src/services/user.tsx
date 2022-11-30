@@ -115,9 +115,23 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
   const router = useRouter();
   const { user, handleSetUser } = useUser();
 
-  // if no user in Context -> get Current User from the Server
-  if(!user){
-    const { data, isLoading, isSuccess } = useQueryCurrentUser();
+  // // if no user in Context -> get Current User from the Server
+  // !user && withQueryUser({children})
+  // // if user in context -> render page
+  // return <>{children}</>;
+
+  return user ? <>{children}</> : withUserQuery({children})
+}
+
+export const useQueryCurrentUser = () => {
+  return useQuery({ queryKey: ['user'], queryFn: apiGetMe, retry: 3 });
+};
+
+
+const withUserQuery = ({children}:{children:JSX.Element }) => {
+  const router = useRouter();
+  const { data, isLoading, isSuccess } = useQueryCurrentUser();
+  const { user, handleSetUser } = useUser();
     
     useEffect(() => {
       if (!isLoading) {
@@ -140,16 +154,8 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
     }
   
     return <Loading />;
-  }
-  // if user in context -> render page
-  else { 
-    return <>{children}</>;
-  }
 }
 
-export const useQueryCurrentUser = () => {
-  return useQuery({ queryKey: ['user'], queryFn: apiGetMe, retry: 3 });
-};
 
 export function formatUserApiResponse(data: GetCurrentUserResponse): User {
   return {
