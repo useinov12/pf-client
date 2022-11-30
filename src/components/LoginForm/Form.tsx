@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import { ChangeEvent, useContext, useState } from 'react';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
@@ -9,15 +9,17 @@ import Card from '@/components/homepage/cards/Card';
 import { useRouter } from 'next/router';
 import { AiOutlineClose } from 'react-icons/ai';
 import { LoginFormContext } from '@/context/LoginFormProvider';
-import { login, register } from '@/services/user';
+import { login, register, UserContext } from '@/services/user';
+import { formatUserApiResponse } from '@/services/user';
+import { getMe } from '@/services/api';
 
 export const LoginCardComponent: React.FC = () => {
   const router = useRouter();
-  const { openLoginForm, setOpenLoginForm } =
-    React.useContext(LoginFormContext);
+  const { openLoginForm, setOpenLoginForm } = useContext(LoginFormContext);
+  const { handleSetUser } = useContext(UserContext);
 
-  const [toggleForm, setToggleForm] = React.useState(false);
-  const [formInputs, setformInputs] = React.useState(emptyForm);
+  const [toggleForm, setToggleForm] = useState(false);
+  const [formInputs, setformInputs] = useState(emptyForm);
 
   function handleCredentials(e: ChangeEvent<HTMLInputElement>) {
     setformInputs({
@@ -26,7 +28,8 @@ export const LoginCardComponent: React.FC = () => {
     });
   }
 
-  const { username, password, first_name, last_name, passwordChecker } = formInputs;
+  const { username, password, first_name, last_name, passwordChecker } =
+    formInputs;
 
   const registerCred = {
     username: username,
@@ -71,9 +74,15 @@ export const LoginCardComponent: React.FC = () => {
 
     const { status } = await login(LoginCred);
 
+    // if successfull login -> get current user from Server
+    // and set in Context
     if (status === 200) {
       setOpenLoginForm(false);
-      router.push('/cabinet');
+
+      const data = await getMe();
+      if (data) {
+        handleSetUser(data)
+      }
     }
   }
 
@@ -129,7 +138,7 @@ export const LoginCardComponent: React.FC = () => {
 
 function Header({ setToggleForm }: { setToggleForm: any }) {
   return (
-    <React.Fragment>
+    <>
       <p className='text-md mt-10 font-normal uppercase text-dark'>
         Sign in to
       </p>
@@ -151,7 +160,7 @@ function Header({ setToggleForm }: { setToggleForm: any }) {
           Sign Up
         </Button>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

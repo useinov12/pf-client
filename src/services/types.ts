@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+
 
 /* ================ USER ================ */
 export interface RegisterCredentials {
@@ -20,7 +20,7 @@ export type User = {
 
 export interface UserContextShape {
   user: User | null;
-  setUser: Dispatch<User | null>;
+  handleSetUser:(data:GetCurrentUserResponse)=>void
 }
 
 

@@ -82,7 +82,8 @@ export async function login(loginCred: LoginCredentials) {
 
 const queryClient = new QueryClient();
 
-const initial = { user: null, setUser: () => {} };
+// const initial = { user: null, setUser: () => {} };
+const initial = { user: null, handleSetUser: () => {} };
 
 export const UserContext = createContext<UserContextShape>(initial);
 
@@ -91,9 +92,14 @@ export const useUser = () => useContext(UserContext);
 export function UserProvider(props: any) {
   const [user, setUser] = useState<User | null>();
 
+  const handleSetUser = (data: GetCurrentUserResponse) => {
+    const user = formatUserApiResponse(data);
+    setUser(user);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
-      <UserContext.Provider value={{ setUser, user }} {...props} />;
+      <UserContext.Provider value={{ handleSetUser, user }} {...props} />;
     </QueryClientProvider>
   );
 }
@@ -107,42 +113,45 @@ export function UserProvider(props: any) {
  */
 export function AuthGuard({ children }: { children: JSX.Element }) {
   const router = useRouter();
-  const { data, isLoading, isSuccess } = useQueryCurrentUser();
-  const { setUser } = useUser();
+  const { user, handleSetUser } = useUser();
 
-  const handleSetUser = (data: GetCurrentUserResponse) => {
-    const user = formatUserApiResponse(data);
-    setUser(user);
-  };
-
-  useEffect(() => {
-    if (!isLoading) {
-      //auth is initialized and there is no user
-      if (!data) {
-        // remember the page that user tried to access
-        // setRedirect(router.route)
-        router.push('/');
+  // if no user in Context -> get Current User from the Server
+  if(!user){
+    const { data, isLoading, isSuccess } = useQueryCurrentUser();
+    
+    useEffect(() => {
+      if (!isLoading) {
+        //auth is initialized and there is no user
+        if (!data) {
+          // remember the page that user tried to access
+          // setRedirect(router.route)
+          router.push('/');
+        }
       }
+    }, [isLoading, router, data]);
+  
+    if (isLoading) {
+      return <Loading />;
     }
-  }, [isLoading, router, data]);
-
-  if (isLoading) {
+  
+    if (!isLoading && isSuccess && data) {
+      handleSetUser(data);
+      return <>{children}</>;
+    }
+  
     return <Loading />;
   }
-
-  if (!isLoading && isSuccess && data) {
-    handleSetUser(data);
+  // if user in context -> render page
+  else { 
     return <>{children}</>;
   }
-
-  return <Loading />;
 }
 
 export const useQueryCurrentUser = () => {
   return useQuery({ queryKey: ['user'], queryFn: apiGetMe, retry: 3 });
 };
 
-function formatUserApiResponse(data: GetCurrentUserResponse): User {
+export function formatUserApiResponse(data: GetCurrentUserResponse): User {
   return {
     firstName: data.data.detail.data.first_name,
     lastName: data.data.detail.data.last_name,
