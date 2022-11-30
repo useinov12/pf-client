@@ -7,21 +7,24 @@ import Expirience from '@/components/homepage/sections/Expirience';
 import Instructions from '@/components/homepage/sections/Instructions';
 import Reviews from '@/components/homepage/sections/Reviews';
 import Banner from '@/components/homepage/sections/Banner';
-// import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
+
+import LoginFormProvider from '@/context/LoginFormProvider';
 
 export default function HomePage() {
+  
 
   return (
-    <Layout>
-      {/* <LoginForm /> */}
-      <main className='snap-y'>
-        <MainHero />
-        <Reviews />
-        <Expirience />
-        <Showcase />
-        <Instructions />
-        <Banner />
-      </main>
-    </Layout>
-  );
+    <LoginFormProvider>
+      <Layout >
+        <main className='snap-y'>
+          <MainHero />
+          <Reviews />
+          <Expirience />
+          <Showcase />
+          <Instructions />
+          <Banner />
+        </main>
+      </Layout>
+    </LoginFormProvider>
+  )
 }
