@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 
 import clsxm from '@/lib/clsxm';
+import { ThemeContext } from '@/context/ThemeProvider';
 
 enum ButtonVariant {
   'primary',
@@ -12,7 +13,8 @@ enum ButtonVariant {
   'red',
   'green',
   'red-outline',
-  'green-outline'
+  'green-outline',
+  'theme-dependent',
 }
 
 type ButtonProps = {
@@ -37,6 +39,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const { mode } = React.useContext(ThemeContext);
     const disabled = isLoading || buttonDisabled;
 
     return (
@@ -45,10 +48,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         type='button'
         disabled={disabled}
         className={clsxm(
-          'inline-flex items-center rounded px-4 py-2 font-medium',
+          'inline-flex items-center rounded px-4 py-1 font-medium',
           'focus:outline-none focus-visible:ring focus-visible:ring-primary-500',
           'shadow-sm',
-          'transition-colors duration-75',
           //#region  //*=========== Variants ===========
           [
             variant === 'primary' && [
@@ -79,7 +81,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               'active:bg-white/80 disabled:bg-gray-200',
             ],
             variant === 'dark' && [
-              'bg-dark text-white',
+              'bg-dark/90 text-white',
               'border border-gray-600',
               'hover:bg-gray-800 active:bg-gray-700 disabled:bg-gray-700',
             ],
@@ -98,14 +100,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               'border border-red-700',
               'hover:bg-red-300 active:bg-red-400 disabled:bg-gray-700',
               isDarkBg &&
-              'text-gray-50 hover:bg-red-500 active:bg-red-400 disabled:bg-gray-800',
+                'text-gray-50 hover:bg-red-500 active:bg-red-400 disabled:bg-gray-800',
             ],
             variant === 'green-outline' && [
               'text-dark',
               'border border-green-700',
               'hover:bg-green-300 active:bg-green-400 disabled:bg-gray-700',
               isDarkBg &&
-              'text-gray-50 hover:bg-green-500 active:bg-green-400 disabled:bg-gray-800',
+                'text-gray-50 hover:bg-green-500 active:bg-green-400 disabled:bg-gray-800',
+            ],
+            variant === 'theme-dependent' && [
+              mode === 'dark'
+                ? [
+                    'bg-white text-dark ',
+                    'border border-gray-300',
+                    'hover:bg-gray-100 hover:text-dark',
+                    'active:bg-white/80 disabled:bg-gray-200',
+                  ]
+                : [
+                    'bg-dark/90 text-white',
+                    'border border-gray-600',
+                    'hover:bg-gray-800 active:bg-gray-700 disabled:bg-gray-700',
+                  ],
             ],
           ],
           //#endregion  //*======== Variants ===========
