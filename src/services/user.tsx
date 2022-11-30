@@ -1,27 +1,40 @@
-import React, { Dispatch, createContext, useReducer, useContext } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
-import { useQuery } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query';
 
 import {
-  Credentials,
-  LoginCredentials,
   createNewUser as apiCreateNewUser,
   loginUser as apiLoginUser,
   getMe as apiGetMe,
 } from './api';
+
 import { useRouter } from 'next/router';
-import { LoginFormContext } from '@/context/LoginFormProvider';
+import {
+  GetCurrentUserResponse,
+  User,
+  UserContextShape,
+  RegisterCredentials,
+  LoginCredentials,
+} from './types';
+
+import Loading from '@/components/Loading';
+
+
 
 /**
  * **Sends Post request to Server**\
  * Notifies user about results of the request with `toast`
  * @description `register` is an `Action` - API call that
  * does not have an effect on cached entity data
- * @param {Credentials} Credentials
+ * @param {RegisterCredentials} Credentials
  * @returns {number} `Status Code`
  * */
-export async function register(signUpCred: Credentials) {
+export async function register(signUpCred: RegisterCredentials) {
   try {
     const { status } = await apiCreateNewUser(signUpCred);
     toast.success('You are successfully registered!');
@@ -49,6 +62,7 @@ export async function login(loginCred: LoginCredentials) {
   try {
     const { status, data } = await apiLoginUser(loginCred);
     Cookies.set('token', data.detail.data.access_token, { secure: true });
+    console.log(data.detail.data.access_token);
     toast.success('Successfull login');
     return { status: status };
   } catch (error: any) {
@@ -61,43 +75,77 @@ export async function login(loginCred: LoginCredentials) {
   }
 }
 
-export type User = {
-  firstName: string;
-  lastName: string;
-  username: string;
-};
+// Static protected routes implementation
+// https://dev.to/ivandotv/protecting-static-pages-in-next-js-application-1e50
+// https://github.com/ivandotv/nextjs-client-signin-logic/blob/main/src/components/AuthProvider.tsx
 
-interface UserContextShape {
-  user: User | null;
-  isLoading: boolean;
-  isSuccess: boolean;
-  handleLogout:()=>void
-}
 
-export const UserContext = createContext<UserContextShape>({
-  user: null,
-  isLoading: true,
-  isSuccess: false,
-  handleLogout:()=>{}
-});
+const queryClient = new QueryClient();
+
+const initial = { user: null, setUser: () => {} };
+
+export const UserContext = createContext<UserContextShape>(initial);
+
+export const useUser = () => useContext(UserContext);
 
 export function UserProvider(props: any) {
-  const router = useRouter();
-  const { data, isLoading, isSuccess } = useQuery(['user'], apiGetMe);
+  const [user, setUser] = useState<User | null>();
 
-  const [user, setUser] = React.useState(data);
-
-  function handleLogout() {
-    Cookies.remove('token');
-    setUser(undefined)
-    router.push('/')
-  }
-
-  React.useEffect(() => {
-    setUser(data);
-  }, [data]);
-
-  return <UserContext.Provider value={{ user, isLoading, isSuccess, handleLogout }} {...props} />;
+  return (
+    <QueryClientProvider client={queryClient}>
+      <UserContext.Provider value={{ setUser, user }} {...props} />;
+    </QueryClientProvider>
+  );
 }
 
-export const useUser = () => React.useContext(UserContext);
+
+/**
+ * Protected routes for static pages implementation\
+ * Reference: 
+ * [Blog](https://dev.to/ivandotv/protecting-static-pages-in-next-js-application-1e50) | 
+ * [Github example](https://github.com/ivandotv/nextjs-client-signin-logic)
+ */
+export function AuthGuard({ children }: { children: JSX.Element }) {
+  const router = useRouter();
+  const { data, isLoading, isSuccess } = useQueryCurrentUser();
+  const { setUser } = useUser();
+
+  const handleSetUser = (data: GetCurrentUserResponse) => {
+    const user = formatUserApiResponse(data);
+    setUser(user);
+  };
+
+  useEffect(() => {
+    if (!isLoading) {
+      //auth is initialized and there is no user
+      if (!data) {
+        // remember the page that user tried to access
+        // setRedirect(router.route)
+        router.push('/');
+      }
+    }
+  }, [isLoading, router, data]);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!isLoading && isSuccess && data) {
+    handleSetUser(data);
+    return <>{children}</>;
+  }
+
+  return <Loading />;
+}
+
+export const useQueryCurrentUser = () => {
+  return useQuery({ queryKey: ['user'], queryFn: apiGetMe, retry: 3 });
+};
+
+function formatUserApiResponse(data: GetCurrentUserResponse): User {
+  return {
+    firstName: data.data.detail.data.first_name,
+    lastName: data.data.detail.data.last_name,
+    username: data.data.detail.data.username,
+  };
+}
