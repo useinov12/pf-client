@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Button from '@/components/buttons/Button';
 import SignUp from './SignUp';
 import Login from './Login';
-import Card from '@/components/homepage/cards/Card';
+import Card from '@/components/page/landing/cards/Card';
 import { useRouter } from 'next/router';
 import { AiOutlineClose } from 'react-icons/ai';
 import { LoginFormContext } from '@/context/LoginFormProvider';
