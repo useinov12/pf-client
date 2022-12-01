@@ -3,13 +3,13 @@ import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
 import Menu from './Menu';
 import { ThemeContext } from '@/context/ThemeProvider';
-import { usePlaid } from '@/services/plaid';
+// import { usePlaid } from '@/services/plaid';
 import LaunchLink from '@/components/plaid/LaunchLink';
 
 const Settings = () => {
   const { mode } = useContext(ThemeContext);
 
-  const { linkToken, generateLinkToken } = usePlaid();
+  // const { linkToken, generateLinkToken } = usePlaid();
   return (
     <Menu className='relative h-full md:w-4/6 lg:w-4/5'>
       <header
@@ -22,11 +22,11 @@ const Settings = () => {
         <Button
           variant='green'
           className='w-24 whitespace-nowrap py-1 text-sm'
-          onClick={generateLinkToken}
+          // onClick={generateLinkToken}
         >
           Add bank
         </Button>
-        {linkToken && <LaunchLink token={linkToken} />}
+        {/* {linkToken && <LaunchLink token={linkToken} />} */}
       </header>
 
       <ul className='scroll-y h-full overflow-y-scroll'>
