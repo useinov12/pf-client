@@ -2,10 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import { VscAccount } from 'react-icons/vsc';
 import Image from 'next/image';
-import Button from '../../buttons/Button';
-import ButtonLink from '../../links/ButtonLink';
+import Button from '../../../buttons/Button';
+import ButtonLink from '../../../links/ButtonLink';
 import { AiOutlineLineChart } from 'react-icons/ai';
-import Ping from '../../Ping';
+import Ping from '../../../Ping';
 import { ThemeContext } from '@/context/ThemeProvider';
 
 const InstructionsSection = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import BlockOfCards from '../cards/BlockOfCards';
-import Accent from '../../Accent';
+import Accent from '../../../Accent';
 import { RiBankFill } from 'react-icons/ri';
 import { BsArrowDownShort } from 'react-icons/bs';
 import { AiFillCheckSquare } from 'react-icons/ai';
@@ -9,30 +9,18 @@ import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
 import Path from '../Path';
 import { ThemeContext } from '@/context/ThemeProvider';
-import Button from '@/components/buttons/Button';
-
-import { PlaidContext } from '@/context/PlaidTokenProvider';
+import ManualLinkTest from '@/components/ManualLinkTest';
+import AppCard from '../cards/AppCard';
 
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
   const { mode } = React.useContext(ThemeContext);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
-
-
-
-  const {token, setToken} = React.useContext(PlaidContext)
-
-  const [link, setLink] = React.useState<string>('');
-
-  function handleTokenInput(e: React.ChangeEvent<HTMLInputElement>) {
-    setLink(e.target.value);
-  }
-
   React.useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
-    });
+    }, 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -65,7 +53,7 @@ const MainHeroSection = () => {
             <h1
               className={clsx(
                 'text-4xl font-extrabold',
-                'sm:text-4xl md:text-6xl',
+                'sm:text-4xl md:text-5xl',
                 'uppercase tracking-tight',
                 'cursor-default',
                 'pr-4 drop-shadow-xl',
@@ -76,36 +64,24 @@ const MainHeroSection = () => {
             </h1>
             <h3
               className={clsx(
-                'font-semibold drop-shadow-xl',
+                'font-normal drop-shadow-xl',
                 'transition-all delay-75 duration-150 '
               )}
             >
-              A financial app that lets you gather and analyze bank data in a
-              helpful way.
+              A financial app that lets you gather, analyze all your banks data.
             </h3>
-            <div className='m-3'>
-              <input
-                type='text'
-                value={link}
-                onChange={(e) => handleTokenInput(e)}
-                className='p-1 text-dark'
-              />
-              <Button
-                onClick={() => {
-                  setToken(link);
-                  console.log('LINK_TOKEN_SET', link);
-                }}
-              >
-                set token
-              </Button>
-            </div>
+            <h3
+              className={clsx(
+                'font-normal drop-shadow-xl',
+                'transition-all delay-75 duration-150 px-5'
+              )}
+            >
+              Securely conect your financial accounts in seconds.
+            </h3>
+            
           </div>
-          <a
-            className='my-20 animate-bounce cursor-pointer'
-            href='#showcase-start'
-          >
-            <BsArrowDownShort className='h-14 w-14' />
-          </a>
+          {/* <AppCard/> */}
+
         </section>
 
         <section

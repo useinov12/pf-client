@@ -1,28 +1,25 @@
 import React, { ChangeEvent } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { Credentials } from './Form';
+import { LoginCredentials } from '@/services/types';
 
 interface LoginFormProps {
-  credentials: Credentials;
+  credentials: LoginCredentials;
   handleCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  toggle: boolean;
+  className?: string;
 }
 
 const Login: React.FC<LoginFormProps> = ({
   credentials,
   handleCredentials,
   handleSubmit,
-  toggle,
+  className,
 }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className={clsx(
-        'flex w-full flex-col p-2',
-        toggle === true ? 'block' : 'hidden'
-      )}
+      className={clsx('flex w-full flex-col p-2', className)}
     >
       <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
         Sign In

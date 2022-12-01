@@ -1,7 +1,7 @@
 import React from 'react';
+import clsx from 'clsx';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import { ThemeContext } from '@/context/ThemeProvider';
-import clsx from 'clsx';
 
 const Footer = () => {
   const {
@@ -20,17 +20,16 @@ const Footer = () => {
     >
         <article className={clsx(
           'max-w-screen-md lg:max-w-screen-xl lg-px-4 mx-auto',
-          'flex flex-col sm:flex-row justify-center items-center',
+          'flex flex-col sm:flex-row justify-center items-start',
           'sm:justify-between'
         )}>
-          <section className='my-5 flex flex-col  items-center sm:items-start justify-start'>
+          {/* <section className='my-5 flex flex-col gap-y-10'>
             <h2 className='text-2xl text-center sm:text-start'>Get in touch</h2>
             <form className='flex flex-col mb-8 items-center sm:items-start'>
               <input type='email' placeholder='me@email.com' className='rounded my-1 px-1 py-1 text-sm w-44 text-dark'/>
               <textarea placeholder='Your message' className='rounded my-1 px-1 py-1 text-sm w-56 text-dark'/>
             </form>
-            <h6 className='justify-self-end'>Got any feedback?</h6>
-          </section>
+          </section> */}
 
           <section className='my-5 flex flex-col'>
             <h2 className='text-2xl text-center sm:text-start'>PersonalFinance</h2>
@@ -56,7 +55,7 @@ const Footer = () => {
           </UnderlineLink>
       </section>
     </footer>
-  );
+  )
 };
 
 export default Footer;

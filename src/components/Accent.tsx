@@ -14,14 +14,13 @@ const Accent: React.FC<{
     ? 'from-orange-400 via-orange-600 to-orange-500 '
     : red
     ? 'from-red-400 via-red-600 to-red-500 '
-    : 'from-primary-700 via-primary-600 to-primary-400 ';
-
+    : 'from-primary-500 via-primary-600 to-primary-500 ';
   return (
     <span
       className={clsx(
-        `bg-gradient-to-tr bg-clip-text 
-        font-bold 
-        text-transparent`,
+        'bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] ',
+        'bg-clip-text text-transparent',
+        'font-bold drop-shadow',
         color,
         className
       )}

@@ -2,9 +2,9 @@ import React from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
 import Card from './Card';
-import PieChart from '../../charts/PieChart';
-import LineChart from '../../charts/LineChart';
-import BarChart from '../../charts/BarChart';
+import PieChart from '../../../charts/PieChart';
+import LineChart from '../../../charts/LineChart';
+import BarChart from '../../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { ThemeContext } from '@/context/ThemeProvider';
 import '@/lib/swapText';
@@ -182,8 +182,8 @@ const BlockOfCards = () => {
         ' ring-white drop-shadow ',
         'transition-all duration-300',
         'border',
-        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+        mode === 'light' ? 'border-dark/5 ring-gray-600/50' : 'border-gray-400/70 ring ring-gray-400/50 ',
+        mode === 'light' ? 'bg-gray-400/25' : 'bg-gray-700/70 ring ring-gray-700/50'
       )}
       ref={pauseRef}
     >

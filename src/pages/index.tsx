@@ -1,24 +1,26 @@
 import React from 'react';
-import Layout from '@/components/homepage/layout/Layout';
+import Layout from '@/components/page/landing/layout/Layout';
 
-import MainHero from '@/components/homepage/sections/MainHero';
-import Showcase from '@/components/homepage/sections/Showcase';
-import Expirience from '@/components/homepage/sections/Expirience';
-import Instructions from '@/components/homepage/sections/Instructions';
-import Reviews from '@/components/homepage/sections/Reviews';
-import Banner from '@/components/homepage/sections/Banner';
+import MainHero from '@/components/page/landing/sections/MainHero';
+import Showcase from '@/components/page/landing/sections/Showcase';
+import Expirience from '@/components/page/landing/sections/Expirience';
+import Instructions from '@/components/page/landing/sections/Instructions';
+import Reviews from '@/components/page/landing/sections/Reviews';
+import Banner from '@/components/page/landing/sections/Banner';
+
+import LoginFormProvider from '@/context/LoginFormProvider';
 
 export default function HomePage() {
   return (
-    <Layout>
-      <main className='snap-y'>
+    <LoginFormProvider>
+      <Layout>
         <MainHero />
         <Reviews />
         <Expirience />
         <Showcase />
         <Instructions />
         <Banner />
-      </main>
-    </Layout>
+      </Layout>
+    </LoginFormProvider>
   );
 }

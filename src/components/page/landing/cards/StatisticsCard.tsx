@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import gsap from 'gsap';
 import Card from './Card';
-import BarChart from '../../charts/BarChart';
+import BarChart from '../../../charts/BarChart';
 import useInterval from '@/hooks/useInterval';
 import '@/lib/swapText';
 

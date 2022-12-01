@@ -1,32 +1,44 @@
+import React from 'react';
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
-import ThemeProvider from '@/context/ThemeProvider';
-import UserProvider from '@/context/UserProvider';
-import LoginFormProvider from '@/context/LoginFormProvider';
 import { Toaster } from 'react-hot-toast';
+import {  UserProvider, AuthGuard } from '@/services/user';
+import ThemeProvider from '@/context/ThemeProvider';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+
+export type NextApplicationPage<P = any, IP = P> = NextPage<P, IP> & {
+  requireAuth?: boolean;
+};
 
 import '@/styles/globals.css';
-// !STARTERCONF This is for demo purposes, remove @/styles/colors.css import immediately
-import '@/styles/colors.css';
-import PlaidTokenProvider from '@/context/PlaidTokenProvider';
 
-/**
- * !STARTERCONF info
- * ? `Layout` component is called in every page using `np` snippets. If you have consistent layout across all page, you can add it here too
- */
+function MyApp(props: AppProps) {
+  const {
+    Component,
+    pageProps,
+  }: { Component: NextApplicationPage; pageProps: any } = props as AppProps;
 
-function MyApp({ Component, pageProps }: AppProps) {
+  const queryClient = new QueryClient() 
   return (
     <>
       <Toaster />
-      <PlaidTokenProvider>
-        <ThemeProvider>
-          <UserProvider>
-            <LoginFormProvider>
+      <ThemeProvider>
+      {/* <QueryClientProvider client={queryClient}> */}
+        <UserProvider>
+          {/* if requireAuth property is present - protect the page */}
+          {Component.requireAuth ? (
+            <AuthGuard>
               <Component {...pageProps} />
-            </LoginFormProvider>
-          </UserProvider>
-        </ThemeProvider>
-      </PlaidTokenProvider>
+            </AuthGuard>
+          ) : (
+            // public page
+            <Component {...pageProps} />
+          )}
+        </UserProvider>
+        {/* </QueryClientProvider> */}
+      </ThemeProvider>
     </>
   );
 }
