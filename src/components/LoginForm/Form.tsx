@@ -10,7 +10,6 @@ import { useRouter } from 'next/router';
 import { AiOutlineClose } from 'react-icons/ai';
 import { LoginFormContext } from '@/context/LoginFormProvider';
 import { login, register, UserContext } from '@/services/user';
-import { formatUserApiResponse } from '@/services/user';
 import { getMe } from '@/services/api';
 
 export const LoginCardComponent: React.FC = () => {

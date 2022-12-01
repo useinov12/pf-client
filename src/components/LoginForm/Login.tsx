@@ -1,10 +1,10 @@
 import React, { ChangeEvent } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { Credentials } from '@/services/api';
+import { LoginCredentials } from '@/services/types';
 
 interface LoginFormProps {
-  credentials: Credentials;
+  credentials: LoginCredentials;
   handleCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
   className?: string;
