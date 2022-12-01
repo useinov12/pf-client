@@ -6,30 +6,46 @@ import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
 import { useUser } from '@/services/user';
 import ThemeButton from '../ThemeButton';
 import Logo from '@/components/Logo';
+import clsx from 'clsx';
 
 export default function Navbar() {
-
   const { user } = useUser();
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
-  useEffect(()=>{
-    if(user) setIsLoggedIn(true)
-    else setIsLoggedIn(false)
-  }, [user])
+  useEffect(() => {
+    if (user) setIsLoggedIn(true);
+    else setIsLoggedIn(false);
+  }, [user]);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <>
+    <div
+      className={clsx(
+        'mx-auto px-3 sm:max-w-screen-sm',
+        'md:max-w-screen-lg ',
+        'lg:max-w-screen-xl',
+        'h-full w-full',
+        isLoaded && 'fade-in-start'
+      )}
+    >
       <nav className='flex items-center justify-between py-3' data-fade='1'>
         <Logo />
         <ul className='inline-flex items-center gap-2'>
-          <li>{ isLoggedIn ? <CabinetLink /> : <LoginButton />}</li>
+          <li>{isLoggedIn ? <CabinetLink /> : <LoginButton />}</li>
           <li>
             <ThemeButton />
           </li>
         </ul>
       </nav>
       <LoginForm />
-    </>
+    </div>
   );
 }
 

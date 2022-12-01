@@ -4,7 +4,7 @@ import https from 'https';
 
 import {
   GetCurrentUserResponse,
-  getLinkTokenResponse,
+  getTokenResponse,
   RegisterCredentials,
   LoginCredentials,
 } from './types';
@@ -40,9 +40,9 @@ export const getMe = () =>
 
 // PLAID API
 export const exchangePublicToken = (token: string) =>
-  api.post<AxiosResponse, getLinkTokenResponse, any>(`/access_token`, {
+  api.post<AxiosResponse, getTokenResponse, any>(`/access_token`, {
     public_token: token,
   });
 
 export const getLinkToken = () =>
-  api.get<AxiosResponse, getLinkTokenResponse, any>(`/link/token/create`);
+  api.get<AxiosResponse, getTokenResponse, any>(`/link/token/create`);
