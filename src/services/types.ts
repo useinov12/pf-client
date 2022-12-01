@@ -38,7 +38,7 @@ export type GetCurrentUserResponse = {
   };
 };
 
-export type getLinkTokenResponse = { // test this type when backend is ready
+export type getTokenResponse = { // test this type when backend is ready
   data: {
     detail: {
       message: string;
