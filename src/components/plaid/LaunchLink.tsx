@@ -10,7 +10,7 @@ import {
 interface LinkLaunchProps {
   isOauth?: boolean;
   token: string;
-  // userId: number;
+  userId: number;
   itemId?: number | null;
   children?: React.ReactNode;
 }
