@@ -1,8 +1,6 @@
-import React from 'react';
-import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Button from '@/components/buttons/Button';
-import { ThemeContext } from '@/context/ThemeProvider';
 import { LoginFormContext } from '@/context/LoginFormProvider';
 import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
 import { useUser } from '@/services/user';
@@ -12,13 +10,19 @@ import Logo from '@/components/Logo';
 export default function Navbar() {
 
   const { user } = useUser();
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(()=>{
+    if(user) setIsLoggedIn(true)
+    else setIsLoggedIn(false)
+  }, [user])
 
   return (
     <>
       <nav className='flex items-center justify-between py-3' data-fade='1'>
         <Logo />
         <ul className='inline-flex items-center gap-2'>
-          <li>{user ? <CabinetLink /> : <LoginButton />}</li>
+          <li>{ isLoggedIn ? <CabinetLink /> : <LoginButton />}</li>
           <li>
             <ThemeButton />
           </li>
