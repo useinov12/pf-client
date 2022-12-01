@@ -4,7 +4,7 @@ import Button from '@/components/buttons/Button';
 import Menu from './Menu';
 import { ThemeContext } from '@/context/ThemeProvider';
 // import { usePlaid } from '@/services/plaid';
-import LaunchLink from '@/components/plaid/LaunchLink';
+// import LaunchLink from '@/components/plaid/LaunchLink';
 
 const Settings = () => {
   const { mode } = useContext(ThemeContext);
