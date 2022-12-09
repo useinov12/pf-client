@@ -7,8 +7,14 @@ import { login, useCashedClient } from '@/services/user/actions';
 import logger from '@/lib/logger';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/services/user/AuthProvider';
+import { Spinner } from '../Loading';
 
 const Login: React.FC<{ className?: string }> = ({ className }) => {
+  const { isLoading } = useAuth();
+  return <>{isLoading ? <Spinner /> : <Form className={className} />}</>;
+};
+
+const Form: React.FC<{ className?: string }> = ({ className }) => {
   const QueryClient = useCashedClient();
   const router = useRouter();
   const { getRedirect, clearRedirect } = useAuth();
