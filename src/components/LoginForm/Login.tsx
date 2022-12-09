@@ -1,24 +1,53 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { LoginCredentials } from '@/services/types';
+import { isValidEmailInput } from '@/lib/form.validation';
+import toast from 'react-hot-toast';
+import { login, useCashedClient } from '@/services/user/actions';
+import logger from '@/lib/logger';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/services/user/AuthProvider';
 
-interface LoginFormProps {
-  credentials: LoginCredentials;
-  handleCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  className?: string;
-}
+const Login: React.FC<{ className?: string }> = ({ className }) => {
+  const QueryClient = useCashedClient();
+  const router = useRouter();
+  const { getRedirect, clearRedirect } = useAuth();
 
-const Login: React.FC<LoginFormProps> = ({
-  credentials,
-  handleCredentials,
-  handleSubmit,
-  className,
-}) => {
+  const [formInputs, setFormInputs] = useState(emptyForm);
+  const { username, password } = formInputs;
+
+  function handleCredentials(e: ChangeEvent<HTMLInputElement>) {
+    setFormInputs({
+      ...formInputs,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function onLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!isValidEmailInput(username)) {
+      toast.error('Invalid email address!');
+      return;
+    }
+
+    const { status } = await login({ username, password });
+    logger(status, 'Submit Login Form Response');
+
+    if (status === 200) {
+      /* update cashed user */
+      QueryClient.invalidateQueries('user');
+      const lastVisited = getRedirect();
+      if (lastVisited) {
+        router.push(lastVisited);
+        clearRedirect();
+      } else router.push('/cabinet');
+    }
+  }
+
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={onLoginSubmit}
       className={clsx('flex w-full flex-col p-2', className)}
     >
       <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
@@ -35,7 +64,7 @@ const Login: React.FC<LoginFormProps> = ({
         id='username-login'
         type='text'
         name='username'
-        value={credentials.username}
+        value={username}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
@@ -54,7 +83,7 @@ const Login: React.FC<LoginFormProps> = ({
         id='password'
         type='password'
         name='password'
-        value={credentials.password}
+        value={password}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
@@ -75,3 +104,8 @@ const Login: React.FC<LoginFormProps> = ({
   );
 };
 export default Login;
+
+const emptyForm = {
+  username: '',
+  password: '',
+};

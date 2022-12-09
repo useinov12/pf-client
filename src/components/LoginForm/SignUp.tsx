@@ -1,25 +1,53 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, Dispatch, useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { RegisterFormCredentials } from './Form';
+import { isPasswordMatch, hasMissingInputs } from '@/lib/form.validation';
+import toast from 'react-hot-toast';
+import { register } from '@/services/user/actions';
 
-interface SignUpProps {
-  credentials: RegisterFormCredentials;
-  handleCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
+const SignUp: React.FC<{
+  setToggleForm: Dispatch<boolean>;
   className?: string;
-}
+}> = ({ setToggleForm, className }) => {
 
-const SignUp: React.FC<SignUpProps> = ({
-  credentials,
-  handleCredentials,
-  handleSubmit,
-  className,
-}) => {
+  const [formInputs, setFormInputs] = useState(emptyForm);
+  const { username, password, first_name, last_name, passwordChecker } =
+    formInputs;
+
+  const credentials = { username, password, first_name, last_name };
+
+  function handleCredentials(e: ChangeEvent<HTMLInputElement>) {
+    setFormInputs({
+      ...formInputs,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function onRegisterSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!isPasswordMatch(password, passwordChecker)) {
+      toast.error('Password does not match!');
+      return;
+    }
+
+    if (hasMissingInputs(credentials)) {
+      toast.error(`Fill all missing fields!`);
+      return;
+    }
+
+    const { status } = await register(credentials);
+
+    if (status === 201) {
+      setFormInputs(emptyForm);
+      setToggleForm(true);
+    }
+  }
+
   return (
     <form
       action='#'
-      onSubmit={handleSubmit}
+      onSubmit={onRegisterSubmit}
       className={clsx(`flex w-full flex-col p-2`, className)}
     >
       <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
@@ -35,7 +63,7 @@ const SignUp: React.FC<SignUpProps> = ({
         id='username'
         type='text'
         name='username'
-        value={credentials.username}
+        value={username}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
@@ -52,7 +80,7 @@ const SignUp: React.FC<SignUpProps> = ({
       <input
         type='text'
         name='first_name'
-        value={credentials.first_name}
+        value={first_name}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
@@ -69,7 +97,7 @@ const SignUp: React.FC<SignUpProps> = ({
       <input
         type='text'
         name='last_name'
-        value={credentials.last_name}
+        value={last_name}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
@@ -86,7 +114,7 @@ const SignUp: React.FC<SignUpProps> = ({
       <input
         type='password'
         name='password'
-        value={credentials.password}
+        value={password}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
@@ -102,7 +130,7 @@ const SignUp: React.FC<SignUpProps> = ({
       <input
         type='password'
         name='passwordChecker'
-        value={credentials.passwordChecker}
+        value={passwordChecker}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
@@ -124,3 +152,11 @@ const SignUp: React.FC<SignUpProps> = ({
 };
 
 export default SignUp;
+
+const emptyForm = {
+  username: '',
+  first_name: '',
+  last_name: '',
+  password: '',
+  passwordChecker: '',
+};
