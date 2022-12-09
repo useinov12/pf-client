@@ -1,49 +1,43 @@
-
-
-/* ================ USER ================ */
-export interface RegisterCredentials {
+/* =============== Common ================== */
+type Response<T> = {
+  detail: {
+    message: string;
+    data: T;
+  };
+};
+type Tokens = {
+  access_token: string;
+  refresh_token: string;
+  refresh_token_type: 'bearer';
+  token_type: 'bearer';
+};
+type UserData = {
   username: string;
   password: string;
   first_name: string;
   last_name: string;
-}
-export type LoginCredentials = Pick<
-  RegisterCredentials,
-  'username' | 'password'
->;
+};
+export type Error = any
 
-export type User = {
+/* ================== User ==================*/
+type UserApiData = Omit<UserData, 'password'>;
+export type RegisterCredentials = UserData;
+export type RegisterFormCredentials = RegisterCredentials & {
+  passwordChecker: string;
+};
+export type LoginCredentials = Pick<UserData, 'username' | 'password'>;
+
+export type LoginData = Response<Tokens>;
+export type RegisterData = Response<UserApiData>;
+export type CurrentUserData = Response<UserApiData>;
+
+export type UserInContext = {
   firstName: string;
   lastName: string;
   username: string;
 };
 
-export interface UserContextShape {
-  user: User | null;
-  handleSetUser:(data:GetCurrentUserResponse)=>void
-}
-
-
-/* ================ PLAID ================ */
-export type GetCurrentUserResponse = {
-  data: {
-    detail: {
-      message: string;
-      data: {
-        first_name: string;
-        last_name: string;
-        username: string;
-      };
-    };
-  };
-};
-
-export type getTokenResponse = { // test this type when backend is ready
-  data: {
-    detail: {
-      message: string;
-      data: string;
-    };
-  };
-};
-
+/* ================== Plaid ================== */
+export type GetTokenResponse = Response<{
+  link_token: string;
+}>;
