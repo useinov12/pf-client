@@ -1,48 +1,29 @@
-import axios, { AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
-import https from 'https';
-
+import { AxiosResponse } from 'axios';
+import api from './axios';
 import {
-  GetCurrentUserResponse,
-  getTokenResponse,
+  CurrentUserData,
+  GetTokenResponse,
   RegisterCredentials,
   LoginCredentials,
+  LoginData,
+  RegisterData,
+  Error,
 } from './types';
-
-const agent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
-const token = Cookies.get('token');
-
-// docs: https://github.com/axios/axios#config-defaults
-const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}`,
-  headers: {
-    Authorization: `bearer ${token}`,
-    'Content-Type': 'application/json',
-  },
-  httpsAgent: agent,
-});
-
-// Axios interceptors
-// https://axios-http.com/docs/interceptors
 
 // USER API
 export const createNewUser = (credentials: RegisterCredentials) =>
-  api.post(`/create_user`, credentials);
+  api.post<RegisterData>(`/create_user`, credentials);
 
-export const loginUser = (credentials: LoginCredentials) =>
-  api.post(`/login`, credentials);
+export const loginUser = async (credentials: LoginCredentials) =>
+  api.post<LoginData>(`/login`, credentials);
 
-export const getMe = () =>
-  api.get<AxiosResponse, GetCurrentUserResponse, any>(`/user`);
+export const getMe = async () => api.get<CurrentUserData>(`/user`);
 
 // PLAID API
 export const exchangePublicToken = (token: string) =>
-  api.post<AxiosResponse, getTokenResponse, any>(`/access_token`, {
+  api.post<GetTokenResponse>(`/access_token`, {
     public_token: token,
   });
 
 export const getLinkToken = () =>
-  api.get<AxiosResponse, getTokenResponse, any>(`/link/token/create`);
+  api.get<AxiosResponse, GetTokenResponse, any>(`/link/token/create`);
