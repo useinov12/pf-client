@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import api from './axios';
+import { apiPrivate, apiPublic } from './axios';
 import {
   CurrentUserData,
   GetTokenResponse,
@@ -7,23 +7,35 @@ import {
   LoginCredentials,
   LoginData,
   RegisterData,
-  Error,
+  RefreshTokenData,
 } from './types';
+import { Storage } from '@/lib/storage';
 
 // USER API
 export const createNewUser = (credentials: RegisterCredentials) =>
-  api.post<RegisterData>(`/create_user`, credentials);
+  apiPublic.post<RegisterData>(`/create_user`, credentials);
 
-export const loginUser = async (credentials: LoginCredentials) =>
-  api.post<LoginData>(`/login`, credentials);
+export const loginUser = (credentials: LoginCredentials) =>
+  apiPublic.post<LoginData>(`/login`, credentials);
 
-export const getMe = async () => api.get<CurrentUserData>(`/user`);
+export const refreshAccessToken = () => {
+  // temporary set refresh token as Authorization in header
+  // refactor to param  when backend is ready
+  const refreshToken = Storage.get('refresh');
+  const headers = {
+    Authorization: `Bearer ${refreshToken}`,
+  };
+
+  return apiPublic.get<RefreshTokenData>(`/refresh`, { headers });
+};
+
+export const getMe = () => apiPrivate.get<CurrentUserData>(`/user`);
 
 // PLAID API
 export const exchangePublicToken = (token: string) =>
-  api.post<GetTokenResponse>(`/access_token`, {
+  apiPrivate.post<GetTokenResponse>(`/access_token`, {
     public_token: token,
   });
 
 export const getLinkToken = () =>
-  api.get<AxiosResponse, GetTokenResponse, any>(`/link/token/create`);
+  apiPrivate.get<AxiosResponse, GetTokenResponse, any>(`/link/token/create`);
