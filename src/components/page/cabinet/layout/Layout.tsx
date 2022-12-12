@@ -28,7 +28,7 @@ const Layout = ({ children }: { children: JSX.Element[] }) => {
     >
       <div
         className={clsx(
-          'mx-auto px-3 sm:max-w-screen-sm',
+          'mx-auto px-4 sm:max-w-screen-sm',
           'md:max-w-screen-lg ',
           'lg:max-w-screen-xl',
           'h-full w-full',
