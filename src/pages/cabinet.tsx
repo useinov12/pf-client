@@ -1,7 +1,7 @@
 import { PlaidLinkProvider } from '@/services/plaid/PlaidLinkProvider';
 import Layout from '@/components/page/cabinet/layout/Layout';
-import User from '@/components/page/cabinet/sections/User';
-import Settings from '@/components/page/cabinet/sections/Settings';
+import UserMenu from '@/components/page/cabinet/sections/User';
+import BankMenu from '@/components/page/cabinet/sections/Banks';
 import {
   CabinetPageProvider,
   useCabinetPageContext,
@@ -24,8 +24,8 @@ const Cabinet = () => {
   return (
     <>
       <Layout>
-        <User />
-        <Settings />
+        <UserMenu />
+        <BankMenu />
       </Layout>
       <DeleteBankPopup />
       <SettingsPopup />
@@ -41,11 +41,11 @@ const DeleteBankPopup = () => {
       handleOpen={handleDeleteBankPopup}
       withCloseBtn
     >
-      <div className='flex w-72 flex-col items-center justify-start p-3'>
-        <h3>Remove bank</h3>
-        <h5 className='text-center'>Your access token will be deleted.</h5>
+      <div className='flex w-80 flex-col items-center justify-start p-3'>
+        <h3 className='mb-3'>Remove bank</h3>
         <h5 className='text-center'>
-          You will be able to re-connect bank by clicking `Add bank`
+          Your access token will be deleted. You will be able to re-connect bank
+          by clicking `Add bank`
         </h5>
         <Button variant='red' className='mt-4'>
           Remove
@@ -63,13 +63,13 @@ const SettingsPopup = () => {
       handleOpen={handleBankConfigPopup}
       withCloseBtn
     >
-      <div className='flex w-72 flex-col items-center justify-start p-3'>
-        <h3>Configure Bank</h3>
-        <h5 className='text-center'>Your will be redirected to the bank app.</h5>
+      <div className='flex w-80 flex-col items-center justify-start p-3'>
+        <h3 className='mb-3'>Configure Bank</h3>
         <h5 className='text-center'>
-          You will be able to configure permissions and credentials for PersonalFinance app
+          Your will be redirected to the bank app. You will be able to configure
+          permissions and credentials for PersonalFinance app
         </h5>
-        <Button variant='primary' className='mt-4'>
+        <Button variant='primary' className='mt-6'>
           Go to the Bank
         </Button>
       </div>
