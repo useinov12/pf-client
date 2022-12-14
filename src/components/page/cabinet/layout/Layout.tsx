@@ -37,7 +37,7 @@ const Layout = ({ children }: { children: JSX.Element[] }) => {
       >
         <Navbar />
         <main
-          className='flex h-5/6 w-full flex-col gap-3 md:flex-row'
+          className='h-5/6 flex flex-col md:flex-row gap-2'
           data-fade='2'
         >
           {children}
