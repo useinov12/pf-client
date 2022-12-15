@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 export const ThemeContext = React.createContext<{
   mode: 'dark' | 'light';
@@ -24,3 +24,6 @@ const ThemeProvider: React.FC<{ children: JSX.Element }> = ({ children }) => {
 };
 
 export default ThemeProvider;
+
+
+export const useTheme = ()=> useContext(ThemeContext)
