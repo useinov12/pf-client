@@ -7,19 +7,18 @@ import { login, useCashedClient } from '@/services/user/actions';
 import logger from '@/lib/logger';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/services/user/AuthProvider';
-import { Spinner } from '../Loading';
 
-const Login: React.FC<{ className?: string }> = ({ className }) => {
-  const { isLoading } = useAuth();
-  return <>{isLoading ? <Spinner /> : <Form className={className} />}</>;
-};
+function Login({ className }: { className?: string }) {
+  // const { isLoading } = useAuth();
+  return <Form className={className} />;
+}
 
-const Form: React.FC<{ className?: string }> = ({ className }) => {
+function Form({ className }: { className?: string }) {
   const QueryClient = useCashedClient();
   const router = useRouter();
   const { getRedirect, clearRedirect } = useAuth();
 
-  const [formInputs, setFormInputs] = useState(emptyForm);
+  const [formInputs, setFormInputs] = useState({ username: '', password: '' });
   const { username, password } = formInputs;
 
   function handleCredentials(e: ChangeEvent<HTMLInputElement>) {
@@ -54,17 +53,17 @@ const Form: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <form
       onSubmit={onLoginSubmit}
-      className={clsx('flex w-full flex-col p-2', className)}
+      className={clsx('flex w-80 flex-col p-4', className)}
     >
-      <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
-        Sign In
-      </h2>
+      <h1 className='text-center text-gray-700'>Sign In</h1>
+      <p className='mb-6 text-center text-sm text-gray-700'>
+        Sign in to access your account
+      </p>
       <label
         htmlFor='username-login'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
-        {' '}
-        Enter email:
+        Email address
       </label>
       <input
         id='username-login'
@@ -72,6 +71,7 @@ const Form: React.FC<{ className?: string }> = ({ className }) => {
         name='username'
         value={username}
         onChange={(e) => handleCredentials(e)}
+        placeholder='Your@address.com'
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'
@@ -80,10 +80,9 @@ const Form: React.FC<{ className?: string }> = ({ className }) => {
 
       <label
         htmlFor='password'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
-        {' '}
-        Enter password:{' '}
+        Password
       </label>
       <input
         id='password'
@@ -91,6 +90,7 @@ const Form: React.FC<{ className?: string }> = ({ className }) => {
         name='password'
         value={password}
         onChange={(e) => handleCredentials(e)}
+        placeholder='****'
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'
@@ -100,18 +100,14 @@ const Form: React.FC<{ className?: string }> = ({ className }) => {
         variant='dark'
         type='submit'
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'py-2',
+          'shawod-slate-800 my-3 rounded',
           'flex justify-center border-gray-300 shadow-md'
         )}
       >
-        Submit
+        Sign in
       </Button>
     </form>
   );
-};
+}
 export default Login;
-
-const emptyForm = {
-  username: '',
-  password: '',
-};

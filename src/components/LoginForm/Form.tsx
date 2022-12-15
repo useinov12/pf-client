@@ -1,101 +1,117 @@
-import { useContext, useState } from 'react';
-import clsx from 'clsx';
-import Image from 'next/image';
-import Button from '@/components/buttons/Button';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import SignUp from './SignUp';
 import Login from './Login';
-import Card from '@/components/page/landing/cards/Card';
-import { AiOutlineClose } from 'react-icons/ai';
-import { LoginFormContext } from '@/context/LoginFormProvider';
+import { Popup } from '../Popup';
+import Logo from '../Logo';
+import { useLoginForm } from '@/context/LoginFormProvider';
 
-export const LoginCardComponent: React.FC = () => {
-  const [toggleForm, setToggleForm] = useState(false);
+interface SignInFormProps {
+  withCloseBtn?: boolean;
+}
+export function SignInForm({ withCloseBtn }: SignInFormProps) {
+  const router = useRouter();
+  const { openLoginForm, setOpenLoginForm } = useLoginForm();
+  const [togglePopup, setTogglePopup] = useState(true);
+
+  function handleTogglePopup() {
+    setTogglePopup((p) => !p);
+  }
+
+  useEffect(() => {
+    /* Open Signin Popup on page load */
+    setOpenLoginForm(true);
+  }, []);
+
+  useEffect(() => {
+    /* if navigating away from  /signup page -> close Signin Popup in context  */
+    if (router.pathname !== '/signup') {
+      setOpenLoginForm(false);
+    }
+  }, [router.pathname]);
+
+  if (!openLoginForm) return null;
 
   return (
-    <FormCard>
-      <CloseButton className='absolute right-3 top-3' />
-      <Header setToggleForm={setToggleForm} />
-      {toggleForm ? <Login /> : <SignUp setToggleForm={setToggleForm} />}
-    </FormCard>
+    <>
+      <SignUpPopup
+        togglePopup={togglePopup}
+        handleTogglePopup={handleTogglePopup}
+        withCloseBtn={withCloseBtn && withCloseBtn}
+      />
+      <SignInPopup
+        togglePopup={togglePopup}
+        handleTogglePopup={handleTogglePopup}
+        withCloseBtn={withCloseBtn && withCloseBtn}
+      />
+    </>
+  );
+}
+
+interface FormPopup {
+  togglePopup: boolean;
+  handleTogglePopup: () => void;
+  withCloseBtn?: boolean;
+}
+const SignUpPopup = ({
+  withCloseBtn,
+  togglePopup,
+  handleTogglePopup,
+}: FormPopup) => {
+  const { handleOpenLoginForm } = useLoginForm();
+  const isOpen = togglePopup ? true : false;
+  return (
+    <Popup
+      open={isOpen}
+      handleOpen={handleOpenLoginForm}
+      withCloseBtn={withCloseBtn && withCloseBtn}
+    >
+      <div className='flex flex-col items-center'>
+        <Logo />
+        <SignUp setToggleForm={handleOpenLoginForm} />
+        <span className='px-3 text-center text-sm text-gray-700'>
+          Already have an account?{' '}
+          <button onClick={handleTogglePopup}>
+            <strong 
+              className='cursor-pointer text-primary-600 
+              hover:border-b hover:border-primary-600'
+            >
+              Sign In
+            </strong>
+          </button>
+        </span>
+      </div>
+    </Popup>
   );
 };
-
-function FormCard({ children }: { children: JSX.Element[] }) {
-  const { openLoginForm } = useContext(LoginFormContext);
-
-  const show = clsx(
-    'scroll-y-none pointer-events-auto',
-    'bg-opacity-50 bg-clip-padding backdrop-blur-sm backdrop-filter'
-  );
-  const hide = 'pointer-events-none opacity-0';
-
+const SignInPopup = ({
+  withCloseBtn,
+  togglePopup,
+  handleTogglePopup,
+}: FormPopup) => {
+  const { handleOpenLoginForm } = useLoginForm();
+  const isOpen = togglePopup ? false : true;
   return (
-    <div
-      className={clsx(
-        'fixed inset-0 z-50',
-        ' h-screen w-screen overflow-y-hidden',
-        'flex items-center justify-center px-8',
-        openLoginForm ? show : hide,
-        'transition-all delay-100 duration-200'
-      )}
+    <Popup
+      open={isOpen}
+      handleOpen={handleOpenLoginForm}
+      withCloseBtn={withCloseBtn && withCloseBtn}
     >
-      <Card
-        className={clsx(
-          'h-full w-full sm:w-[28rem]',
-          'justify-top relative flex ',
-          'flex-col items-center rounded-xl  ',
-          'shadow-lg shadow-dark/40',
-          openLoginForm ? 'scale-100 opacity-100' : 'scale-0 opacity-0',
-          'transition-all duration-200'
-        )}
-      >
-        <section
-          className='flex h-full w-full flex-col items-center px-2'
-          data-fade='1'
-        >
-          {children}
-        </section>
-      </Card>
-    </div>
-  );
-}
-
-function Header({ setToggleForm }: { setToggleForm: any }) {
-  return (
-    <nav className='flex w-full flex-col items-center justify-center'>
-      <p className='text-md mt-10 font-normal uppercase text-dark'>
-        Sign in to
-      </p>
-      <Image src={'/images/logo.png'} width={80} height={70} />
-      <h3 className='text-2xl text-dark drop-shadow'>PersonalFinance</h3>
-      <div className='mt-4 flex w-full justify-center gap-2'>
-        <Button
-          variant='light'
-          className='flex w-2/4 justify-center'
-          onClick={() => setToggleForm(true)}
-        >
-          Sign In
-        </Button>
-        <Button
-          variant='light'
-          className='flex w-2/4 justify-center'
-          onClick={() => setToggleForm(false)}
-        >
-          Sign Up
-        </Button>
+      <div className='flex flex-col items-center px-3'>
+        <Logo />
+        <Login />
+        <span className='text-sm text-gray-700'>
+          Don't have an account yet?{' '}
+          <button onClick={handleTogglePopup}>
+            <strong 
+              className='cursor-pointer text-center text-primary-600 
+              hover:border-b hover:border-primary-600'
+            >
+              Sign up
+            </strong>
+          </button>
+        </span>
       </div>
-    </nav>
+    </Popup>
   );
-}
-
-function CloseButton({ className }: { className?: string }) {
-  const { setOpenLoginForm } = useContext(LoginFormContext);
-  return (
-    <button
-      className={clsx('text-2xl font-bold text-zinc-900', className)}
-      onClick={() => setOpenLoginForm(false)}
-    >
-      <AiOutlineClose className='text-4xl' />
-    </button>
-  );
-}
+};

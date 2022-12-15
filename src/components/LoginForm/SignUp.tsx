@@ -48,14 +48,18 @@ const SignUp: React.FC<{
     <form
       action='#'
       onSubmit={onRegisterSubmit}
-      className={clsx(`flex w-full flex-col p-2`, className)}
+      className={clsx(`flex  flex-col px-3 w-80`, className)}
     >
-      <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
+      <h1 className='text-center text-gray-700'>
         Sign Up
-      </h2>
+      </h1>
+      <p className='mb-6 text-center text-sm text-gray-700'>
+        Create a new account
+      </p>
+
       <label
         htmlFor='username'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
         Enter email:
       </label>
@@ -66,14 +70,14 @@ const SignUp: React.FC<{
         value={username}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'shawod-slate-800 mb-1 rounded py-1',
           'border-gray-300 text-dark shadow-md'
         )}
       />
 
       <label
         htmlFor='first_name'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
         Enter your first name:
       </label>
@@ -83,14 +87,14 @@ const SignUp: React.FC<{
         value={first_name}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'shawod-slate-800 mb-1 rounded py-1',
           'border-gray-300 text-dark shadow-md'
         )}
       />
 
       <label
         htmlFor='last_name'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
         Enter your last name:
       </label>
@@ -100,14 +104,14 @@ const SignUp: React.FC<{
         value={last_name}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'shawod-slate-800 mb-1 rounded py-1',
           'border-gray-300 text-dark shadow-md'
         )}
       />
 
       <label
         htmlFor='password'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
         Enter password:
       </label>
@@ -117,13 +121,13 @@ const SignUp: React.FC<{
         value={password}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'shawod-slate-800 mb-1 rounded py-1',
           'border-gray-300 text-dark shadow-md'
         )}
       />
       <label
         htmlFor='passwordChecker'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
         Re-enter password:
       </label>
@@ -133,7 +137,7 @@ const SignUp: React.FC<{
         value={passwordChecker}
         onChange={(e) => handleCredentials(e)}
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'shawod-slate-800 mb-1 rounded py-1',
           'border-gray-300 text-dark shadow-md'
         )}
       />
@@ -141,11 +145,12 @@ const SignUp: React.FC<{
         variant='dark'
         type='submit'
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'py-2',
+          'shawod-slate-800 my-3 rounded',
           'flex justify-center border-gray-300 shadow-md'
         )}
       >
-        Submit
+        Create account
       </Button>
     </form>
   );
