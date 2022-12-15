@@ -42,7 +42,7 @@ export function AuthProvider(props:any) {
 
   async function handleLogout() {
     /* Order matters: do route first, then rest.
-      Otherwise will trigger AuthGuard and redirect to /login */
+      Otherwise will trigger AuthGuard and redirect to /signup */
     await router.push('/');
     Storage.clear('token');
     setUser(null);
