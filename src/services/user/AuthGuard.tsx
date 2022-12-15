@@ -23,7 +23,7 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
       if (!user && !isFetching) {
         /* remember the page that user tried to access */
         setRedirect(router.route);
-        router.push('/login');
+        router.push('/signup');
       }
     }
   }, [isLoading, router, user, setRedirect, isFetching]);
