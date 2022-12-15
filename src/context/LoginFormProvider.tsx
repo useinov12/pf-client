@@ -1,24 +1,30 @@
-import React from 'react'
+import React, { Dispatch, useContext, useState } from 'react';
 
 export const LoginFormContext = React.createContext<{
-    openLoginForm:boolean;
-    setOpenLoginForm:React.Dispatch<any>
+  openLoginForm: boolean;
+  handleOpenLoginForm: ()=>void;
+  setOpenLoginForm:Dispatch<React.SetStateAction<boolean>>
 }>({
-    openLoginForm:false,
-    setOpenLoginForm:()=>{}
+  openLoginForm: false,
+  handleOpenLoginForm: () => {},
+  setOpenLoginForm: () => {},
 });
 
-const LoginFormProvider:React.FC<{children:React.ReactElement}>=  ({children}) => {
-    const [openLoginForm, setOpenLoginForm] = React.useState<boolean>(false);
+export const LoginFormProvider = (props: any) => {
+  const [openLoginForm, setOpenLoginForm] = useState<boolean>(false);
 
-    return (
-        <LoginFormContext.Provider value={{
-            openLoginForm, 
-            setOpenLoginForm
-        }}>
-            {children}
-        </LoginFormContext.Provider>
-    )
+  function handleOpenLoginForm(){
+   setOpenLoginForm( p => !p )
+  }
+
+  const value = {
+    openLoginForm,
+    handleOpenLoginForm,
+    setOpenLoginForm
+  };
+
+  return <LoginFormContext.Provider value={value} {...props} />;
 };
 
-export default LoginFormProvider;
+
+export const useLoginForm = () => useContext(LoginFormContext)
