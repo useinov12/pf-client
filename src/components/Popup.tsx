@@ -11,7 +11,7 @@ export const Popup = ({
   withCloseBtn,
   withOkBtn,
 }: {
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
   open: boolean;
   handleOpen: () => void;
   withCloseBtn?: boolean;
@@ -25,7 +25,7 @@ export const Popup = ({
   const hide = 'pointer-events-none opacity-0';
 
   useEffect(() => {
-    const timer = setTimeout(() => setOpenLocalState(open), 300);
+    const timer = setTimeout(() => setOpenLocalState(open), 100);
     return () => clearTimeout(timer);
   }, [open]);
 
@@ -60,7 +60,9 @@ export const Popup = ({
 
 const OkButton = ({ handleOpen }: { handleOpen: () => void }) => {
   return (
-    <Button onClick={handleOpen} className='flex items-center justify-center'>
+    <Button 
+      onClick={handleOpen} 
+      className='flex items-center justify-center'>
       OK
     </Button>
   );
