@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import Link from 'next/link';
 import Button from '@/components/buttons/Button';
 import { LoginFormContext } from '@/context/LoginFormProvider';
-import { LoginCardComponent as LoginForm } from '@/components/LoginForm/Form';
-import { useUser } from '@/services/user';
+import { useAuth } from '@/services/user/AuthProvider';
 import ThemeButton from '../ThemeButton';
 import Logo from '@/components/Logo';
 import clsx from 'clsx';
 
 export default function Navbar() {
-  const { user } = useUser();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoaded, setIsLoaded] = React.useState(false);
+  const { user } = useAuth();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    if (user) setIsLoggedIn(true);
-    else setIsLoggedIn(false);
-  }, [user]);
-
-  React.useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 100);
@@ -28,7 +21,7 @@ export default function Navbar() {
   return (
     <div
       className={clsx(
-        'mx-auto px-3 sm:max-w-screen-sm',
+        'mx-auto px-4 sm:max-w-screen-sm',
         'md:max-w-screen-lg ',
         'lg:max-w-screen-xl',
         'h-full w-full',
@@ -38,13 +31,14 @@ export default function Navbar() {
       <nav className='flex items-center justify-between py-3' data-fade='1'>
         <Logo />
         <ul className='inline-flex items-center gap-2'>
-          <li>{isLoggedIn ? <CabinetLink /> : <LoginButton />}</li>
+          <li>
+            {user ? <CabinetLink /> : <LoginButton />}
+          </li>
           <li>
             <ThemeButton />
           </li>
         </ul>
       </nav>
-      <LoginForm />
     </div>
   );
 }
@@ -60,12 +54,12 @@ const CabinetLink = () => {
 };
 
 const LoginButton = () => {
-  const { setOpenLoginForm } = React.useContext(LoginFormContext);
+  const { handleOpenLoginForm } = useContext(LoginFormContext);
   return (
     <Button
       className='py-1'
       variant='theme-dependent'
-      onClick={() => setOpenLoginForm(true)}
+      onClick={()=>handleOpenLoginForm()}
     >
       Login
     </Button>
