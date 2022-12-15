@@ -4,19 +4,25 @@ import Button from './buttons/Button';
 import Card from './page/landing/cards/Card';
 import { AiOutlineClose } from 'react-icons/ai';
 
-export const Popup = ({
-  children,
-  open,
-  handleOpen,
-  withCloseBtn,
-  withOkBtn,
-}: {
+interface PopupProps{
   children: JSX.Element | JSX.Element[];
   open: boolean;
   handleOpen: () => void;
   withCloseBtn?: boolean;
   withOkBtn?: boolean;
-}) => {
+}
+
+/**
+ * Agnostic popup component.
+ * Require external state and handler to open/close popup.
+ * @params {boolean} open - determine open/close state
+ * @params {callback} handleOpen -  handels open/close state
+ * @params {boolean | undefined} withCloseBtn - redered with `X` close button
+ * @params {boolean | undefined} withOkBtn -  redered with `OK` close button
+ *  */
+export function Popup({
+  children, open, handleOpen, withCloseBtn, withOkBtn,
+}: PopupProps) {
   const [openLocalState, setOpenLocalState] = useState(false);
   const show = clsx(
     'scroll-y-none pointer-events-auto',
@@ -56,7 +62,7 @@ export const Popup = ({
       </Card>
     </div>
   );
-};
+}
 
 const OkButton = ({ handleOpen }: { handleOpen: () => void }) => {
   return (
