@@ -1,33 +1,46 @@
-import React from 'react';
+import logger from '@/lib/logger';
+import {
+  useState,
+  useMemo,
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+} from 'react';
 import { requestLinkToken } from './actions';
 
 interface PlaidLinkContextShape {
   generateLinkToken: () => void;
   deleteLinkToken: () => void;
   linkToken: string | undefined;
+  // tokenMemo:string|undefined;
 }
 
-export const PlaidContext = React.createContext<PlaidLinkContextShape>({
+export const PlaidContext = createContext<PlaidLinkContextShape>({
   generateLinkToken: () => {},
   deleteLinkToken: () => {},
   linkToken: undefined,
+  // tokenMemo:undefined
 });
 
 export const PlaidLinkProvider = (props: any) => {
   // token State
-  const [linkToken, setLinkToken] = React.useState();
+  const [linkToken, setLinkToken] = useState<string | undefined>(undefined);
 
   // generate Token
-  const generateLinkToken = React.useCallback(async () => {
+  const generateLinkToken = useCallback(async () => {
     const response = await requestLinkToken();
-    console.log(response);
+    setLinkToken(response);
+    logger(response, 'LINK TOKEN IN CTX');
   }, []);
 
   // delete token
-  const deleteLinkToken = React.useCallback(async () => {}, []);
+  const deleteLinkToken = useCallback(() => {
+    setLinkToken(undefined);
+  }, []);
 
   // memo
-  const value = React.useMemo(
+  const value = useMemo(
     () => ({
       generateLinkToken,
       deleteLinkToken,
@@ -35,8 +48,18 @@ export const PlaidLinkProvider = (props: any) => {
     }),
     []
   );
+  // console.log('value link', value.linkToken)
 
-  return <PlaidContext.Provider value={value} {...props} />;
+  // const tokenMemo = useRef(linkToken)
+
+  const value2 = {
+    generateLinkToken, 
+    deleteLinkToken, 
+    // tokenMemo,
+    linkToken, 
+  }
+
+  return <PlaidContext.Provider value={value2} {...props} />;
 };
 
-export const usePlaid = () => React.useContext(PlaidContext);
+export const usePlaidContext = () => useContext(PlaidContext);
