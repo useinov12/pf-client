@@ -1,28 +1,18 @@
 import React from 'react';
 import clsx from 'clsx';
 import BlockOfCards from '../cards/BlockOfCards';
-import Accent from '../../../Accent';
 import { RiBankFill } from 'react-icons/ri';
-import { BsArrowDownShort } from 'react-icons/bs';
 import { AiFillCheckSquare } from 'react-icons/ai';
 import ArrowLink from '@/components/links/ArrowLink';
 import ButtonLink from '@/components/links/ButtonLink';
 import Path from '../Path';
 import { ThemeContext } from '@/context/ThemeProvider';
-import ManualLinkTest from '@/components/ManualLinkTest';
 import AppCard from '../cards/AppCard';
 
 /* #region  MAIN HERO SECTION */
 const MainHeroSection = () => {
   const { mode } = React.useContext(ThemeContext);
-  const [isLoaded, setIsLoaded] = React.useState(false);
 
-  React.useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 200);
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <article className='h-full w-full snap-start'>
@@ -34,7 +24,6 @@ const MainHeroSection = () => {
           'px-3 sm:max-w-screen-sm',
           'md:max-w-screen-md ',
           'lg:max-w-screen-xl',
-          isLoaded && 'fade-in-start'
         )}
       >
         <section
@@ -42,7 +31,6 @@ const MainHeroSection = () => {
             'flex w-full flex-col',
             'h-screen items-center justify-center'
           )}
-          data-fade='1'
         >
           <div
             className={clsx(
@@ -52,8 +40,8 @@ const MainHeroSection = () => {
           >
             <h1
               className={clsx(
-                'text-4xl font-extrabold',
-                'sm:text-4xl md:text-5xl',
+                'text-3xl font-extrabold',
+                'sm:text-3xl md:text-4xl lg:text-5xl',
                 'uppercase tracking-tight',
                 'cursor-default',
                 'pr-4 drop-shadow-xl',
@@ -64,24 +52,24 @@ const MainHeroSection = () => {
             </h1>
             <h3
               className={clsx(
+                'md:text-xl',
                 'font-normal drop-shadow-xl',
                 'transition-all delay-75 duration-150 '
               )}
             >
-              A financial app that lets you gather, analyze all your banks data.
+              A financial app that lets you gather, analyze your banks data.
             </h3>
             <h3
               className={clsx(
+                'md:text-xl',
                 'font-normal drop-shadow-xl',
-                'transition-all delay-75 duration-150 px-5'
+                'px-5 transition-all delay-75 duration-150'
               )}
             >
-              Securely conect your financial accounts in seconds.
+              Securely conect your financial accounts in couple minutes.
             </h3>
-            
           </div>
           {/* <AppCard/> */}
-
         </section>
 
         <section
