@@ -59,7 +59,7 @@ interface FormPopup {
 /**
  *  Component wraps agnostic `<Popup/>` component to open a form.
  * `<Popup/>` require external state and handler to open/close popup.
- * `<SignUpPopup/>` provides handler from LoginProvider Context 
+ * `<SignUpPopup/>` provides handler from LoginProvider Context
  * and current `open/close` state from parent component
  */
 const SignUpPopup = ({
@@ -110,7 +110,7 @@ const SignInPopup = ({
         <Logo />
         <Login />
         <span className='text-sm text-gray-700'>
-          Don't have an account yet?{' '}
+          Don&apos;t have an account yet?{' '}
           <button onClick={handleTogglePopup}>
             <strong
               className='cursor-pointer text-center text-primary-600 
