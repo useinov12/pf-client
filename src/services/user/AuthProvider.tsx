@@ -23,6 +23,9 @@ export const AuthContext = createContext<
 export function AuthProvider(props:any) {
   const router = useRouter();
   const [user, setUser] = useState<UserInContext | null>(null);
+
+
+  /* fetch user, format resposne and set to context state */
   const { data, isSuccess, isLoading, isError, isFetching } = useQuery(
     ['user'],
     getMe,
@@ -41,7 +44,7 @@ export function AuthProvider(props:any) {
   );
 
   async function handleLogout() {
-    /* Order matters: do route first, then rest.
+    /* Order matters: do re-route first, then rest.
       Otherwise will trigger AuthGuard and redirect to /signup */
     await router.push('/');
     Storage.clear('token');
