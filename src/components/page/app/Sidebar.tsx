@@ -123,15 +123,15 @@ export const MobileSidebar = () => {
     >
       <ul className='w-full px-4 py-3'>
         {list.map((item, i) => (
-          <Link href={item.link}>
-            <li
-              key={item.title}
-              className='my-5 flex items-center gap-2 text-6xl'
-            >
+          <li
+            key={item.title}
+            className='my-5 flex items-center gap-2 text-6xl'
+          >
+            <Link href={item.link}>
               <span>{item.icon}</span>
               <h1>{item.title}</h1>
-            </li>
-          </Link>
+            </Link>
+          </li>
         ))}
       </ul>
     </nav>
