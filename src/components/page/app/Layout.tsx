@@ -9,7 +9,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip';
 import { AppPageProvider } from '@/context/AppPageContext';
 import LayoutCommon from '@/components/LayoutCommon';
 import { MobileSidebar } from './Sidebar';
-import usePreviousRoute from '@/hooks/usePreviousPath';
 
 export default function Layout({ children }: { children: ReactNode }) {
 
