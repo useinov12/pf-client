@@ -48,7 +48,7 @@ export const login = async (
 ): Promise<{ status: number }> => {
   try {
     const response = await apiLoginUser(credentials);
-    logger(response, `Succesfull login`);
+    logger(response.data.detail.data.access_token, `Succesfull login`);
     Storage.set('token', response.data.detail.data.access_token);
     Storage.set('refresh', response.data.detail.data.refresh_token);
     return { status: response.status };
@@ -68,7 +68,7 @@ export const login = async (
  * does not have an effect on cached entity data
  */
 export const refresh = async () => {
-  const { handleLogout } = useAuth();
+
   // const refreshToken = Storage.get('refresh');
   try {
     // send refreshToken as param when backend refactored
@@ -78,7 +78,7 @@ export const refresh = async () => {
     //if could not refresh access token -> logout user
     if (!accessToken) {
       // handleLogout or just Storage.clear('token')?
-      handleLogout();
+      Storage.clear('token')
       // Storage.clear('token')
       logger('', 'Failed to Refresh access token')
     }
