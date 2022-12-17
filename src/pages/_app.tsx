@@ -36,7 +36,7 @@ function MyApp(props: AppProps) {
                 <Component {...pageProps} />
               </AuthGuard>
             ) : (
-              // public page
+              /* render public page */
               <LoginFormProvider>
                 <Component {...pageProps} />
               </LoginFormProvider>
