@@ -1,5 +1,5 @@
 import { PlaidLinkProvider } from '@/services/plaid/PlaidLinkProvider';
-import Layout from '@/components/page/cabinet/layout/Layout';
+import Layout from '@/components/page/cabinet/Layout';
 import UserMenu from '@/components/page/cabinet/sections/User';
 import BankMenu from '@/components/page/cabinet/sections/Banks';
 import {
