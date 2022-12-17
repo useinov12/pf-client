@@ -11,7 +11,7 @@ import ConnectedBanks from '../ConnectedBanks';
 //wait backend
 // import { useConnectedBanks } from '@/services/data/queries';
 
-import { data } from './sampleData';
+// import { data } from './sampleData';
 
 const BankMenu = () => {
   const { linkToken } = usePlaidContext();
@@ -32,7 +32,7 @@ const BankMenu = () => {
           <AddBankButton />
         </MenuHeader>
 
-        <ConnectedBanks banksData={data} />
+        {/* <ConnectedBanks banksData={data} /> */}
         <OpenAppButton className='fixed bottom-6 right-6' />
       </Menu>
 
