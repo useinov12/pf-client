@@ -23,7 +23,9 @@ export default function Sidebar({ className }: { className?: string }) {
       <ul className='px-4 py-3'>
         <MenuButton handleOpen={hanldeSidebar} />
         {list.map((item, i) => (
-          <MenuItem item={item} open={openSidebar} />
+          <li key={item.title}>
+            <MenuItem item={item} open={openSidebar} />
+          </li>
         ))}
       </ul>
     </nav>
@@ -52,8 +54,7 @@ interface MenuItemProps {
 }
 function MenuItem({ item, open }: MenuItemProps) {
   return (
-    <li
-      key={item.title}
+    <div
       className={clsx(
         'transition-all duration-100',
         'overflow-hidden',
@@ -62,7 +63,7 @@ function MenuItem({ item, open }: MenuItemProps) {
       )}
     >
       <ItemWithTooltip item={item} open={open} />
-    </li>
+    </div>
   );
 }
 
