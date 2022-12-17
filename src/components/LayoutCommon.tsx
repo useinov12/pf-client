@@ -30,7 +30,7 @@ export default function LayoutCommon({
       {withWrapper ? (
         <div
           className={clsx(
-            'mx-auto px-4 sm:max-w-screen-sm',
+            'mx-auto md:px-4 sm:max-w-screen-sm',
             'md:max-w-screen-lg ',
             'lg:max-w-screen-xl',
             className
