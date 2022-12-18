@@ -10,39 +10,38 @@ import {
 interface LinkLaunchProps {
   isOauth?: boolean;
   token: string;
-  userId: number;
+  // userId: number;
   itemId?: number | null;
   children?: React.ReactNode;
 }
 
-// import { requestPublicToken } from '@/services/api';
-import { requestAccessToken } from '@/services/plaid';
+import { requestAccessToken } from '@/services/plaid/actions';
+import logger from '@/lib/logger';
+import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
 
 // Uses the usePlaidLink hook to manage the Plaid Link creation.  See https://github.com/plaid/react-plaid-link for full usage instructions.
 // The link token passed to usePlaidLink cannot be null.  It must be generated outside of this component.  In this sample app, the link token
 // is generated in the link context in client/src/services/link.js.
 
 export default function LaunchLink(props: LinkLaunchProps) {
+  const { deleteLinkToken } = usePlaidContext();
 
   const onSuccess = React.useCallback<PlaidLinkOnSuccess>(
+    // on succesfull link open Public token is issued that need to be exchanged for Access Token
     (publicToken, metadata) => {
-      console.log('ON_SUCCESS', publicToken, metadata);
-
-      // setToken(data.access_token)
-      // change itemId to Plaid context currentToken
-      if (props.itemId != null) {
-        // update mode: no need to exchange public token
-      } else {
-        requestAccessToken(publicToken);
-      }
-      // deleteLinkToken(props.userId, null);
-      // history.push(`/user/${props.userId}`);
+      console.log('ON_SUCCESS PUBLIC TOKEN', publicToken, metadata);
 
       // update mode: no need to exchange public token
-      if(!props.isOauth){
-        requestAccessToken(publicToken);
-      }
-      
+      // if (!props.isOauth) {
+      //   logger(publicToken, 'REQUEST ACCESS TOKEN INITIALIZED')
+      //   // requestAccessToken(publicToken);
+      // }
+      console.log(metadata.institution?.name)
+      requestAccessToken({token:publicToken, bankName:metadata.institution?.name!});
+
+      //Delete Link token after link is used
+      // deleteLinkToken();
+      // history.push(`/user/${props.userId}`);
     },
     []
   );
@@ -95,14 +94,11 @@ export default function LaunchLink(props: LinkLaunchProps) {
       );
       open();
     }
-  }, [ready, open, props.isOauth,  props.itemId, props.token]);
+  }, [ready, open, props.isOauth, props.itemId, props.token]);
 
-  
-  // if LaunchKlink in OathLink -> initiallizes Link automatically for update mode
-  // else render Button
+  // if LaunchLink in OathLink -> initiallizes Link automatically for update mode
   if (props.isOauth && ready) {
-    open() 
-    return <></>
+    open();
   }
-  else return <></>
+  return <></>;
 }
