@@ -2,12 +2,13 @@ import { AxiosResponse } from 'axios';
 import { apiPrivate, apiPublic } from './axios';
 import {
   CurrentUserData,
-  GetTokenResponse,
+  LinkTokenData,
   RegisterCredentials,
   LoginCredentials,
   LoginData,
   RegisterData,
   RefreshTokenData,
+  ConnectedBanksData,
 } from './types';
 import { Storage } from '@/lib/storage';
 
@@ -32,10 +33,17 @@ export const refreshAccessToken = () => {
 export const getMe = () => apiPrivate.get<CurrentUserData>(`/user`);
 
 // PLAID API
-export const exchangePublicToken = (token: string) =>
-  apiPrivate.post<GetTokenResponse>(`/access_token`, {
+export const exchangePublicToken = (token:string, bankName:string) =>
+  apiPrivate.post(`/access_token`, {
     public_token: token,
+    bank_name:bankName
   });
 
 export const getLinkToken = () =>
-  apiPrivate.get<AxiosResponse, GetTokenResponse, any>(`/link/token/create`);
+  apiPrivate.get<LinkTokenData>(`/link/token/create`);
+
+
+// DATA
+export const getConnectedBanks = () => apiPrivate.get<ConnectedBanksData>('/accounts/get')
+
+
