@@ -40,7 +40,7 @@ apiPrivate.interceptors.request.use(
 
     config.headers['Authorization'] = 'Bearer ' + Storage.get('token');
 
-    logger({ token: Storage.get('token') }, 'Token set in interceptor');
+    // logger({ token: Storage.get('token') }, 'Token set in interceptor');
 
     return config;
   },
