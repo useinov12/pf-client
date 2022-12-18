@@ -1,49 +1,98 @@
-
-
-/* ================ USER ================ */
-export interface RegisterCredentials {
+/* =============== Common ================== */
+type Response<T> = {
+  detail: {
+    message: string;
+    data: T;
+  };
+};
+type Tokens = {
+  access_token: string;
+  refresh_token: string;
+  refresh_token_type: 'bearer';
+  token_type: 'bearer';
+};
+type UserData = {
   username: string;
   password: string;
   first_name: string;
   last_name: string;
-}
-export type LoginCredentials = Pick<
-  RegisterCredentials,
-  'username' | 'password'
->;
+};
+export type Error = any;
 
-export type User = {
+/* ================== User ==================*/
+type UserApiData = Omit<UserData, 'password'>;
+export type RegisterCredentials = UserData;
+export type RegisterFormCredentials = RegisterCredentials & {
+  passwordChecker: string;
+};
+export type LoginCredentials = Pick<UserData, 'username' | 'password'>;
+
+export type LoginData = Response<Tokens>;
+export type RegisterData = Response<UserApiData>;
+export type CurrentUserData = Response<UserApiData>;
+// export type RefreshTokenData = Response<string>;
+// update when backend is ready
+export type RefreshTokenData = Response<any>;
+
+export type UserInContext = {
   firstName: string;
   lastName: string;
   username: string;
 };
 
-export interface UserContextShape {
-  user: User | null;
-  handleSetUser:(data:GetCurrentUserResponse)=>void
-}
+/* ================== Plaid ================== */
+export type LinkTokenData = Response<string>;
 
-
-/* ================ PLAID ================ */
-export type GetCurrentUserResponse = {
-  data: {
-    detail: {
-      message: string;
-      data: {
-        first_name: string;
-        last_name: string;
-        username: string;
-      };
-    };
-  };
+/* ================== Data ================== */
+export type Account = {
+  id: string;
+  subtype: string;
+  bank_name: string;
+  balance: number;
+  name: string;
+  user_id: number;
 };
+type BankName = string;
+export type ConnectedBanks = Record<BankName, Account[]>;
 
-export type getTokenResponse = { // test this type when backend is ready
-  data: {
-    detail: {
-      message: string;
-      data: string;
-    };
-  };
+
+export type ConnectedBanksData = Response<ConnectedBanks>;
+
+const banks: ConnectedBanks = {
+  'Navy Federal': [
+    {
+      id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
+      subtype: 'credit card',
+      bank_name: 'Navy Federal',
+      balance: 175,
+      name: 'More Rewards Amex',
+      user_id: 6,
+    },
+    {
+      id: 'QLBP76NJAwTvarMmkr5Zs1k6OmNpRmHEKqYj6',
+      subtype: 'savings',
+      bank_name: 'Navy Federal',
+      balance: 6515,
+      name: 'Share Savings',
+      user_id: 6,
+    },
+    {
+      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
+      subtype: 'checking',
+      bank_name: 'Navy Federal',
+      balance: 1253,
+      name: 'Active Duty Checking',
+      user_id: 6,
+    },
+  ],
+  'American Express': [
+    {
+      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
+      subtype: 'credit card',
+      bank_name: 'American Express',
+      balance: 769,
+      name: 'MAKSYM KALINCHENKO -91008',
+      user_id: 6,
+    },
+  ],
 };
-

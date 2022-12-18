@@ -8,6 +8,7 @@ enum ButtonVariant {
   'primary',
   'outline',
   'ghost',
+  'green-ghost',
   'light',
   'dark',
   'red',
@@ -15,6 +16,7 @@ enum ButtonVariant {
   'red-outline',
   'green-outline',
   'theme-dependent',
+  'transparent'
 }
 
 type ButtonProps = {
@@ -53,6 +55,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           'shadow-sm',
           //#region  //*=========== Variants ===========
           [
+            variant === 'transparent' && [
+              'bg-transparent',
+              'shadow-none',
+      
+              'hover:opacity-80',
+              'active:opacity-90',
+              'disabled:bg-primary-400 disabled:hover:bg-primary-400',
+            ],
             variant === 'primary' && [
               'bg-primary-500 text-white',
               'border border-primary-600',
@@ -61,7 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               'disabled:bg-primary-400 disabled:hover:bg-primary-400',
             ],
             variant === 'outline' && [
-              'text-primary-500',
+              // 'text-primary-500',
               'border border-primary-500',
               'hover:bg-primary-50 active:bg-primary-100 disabled:bg-primary-100',
               isDarkBg &&
@@ -73,6 +83,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               'hover:bg-gray-800 active:bg-primary-100 disabled:bg-primary-100',
               isDarkBg &&
                 'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
+            ],
+            variant === 'green-ghost' && [
+              'text-green-500',
+              'shadow-none',
+              'hover:bg-green-200 active:bg-green-100 disabled:bg-green-100',
+              isDarkBg &&
+                'hover:bg-green-900 active:bg-green-800 disabled:bg-green-800',
             ],
             variant === 'light' && [
               'bg-white text-dark ',

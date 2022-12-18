@@ -1,20 +1,22 @@
 import React from 'react'
-import Button from '../../buttons/Button';
+import clsx from 'clsx';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { FaMoon, FaSun } from 'react-icons/fa';
 
 const ThemeButton = () => {
     const { mode, setMode } = React.useContext(ThemeContext);
     return (
-      <Button
-        className='py-2'
-        variant={mode === 'dark' ? 'light' : 'dark'}
+      <button
+        className={clsx(
+          'py-2 px-3 text-2xl',
+          'hover:opacity-80'
+        )}
         onClick={() => {
           setMode(mode === 'light' ? 'dark' : 'light');
         }}
       >
         {mode === 'light' ? <FaMoon /> : <FaSun />}
-      </Button>
+      </button>
     );
   };
 export default ThemeButton

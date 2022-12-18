@@ -1,42 +1,77 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { LoginCredentials } from '@/services/types';
+import { isValidEmailInput } from '@/lib/form.validation';
+import toast from 'react-hot-toast';
+import { login, useCashedClient } from '@/services/user/actions';
+import logger from '@/lib/logger';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/services/user/AuthProvider';
 
-interface LoginFormProps {
-  credentials: LoginCredentials;
-  handleCredentials: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
-  className?: string;
+function Login({ className }: { className?: string }) {
+  // const { isLoading } = useAuth();
+  return <Form className={className} />;
 }
 
-const Login: React.FC<LoginFormProps> = ({
-  credentials,
-  handleCredentials,
-  handleSubmit,
-  className,
-}) => {
+function Form({ className }: { className?: string }) {
+  const QueryClient = useCashedClient();
+  const router = useRouter();
+  const { getRedirect, clearRedirect } = useAuth();
+
+  const [formInputs, setFormInputs] = useState({ username: '', password: '' });
+  const { username, password } = formInputs;
+
+  function handleCredentials(e: ChangeEvent<HTMLInputElement>) {
+    setFormInputs({
+      ...formInputs,
+      [e.target.name]: e.target.value,
+    });
+  }
+
+  async function onLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!isValidEmailInput(username)) {
+      toast.error('Invalid email address!');
+      return;
+    }
+
+    const { status } = await login({ username, password });
+    logger(status, 'Submit Login Form Response');
+
+    if (status === 200) {
+      /* update cashed user */
+      QueryClient.invalidateQueries('user');
+      const lastVisited = getRedirect();
+      if (lastVisited) {
+        router.push(lastVisited);
+        clearRedirect();
+      } else router.push('/cabinet');
+    }
+  }
+
   return (
     <form
-      onSubmit={handleSubmit}
-      className={clsx('flex w-full flex-col p-2', className)}
+      onSubmit={onLoginSubmit}
+      className={clsx('flex w-80 flex-col p-4', className)}
     >
-      <h2 className='mt-2 mb-2 text-center font-light text-gray-600'>
-        Sign In
-      </h2>
+      <h1 className='text-center text-gray-700'>Sign In</h1>
+      <p className='mb-6 text-center text-sm text-gray-700'>
+        Sign in to access your account
+      </p>
       <label
         htmlFor='username-login'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
-        {' '}
-        Enter email:
+        Email address
       </label>
       <input
         id='username-login'
         type='text'
         name='username'
-        value={credentials.username}
+        value={username}
         onChange={(e) => handleCredentials(e)}
+        placeholder='Your@address.com'
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'
@@ -45,17 +80,17 @@ const Login: React.FC<LoginFormProps> = ({
 
       <label
         htmlFor='password'
-        className='flex-col text-lg font-normal text-gray-500'
+        className='flex-col py-1 text-sm font-normal text-gray-500'
       >
-        {' '}
-        Enter password:{' '}
+        Password
       </label>
       <input
         id='password'
         type='password'
         name='password'
-        value={credentials.password}
+        value={password}
         onChange={(e) => handleCredentials(e)}
+        placeholder='****'
         className={clsx(
           'shawod-slate-800 mb-1 rounded',
           'border-gray-300 text-dark shadow-md'
@@ -65,13 +100,14 @@ const Login: React.FC<LoginFormProps> = ({
         variant='dark'
         type='submit'
         className={clsx(
-          'shawod-slate-800 mb-1 rounded',
+          'py-2',
+          'shawod-slate-800 my-3 rounded',
           'flex justify-center border-gray-300 shadow-md'
         )}
       >
-        Submit
+        Sign in
       </Button>
     </form>
   );
-};
+}
 export default Login;

@@ -1,220 +1,126 @@
-import { ChangeEvent, useContext, useState } from 'react';
-import clsx from 'clsx';
-import toast from 'react-hot-toast';
-import Image from 'next/image';
-import Button from '@/components/buttons/Button';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import SignUp from './SignUp';
 import Login from './Login';
-import Card from '@/components/page/landing/cards/Card';
-import { useRouter } from 'next/router';
-import { AiOutlineClose } from 'react-icons/ai';
-import { LoginFormContext } from '@/context/LoginFormProvider';
-import { login, register, UserContext } from '@/services/user';
-import { getMe } from '@/services/api';
+import { Popup } from '../Popup';
+import Logo from '../Logo';
+import { useLoginForm } from '@/context/LoginFormProvider';
 
-export const LoginCardComponent: React.FC = () => {
+interface SignInFormProps {
+  withCloseBtn?: boolean;
+}
+
+/* SignInForm watches LoginProvider Context state to decide if open Popup component  */
+export function SignInForm({ withCloseBtn }: SignInFormProps) {
   const router = useRouter();
-  const { openLoginForm, setOpenLoginForm } = useContext(LoginFormContext);
-  const { handleSetUser } = useContext(UserContext);
+  const { openLoginForm, setOpenLoginForm } = useLoginForm();
+  const [togglePopup, setTogglePopup] = useState(false);
 
-  const [toggleForm, setToggleForm] = useState(false);
-  const [formInputs, setformInputs] = useState(emptyForm);
-
-  function handleCredentials(e: ChangeEvent<HTMLInputElement>) {
-    setformInputs({
-      ...formInputs,
-      [e.target.name]: e.target.value,
-    });
+  function handleTogglePopup() {
+    setTogglePopup((p) => !p);
   }
 
-  const { username, password, first_name, last_name, passwordChecker } =
-    formInputs;
+  useEffect(() => {
+    /* Open Signin Popup on page load */
+    setOpenLoginForm(true);
+  }, []);
 
-  const registerCred = {
-    username: username,
-    password: password,
-    first_name: first_name,
-    last_name: last_name,
-  };
-
-  const LoginCred = {
-    username: username,
-    password: password,
-  };
-
-  async function onRegisterSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!isPasswordMatch(password, passwordChecker)) {
-      toast.error('Password does not match!');
-      return;
-    }
-
-    if (hasMissingInputs(registerCred)) {
-      toast.error(`Fill all missing fields!`);
-      return;
-    }
-
-    const { status } = await register(registerCred);
-
-    if (status === 201) {
-      setformInputs(emptyForm);
-      setToggleForm(true);
-    }
-  }
-
-  async function onLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    if (!isValidEmailInput(username)) {
-      toast.error('Invalid email address!');
-      return;
-    }
-
-    const { status } = await login(LoginCred);
-
-    // if successfull login -> get current user from Server
-    // and set in Context
-    if (status === 200) {
+  useEffect(() => {
+    /* if navigating away from  /signup page -> close SignIn Popup in context  */
+    if (router.pathname !== '/signup') {
       setOpenLoginForm(false);
-
-      const data = await getMe();
-      if (data) {
-        handleSetUser(data)
-      }
     }
-  }
+  }, [router.pathname]);
 
-  return (
-    <div
-      className={clsx(
-        'fixed inset-0 z-50 h-screen w-screen overflow-y-hidden',
-        'flex items-center justify-center px-8',
-        openLoginForm
-          ? 'scroll-y-none pointer-events-auto bg-opacity-50 bg-clip-padding backdrop-blur-sm backdrop-filter '
-          : 'pointer-events-none opacity-0',
-        'transition-all delay-100 duration-200'
-      )}
-    >
-      <Card
-        className={clsx(
-          'h-full w-full sm:w-[28rem]',
-          'justify-top relative flex ',
-          'flex-col items-center rounded-xl  ',
-          'shadow-lg shadow-dark/40',
-          openLoginForm ? 'scale-100 opacity-100' : 'scale-0 opacity-0',
-          'transition-all duration-200'
-        )}
-      >
-        <section
-          className='flex h-full w-full flex-col items-center px-2'
-          data-fade='1'
-        >
-          <CloseButton
-            setOpenLoginForm={setOpenLoginForm}
-            className='absolute right-3 top-3'
-          />
-          <Header setToggleForm={setToggleForm} />
+  if (!openLoginForm) return null;
 
-          {toggleForm ? (
-            <Login
-              credentials={formInputs}
-              handleSubmit={onLoginSubmit}
-              handleCredentials={handleCredentials}
-            />
-          ) : (
-            <SignUp
-              credentials={formInputs}
-              handleSubmit={onRegisterSubmit}
-              handleCredentials={handleCredentials}
-            />
-          )}
-        </section>
-      </Card>
-    </div>
-  );
-};
-
-function Header({ setToggleForm }: { setToggleForm: any }) {
   return (
     <>
-      <p className='text-md mt-10 font-normal uppercase text-dark'>
-        Sign in to
-      </p>
-      <Image src={'/images/logo.png'} width={80} height={70} />
-      <h3 className='text-2xl text-dark drop-shadow'>PersonalFinance</h3>
-      <div className='mt-4 flex w-full justify-center gap-2'>
-        <Button
-          variant='light'
-          className='flex w-2/4 justify-center'
-          onClick={() => setToggleForm(true)}
-        >
-          Sign In
-        </Button>
-        <Button
-          variant='light'
-          className='flex w-2/4 justify-center'
-          onClick={() => setToggleForm(false)}
-        >
-          Sign Up
-        </Button>
-      </div>
+      <SignUpPopup
+        togglePopup={togglePopup}
+        handleTogglePopup={handleTogglePopup}
+        withCloseBtn={withCloseBtn && withCloseBtn}
+      />
+      <SignInPopup
+        togglePopup={togglePopup}
+        handleTogglePopup={handleTogglePopup}
+        withCloseBtn={withCloseBtn && withCloseBtn}
+      />
     </>
   );
 }
 
-function CloseButton({
-  setOpenLoginForm,
-  className,
-}: {
-  setOpenLoginForm: any;
-  className?: string;
-}) {
+interface FormPopup {
+  togglePopup: boolean;
+  handleTogglePopup: () => void;
+  withCloseBtn?: boolean;
+}
+
+/**
+ *  Component wraps agnostic `<Popup/>` component to open a form.
+ * `<Popup/>` require external state and handler to open/close popup.
+ * `<SignUpPopup/>` provides handler from LoginProvider Context
+ * and current `open/close` state from parent component
+ */
+const SignUpPopup = ({
+  withCloseBtn,
+  togglePopup,
+  handleTogglePopup,
+}: FormPopup) => {
+  const { handleOpenLoginForm } = useLoginForm();
+  const isOpen = togglePopup ? true : false;
   return (
-    <button
-      className={clsx('text-2xl font-bold text-zinc-900', className)}
-      onClick={() => setOpenLoginForm(false)}
+    <Popup
+      open={isOpen}
+      handleOpen={handleOpenLoginForm}
+      withCloseBtn={withCloseBtn && withCloseBtn}
     >
-      <AiOutlineClose className='text-4xl' />
-    </button>
+      <div className='flex flex-col items-center'>
+        <Logo />
+        <SignUp setToggleForm={handleOpenLoginForm} />
+        <span className='px-3 text-center text-sm text-gray-700'>
+          Already have an account?{' '}
+          <button onClick={handleTogglePopup}>
+            <strong
+              className='cursor-pointer text-primary-600 
+              hover:border-b hover:border-primary-600'
+            >
+              Sign In
+            </strong>
+          </button>
+        </span>
+      </div>
+    </Popup>
   );
-}
-
-const isValidEmailInput = (email: string) => {
-  const validRegex = /^[A-Za-z0-9_!#$%&'*+=?`{|}~^.-]+@[A-Za-z0-9.-]+$/gm;
-
-  if (email.match(validRegex)) {
-    return true;
-  } else {
-    return false;
-  }
 };
-
-const isPasswordMatch = (pass1: string, pass2: string) => {
-  return pass1 === pass2;
-};
-
-const hasMissingInputs = (
-  cred: Omit<RegisterFormCredentials, 'passwordChecker'>
-) => {
-  for (const value of Object.values(cred)) {
-    if (value === '') return true;
-  }
-  return false;
-};
-
-export interface RegisterFormCredentials {
-  username: string;
-  first_name: string;
-  last_name: string;
-  password: string;
-  passwordChecker: string;
-}
-
-const emptyForm = {
-  username: '',
-  first_name: '',
-  last_name: '',
-  password: '',
-  passwordChecker: '',
+const SignInPopup = ({
+  withCloseBtn,
+  togglePopup,
+  handleTogglePopup,
+}: FormPopup) => {
+  const { handleOpenLoginForm } = useLoginForm();
+  const isOpen = togglePopup ? false : true;
+  return (
+    <Popup
+      open={isOpen}
+      handleOpen={handleOpenLoginForm}
+      withCloseBtn={withCloseBtn && withCloseBtn}
+    >
+      <div className='flex flex-col items-center px-3'>
+        <Logo />
+        <Login />
+        <span className='text-sm text-gray-700'>
+          Don&apos;t have an account yet?{' '}
+          <button onClick={handleTogglePopup}>
+            <strong
+              className='cursor-pointer text-center text-primary-600 
+              hover:border-b hover:border-primary-600'
+            >
+              Sign up
+            </strong>
+          </button>
+        </span>
+      </div>
+    </Popup>
+  );
 };

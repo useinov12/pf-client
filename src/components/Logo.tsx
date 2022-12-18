@@ -7,9 +7,10 @@ const Logo = ({ width, height }: { width?: number; height?: number }) => {
     <Link href='/'>
       <Image
         src={'/images/logo.png'}
-        width={width ? width : 70}
-        height={height ? height : 62}
+        width={width ? width : 68}
+        height={height ? height : 58}
         className='cursor-pointer'
+        alt='logo'
       />
     </Link>
   );

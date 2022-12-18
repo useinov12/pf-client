@@ -2,11 +2,15 @@ import React from 'react';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { Toaster } from 'react-hot-toast';
-import {  UserProvider, AuthGuard } from '@/services/user';
+import { AuthProvider } from '@/services/user/AuthProvider';
+import { AuthGuard } from '@/services/user/AuthGuard';
 import ThemeProvider from '@/context/ThemeProvider';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import {LoginFormProvider } from '@/context/LoginFormProvider';
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
+
+const queryClient = new QueryClient();
 
 export type NextApplicationPage<P = any, IP = P> = NextPage<P, IP> & {
   requireAuth?: boolean;
@@ -20,24 +24,25 @@ function MyApp(props: AppProps) {
     pageProps,
   }: { Component: NextApplicationPage; pageProps: any } = props as AppProps;
 
-  const queryClient = new QueryClient() 
   return (
     <>
       <Toaster />
       <ThemeProvider>
-      {/* <QueryClientProvider client={queryClient}> */}
-        <UserProvider>
-          {/* if requireAuth property is present - protect the page */}
-          {Component.requireAuth ? (
-            <AuthGuard>
-              <Component {...pageProps} />
-            </AuthGuard>
-          ) : (
-            // public page
-            <Component {...pageProps} />
-          )}
-        </UserProvider>
-        {/* </QueryClientProvider> */}
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            {/* if requireAuth property is present - protect the page */}
+            {Component.requireAuth ? (
+              <AuthGuard>
+                <Component {...pageProps} />
+              </AuthGuard>
+            ) : (
+              /* render public page */
+              <LoginFormProvider>
+                <Component {...pageProps} />
+              </LoginFormProvider>
+            )}
+          </AuthProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </>
   );

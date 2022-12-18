@@ -1,48 +1,49 @@
-import axios, { AxiosResponse } from 'axios';
-import Cookies from 'js-cookie';
-import https from 'https';
-
+import { AxiosResponse } from 'axios';
+import { apiPrivate, apiPublic } from './axios';
 import {
-  GetCurrentUserResponse,
-  getTokenResponse,
+  CurrentUserData,
+  LinkTokenData,
   RegisterCredentials,
   LoginCredentials,
+  LoginData,
+  RegisterData,
+  RefreshTokenData,
+  ConnectedBanksData,
 } from './types';
-
-const agent = new https.Agent({
-  rejectUnauthorized: false,
-});
-
-const token = Cookies.get('token');
-
-// docs: https://github.com/axios/axios#config-defaults
-const api = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}`,
-  headers: {
-    Authorization: `bearer ${token}`,
-    'Content-Type': 'application/json',
-  },
-  httpsAgent: agent,
-});
-
-// Axios interceptors
-// https://axios-http.com/docs/interceptors
+import { Storage } from '@/lib/storage';
 
 // USER API
 export const createNewUser = (credentials: RegisterCredentials) =>
-  api.post(`/create_user`, credentials);
+  apiPublic.post<RegisterData>(`/create_user`, credentials);
 
 export const loginUser = (credentials: LoginCredentials) =>
-  api.post(`/login`, credentials);
+  apiPublic.post<LoginData>(`/login`, credentials);
 
-export const getMe = () =>
-  api.get<AxiosResponse, GetCurrentUserResponse, any>(`/user`);
+export const refreshAccessToken = () => {
+  // temporary set refresh token as Authorization in header
+  // refactor to param  when backend is ready
+  const refreshToken = Storage.get('refresh');
+  const headers = {
+    Authorization: `Bearer ${refreshToken}`,
+  };
+
+  return apiPublic.get<RefreshTokenData>(`/refresh`, { headers });
+};
+
+export const getMe = () => apiPrivate.get<CurrentUserData>(`/user`);
 
 // PLAID API
-export const exchangePublicToken = (token: string) =>
-  api.post<AxiosResponse, getTokenResponse, any>(`/access_token`, {
+export const exchangePublicToken = (token:string, bankName:string) =>
+  apiPrivate.post(`/access_token`, {
     public_token: token,
+    bank_name:bankName
   });
 
 export const getLinkToken = () =>
-  api.get<AxiosResponse, getTokenResponse, any>(`/link/token/create`);
+  apiPrivate.get<LinkTokenData>(`/link/token/create`);
+
+
+// DATA
+export const getConnectedBanks = () => apiPrivate.get<ConnectedBanksData>('/accounts/get')
+
+

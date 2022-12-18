@@ -25,7 +25,7 @@ const OAuthLink = () => {
       {token != null && (
         <LaunchLink
           isOauth // this will initiate link immediately
-          userId={userId}
+          // userId={userId}
           itemId={itemId}
           token={token}
         />
