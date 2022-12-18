@@ -1,6 +1,5 @@
 import React from 'react';
-import Layout from '@/components/page/landing/layout/Layout';
-
+import Layout from '@/components/page/landing/Layout';
 import MainHero from '@/components/page/landing/sections/MainHero';
 import Showcase from '@/components/page/landing/sections/Showcase';
 import Expirience from '@/components/page/landing/sections/Expirience';
