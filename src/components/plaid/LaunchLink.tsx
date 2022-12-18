@@ -36,8 +36,12 @@ export default function LaunchLink(props: LinkLaunchProps) {
       //   logger(publicToken, 'REQUEST ACCESS TOKEN INITIALIZED')
       //   // requestAccessToken(publicToken);
       // }
-      console.log(metadata.institution?.name)
-      requestAccessToken({token:publicToken, bankName:metadata.institution?.name!});
+      if (metadata.institution?.name) {
+        requestAccessToken({
+          token: publicToken,
+          bankName: metadata.institution?.name,
+        });
+      }
 
       //Delete Link token after link is used
       // deleteLinkToken();
