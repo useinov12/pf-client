@@ -1,31 +1,13 @@
+import logger from '@/lib/logger';
+import { toast } from 'react-hot-toast';
 import {
   getLinkToken as apiGetLinkToken,
   exchangePublicToken as apiExchangePublicToken,
 } from '../api';
 
-/**
- * **requestPublicToken**\
- *  Calls Server that then handels call to Plaid
- *  in order to exchange `public_token` for `access_token`
- *  https://plaid.com/docs/api/tokens/#token-exchange-flow
- */
-export async function requestAccessToken(token: string) {
-  try {
-    const response = await apiExchangePublicToken(token);
-    console.log('REQUEST PUBLIC TOKEN', response);
-    return {
-      status: 200,
-      data: response.data.detail.data,
-      message: response.data.detail.message,
-    };
-  } catch (e: any) {
-    console.log('plaid error', e);
-    return { status: e.status, data: {}, message: e.data.detail.message };
-  }
-}
+
 
 /**
- * **requestLinkToken**\
  * Calls Server that then handels call to Plaid
  * in order to get `link_token` from Plaid
  * that will initialize PlaidLink
@@ -34,9 +16,26 @@ export async function requestAccessToken(token: string) {
 export async function requestLinkToken() {
   try {
     const response = await apiGetLinkToken();
-    console.log('REQUEST LINK TOKEN', response);
-    return response.data.detail.data;
+    logger(response.data.detail.data, 'REQUEST LINK TOKEN');
+    return response.data.detail.data
   } catch (e: any) {
-    console.log('plaid link error', e);
+    logger(e, 'Plaid link request error', { error: true });
+    toast.error('Something happened with Plaid connection. Try again!')
   }
 }
+
+/**
+ *  Calls Server that then handels call to Plaid
+ *  in order to exchange `public_token` for `access_token`
+ *  https://plaid.com/docs/api/tokens/#token-exchange-flow
+ */
+export async function requestAccessToken({token, bankName}:{token: string, bankName:string}) {
+  try {
+    const response = await apiExchangePublicToken(token, bankName);
+    logger({response, token}, 'REQUEST PUBLIC TOKEN');
+  } catch (e: any) {
+    logger(e, 'request plaid access token error', { error: true });
+  }
+}
+
+
