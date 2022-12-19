@@ -8,6 +8,8 @@ import BarChart from '../../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { ThemeContext } from '@/context/ThemeProvider';
 import '@/lib/swapText';
+import { IncomingData } from '@/components/charts/types';
+import { months } from '@/components/charts/defaults';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -177,13 +179,17 @@ const BlockOfCards = () => {
   return (
     <div
       className={clsx(
-        'h-auto w-full lg:w-3/6 my-4 lg:my-0',
+        'my-4 h-auto w-full lg:my-0 lg:w-3/6',
         'rounded-xl  p-3 text-dark ',
         ' ring-white drop-shadow ',
         'transition-all duration-300',
         'border',
-        mode === 'light' ? 'border-dark/5 ring-gray-600/50' : 'border-gray-400/70 ring ring-gray-400/50 ',
-        mode === 'light' ? 'bg-gray-400/25' : 'bg-gray-700/70 ring ring-gray-700/50'
+        mode === 'light'
+          ? 'border-dark/5 ring-gray-600/50'
+          : 'border-gray-400/70 ring ring-gray-400/50 ',
+        mode === 'light'
+          ? 'bg-gray-400/25'
+          : 'bg-gray-700/70 ring ring-gray-700/50'
       )}
       ref={pauseRef}
     >
@@ -195,8 +201,8 @@ const BlockOfCards = () => {
         </div>
       </header>
 
-      <section className='flex gap-2 flex-col md:flex-row'>
-        <div className='flex md:w-1/2 flex-col gap-y-2'>
+      <section className='flex flex-col gap-2 md:flex-row'>
+        <div className='flex flex-col gap-y-2 md:w-1/2'>
           <BankCard
             chartData={chartData}
             bankNameRef={bankNameRef}
@@ -210,7 +216,7 @@ const BlockOfCards = () => {
           />
         </div>
 
-        <div className='flex md:w-1/2 flex-col gap-y-2'>
+        <div className='flex flex-col gap-y-2 md:w-1/2'>
           <SummaryCard
             chartData={chartData}
             summaryAccTypeRef={summaryAccSumRef}
@@ -240,7 +246,7 @@ const BankCard = ({
       {/* <section className='flex flex-col justify-between py-1 px-4 sm:flex-row'> */}
       <section className='flex flex-col justify-between py-1 px-4 '>
         {/* <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'> */}
-        <div className='mb-3 flex flex-col justify-start items-start'>
+        <div className='mb-3 flex flex-col items-start justify-start'>
           <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
             Connected Banks:
           </h6>
@@ -309,6 +315,18 @@ const SummaryCard = ({
   summaryAccTypeRef: React.MutableRefObject<any[]>;
   summaryAccSumRef: React.MutableRefObject<any[]>;
 }) => {
+
+
+  const accountSums = chartData.accounts.map(({ sum }) => sum)
+  const accountTypes = chartData.accounts.map(({ type }) => type)
+
+  const data:IncomingData = {
+    labels: accountTypes,
+    label: '',
+    data: [accountSums],
+  }
+
+
   return (
     <Card
       className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block '
@@ -324,8 +342,7 @@ const SummaryCard = ({
             <div className='h-full w-1/2 text-center'>
               <PieChart
                 radius='30'
-                externalData={chartData.accounts.map(({ sum }) => sum)}
-                labels={chartData.accounts.map(({ type }) => type)}
+                incomingData={data}
                 delay={1600}
               />
             </div>
@@ -375,6 +392,16 @@ const SummaryCard = ({
 
 /* #region  CHART CARD */
 const ChartCard = ({ chartData }: { chartData: ChartData }) => {
+
+  const dataset = chartData.dynamic
+  const labels = months.filter((month, i) => i < dataset.length).map((month) => month.slice(0, 3))
+
+  const data:IncomingData = {
+    labels: labels,
+    label:'Account dynamic',
+    data:[dataset]
+  }
+
   return (
     <Card inner className='col-span-4 col-start-1 row-span-3 md:col-span-2'>
       <div className='flex flex-col items-center'>
@@ -387,7 +414,7 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
             <LineChart
               width={'100%'}
               height={'100%'}
-              externalData={chartData.dynamic}
+              incomingData={data}
               delay={3200}
             />
           </div>
@@ -395,7 +422,7 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
             <BarChart
               width={'100%'}
               height={'100%'}
-              externalData={chartData.dynamic}
+              incomingData={data}
               delay={3500}
             />
           </div>
@@ -507,9 +534,9 @@ const skeletonData = {
   bank: 'XXXX XXX XXXX',
   transactions: [0, 0, 0, 0, 0, 0, 0],
   accounts: [
-    { type: 'XXXXXX', sum: 0 },
-    { type: 'XXXXXX', sum: 0 },
-    { type: 'XXXXXX', sum: 0 },
+    { type: 'XXXXXX', sum: 10 },
+    { type: 'XXXXXX', sum: 10 },
+    { type: 'XXXXXX', sum: 10 },
   ],
   dynamic: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000],
 };

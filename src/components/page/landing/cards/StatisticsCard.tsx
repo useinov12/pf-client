@@ -1,28 +1,29 @@
-import React from 'react';
+import { useState, useEffect, useRef } from 'react';
 import clsx from 'clsx';
 import gsap from 'gsap';
 import Card from './Card';
 import BarChart from '../../../charts/BarChart';
 import useInterval from '@/hooks/useInterval';
 import '@/lib/swapText';
+import { IncomingData } from '@/components/charts/types';
 
 const StatisticsCard = () => {
-  const [counter, setCounter] = React.useState(0);
+  const [counter, setCounter] = useState(0);
 
-  const timeline = React.useRef(gsap.timeline());
+  const timeline = useRef(gsap.timeline());
 
   const days = ['Friday', 'Saturday', 'Sunday'];
-  const currentDayRef = React.useRef<HTMLDivElement>(null);
-  const averageDayRef = React.useRef<HTMLDivElement>(null);
-  const datesRef = React.useRef(new Array(5));
-  const amountRefs = React.useRef(new Array(5));
-  const averegeRef = React.useRef<HTMLDivElement>(null);
+  const currentDayRef = useRef<HTMLDivElement>(null);
+  const averageDayRef = useRef<HTMLDivElement>(null);
+  const datesRef = useRef(new Array(5));
+  const amountRefs = useRef(new Array(5));
+  const averegeRef = useRef<HTMLDivElement>(null);
 
   useInterval(() => {
     setCounter((prev) => (prev === 2 ? 0 : prev + 1));
   }, 5000);
 
-  React.useEffect(() => {
+  useEffect(() => {
     gsap.ticker.lagSmoothing(false);
     timeline.current.swapText(currentDayRef.current, {
       text: days[counter],
@@ -30,7 +31,7 @@ const StatisticsCard = () => {
     });
 
     timeline.current.to(currentDayRef.current, { delay: 0.2 });
-    data[counter].map((el, i) => {
+    values[counter].map((el, i) => {
       timeline.current
         .swapText(datesRef.current[i], {
           text: el.date,
@@ -50,10 +51,10 @@ const StatisticsCard = () => {
       stagger: 0.1,
     });
 
-    const total = Array.from(data[counter], (day) => day.amount).reduce(
+    const total = Array.from(values[counter], (day) => day.amount).reduce(
       (a, b) => a + b
     );
-    const average = (total / data.length).toFixed(1);
+    const average = (total / values.length).toFixed(1);
     timeline.current.swapText(averegeRef.current, {
       text: average,
       duration: 0.1,
@@ -61,10 +62,14 @@ const StatisticsCard = () => {
     });
   }, [counter]);
 
+  const data: IncomingData = {
+    labels: values[counter].map((day) => day.date),
+    label: '',
+    data: [values[counter].map((day) => Math.abs(day.amount))],
+  };
+
   return (
-    <Card
-      className='h-full w-full lg:w-4/6'
-    >
+    <Card className='h-full w-full lg:w-4/6'>
       <div className='flex h-full w-full flex-col items-center p-2'>
         <h6 className='mb-1 self-start pl-2 text-lg font-semibold drop-shadow-md'>
           Transactions
@@ -81,7 +86,7 @@ const StatisticsCard = () => {
           </div>
         </header>
         <ul className='mb-2 flex w-5/6 flex-col'>
-          {data[counter].map((data, i) => (
+          {values[counter].map((data, i) => (
             <li
               className='my-1 flex cursor-default 
                         justify-between
@@ -89,21 +94,21 @@ const StatisticsCard = () => {
               key={data.date}
             >
               <h6
-                className='font-mono font-normal text-mds'
+                className='text-mds font-mono font-normal'
                 ref={(el) => (datesRef.current[i] = el)}
               />
               <div className='flex w-16 items-center justify-between'>
-                <h6 className='font-mono text-mds font-normal'>$</h6>
+                <h6 className='text-mds font-mono font-normal'>$</h6>
                 <h6
-                  className='font-mono text-mds font-normal'
+                  className='text-mds font-mono font-normal'
                   ref={(el) => (amountRefs.current[i] = el)}
                 />
               </div>
             </li>
           ))}
         </ul>
-        <div className='mb-3 flex w-full items-baseline justify-between lg:pl-10 gap-3'>
-          <div className='font-semiblod flex items-baseline justify-start gap-1 font-mono text-md'>
+        <div className='mb-3 flex w-full items-baseline justify-between gap-3 lg:pl-10'>
+          <div className='font-semiblod text-md flex items-baseline justify-start gap-1 font-mono'>
             Average
             <h6 className='font-mono font-semibold' ref={averageDayRef} />
             total:{' '}
@@ -117,8 +122,7 @@ const StatisticsCard = () => {
           <BarChart
             width='100%'
             height='100%'
-            externalData={data[counter].map((day) => Math.abs(day.amount))}
-            labels={data[counter].map((day) => day.date)}
+            incomingData={data}
             delay={2000}
           />
         </div>
@@ -129,7 +133,7 @@ const StatisticsCard = () => {
 
 export default StatisticsCard;
 
-const data = [
+const values = [
   [
     { date: '06/12', amount: -76 },
     { date: '06/19', amount: -28 },

@@ -6,6 +6,7 @@ import PieChart from '../../../charts/PieChart';
 import BarChart from '../../../charts/BarChart';
 import useInterval from '@/hooks/useInterval';
 import '@/lib/swapText';
+import { IncomingData } from '@/components/charts/types';
 
 const BanksCard = () => {
   const banks = ['A', 'B', 'C', 'D'];
@@ -15,6 +16,13 @@ const BanksCard = () => {
   useInterval(() => {
     setCounter((prev) => (prev === 3 ? 0 : prev + 1));
   }, 3000);
+
+
+  const data:IncomingData = {
+    labels:[], 
+    label:'',
+    data:[values[counter]]
+  }
 
   return (
     <Card
@@ -70,10 +78,10 @@ const BanksCard = () => {
         </ul>
         <div className='flex h-auto w-full items-end justify-around'>
           <div className='h-5/6 w-3/6 '>
-            <BarChart width='100%' height='100%' externalData={data[counter]} />
+            <BarChart width='100%' height='100%' incomingData={data} />
           </div>
           <div className='h-auto w-2/6 self-end'>
-            <PieChart radius='20' externalData={data[counter]} />
+            <PieChart radius='20' incomingData={data} />
           </div>
         </div>
       </div>
@@ -83,7 +91,7 @@ const BanksCard = () => {
 
 export default BanksCard;
 
-const data = [
+const values = [
   [1200, 3900, 7400, 4800, 4100, 900, 8700, 3200],
   [4200, 1700, 1400, 1800, 1100, 3900, 4700, 9200],
   [7200, 700, 4400, 8800, 8100, 9900, 1700, 4200],
