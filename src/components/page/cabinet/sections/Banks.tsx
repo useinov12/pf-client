@@ -37,7 +37,7 @@ const BankMenu = () => {
       </Menu>
 
       {/* generate plaid link on Add Bank click */}
-      {/* {linkToken && <LaunchLink token={linkToken} userId={}/>} */}
+      {linkToken && <LaunchLink token={linkToken} />}
     </>
   );
 };
