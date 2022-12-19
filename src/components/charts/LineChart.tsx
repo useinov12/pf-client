@@ -1,67 +1,31 @@
-import React, { useRef, useEffect, useState } from 'react';
-import type { ChartData, ChartArea } from 'chart.js';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineController,
-  LineElement,
-  Tooltip,
-  Legend,
-  Filler,
-} from 'chart.js';
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  LineController,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-  Filler
-);
-
+import { useRef, useEffect, useState } from 'react';
+import { Chart as ChartJS, ChartData  } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
-import { faker } from '@faker-js/faker';
+import { ChartProps } from './types';
+import 'chart.js/auto';
+import { getChartDataStructure } from '@/lib/chartHelpers'
 
-const LineChart: React.FC<{
+
+interface LineChartProps extends ChartProps{
   width: string;
   height: string;
-  isFakeData?: boolean;
-  externalData?:number[];
-  delay?:number;
-}> = ({ width, height, isFakeData, externalData, delay }) => {
+}
+
+export default function LineChart({ width, height, delay, incomingData }:LineChartProps){
 
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
     datasets: [],
   });
 
-  const data = {
-    labels: labels.map((month) => month.slice(0, 3)),
-    datasets: [
-      {
-        label: '',
-        data: externalData ? externalData : labels.map(() => 1000),
-      },
-    ],
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     const chart = chartRef.current;
 
-    if (!chart) {
+    if (!chart || !incomingData) {
       return;
     }
-    const chartData = {
-      ...data,
-      datasets: data.datasets.map((dataset) => ({
-        ...dataset,
-        borderColor: 'rgba(150, 149, 149, 1)',
-        backgroundColor: createGradient(chart.ctx, chart.chartArea),
-      })),
-    };
+
+    const chartData = getChartDataStructure(incomingData)
     
     if(delay){
       const timer = setTimeout(()=>{
@@ -71,7 +35,7 @@ const LineChart: React.FC<{
     }
     else setChartData(chartData);
 
-  }, [externalData]);
+  }, [incomingData]);
 
   return (
     <Chart
@@ -85,51 +49,9 @@ const LineChart: React.FC<{
   );
 };
 
-export default LineChart;
-
-const labels = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  // 'September',
-  // 'October',
-  // 'November',
-  // 'December',
-];
-const colors = [
-  'red',
-  'orange',
-  'yellow',
-  'lime',
-  'green',
-  'teal',
-  'blue',
-  'purple',
-];
 
 
-function createGradient(ctx: CanvasRenderingContext2D | null, area: ChartArea) {
-  const colorStart = 'rgba(208, 208, 208, 0.5)';
-  const colorMid = 'rgba(168, 168, 168, 0.5)';
-  const colorEnd = 'rgba(150, 149, 149, 0.5)';
-
-  if (ctx) {
-    const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
-
-    gradient.addColorStop(0, colorStart);
-    gradient.addColorStop(0.5, colorMid);
-    gradient.addColorStop(1, colorEnd);
-
-    return gradient;
-  }
-  return 'rgba(253, 224, 71, .6)';
-}
-
+/* Chart JS options for Line chart*/
 const options = {
   responsive: true,
   maintainAspectRatio: false,
