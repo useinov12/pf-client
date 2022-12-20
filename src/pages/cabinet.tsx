@@ -6,7 +6,7 @@ import {
   CabinetPageProvider,
   useCabinetPageContext,
 } from '@/context/CabinetContext';
-import { Popup } from '@/components/Popup';
+import { Popup } from '@/components/shared/Popup';
 import Button from '@/components/buttons/Button';
 
 export default function CabinetPage() {
@@ -28,7 +28,7 @@ const Cabinet = () => {
         <BankMenu />
       </Layout>
       <DeleteBankPopup />
-      <SettingsPopup />
+      <ConfigBankPopup />
     </>
   );
 };
@@ -55,7 +55,7 @@ const DeleteBankPopup = () => {
   );
 };
 
-const SettingsPopup = () => {
+const ConfigBankPopup = () => {
   const { handleBankConfigPopup, openConfigPopup } = useCabinetPageContext();
   return (
     <Popup
