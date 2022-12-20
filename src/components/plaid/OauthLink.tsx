@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Storage } from '@/lib/storage';
 
 import LaunchLink from './LaunchLink';
 
@@ -7,25 +8,23 @@ import LaunchLink from './LaunchLink';
 // from the initial link initialization.
 const OAuthLink = () => {
   const [token, setToken] = useState<string>();
-  const [userId, setUserId] = useState<number>(-100); // set for typescript
-  const [itemId, setItemId] = useState<number>();
+  const [itemId, setItemId] = useState<string>();
 
-  const oauthObject = localStorage.getItem('oauthConfig');
-
+  const linkToken = Storage.get('oauthLinkToken')
+  const ItemId = Storage.get('oauthItemId')
+  
   useEffect(() => {
-    if (oauthObject != null) {
-      setUserId(JSON.parse(oauthObject).userId);
-      setItemId(JSON.parse(oauthObject).itemId);
-      setToken(JSON.parse(oauthObject).token);
+    if(linkToken && ItemId){
+      setToken(linkToken)
+      setItemId(ItemId)
     }
-  }, [oauthObject]);
+  }, [linkToken, ItemId]);
 
   return (
     <>
       {token != null && (
         <LaunchLink
           isOauth // this will initiate link immediately
-          // userId={userId}
           itemId={itemId}
           token={token}
         />

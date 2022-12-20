@@ -1,4 +1,7 @@
-import { PlaidLinkProvider } from '@/services/plaid/PlaidLinkProvider';
+import {
+  PlaidLinkProvider,
+  usePlaidContext,
+} from '@/services/plaid/PlaidLinkProvider';
 import Layout from '@/components/page/cabinet/Layout';
 import UserMenu from '@/components/page/cabinet/sections/User';
 import BankMenu from '@/components/page/cabinet/sections/Banks';
@@ -8,6 +11,7 @@ import {
 } from '@/context/CabinetContext';
 import { Popup } from '@/components/shared/Popup';
 import Button from '@/components/buttons/Button';
+import LaunchLink from '@/components/plaid/LaunchLink';
 
 export default function CabinetPage() {
   return (
@@ -21,6 +25,7 @@ export default function CabinetPage() {
 CabinetPage.requireAuth = true;
 
 const Cabinet = () => {
+  const { linkToken } = usePlaidContext();
   return (
     <>
       <Layout>
@@ -29,6 +34,8 @@ const Cabinet = () => {
       </Layout>
       <DeleteBankPopup />
       <ConfigBankPopup />
+      {/* generate plaid link on Add Bank click to open Plaid UI */}
+      {linkToken && <LaunchLink token={linkToken} />}
     </>
   );
 };
@@ -57,6 +64,7 @@ const DeleteBankPopup = () => {
 
 const ConfigBankPopup = () => {
   const { handleBankConfigPopup, openConfigPopup } = useCabinetPageContext();
+  const { generateLinkToken } = usePlaidContext();
   return (
     <Popup
       open={openConfigPopup}
@@ -69,7 +77,7 @@ const ConfigBankPopup = () => {
           Your will be redirected to the bank app. You will be able to configure
           permissions and credentials for PersonalFinance app
         </h5>
-        <Button variant='primary' className='mt-6'>
+        <Button variant='primary' className='mt-6' onClick={generateLinkToken}>
           Go to the Bank
         </Button>
       </div>
