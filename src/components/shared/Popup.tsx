@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import Button from './buttons/Button';
-import Card from './page/landing/cards/Card';
+import Button from '../buttons/Button';
+import Card from '../page/landing/cards/Card';
 import { AiOutlineClose } from 'react-icons/ai';
 
 interface PopupProps{
