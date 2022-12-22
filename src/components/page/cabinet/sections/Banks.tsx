@@ -2,26 +2,24 @@ import Button from '@/components/buttons/Button';
 import clsx from 'clsx';
 import Menu from '../Menu';
 import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
-import LaunchLink from '@/components/plaid/LaunchLink';
 import { BsBoxArrowInRight } from 'react-icons/bs';
 import ButtonLink from '@/components/links/ButtonLink';
 import MenuHeader from '../MenuHeader';
 import ConnectedBanks from '../ConnectedBanks';
 
-//wait backend
-// import { useConnectedBanks } from '@/services/data/queries';
+import { useConnectedBanks } from '@/services/data/queries';
+import {Spinner} from '@/components/shared/Loading';
 
-// import { data } from './sampleData';
+export default function BankMenu() {
+  const { data, isLoading } = useConnectedBanks();
 
-const BankMenu = () => {
-  const { linkToken } = usePlaidContext();
-  // const {data} = useConnectedBanks()
+  const connectedBanksData = data?.data.detail.data
 
   return (
     <>
       <Menu
         className={clsx(
-          'w-full grow md:w-3/4',
+          'w-full grow md:w-3/5 lg:w-3/4',
           'relative',
           'overflow-y-scroll',
           'relative'
@@ -32,16 +30,13 @@ const BankMenu = () => {
           <AddBankButton />
         </MenuHeader>
 
-        {/* <ConnectedBanks banksData={data} /> */}
+         {isLoading ?   <Spinner/> :<ConnectedBanks banksData={connectedBanksData} />}
         <OpenAppButton className='fixed bottom-6 right-6' />
       </Menu>
 
-      {/* generate plaid link on Add Bank click */}
-      {linkToken && <LaunchLink token={linkToken} />}
     </>
   );
 };
-export default BankMenu;
 
 const AddBankButton = () => {
   const { generateLinkToken } = usePlaidContext();

@@ -1,29 +1,29 @@
-import React from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import clsx from 'clsx';
 import gsap from 'gsap';
 import Image from 'next/image';
 
 const Loading = () => {
-  const timeline = React.useRef(gsap.timeline());
-  const loadingContainerRef = React.useRef<HTMLDivElement>(null);
-  const logoRef = React.useRef<HTMLDivElement>(null);
+  const timeline = useRef(gsap.timeline());
+  const loadingContainerRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     timeline.current.fromTo(
       logoRef.current,
-      {opacity:0},
+      { opacity: 0 },
       {
         immediateRender: false,
         opacity: 1,
         ease: 'ease.in',
         duration: 2,
-        delay:.4
+        delay: 0.4,
       }
     );
 
     return () => {
-        timeline.current.kill();
-      };
+      timeline.current.kill();
+    };
   }, []);
 
   return (
@@ -37,12 +37,17 @@ const Loading = () => {
         'flex flex-col items-center justify-center'
       )}
     >
-        <div ref={logoRef}>
-            <Image src={'/images/logo.png'} width={120} height={110} />
-        </div>
-      <div className='h-12 w-12 animate-spin rounded-full border-4 border-dashed dark:border-primary-400 my-6' />
+      <div ref={logoRef} className='flex flex-col items-center justify-center'>
+        <Image src={'/images/logo.png'} width={120} height={110} />
+        <Spinner />
+      </div>
     </div>
   );
 };
-
 export default Loading;
+
+export const Spinner = () => {
+  return (
+    <div className='h-12 w-12 animate-spin rounded-full border-4 border-dashed border-primary-500' />
+  );
+};

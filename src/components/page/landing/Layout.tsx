@@ -5,10 +5,10 @@ import Link from 'next/link';
 import Button from '@/components/buttons/Button';
 import { LoginFormContext } from '@/context/LoginFormProvider';
 import { useAuth } from '@/services/user/AuthProvider';
-import ThemeButton from '../../ThemeSwitch';
-import Logo from '@/components/Logo';
+import ThemeButton from '../../shared/ThemeSwitch';
+import Logo from '@/components/shared/Logo';
 import UnderlineLink from '@/components/links/UnderlineLink';
-import LayoutCommon from '@/components/LayoutCommon';
+import LayoutCommon from '@/components/shared/LayoutCommon';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);

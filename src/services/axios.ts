@@ -2,14 +2,17 @@ import axios, { AxiosRequestConfig } from 'axios';
 import https from 'https';
 import logger from '@/lib/logger';
 import { Storage } from '@/lib/storage';
-import { memoizeRefreshFn } from './user/actions';
+import { memoizeRefreshTokenFn } from './user/actions';
+import jwt from 'jsonwebtoken';
+import dayjs from 'dayjs';
+import jwt_decode from 'jwt-decode';
 
 /* Axios instance
   docs: https://github.com/axios/axios#config-defaults
 */
 
 /**
- * Axios API instance for requests that do not require **Authorization**
+ * Axios API instance for requests that do not require **Auth**
  *  */
 export const apiPublic = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}`,
@@ -18,11 +21,18 @@ export const apiPublic = axios.create({
   },
 });
 
+const accessToken = Storage.get('accessToken')
+  ? Storage.get('accessToken')
+  : null;
 /**
- * Axios API instance for requests that require **Authorization**
+ * Axios API instance for requests that require **Auth**
  *  */
 export const apiPrivate = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}`,
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${accessToken}`,
+  },
   // withCredentials: true,
 });
 
@@ -32,38 +42,41 @@ export const apiPrivate = axios.create({
   ref:https://dev.to/franciscomendes10866/how-to-use-axios-interceptors-b7d
 */
 
-/* Request interceptor */
 apiPrivate.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    config.headers = config.headers ?? {};
-    config.headers['Content-Type'] = 'application/json';
+  async (req: AxiosRequestConfig) => {
+    req.headers = req.headers ?? {};
+    req.headers['Content-Type'] = 'application/json';
+    req.headers['Authorization'] = `Bearer ${accessToken}`;
 
-    config.headers['Authorization'] = 'Bearer ' + Storage.get('token');
+    if (accessToken) {
+      const user = jwt_decode<JwtPayload>(accessToken);
+      logger(user.exp, '🟪 Decoed user');
+      const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
 
-    // logger({ token: Storage.get('token') }, 'Token set in interceptor');
+      if (!isExpired) return req;
+      logger(isExpired, '🟨 JWT is Expired');
+  
+      const response = await memoizeRefreshTokenFn();
+  
+      Storage.set('accessToken', response?.jwt_token);
+      Storage.set('refreshToken', response?.refresh_token);
+  
+      req.headers['Authorization'] = 'Bearer ' + response?.jwt_token;
+      return req;
+    }
 
-    return config;
+    return req;
   },
   (error) => {
-    logger({ error: error }, 'Error occured in interceptor');
+    logger({ error: error }, '🟥 Error occured in  request interceptor');
     Promise.reject(error);
   }
 );
 
-/* Response interceptor */
-apiPrivate.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async function (error) {
-    const originalRequest = error.config;
-    if (error.response.status === 403 && !originalRequest._retry) {
-      originalRequest._retry = true;
-      const access_token = await memoizeRefreshFn();
-      Storage.set('token', access_token)
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
-      return apiPrivate(originalRequest);
-    }
-    return Promise.reject(error);
-  }
-);
+type JwtPayload = {
+  exp: number;
+  first: string;
+  last: string;
+  username: string;
+};
+

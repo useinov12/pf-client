@@ -121,7 +121,6 @@
   }
 }
 
-
 /* =========== Fade In =========== */
 [data-fade] {
   @apply translate-y-3 opacity-0 transition duration-[400ms] ease-out motion-reduce:translate-y-0 motion-reduce:opacity-100;

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import SignUp from './SignUp';
 import Login from './Login';
-import { Popup } from '../Popup';
-import Logo from '../Logo';
+import { Popup } from '../shared/Popup';
+import Logo from '../shared/Logo';
 import { useLoginForm } from '@/context/LoginFormProvider';
 
 interface SignInFormProps {

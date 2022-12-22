@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useCallback, ReactNode } from 'react';
 import {
   usePlaidLink,
   PlaidLinkOptionsWithLinkToken,
@@ -10,61 +10,52 @@ import {
 interface LinkLaunchProps {
   isOauth?: boolean;
   token: string;
-  // userId: number;
-  itemId?: number | null;
-  children?: React.ReactNode;
+  itemId?: string | null;
+  children?: ReactNode;
 }
 
 import { requestAccessToken } from '@/services/plaid/actions';
 import logger from '@/lib/logger';
 import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
+import { Storage } from '@/lib/storage';
 
-// Uses the usePlaidLink hook to manage the Plaid Link creation.  See https://github.com/plaid/react-plaid-link for full usage instructions.
-// The link token passed to usePlaidLink cannot be null.  It must be generated outside of this component.  In this sample app, the link token
-// is generated in the link context in client/src/services/link.js.
-
+/**
+  Uses the usePlaidLink hook to manage the Plaid Link creation.\
+  The link token passed to usePlaidLink cannot be null.  It must be generated outside of this component.
+  ref: https://github.com/plaid/pattern/tree/master/client/src/components
+ */
 export default function LaunchLink(props: LinkLaunchProps) {
-  const { deleteLinkToken } = usePlaidContext();
+  const router = useRouter();
+  const { deleteLinkToken, generateLinkToken } = usePlaidContext();
 
-  const onSuccess = React.useCallback<PlaidLinkOnSuccess>(
-    // on succesfull link open Public token is issued that need to be exchanged for Access Token
-    (publicToken, metadata) => {
-      console.log('ON_SUCCESS PUBLIC TOKEN', publicToken, metadata);
-
-      // update mode: no need to exchange public token
-      // if (!props.isOauth) {
-      //   logger(publicToken, 'REQUEST ACCESS TOKEN INITIALIZED')
-      //   // requestAccessToken(publicToken);
-      // }
-      if (metadata.institution?.name) {
-        requestAccessToken({
-          token: publicToken,
-          bankName: metadata.institution?.name,
-        });
-      }
-
-      //Delete Link token after link is used
-      // deleteLinkToken();
-      // history.push(`/user/${props.userId}`);
-    },
-    []
-  );
-
-  const onExit = React.useCallback<PlaidLinkOnExit>((error, metadata) => {
-    if (error != null && error.error_code === 'INVALID_LINK_TOKEN') {
-      // re-generate token and store in context
-      // requestPublicToken(publicToken);
-    }
-    if (error != null) {
-      //   setError(error.error_code, error.display_message || error.error_message);
-    }
-    // to handle other error codes, see https://plaid.com/docs/errors/
+  /* On successfull open Plaid UI with linkToken ->  pubcliToken is generated.
+  publicToken need to be exchanged for accessToken that gets saved in DB */
+  const onSuccess = useCallback<PlaidLinkOnSuccess>((publicToken, metadata) => {
+    logger({ metadata }, 'ON_SUCCESS PLAID UI');
+    /* Delete Link token from Context after Plaid UI is mounted is used */
+    /* regular link initialization: request access token. */
+    /* otherwise LaunchLink in update mode: no need to request new access token */
+    deleteLinkToken();
+    if (!props.itemId) requestAccessToken(publicToken);
+    if (props.isOauth) router.push('/cabinet');
   }, []);
 
-  const onEvent = React.useCallback<PlaidLinkOnEvent>((eventName, metadata) => {
-    // handle errors in the event end-user does not exit with onExit function error enabled.
+  const onExit = useCallback<PlaidLinkOnExit>((error, metadata) => {
+    if (error != null && error.error_code === 'INVALID_LINK_TOKEN') {
+      /* re-generate token and store in context */
+      generateLinkToken();
+    } else if (error != null) {
+      toast.error(error.display_message || error.error_message);
+    } else deleteLinkToken();
+    /* to handle other error codes, see https://plaid.com/docs/errors/ */
+  }, []);
+
+  const onEvent = useCallback<PlaidLinkOnEvent>((eventName, metadata) => {
+    /* handle errors in the event end-user does not exit with onExit function error enabled. */
     if (eventName === 'ERROR' && metadata.error_code != null) {
-      //   setError(metadata.error_code, ' ');
+      toast.error(metadata.error_code);
     }
   }, []);
 
@@ -75,34 +66,25 @@ export default function LaunchLink(props: LinkLaunchProps) {
     token: props.token,
   };
 
+  /* update mode: add required receivedRedirectUri prop to config when handling an OAuth reidrect */
   if (props.isOauth) {
-    config.receivedRedirectUri = window.location.href; // add additional receivedRedirectUri config when handling an OAuth reidrect
+    config.receivedRedirectUri = window.location.href;
   }
 
   const { open, ready } = usePlaidLink(config);
 
   useEffect(() => {
-    // initiallizes Link automatically
+    /* update mode: initiallizes Link automatically */
     if (props.isOauth && ready) {
       open();
     } else if (ready) {
-      // regular, non-OAuth case:
-      // set link token, userId and itemId in local storage for use if needed later by OAuth
-      localStorage.setItem(
-        'oauthConfig',
-        JSON.stringify({
-          // userId: props.userId,
-          itemId: props.itemId,
-          token: props.token,
-        })
-      );
+      /* regular mode: non-OAuth case */
+      /* save to Storage & itemId  token for use if needed later by OAuth*/
+      Storage.set('oauthLinkToken', props.token);
+      Storage.set('oauthItemId', props.itemId);
       open();
     }
   }, [ready, open, props.isOauth, props.itemId, props.token]);
 
-  // if LaunchLink in OathLink -> initiallizes Link automatically for update mode
-  if (props.isOauth && ready) {
-    open();
-  }
   return <></>;
 }

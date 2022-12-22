@@ -1,5 +1,5 @@
 import { createContext, useState, useContext } from 'react';
-import { CurrentUserData, UserInContext } from '../types';
+import { CurrentUserData, UserInContext, UserApiData } from '../types';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { getMe } from '../api';
@@ -11,7 +11,9 @@ export const AuthContext = createContext<
   | {
       isLoading: boolean;
       isFetching: boolean;
+      isSuccess: boolean;
       user: UserInContext | null;
+      // user: UserApiData | null;
       setRedirect: (redirect: string) => void;
       getRedirect: () => string | null;
       clearRedirect: () => void;
@@ -20,21 +22,20 @@ export const AuthContext = createContext<
   | undefined
 >(undefined);
 
-export function AuthProvider(props:any) {
+export function AuthProvider(props: any) {
   const router = useRouter();
   const [user, setUser] = useState<UserInContext | null>(null);
-
 
   /* fetch user, format resposne and set to context state */
   const { data, isSuccess, isLoading, isError, isFetching } = useQuery(
     ['user'],
     getMe,
     {
-      onError: (data) => logger(data, 'Error occured during user fetching.'),
-      onSuccess: (data:AxiosResponse<CurrentUserData, any>) => {
+      onError: (data) => logger(data, '🔴 Error occured during user fetching.'),
+      onSuccess: (data: AxiosResponse<CurrentUserData, any>) => {
         if (data) {
           const formatedUserResponse = formatUserApiResponse(data);
-          if(user?.username !== formatedUserResponse.username){
+          if (user?.username !== formatedUserResponse.username) {
             setUser(formatedUserResponse);
             logger(formatedUserResponse, 'Succesfull user fetch.');
           }
@@ -47,13 +48,14 @@ export function AuthProvider(props:any) {
     /* Order matters: do re-route first, then rest.
       Otherwise will trigger AuthGuard and redirect to /signup */
     await router.push('/');
-    Storage.clear('token');
+    Storage.clear('accessToken');
     setUser(null);
-    logger({user:user}, 'Logout performed',);
+    logger({ user: user }, 'Logout performed');
   }
 
   const value = {
     user,
+    isSuccess,
     isLoading,
     isFetching,
     setRedirect,
@@ -62,7 +64,7 @@ export function AuthProvider(props:any) {
     handleLogout,
   };
 
-  return <AuthContext.Provider value={value} {...props}/>;
+  return <AuthContext.Provider value={value} {...props} />;
 }
 
 /**
@@ -88,7 +90,9 @@ const getRedirect = (): string | null =>
 const clearRedirect = () => window.sessionStorage.removeItem(redirectKey);
 
 /* Format user API response  */
-export function formatUserApiResponse(data: AxiosResponse<CurrentUserData>): UserInContext {
+export function formatUserApiResponse(
+  data: AxiosResponse<CurrentUserData>
+): UserInContext {
   return {
     firstName: data.data.detail.data.first_name,
     lastName: data.data.detail.data.last_name,

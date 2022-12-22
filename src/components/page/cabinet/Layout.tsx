@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import { useState, useEffect, ReactNode } from 'react';
 // import Navbar from './Navbar';
-import LayoutCommon from '@/components/LayoutCommon';
-import Logo from '@/components/Logo';
-import ThemeSwitch from '@/components/ThemeSwitch';
+import LayoutCommon from '@/components/shared/LayoutCommon';
+import Logo from '@/components/shared/Logo';
+import ThemeSwitch from '@/components/shared/ThemeSwitch';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const [isLoaded, setIsLoaded] = useState(false);

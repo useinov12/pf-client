@@ -3,7 +3,7 @@ import { useTheme } from '@/context/ThemeProvider';
 import { MdMenuOpen, MdOutlineSwitchAccount, MdGridView } from 'react-icons/md';
 import { RiBankFill } from 'react-icons/ri';
 import { CgArrowsExchange } from 'react-icons/cg';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/Tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/shared/Tooltip';
 import Link from 'next/link';
 import { useAppPageContext } from '@/context/AppPageContext';
 import { RiUserSettingsFill } from 'react-icons/ri';
@@ -56,7 +56,7 @@ function MenuItem({ item, open }: MenuItemProps) {
   return (
     <div
       className={clsx(
-        'transition-all duration-100',
+        'transition-all duration-300',
         'overflow-hidden',
         open ? 'w-40' : 'w-10',
         'my-2'
@@ -95,7 +95,7 @@ const Item = ({ item, open }: MenuItemProps) => {
           className={clsx(
             'text-left',
             open ? 'w-36' : 'w-0',
-            'transition-all duration-100'
+            'transition-all duration-300'
           )}
         >
           {item.title}

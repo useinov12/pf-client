@@ -1,4 +1,4 @@
-import { RegisterCredentials, LoginCredentials } from '../types';
+import { RegisterCredentials, LoginCredentials, RefreshData } from '../types';
 import {
   createNewUser as apiCreateNewUser,
   loginUser as apiLoginUser,
@@ -43,14 +43,14 @@ export async function register(
  * `login` is an `Action` - API call that
  * does not have an effect on cached entity data
  */
-export const login = async (
+export async function login(
   credentials: LoginCredentials
-): Promise<{ status: number }> => {
+): Promise<{ status: number }> {
   try {
     const response = await apiLoginUser(credentials);
     logger(response.data.detail.data.access_token, `Succesfull login`);
-    Storage.set('token', response.data.detail.data.access_token);
-    Storage.set('refresh', response.data.detail.data.refresh_token);
+    Storage.set('accessToken', response.data.detail.data.access_token);
+    Storage.set('refreshToken', response.data.detail.data.refresh_token);
     return { status: response.status };
   } catch (error: any) {
     if (error.response.status === 404) {
@@ -61,38 +61,26 @@ export const login = async (
     console.log(error);
     return { status: error.response.status };
   }
-};
+}
 
 /**
  * `refresh` is an `Action` - API call that
  * does not have an effect on cached entity data
  */
-export const refresh = async () => {
-
-  // const refreshToken = Storage.get('refresh');
+export async function refresh() {
   try {
-    // send refreshToken as param when backend refactored
     const response = await apiRefreshAccessToken();
-    const accessToken = response.data.detail.data.access_token;
-
-    //if could not refresh access token -> logout user
-    if (!accessToken) {
-      // handleLogout or just Storage.clear('token')?
-      Storage.clear('token')
-      // Storage.clear('token')
-      logger('', 'Failed to Refresh access token')
-    }
-
-    // return refreshToken here
-    
-    return accessToken;
+    logger(response, '✅ REFRESH RESPONSE');
+    return response.data.detail.data;
+    // Storage.set('accessToken', response.data.detail.data.jwt_token)
+    // Storage.set('refreshToken', response.data.detail.data.refresh_token)
   } catch (e: any) {
-    logger(e, 'Error refreshing access token');
+    /* if can not refresh -> logout user */
+    logger(e, '❌ Error refreshing access token');
   }
-};
+}
 
 /**
- * Memoize refresh function to avoid multiple refresh requests.\
- * `memoizeRefreshFn` will invoke refresh function only once
- * and remember results for `maxAge` time.*/
-export const memoizeRefreshFn = mem(refresh, { maxAge: 10000 });
+ * Memoize refresh function to avoid multiple refresh requests.
+ */
+export const memoizeRefreshTokenFn = mem(refresh, { maxAge: 10000 });
