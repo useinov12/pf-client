@@ -38,7 +38,7 @@ const AppCard = () => {
                     <strong>Banks:</strong>
                     <ul className=''>
                         {banks.map((bank, i)=>
-                            <li className={clsx(
+                            <li key={bank.name} className={clsx(
                                 'w-52',
                                 'hover:cursor-pointer',
                                 'hover:bg-sky-500/20',
