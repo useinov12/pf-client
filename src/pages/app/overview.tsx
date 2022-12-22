@@ -31,9 +31,11 @@ export default function OverviewPage() {
       </div>
       <Carousel>
         {banks.map((bank, i) => (
-          <CarouselItem width='256'>
-            <BankCard />
-          </CarouselItem>
+          <li key={bank}>
+            <CarouselItem width='256'>
+              <BankCard />
+            </CarouselItem>
+          </li>
         ))}
       </Carousel>
     </Layout>
