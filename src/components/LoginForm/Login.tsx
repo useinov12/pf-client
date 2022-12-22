@@ -16,7 +16,7 @@ function Login({ className }: { className?: string }) {
 function Form({ className }: { className?: string }) {
   const QueryClient = useCashedClient();
   const router = useRouter();
-  const { getRedirect, clearRedirect } = useAuth();
+  const { getRedirect, clearRedirect, isSuccess } = useAuth();
 
   const [formInputs, setFormInputs] = useState({ username: '', password: '' });
   const { username, password } = formInputs;
@@ -40,9 +40,11 @@ function Form({ className }: { className?: string }) {
     logger(status, 'Submit Login Form Response');
 
     if (status === 200) {
-      /* update cashed user */
+      /* invalidate query to trigger update cashed user */
       QueryClient.invalidateQueries('user');
+
       const lastVisited = getRedirect();
+
       if (lastVisited) {
         router.push(lastVisited);
         clearRedirect();

@@ -20,7 +20,7 @@ type UserData = {
 export type Error = any;
 
 /* ================== User ==================*/
-type UserApiData = Omit<UserData, 'password'>;
+export type UserApiData = Omit<UserData, 'password'>;
 export type RegisterCredentials = UserData;
 export type RegisterFormCredentials = RegisterCredentials & {
   passwordChecker: string;
@@ -30,9 +30,12 @@ export type LoginCredentials = Pick<UserData, 'username' | 'password'>;
 export type LoginData = Response<Tokens>;
 export type RegisterData = Response<UserApiData>;
 export type CurrentUserData = Response<UserApiData>;
-// export type RefreshTokenData = Response<string>;
-// update when backend is ready
-export type RefreshTokenData = Response<any>;
+
+export type RefreshData = {
+  jwt_token: string;
+  refresh_token: string;
+};
+export type RefreshTokenData = Response<RefreshData>;
 
 export type UserInContext = {
   firstName: string;
@@ -54,7 +57,6 @@ export type Account = {
 };
 type BankName = string;
 export type ConnectedBanks = Record<BankName, Account[]>;
-
 
 export type ConnectedBanksData = Response<ConnectedBanks>;
 

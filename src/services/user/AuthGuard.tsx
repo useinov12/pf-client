@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from './AuthProvider';
-import Loading from '@/components/Loading';
+import Loading from '@/components/shared/Loading';
 
 /**
  * Component holds the logic to conditionally render:
@@ -18,13 +18,12 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading) {
-      /* auth is initialized and there is no user */
-      if (!user && !isFetching) {
-        /* remember the page that user tried to access */
-        setRedirect(router.route);
-        router.push('/signup');
-      }
+
+    if (isLoading) return;
+    if (isFetching) return;
+    if (!user) {
+      setRedirect(router.route);
+      router.push('/signup');
     }
   }, [isLoading, router, user, setRedirect, isFetching]);
 
@@ -32,9 +31,12 @@ export function AuthGuard({ children }: { children: JSX.Element }) {
   if (isLoading) {
     return <Loading />;
   }
+  if (isFetching) {
+    return <Loading />;
+  }
 
   /* if auth initialized with a valid user show protected page  */
-  if (!isLoading && user) {
+  if (!isLoading && !isFetching && user) {
     return <>{children}</>;
   }
 

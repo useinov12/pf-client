@@ -20,30 +20,22 @@ export const loginUser = (credentials: LoginCredentials) =>
   apiPublic.post<LoginData>(`/login`, credentials);
 
 export const refreshAccessToken = () => {
-  // temporary set refresh token as Authorization in header
-  // refactor to param  when backend is ready
-  const refreshToken = Storage.get('refresh');
   const headers = {
-    Authorization: `Bearer ${refreshToken}`,
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${Storage.get('refreshToken')}`,
   };
-
   return apiPublic.get<RefreshTokenData>(`/refresh`, { headers });
 };
 
 export const getMe = () => apiPrivate.get<CurrentUserData>(`/user`);
 
 // PLAID API
-export const exchangePublicToken = (token:string, bankName:string) =>
-  apiPrivate.post(`/access_token`, {
-    public_token: token,
-    bank_name:bankName
-  });
+export const exchangePublicToken = (token: { public_token: string }) =>
+  apiPrivate.post(`/access_token`, token);
 
 export const getLinkToken = () =>
   apiPrivate.get<LinkTokenData>(`/link/token/create`);
 
-
 // DATA
-export const getConnectedBanks = () => apiPrivate.get<ConnectedBanksData>('/accounts/get')
-
-
+export const getConnectedBanks = () =>
+  apiPrivate.get<ConnectedBanksData>('/accounts/get');
