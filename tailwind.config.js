@@ -1,17 +1,35 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { fontFamily } = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  plugins: [
+    plugin(function ({ addUtilities }) {
+      addUtilities({
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        '.no-scrollbar ::-webkit-scrollbar': {
+          display: 'none',
+        },
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        '.no-scrollbar': {
+          '-ms-overflow-style': 'none' /* IE and Edge */,
+          'scrollbar-width': 'none' /* Firefox */,
+        },
+      });
+    }),
+  ],
+
   theme: {
     extend: {
       fontFamily: {
         primary: ['Inter', ...fontFamily.sans],
         backgroundImage: {
-          sketch: "url('/client/public/images/sketch.png')"
+          sketch: "url('/client/public/images/sketch.png')",
         },
-        homenaje:['Homenaje', 'regular']
+        homenaje: ['Homenaje', 'regular'],
       },
       colors: {
         primary: {

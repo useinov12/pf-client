@@ -23,8 +23,8 @@ import { Storage } from '@/lib/storage';
 
 /**
   Uses the usePlaidLink hook to manage the Plaid Link creation.\
-  See https://github.com/plaid/react-plaid-link for full usage instructions.
   The link token passed to usePlaidLink cannot be null.  It must be generated outside of this component.
+  ref: https://github.com/plaid/pattern/tree/master/client/src/components
  */
 export default function LaunchLink(props: LinkLaunchProps) {
   const router = useRouter();

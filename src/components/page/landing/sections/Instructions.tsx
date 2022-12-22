@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Button from '../../../buttons/Button';
 import ButtonLink from '../../../links/ButtonLink';
 import { AiOutlineLineChart } from 'react-icons/ai';
-import Ping from '../../../Ping';
+import Ping from '../../../shared/Ping';
 import { ThemeContext } from '@/context/ThemeProvider';
 
 const InstructionsSection = () => {

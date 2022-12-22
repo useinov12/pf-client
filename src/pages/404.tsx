@@ -3,7 +3,7 @@ import { RiAlarmWarningFill } from 'react-icons/ri';
 
 import Layout from '@/components/page/landing/Layout';
 import ArrowLink from '@/components/links/ArrowLink';
-import Seo from '@/components/Seo';
+import Seo from '@/components/shared/Seo';
 
 export default function NotFoundPage() {
   return (

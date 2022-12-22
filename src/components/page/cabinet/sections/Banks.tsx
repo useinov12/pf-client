@@ -19,7 +19,7 @@ export default function BankMenu() {
     <>
       <Menu
         className={clsx(
-          'w-full grow md:w-3/4',
+          'w-full grow md:w-3/5 lg:w-3/4',
           'relative',
           'overflow-y-scroll',
           'relative'

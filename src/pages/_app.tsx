@@ -6,9 +6,7 @@ import { AuthProvider } from '@/services/user/AuthProvider';
 import { AuthGuard } from '@/services/user/AuthGuard';
 import ThemeProvider from '@/context/ThemeProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import {LoginFormProvider } from '@/context/LoginFormProvider';
-
-
+import { LoginFormProvider } from '@/context/LoginFormProvider';
 
 const queryClient = new QueryClient();
 
