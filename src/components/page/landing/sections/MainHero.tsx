@@ -14,7 +14,7 @@ export default function MainHeroSection() {
   return (
     <HeroWrapper>
       <LeftSection className=' h-full w-1/2 ' />
-      <RightSection className=' h-full w-1/2 ' />
+      <RightSection className=' h-full w-1/2' />
     </HeroWrapper>
   );
 }
@@ -30,7 +30,7 @@ const HeroWrapper = ({ children }: { children: ReactNode }) => {
           'h-screen w-screen',
           'overflow-x-hidden',
           'flex  gap-2',
-          'items-center justify-center',
+          'items-center justify-between',
           mode === 'dark' ? 'text-gray-200' : 'text-gray-800'
         )}
       >
@@ -44,11 +44,7 @@ type SectionProps = { className?: string; children?: ReactNode };
 
 const LeftSection = ({ className, children }: SectionProps) => {
   return (
-    <div 
-      className={clsx(
-        'mt-20 ml-20 flex flex-col gap-6', 
-        className
-    )}>
+    <div className={clsx('mt-20 ml-20 flex flex-col gap-6', className)}>
       <div className='flex items-center gap-4'>
         <Logo width={130} height={113} />
         <h1 className='mt-7  text-5xl tracking-wide'>PersonalFinance</h1>
@@ -138,75 +134,103 @@ const Polkadots = ({ className }: { className?: string }) => {
         </pattern>
       </defs>
 
-      <rect width='700' height='500' style={{ fill: 'url(#myPattern)' }} />
+      <rect width='600' height='500' style={{ fill: 'url(#myPattern)' }} />
     </svg>
   );
 };
 
+type ReusableSectionProps = {
+  className?: string;
+  children?: ReactNode;
+  right?: boolean | undefined;
+  left?: boolean | undefined;
+};
 
-
+const SectionWrapper = ({
+  className,
+  children,
+  right,
+  left,
+}: ReusableSectionProps) => {
+  const { mode } = useTheme();
+  return (
+    <div
+      className={clsx(
+        'relative ',
+        'overflow-hidden',
+        'flex items-center justify-center',
+        'h-full w-full',
+        className
+      )}
+    >
+      <Polkadots
+        className={clsx(
+          'absolute z-10 ',
+          'h-4/5 w-4/6',
+          'top-6',
+          right && 'right-20',
+          left && 'left-20 ',
+          !right && !left && 'inset-44 rounded-3xl'
+        )}
+      />
+      <div
+        className={clsx(
+          'absolute z-0',
+          'top-0',
+          'h-5/6  w-3/6 ',
+          'drop-shadow-lg',
+          right && 'right-0 rounded-tl-3xl rounded-bl-3xl',
+          left && 'left-0 rounded-tr-3xl rounded-br-3xl',
+          !right && !left && 'inset-44 rounded-3xl',
+          mode === 'light' ? 'bg-gray-300/80' : 'bg-gray-400/30'
+        )}
+      />
+      <div
+        className={clsx(
+          'mx-auto px-4 sm:max-w-screen-sm',
+          'md:max-w-screen-lg ',
+          'lg:max-w-screen-xl',
+          'z-30 '
+        )}
+      >
+        {children}
+      </div>
+    </div>
+  );
+};
 
 export const ShowcaseSection = () => {
   return (
     <HeroWrapper>
-
-    </HeroWrapper>
-  )
-}
-
-
-const Showcase = () => {
-  return (
-    <section
-      className='flex flex-col items-center justify-end'
-      id='showcase-start'
-    >
-      <div className='flex w-full flex-col gap-3  lg:flex-row'>
-        <div className='flex flex-col items-center justify-center  lg:items-start'>
-          <RiBankFill className='mb-2 h-16 w-16' />
-          <Path height={700} className='hidden rotate-180 lg:block' />
-        </div>
-        <div className='w-full'>
-          <div className='mb-6 flex w-full flex-col  items-center lg:mb-0 lg:items-start'>
+      <SectionWrapper className='w-3/5' left>
+        <BlockOfCards className='w-full' />
+      </SectionWrapper>
+      <section className='flex w-2/5 flex-col items-center  gap-6'>
+        <div className='flex items-center  gap-2  w-full'>
+          <RiBankFill className='h-20 w-20' />
+          <div className='flex w-full flex-col  items-center lg:mb-0 lg:items-start'>
             <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
               PersonalFinance
             </h2>
             <h3 className='lg:text-lefts cursor-default text-center text-xl font-normal drop-shadow'>
               will help you organize your bank data
             </h3>
-            <ArrowLink
-              as={ButtonLink}
-              href='/'
-              className={clsx(
-                'py-1 px-3',
-                'rounded text-center',
-                'text-xl lg:my-2'
-              )}
-            >
-              Take a look at Demo version
-            </ArrowLink>
-          </div>
-
-          <div className='my-4 flex h-auto w-full flex-col gap-5 py-3 lg:flex-row'>
-            <BlockOfCards />
-            <section className='flex flex-col items-center py-4'>
-              <ul className='flex flex-col'>
-                {[
-                  'Unlimited number of bank connections',
-                  'Cross-bank data analyze',
-                  'Configurable aggregation of data',
-                  'Custom charts and tools',
-                ].map((perk, i) => (
-                  <li key={i} className='inline-flex items-center gap-3'>
-                    <AiFillCheckSquare className='h-9 w-9' />
-                    <h3>{perk}</h3>
-                  </li>
-                ))}
-              </ul>
-            </section>
           </div>
         </div>
-      </div>
-    </section>
+        <ul className='flex flex-col w-full ml-6'>
+          {[
+            'Unlimited banks connection',
+            'Cross-bank data analyze',
+            'Configurable aggregation of data',
+            'Custom charts and tools',
+          ].map((perk, i) => (
+            <li key={i} className='inline-flex items-center gap-3'>
+              <AiFillCheckSquare className='h-9 w-9' />
+              <strong className='text-xl'>{perk}</strong>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </HeroWrapper>
   );
 };

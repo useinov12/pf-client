@@ -23,7 +23,7 @@ interface ChartData {
   dynamic: number[];
 }
 
-const BlockOfCards = () => {
+const BlockOfCards = ({className}:{className?:string}) => {
   const { mode } = React.useContext(ThemeContext);
   const [chartData, setChartData] = React.useState<ChartData>(skeletonData);
   const [counter, setCounter] = React.useState(-1);
@@ -179,17 +179,18 @@ const BlockOfCards = () => {
   return (
     <div
       className={clsx(
-        'my-4 h-auto w-full lg:my-0 lg:w-3/6',
+        'my-4 h-auto w-full lg:my-0',
         'rounded-xl  p-3 text-dark ',
-        ' ring-white drop-shadow ',
+        ' ring-white drop-shadow-lg ',
         'transition-all duration-300',
         'border',
         mode === 'light'
           ? 'border-dark/5 ring-gray-600/50'
           : 'border-gray-400/70 ring ring-gray-400/50 ',
         mode === 'light'
-          ? 'bg-gray-400/25'
-          : 'bg-gray-700/70 ring ring-gray-700/50'
+          ? 'bg-gray-100'
+          : 'bg-gray-700/90 ring ring-gray-700/50',
+        className
       )}
       ref={pauseRef}
     >
