@@ -3,13 +3,12 @@ import {
   createNewUser as apiCreateNewUser,
   loginUser as apiLoginUser,
   refreshAccessToken as apiRefreshAccessToken,
-} from '../api';
+} from '../api/api';
 import { toast } from 'react-hot-toast';
 import { useQueryClient } from 'react-query';
 import { Storage } from '@/lib/storage';
 import logger from '@/lib/logger';
 import mem from 'mem';
-import { useAuth } from './AuthProvider';
 
 /**
  *  Access react-query `useQueryClient()`*/
@@ -71,16 +70,20 @@ export async function refresh() {
   try {
     const response = await apiRefreshAccessToken();
     logger(response, '✅ REFRESH RESPONSE');
-    return response.data.detail.data;
-    // Storage.set('accessToken', response.data.detail.data.jwt_token)
-    // Storage.set('refreshToken', response.data.detail.data.refresh_token)
+
+    /* save new tokens */
+    Storage.set('accessToken', response.data.data.jwt_token)
+    Storage.set('refreshToken', response.data.data.refresh_token)
+
+    return response.data.data.jwt_token;
   } catch (e: any) {
-    /* if can not refresh -> logout user */
+    /* if can not refresh -> fail request */
     logger(e, '❌ Error refreshing access token');
+    return null;
   }
 }
 
 /**
- * Memoize refresh function to avoid multiple refresh requests.
+ * Memoize `refresh` call to avoid multiple requests
  */
-export const memoizeRefreshTokenFn = mem(refresh, { maxAge: 10000 });
+export const memoizeRefreshTokens = mem(refresh, { maxAge: 10000 });

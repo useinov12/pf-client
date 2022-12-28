@@ -2,13 +2,16 @@ import { useContext } from 'react';
 import clsx from 'clsx';
 import MenuWrapper from '../Menu';
 import { ThemeContext } from '@/context/ThemeProvider';
-import { useAuth } from '@/services/user/AuthProvider';
+import { useAuth } from '@/services/auth/queries';
 import { FiLogOut } from 'react-icons/fi';
 import { FaUserCircle } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { CgMenuGridO } from 'react-icons/cg';
 import MenuHeader from '../MenuHeader';
 import { Menu } from '@headlessui/react';
+import { useCashedClient } from '@/services/auth/actions';
+import { Storage } from '@/lib/storage';
+import { useRouter } from 'next/router';
 
 const UserMenu = () => {
   return (
@@ -24,7 +27,7 @@ const UserMenu = () => {
           <h4>Account</h4>
         </MenuHeader>
         <div className='relative flex  w-full px-4'>
-          <LogoutBtn className='absolute right-4 top-2' />
+          <LogoutButton className='absolute right-4 top-2' />
           <UserProfile withSettings />
         </div>
       </section>
@@ -35,7 +38,7 @@ const UserMenu = () => {
 export default UserMenu;
 
 const UserProfile = ({ withSettings }: { withSettings?: boolean }) => {
-  const { user, handleLogout } = useAuth();
+  const { data:user } = useAuth();
 
   if (!user) return null;
   return (
@@ -46,13 +49,13 @@ const UserProfile = ({ withSettings }: { withSettings?: boolean }) => {
           <h4>{`${user.firstName} ${user?.lastName}`}</h4>
           <p className='text-sm text-gray-500'>{user.username}</p>
         </div>
-        {withSettings && <UserSettingsBtn />}
+        {withSettings && <UserSettingsButton />}
       </div>
     </div>
   );
 };
 
-const UserSettingsBtn = () => {
+const UserSettingsButton = () => {
   const { mode } = useContext(ThemeContext);
   // handle popup
   return (
@@ -69,10 +72,17 @@ const UserSettingsBtn = () => {
   );
 };
 
-const LogoutBtn = ({ className }: { className?: string }) => {
-  const { handleLogout } = useAuth();
+const LogoutButton = ({ className }: { className?: string }) => {
+  const queryClient = useCashedClient()
+  const router = useRouter()
+  
   return (
-    <button className={clsx('text-md', className)} onClick={handleLogout}>
+    <button className={clsx('text-md', className)} onClick={()=>{
+      Storage.clear('accessToken')
+      Storage.clear('refreshToken')
+      queryClient.invalidateQueries('user')
+      router.push('/')
+    }}>
       <div className='inline-flex items-center gap-2'>
         <FiLogOut className='text-3xl ' />
       </div>
@@ -94,7 +104,7 @@ function DropMenu() {
 
       <Menu.Items className='absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
         <Menu.Item>
-          <LogoutBtn />
+          <LogoutButton />
         </Menu.Item>
       </Menu.Items>
     </Menu>

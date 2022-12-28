@@ -1,5 +1,4 @@
-import { AxiosResponse } from 'axios';
-import { apiPrivate, apiPublic } from './axios';
+import { apiPrivate, apiPublic } from './instances';
 import {
   CurrentUserData,
   LinkTokenData,
@@ -9,10 +8,10 @@ import {
   RegisterData,
   RefreshTokenData,
   ConnectedBanksData,
-} from './types';
+} from '../types';
 import { Storage } from '@/lib/storage';
 
-// USER API
+/* USER API */
 export const createNewUser = (credentials: RegisterCredentials) =>
   apiPublic.post<RegisterData>(`/create_user`, credentials);
 
@@ -29,13 +28,13 @@ export const refreshAccessToken = () => {
 
 export const getMe = () => apiPrivate.get<CurrentUserData>(`/user`);
 
-// PLAID API
+/* PLAID API */
 export const exchangePublicToken = (token: { public_token: string }) =>
   apiPrivate.post(`/access_token`, token);
 
 export const getLinkToken = () =>
   apiPrivate.get<LinkTokenData>(`/link/token/create`);
 
-// DATA
+/* DATA API */
 export const getConnectedBanks = () =>
   apiPrivate.get<ConnectedBanksData>('/accounts/get');

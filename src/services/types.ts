@@ -1,16 +1,22 @@
 /* =============== Common ================== */
+
+/* backend response format */
 type Response<T> = {
   detail: {
     message: string;
     data: T;
   };
 };
+
+/* tokens response format */
 type Tokens = {
   access_token: string;
   refresh_token: string;
   refresh_token_type: 'bearer';
   token_type: 'bearer';
 };
+
+/* user data response format */
 type UserData = {
   username: string;
   password: string;
@@ -35,13 +41,19 @@ export type RefreshData = {
   jwt_token: string;
   refresh_token: string;
 };
-export type RefreshTokenData = Response<RefreshData>;
+// export type RefreshTokenData = Response<RefreshData>;
+/* temporary while backend refactoring */
+export type RefreshTokenData = {
+  message: string;
+  data: RefreshData;
+};
 
 export type UserInContext = {
   firstName: string;
   lastName: string;
   username: string;
 };
+
 
 /* ================== Plaid ================== */
 export type LinkTokenData = Response<string>;
@@ -60,6 +72,7 @@ export type ConnectedBanks = Record<BankName, Account[]>;
 
 export type ConnectedBanksData = Response<ConnectedBanks>;
 
+/* example */
 const banks: ConnectedBanks = {
   'Navy Federal': [
     {

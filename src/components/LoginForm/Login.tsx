@@ -1,22 +1,24 @@
-import React, { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { isValidEmailInput } from '@/lib/form.validation';
+import { isValidEmailInput } from '@/lib/formValidation';
 import toast from 'react-hot-toast';
-import { login, useCashedClient } from '@/services/user/actions';
+import { login, useCashedClient } from '@/services/auth/actions';
 import logger from '@/lib/logger';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/services/user/AuthProvider';
+import { useAuth } from '@/services/auth/queries';
+import { useLoginForm } from '@/context/LoginFormProvider';
+import { getRedirect, clearRedirect } from '@/lib/lastRedirect';
 
 function Login({ className }: { className?: string }) {
-  // const { isLoading } = useAuth();
   return <Form className={className} />;
 }
 
 function Form({ className }: { className?: string }) {
-  const QueryClient = useCashedClient();
+  const queryClient = useCashedClient();
   const router = useRouter();
-  const { getRedirect, clearRedirect, isSuccess } = useAuth();
+  const { isSuccess, isLoading, data: user , refetch} = useAuth();
+  const { handleOpenLoginForm } = useLoginForm();
 
   const [formInputs, setFormInputs] = useState({ username: '', password: '' });
   const { username, password } = formInputs;
@@ -28,11 +30,11 @@ function Form({ className }: { className?: string }) {
     });
   }
 
-  async function onLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function onLoginSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!isValidEmailInput(username)) {
-      toast.error('Invalid email address!');
+      toast.error('Enter valid email address');
       return;
     }
 
@@ -41,16 +43,25 @@ function Form({ className }: { className?: string }) {
 
     if (status === 200) {
       /* invalidate query to trigger update cashed user */
-      QueryClient.invalidateQueries('user');
-
-      const lastVisited = getRedirect();
-
-      if (lastVisited) {
-        router.push(lastVisited);
-        clearRedirect();
-      } else router.push('/cabinet');
+      queryClient.invalidateQueries(['user']);
+      refetch();
+    handleOpenLoginForm();
     }
   }
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (user) {
+        const lastVisited = getRedirect();
+
+        if (lastVisited) {
+          router.push(lastVisited);
+          clearRedirect();
+        } else router.push('/cabinet');
+        logger({}, '⚪️ Redirect triggered');
+      }
+    }
+  }, [router, getRedirect, clearRedirect, isLoading, user]);
 
   return (
     <form
