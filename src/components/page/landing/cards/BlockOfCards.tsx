@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
-import Card from './Card';
+// import Card from './Card';
 import PieChart from '../../../charts/PieChart';
 import LineChart from '../../../charts/LineChart';
 import BarChart from '../../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import { ThemeContext } from '@/context/ThemeProvider';
+import { ThemeContext, useTheme } from '@/context/ThemeProvider';
 import '@/lib/swapText';
 import { IncomingData } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
@@ -23,7 +23,7 @@ interface ChartData {
   dynamic: number[];
 }
 
-const BlockOfCards = ({className}:{className?:string}) => {
+const BlockOfCards = ({ className }: { className?: string }) => {
   const { mode } = React.useContext(ThemeContext);
   const [chartData, setChartData] = React.useState<ChartData>(skeletonData);
   const [counter, setCounter] = React.useState(-1);
@@ -180,22 +180,18 @@ const BlockOfCards = ({className}:{className?:string}) => {
     <div
       className={clsx(
         'my-4 h-auto w-full lg:my-0',
-        'rounded-xl  p-3 text-dark ',
+        'rounded-xl  p-3 ',
         ' ring-white drop-shadow-lg ',
         'transition-all duration-300',
         'border',
-        mode === 'light'
-          ? 'border-dark/5 ring-gray-600/50'
-          : 'border-gray-400/70 ring ring-gray-400/50 ',
-        mode === 'light'
-          ? 'bg-gray-100'
-          : 'bg-gray-700/90 ring ring-gray-700/50',
+        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-100' : 'bg-gray-900',
         className
       )}
       ref={pauseRef}
     >
       <header>
-        <div className='mb-2 ml-2 inline-flex items-center gap-2'>
+        <div className='my-3 ml-2 inline-flex items-center gap-2'>
           <div className='h-3 w-3 rounded-full bg-red-500/90 drop-shadow ' />
           <div className='h-3 w-3 rounded-full bg-yellow-400/90 drop-shadow ' />
           <div className='h-3 w-3 rounded-full bg-green-400/90 drop-shadow ' />
@@ -232,7 +228,28 @@ const BlockOfCards = ({className}:{className?:string}) => {
 
 export default BlockOfCards;
 
+type SectionProps = { className?: string; children?: ReactNode };
+
+const Card = ({ className, children }: SectionProps) => {
+  const { mode } = useTheme();
+  return (
+    <div
+      className={clsx(
+        'rounded ',
+        'py-1 px-1',
+        'border',
+        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50',
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
+
 /* #region  BANK CARD */
+
 const BankCard = ({
   chartData,
   bankNameRef,
@@ -242,31 +259,23 @@ const BankCard = ({
   bankNameRef: React.RefObject<HTMLDivElement>;
   bankTotalRef: React.RefObject<HTMLDivElement>;
 }) => {
+  const dataWithSkeleton = [data[0], data[1], null, data[2], null];
+
   return (
-    <Card className='col-span-4 col-start-1 w-full' inner>
-      {/* <section className='flex flex-col justify-between py-1 px-4 sm:flex-row'> */}
+    <Card className='col-span-4 col-start-1 w-full overflow-hidden'>
       <section className='flex flex-col justify-between py-1 px-4 '>
-        {/* <div className='mb-3 flex flex-col justify-start sm:mb-0 sm:w-1/2'> */}
-        <div className='mb-3 flex flex-col items-start justify-start'>
+        <div className='mb-3 flex flex-col items-start justify-start gap-2'>
           <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
-            Connected Banks:
+            Connected Banks
           </h6>
-          <ul className='flex w-full flex-wrap'>
-            {data.map(({ bank }) => (
-              <li
-                key={bank}
-                className={clsx(
-                  'drop-shadow-md transition-all duration-200',
-                  'my-1 mr-2 rounded-md border-2 border-gray-300 px-2 py-1 ',
-                  bank === chartData.bank
-                    ? 'ring-4 ring-sky-500'
-                    : 'ring-4 ring-transparent'
-                )}
-              >
-                <h6 className='whitespace-nowrap font-serif text-sm drop-shadow-md'>
-                  {bank}
-                </h6>
-              </li>
+
+          <ul className='flex w-[25rem] flex-wrap gap-1'>
+            {dataWithSkeleton.map((data, i) => (
+              <BankChip
+                key={data ? data.bank : i}
+                bank={data ? data.bank : null}
+                chartData={chartData}
+              />
             ))}
           </ul>
         </div>
@@ -275,18 +284,8 @@ const BankCard = ({
           className='flex flex-col items-center 
           justify-center rounded  '
         >
-          <h3
-            className='whitespace-nowrap font-serif text-lg 
-          font-normal uppercase drop-shadow-md'
-            ref={bankNameRef}
-          >
-            xxxxxxx
-          </h3>
-          <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-300 ' />
-
-          <div className='flex w-5/6 items-baseline justify-center  gap-3'>
+          <div className='flex w-5/6 items-baseline justify-between px-3'>
             <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
-
             <div className='mt-2 flex items-center justify-start gap-5'>
               <h2 className='font-mono text-3xl font-normal drop-shadow-md'>
                 $
@@ -299,9 +298,48 @@ const BankCard = ({
               </h2>
             </div>
           </div>
+          <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-400 ' />
+          <h3
+            className='whitespace-nowrap font-serif text-xl 
+              font-normal uppercase drop-shadow-md'
+            ref={bankNameRef}
+          >
+            xxxxxxx
+          </h3>
         </div>
       </section>
     </Card>
+  );
+};
+
+const BankChip = ({
+  bank,
+  chartData,
+}: {
+  bank: string | null;
+  chartData: ChartData;
+}) => {
+  const { mode } = useTheme();
+  return (
+    <li
+      className={clsx(
+        'drop-shadow-md transition-all duration-200',
+        'rounded-md border px-2 py-1 ',
+        mode === 'light'
+          ? 'border-dark/50 bg-gray-400/50'
+          : 'border-gray-400/50 bg-gray-700/50',
+
+        bank === chartData.bank
+          ? 'border-transparent ring-2 ring-sky-500'
+          : 'ring-2 ring-transparent'
+      )}
+    >
+      {bank ? (
+        <h6 className='whitespace-nowrap text-sm drop-shadow-md'>{bank}</h6>
+      ) : (
+        <h6 className='cursor-default text-sm opacity-0'>skeleton-skeleton</h6>
+      )}
+    </li>
   );
 };
 /* #endregion */
@@ -316,71 +354,36 @@ const SummaryCard = ({
   summaryAccTypeRef: React.MutableRefObject<any[]>;
   summaryAccSumRef: React.MutableRefObject<any[]>;
 }) => {
+  const accountSums = chartData.accounts.map(({ sum }) => sum);
+  const accountTypes = chartData.accounts.map(({ type }) => type);
 
-
-  const accountSums = chartData.accounts.map(({ sum }) => sum)
-  const accountTypes = chartData.accounts.map(({ type }) => type)
-
-  const data:IncomingData = {
+  const data: IncomingData = {
     labels: accountTypes,
     label: '',
     data: [accountSums],
-  }
-
+  };
 
   return (
-    <Card
-      className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block '
-      inner
-    >
-      <div className='flex flex-col items-center px-4 py-1'>
-        <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
-          Summary
-        </h3>
+    <Card className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block '>
+      <div className='flex flex-col items-start px-4 py-1'>
+        <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>Accounts</h6>
 
         <div className='flex  w-full  items-center justify-between'>
-          <div className='flex w-2/6 justify-center'>
-            <div className='h-full w-1/2 text-center'>
-              <PieChart
-                radius='30'
-                incomingData={data}
-                delay={1600}
-              />
+          <div className='flex w-2/3 justify-start'>
+            <div className='h-full w-5/6 '>
+              <PieChart incomingData={data} delay={1600} />
             </div>
           </div>
-          <ul className='flex w-5/6 flex-col items-start self-start sm:w-4/6'>
+
+          <ul className='flex w-1/3 flex-col items-start gap-1 self-start sm:w-4/6'>
             {chartData.accounts.map(({ type, sum }, i) => (
-              <li
-                className='my-[2px] flex w-full items-center justify-between 
-              border-b border-gray-400 px-2 drop-shadow-sm'
+              <SummaryData
                 key={`summary-${i}`}
-              >
-                <div className='inline-flex items-center gap-2'>
-                  <span
-                    className={clsx(
-                      'h-2 w-2  rounded-full',
-                      i === 0
-                        ? 'bg-stone-300'
-                        : i === 1
-                        ? 'bg-stone-500'
-                        : 'bg-stone-700'
-                    )}
-                  />
-                  <h6
-                    className='sm:text-md font-mono text-sm font-normal opacity-0 '
-                    ref={(el) => (summaryAccTypeRef.current[i] = el)}
-                  >
-                    {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
-                  </h6>
-                </div>
-                <div className='flex w-24 items-center justify-between'>
-                  <h6 className='ml-3 font-mono font-normal'>$</h6>
-                  <h6
-                    className='text-md font-mono font-normal uppercase'
-                    ref={(el) => (summaryAccSumRef.current[i] = el)}
-                  />
-                </div>
-              </li>
+                chartData={chartData}
+                summaryAccTypeRef={summaryAccTypeRef}
+                summaryAccSumRef={summaryAccSumRef}
+                i={i}
+              />
             ))}
           </ul>
         </div>
@@ -389,26 +392,73 @@ const SummaryCard = ({
   );
 };
 
+const SummaryData = ({
+  chartData,
+  summaryAccTypeRef,
+  summaryAccSumRef,
+  i,
+}: {
+  chartData: ChartData;
+  summaryAccTypeRef: React.MutableRefObject<any[]>;
+  summaryAccSumRef: React.MutableRefObject<any[]>;
+  i: number;
+}) => {
+  const { mode } = useTheme();
+  return (
+    <li
+      className={clsx(
+        'flex w-full items-center justify-between',
+        'rounded border px-2',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+      )}
+    >
+      <div className='inline-flex items-center gap-2'>
+        <span
+          className={clsx(
+            'h-3 w-3  rounded-full',
+            i === 0 ? 'bg-stone-300' : i === 1 ? 'bg-stone-500' : 'bg-stone-700'
+          )}
+        />
+        <h6
+          className='sm:text-md font-mono text-sm font-normal opacity-0 '
+          ref={(el) => (summaryAccTypeRef.current[i] = el)}
+        >
+          {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
+        </h6>
+      </div>
+      <div className='flex w-24 items-center justify-between'>
+        <h6 className='ml-3 font-mono font-normal'>$</h6>
+        <h6
+          className='text-md font-mono font-normal uppercase'
+          ref={(el) => (summaryAccSumRef.current[i] = el)}
+        />
+      </div>
+    </li>
+  );
+};
+
 /* #endregion */
 
 /* #region  CHART CARD */
 const ChartCard = ({ chartData }: { chartData: ChartData }) => {
+  const dataset = chartData.dynamic;
+  const labels = months
+    .filter((month, i) => i < dataset.length)
+    .map((month) => month.slice(0, 3));
 
-  const dataset = chartData.dynamic
-  const labels = months.filter((month, i) => i < dataset.length).map((month) => month.slice(0, 3))
-
-  const data:IncomingData = {
+  const data: IncomingData = {
     labels: labels,
-    label:'Account dynamic',
-    data:[dataset]
-  }
+    label: 'Account dynamic',
+    data: [dataset],
+  };
 
   return (
-    <Card inner className='col-span-4 col-start-1 row-span-3 md:col-span-2'>
-      <div className='flex flex-col items-center'>
-        <h4 className='py-2 font-serif text-lg font-normal uppercase'>
+    <Card className='col-span-4 col-start-1 row-span-3 md:col-span-2'>
+      <div className='flex flex-col items-start'>
+        <h6 className='mb-1 px-4 py-1 text-sm font-semibold drop-shadow-md'>
           Charts
-        </h4>
+        </h6>
 
         <div className='flex h-full w-full flex-col items-center justify-center '>
           <div className='h-20 w-5/6'>
@@ -446,46 +496,23 @@ const TransactionsCard = ({
   transactionsTotalRef: React.MutableRefObject<any>;
 }) => {
   return (
-    <Card
-      className='col-span-2 col-start-3 row-span-3 row-start-5 hidden w-full md:block'
-      inner
-    >
-      <div className='flex flex-col items-center justify-start px-2 text-center'>
-        <h3 className='py-2 font-serif  text-lg font-normal uppercase drop-shadow-md'>
-          Transactions
-        </h3>
+    <Card className='col-span-2 col-start-3 row-span-3 row-start-5 hidden w-full md:block'>
+      <div className='flex flex-col items-start justify-start gap-3 px-4 py-1'>
+        <h6 className='text-sm font-semibold drop-shadow-md'>Transactions</h6>
 
-        <ul className='flex w-5/6 flex-col '>
-          {chartData.transactions.map((number, i) => (
-            <li
-              className='mb-1 flex items-center justify-between
-            border-b border-gray-400'
-              key={i}
-            >
-              <h6 className='text-md font-serif font-normal drop-shadow-md'>
-                #{i + 1}
-              </h6>
-              <div
-                className={clsx(
-                  'flex w-20 items-center justify-between rounded'
-                )}
-              >
-                <h6 className='ml-3 font-mono font-normal drop-shadow-md'>$</h6>
-                <h6
-                  className=' transactions text-left font-mono font-normal drop-shadow-md'
-                  ref={(el) => (transactionsRef.current[i] = el)}
-                >
-                  {number}
-                </h6>
-              </div>
-            </li>
+        <ul className='flex w-5/6 flex-col gap-1'>
+          {chartData.transactions.map((amount, i) => (
+            <TransactionItem
+              transactionsRef={transactionsRef}
+              amount={amount}
+              key={`${amount}`}
+              i={i}
+            />
           ))}
         </ul>
 
-        <li className='my-2 mb-1 flex w-5/6 justify-between'>
-          <h6 className='font-serif text-lg font-normal drop-shadow-md'>
-            TOTAL
-          </h6>
+        <li className='my-2 mb-1 flex w-5/6 items-center justify-between px-1'>
+          <h4 className='text-center text-sm drop-shadow-md'>Total:</h4>
           <div className='flex items-center justify-start'>
             <h6 className='font-mono text-xl font-normal drop-shadow-md'>$</h6>
             <h6
@@ -500,6 +527,42 @@ const TransactionsCard = ({
     </Card>
   );
 };
+
+const TransactionItem = ({
+  transactionsRef,
+  amount,
+  i,
+}: {
+  transactionsRef: React.MutableRefObject<any[]>;
+  amount: number;
+  i: number;
+}) => {
+  const { mode } = useTheme();
+  return (
+    <li
+      className={clsx(
+        'flex w-full items-center justify-between',
+        'rounded border px-2',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+      )}
+    >
+      <h6 className='text-md font-serif font-normal drop-shadow-md'>
+        #{i + 1}
+      </h6>
+      <div className={clsx('flex w-20 items-center justify-between rounded')}>
+        <h6 className='ml-3 font-mono font-normal drop-shadow-md'>$</h6>
+        <h6
+          className=' transactions text-left font-mono font-normal drop-shadow-md'
+          ref={(el) => (transactionsRef.current[i] = el)}
+        >
+          {amount}
+        </h6>
+      </div>
+    </li>
+  );
+};
+
 /* #endregion */
 
 /* #region  Gsap swap text effect */
@@ -533,7 +596,7 @@ function countTransTotal(index: number) {
 /* #region  Data */
 const skeletonData = {
   bank: 'XXXX XXX XXXX',
-  transactions: [0, 0, 0, 0, 0, 0, 0],
+  transactions: [],
   accounts: [
     { type: 'XXXXXX', sum: 10 },
     { type: 'XXXXXX', sum: 10 },
@@ -545,7 +608,7 @@ const skeletonData = {
 const data = [
   {
     bank: 'Capital One',
-    transactions: [-403, -28, -159],
+    transactions: [-403, -28, -159, 120],
     accounts: [
       { type: 'Credit', sum: -2200 },
       { type: 'Saving', sum: 5000 },
@@ -555,7 +618,7 @@ const data = [
   },
   {
     bank: 'Bank of America',
-    transactions: [-23, -17, -85],
+    transactions: [-23, -17, -85, 50],
     accounts: [
       { type: 'Checking', sum: 4200 },
       { type: 'Saving', sum: 9700 },
@@ -565,7 +628,7 @@ const data = [
   },
   {
     bank: 'American Express',
-    transactions: [-120, -500, 297],
+    transactions: [-120, -500, 297, 1700],
     accounts: [
       { type: 'Saving', sum: 12000 },
       { type: 'Checking-1', sum: 2700 },
