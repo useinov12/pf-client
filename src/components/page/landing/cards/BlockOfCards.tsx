@@ -1,15 +1,20 @@
 import React, { ReactNode } from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
-// import Card from './Card';
 import PieChart from '../../../charts/PieChart';
 import LineChart from '../../../charts/LineChart';
 import BarChart from '../../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { ThemeContext, useTheme } from '@/context/ThemeProvider';
-import '@/lib/swapText';
 import { IncomingData } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
+import '@/lib/swapText';
+
+import { FaChartPie } from 'react-icons/fa';
+import { BsPiggyBankFill } from 'react-icons/bs';
+import { MdSwitchAccount } from 'react-icons/md';
+import { FaRegChartBar } from 'react-icons/fa';
+import { CgArrowsExchange } from 'react-icons/cg';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -198,8 +203,8 @@ const BlockOfCards = ({ className }: { className?: string }) => {
         </div>
       </header>
 
-      <section className='flex flex-col gap-2 md:flex-row'>
-        <div className='flex flex-col gap-y-2 md:w-1/2'>
+      <section className='flex flex-col gap-3 md:flex-row'>
+        <div className='flex flex-col gap-y-3 md:w-1/2'>
           <BankCard
             chartData={chartData}
             bankNameRef={bankNameRef}
@@ -213,7 +218,7 @@ const BlockOfCards = ({ className }: { className?: string }) => {
           />
         </div>
 
-        <div className='flex flex-col gap-y-2 md:w-1/2'>
+        <div className='flex flex-col gap-y-3 md:w-1/2'>
           <SummaryCard
             chartData={chartData}
             summaryAccTypeRef={summaryAccSumRef}
@@ -235,8 +240,7 @@ const Card = ({ className, children }: SectionProps) => {
   return (
     <div
       className={clsx(
-        'rounded ',
-        'py-1 px-1',
+        'rounded overflow-hidden',
         'border',
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50',
@@ -263,13 +267,22 @@ const BankCard = ({
 
   return (
     <Card className='col-span-4 col-start-1 w-full overflow-hidden'>
+      <header
+        className={clsx(
+          'bg-gray-600/50',
+          'mb-2 w-full px-4 py-1',
+          'inline-flex items-center gap-1'
+        )}
+      >
+        <BsPiggyBankFill className='h-6 w-6' />
+        <h6 className='text-sm font-semibold drop-shadow-md'>
+          Connected Banks
+        </h6>
+      </header>
+
       <section className='flex flex-col justify-between py-1 px-4 '>
         <div className='mb-3 flex flex-col items-start justify-start gap-2'>
-          <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>
-            Connected Banks
-          </h6>
-
-          <ul className='flex w-[25rem] flex-wrap gap-1'>
+          <ul className='flex w-[28rem] flex-wrap gap-[6px]'>
             {dataWithSkeleton.map((data, i) => (
               <BankChip
                 key={data ? data.bank : i}
@@ -324,18 +337,18 @@ const BankChip = ({
     <li
       className={clsx(
         'drop-shadow-md transition-all duration-200',
-        'rounded-md border px-2 py-1 ',
-        mode === 'light'
-          ? 'border-dark/50 bg-gray-400/50'
-          : 'border-gray-400/50 bg-gray-700/50',
+        'rounded-md border px-3 py-1 ',
+        mode === 'light' ? 'border-dark/50 ' : 'border-gray-400/50 ',
 
         bank === chartData.bank
-          ? 'border-transparent ring-2 ring-sky-500'
-          : 'ring-2 ring-transparent'
+          ? 'border-transparent bg-sky-500 text-white ring-4 ring-sky-600'
+          : 'bg-gray-600/30 ring-4 ring-transparent'
       )}
     >
       {bank ? (
-        <h6 className='whitespace-nowrap text-sm drop-shadow-md'>{bank}</h6>
+        <h6 className='whitespace-nowrap text-sm font-semibold drop-shadow-md'>
+          {bank}
+        </h6>
       ) : (
         <h6 className='cursor-default text-sm opacity-0'>skeleton-skeleton</h6>
       )}
@@ -365,16 +378,18 @@ const SummaryCard = ({
 
   return (
     <Card className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block '>
+      <header
+        className={clsx(
+          'bg-gray-600/50',
+          'mb-2 w-full px-4 py-1',
+          'inline-flex items-center gap-1'
+        )}
+      >
+        <MdSwitchAccount className='h-6 w-6' />
+        <h6 className='text-sm font-semibold drop-shadow-md'>Accounts</h6>
+      </header>
       <div className='flex flex-col items-start px-4 py-1'>
-        <h6 className='mb-1 text-sm font-semibold drop-shadow-md'>Accounts</h6>
-
         <div className='flex  w-full  items-center justify-between'>
-          <div className='flex w-2/3 justify-start'>
-            <div className='h-full w-5/6 '>
-              <PieChart incomingData={data} delay={1600} />
-            </div>
-          </div>
-
           <ul className='flex w-1/3 flex-col items-start gap-1 self-start sm:w-4/6'>
             {chartData.accounts.map(({ type, sum }, i) => (
               <SummaryData
@@ -386,6 +401,12 @@ const SummaryCard = ({
               />
             ))}
           </ul>
+
+          <div className='flex w-2/3 justify-end'>
+            <div className='h-full w-5/6'>
+              <PieChart incomingData={data} delay={1600} />
+            </div>
+          </div>
         </div>
       </div>
     </Card>
@@ -455,11 +476,17 @@ const ChartCard = ({ chartData }: { chartData: ChartData }) => {
 
   return (
     <Card className='col-span-4 col-start-1 row-span-3 md:col-span-2'>
+      <header
+        className={clsx(
+          'bg-gray-600/50',
+          'mb-2 w-full px-4 py-1',
+          'inline-flex items-center gap-1'
+        )}
+      >
+        <FaRegChartBar className='h-6 w-6' />
+        <h6 className='text-sm font-semibold drop-shadow-md'>Charts</h6>
+      </header>
       <div className='flex flex-col items-start'>
-        <h6 className='mb-1 px-4 py-1 text-sm font-semibold drop-shadow-md'>
-          Charts
-        </h6>
-
         <div className='flex h-full w-full flex-col items-center justify-center '>
           <div className='h-20 w-5/6'>
             <LineChart
@@ -497,8 +524,17 @@ const TransactionsCard = ({
 }) => {
   return (
     <Card className='col-span-2 col-start-3 row-span-3 row-start-5 hidden w-full md:block'>
-      <div className='flex flex-col items-start justify-start gap-3 px-4 py-1'>
+      <header
+        className={clsx(
+          'bg-gray-600/50',
+          'mb-2 w-full px-4 py-1',
+          'inline-flex items-center gap-1'
+        )}
+      >
+        <CgArrowsExchange className='h-6 w-6' />
         <h6 className='text-sm font-semibold drop-shadow-md'>Transactions</h6>
+      </header>
+      <div className='flex flex-col items-start justify-start gap-3 px-4 py-1'>
 
         <ul className='flex w-5/6 flex-col gap-1'>
           {chartData.transactions.map((amount, i) => (
