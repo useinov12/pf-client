@@ -1,58 +1,53 @@
-import React, { ReactNode } from 'react';
+import {
+  MutableRefObject,
+  ReactNode,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
-import PieChart from '../../../charts/PieChart';
-import LineChart from '../../../charts/LineChart';
-import BarChart from '../../../charts/BarChart';
+import PieChart from '../../../../charts/PieChart';
+import LineChart from '../../../../charts/LineChart';
+import BarChart from '../../../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { ThemeContext, useTheme } from '@/context/ThemeProvider';
 import { IncomingData } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
 import '@/lib/swapText';
 
-import { FaChartPie } from 'react-icons/fa';
-import { BsPiggyBankFill } from 'react-icons/bs';
 import { MdSwitchAccount } from 'react-icons/md';
 import { FaRegChartBar } from 'react-icons/fa';
 import { CgArrowsExchange } from 'react-icons/cg';
 
+import Banks from './Banks';
+
 gsap.registerPlugin(ScrollTrigger);
 
-interface ChartData {
-  bank: string;
-  transactions: number[];
-  accounts: {
-    type: string;
-    sum: number;
-  }[];
-  dynamic: number[];
-}
+export default function DemoCard({ className }: { className?: string }) {
+  const { mode } = useContext(ThemeContext);
+  const [currentBank, setCurrentBank] = useState<DemoData>(demoDataCollection[0]);
+  const [counter, setCounter] = useState(0);
 
-const BlockOfCards = ({ className }: { className?: string }) => {
-  const { mode } = React.useContext(ThemeContext);
-  const [chartData, setChartData] = React.useState<ChartData>(skeletonData);
-  const [counter, setCounter] = React.useState(-1);
+  const prevCountRef = useRef(counter);
 
-  const prevCountRef = React.useRef(counter);
-
-  const firstTimeline = React.useRef(gsap.timeline());
+  const firstTimeline = useRef(gsap.timeline());
 
   /* #region  Animated elements refs */
-  const bankNameRef = React.useRef<HTMLDivElement>(null);
-  const bankTotalRef = React.useRef<HTMLDivElement>(null);
 
-  const pauseRef = React.useRef<HTMLDivElement>(null);
+  const pauseRef = useRef<HTMLDivElement>(null);
 
-  const transactionsRef = React.useRef(new Array(7));
-  const transactionsTotalRef = React.useRef<HTMLDivElement>(null);
+  const transactionsRef = useRef(new Array(7));
+  const transactionsTotalRef = useRef<HTMLDivElement>(null);
 
-  const summaryAccTypeRef = React.useRef(new Array(3));
-  const summaryAccSumRef = React.useRef(new Array(3));
+  const summaryAccTypeRef = useRef(new Array(3));
+  const summaryAccSumRef = useRef(new Array(3));
   /* #endregion */
 
   /* #region  Timer */
   /** Update counter every x seconds */
-  React.useEffect(() => {
+  useEffect(() => {
     //if initial load - delay animation for 1.5 sec
     const delay = counter === -1 ? 1500 : 7400;
 
@@ -67,66 +62,42 @@ const BlockOfCards = ({ className }: { className?: string }) => {
    * On counter update, iterate Data
    * if counter === -1 -> it is initial render, do not update state
    */
-  React.useEffect(() => {
+  useEffect(() => {
     if (counter !== -1) {
-      setChartData(data[counter]);
+      setCurrentBank(demoDataCollection[counter]);
     }
   }, [counter]);
   /* #endregion */
 
   /* #region  Animation Sequence */
-  React.useEffect(() => {
+  useEffect(() => {
     gsap.ticker.lagSmoothing(false);
     if (counter !== -1) {
       /* #region  BANK NAME  */
-      firstTimeline.current.swapText(bankNameRef.current, {
-        text: chartData.bank,
-        delay: 0.5,
-        duration: 0.3,
-      });
-      /* #endregion */
 
-      /* #region  BANK TOTAL Total */
-      const previousTotal =
-        counter === 0 ? countTotal(2) : countTotal(counter - 1);
-      firstTimeline.current.fromTo(
-        bankTotalRef.current,
-        { textContent: prevCountRef.current === -1 ? 0 : previousTotal },
-        {
-          textContent: countTotal(counter),
-          duration: 0.7,
-          ease: 'ease.in',
-          snap: { textContent: 100 },
-          delay: 0.2,
-        }
-      );
       /* #endregion */
 
       /* #region  SUMMARY CARD */
       const wrapCurrentAccTypes = gsap.utils.wrap(
-        chartData.accounts.map((el) => el.type)
+        currentBank.accounts.map((el) => el.type)
       );
 
-      //animate account types
-      firstTimeline.current.fromTo(
-        summaryAccTypeRef.current,
-        { textContent: wrapCurrentAccTypes, opacity: 0 },
-        {
-          textContent: wrapCurrentAccTypes,
-          opacity: 1,
-          stagger: 0.2,
-          duration: 0.2,
-          delay: 0.2,
-        }
-      );
+      const accountTypes = currentBank.accounts.map((el) => el.type);
+
+      // animate account types
+      // firstTimeline.current.swapText(summaryAccTypeRef.current, {
+      //   text: wrapCurrentAccTypes,
+      //   delay: 0.5,
+      //   duration: 0.3,
+      // });
 
       const previousAccSums =
-        counter === 0 ? data[2].accounts : data[counter - 1].accounts;
+        counter === 0 ? demoDataCollection[2].accounts : demoDataCollection[counter - 1].accounts;
       const wrapPreviousAccSums = gsap.utils.wrap(
         previousAccSums.map((el) => el.sum)
       );
       const wrapCurrentAccSums = gsap.utils.wrap(
-        chartData.accounts.map((el) => el.sum)
+        currentBank.accounts.map((el) => el.sum)
       );
 
       //animate account sums
@@ -146,9 +117,9 @@ const BlockOfCards = ({ className }: { className?: string }) => {
 
       /* #region  TRANSACTONS LIST */
       const previousTransactions =
-        counter === 0 ? data[2].transactions : data[counter - 1].transactions;
+        counter === 0 ? demoDataCollection[2].transactions : demoDataCollection[counter - 1].transactions;
       const wrapPrevious = gsap.utils.wrap(previousTransactions);
-      const wrapCurrent = gsap.utils.wrap(chartData.transactions);
+      const wrapCurrent = gsap.utils.wrap(currentBank.transactions);
 
       firstTimeline.current.fromTo(
         transactionsRef.current,
@@ -178,7 +149,7 @@ const BlockOfCards = ({ className }: { className?: string }) => {
       );
       /* #endregion */
     }
-  }, [chartData]);
+  }, [currentBank]);
   /* #endregion */
 
   return (
@@ -205,42 +176,40 @@ const BlockOfCards = ({ className }: { className?: string }) => {
 
       <section className='flex flex-col gap-3 md:flex-row'>
         <div className='flex flex-col gap-y-3 md:w-1/2'>
-          <BankCard
-            chartData={chartData}
-            bankNameRef={bankNameRef}
-            bankTotalRef={bankTotalRef}
+          <Banks
+            currentBank={currentBank}
+            counter={counter}
+            prevCounter={prevCountRef.current}
+            masterTimeline={firstTimeline}
           />
-
-          <TransactionsCard
-            chartData={chartData}
-            transactionsRef={transactionsRef}
-            transactionsTotalRef={transactionsTotalRef}
+          <SummaryCard
+            chartData={currentBank}
+            summaryAccTypeRef={summaryAccSumRef}
+            summaryAccSumRef={summaryAccSumRef}
           />
         </div>
 
         <div className='flex flex-col gap-y-3 md:w-1/2'>
-          <SummaryCard
-            chartData={chartData}
-            summaryAccTypeRef={summaryAccSumRef}
-            summaryAccSumRef={summaryAccSumRef}
+          <TransactionsCard
+            chartData={currentBank}
+            transactionsRef={transactionsRef}
+            transactionsTotalRef={transactionsTotalRef}
           />
-          <ChartCard chartData={chartData} />
+          <ChartCard chartData={currentBank} />
         </div>
       </section>
     </div>
   );
-};
-
-export default BlockOfCards;
+}
 
 type SectionProps = { className?: string; children?: ReactNode };
 
-const Card = ({ className, children }: SectionProps) => {
+export const Card = ({ className, children }: SectionProps) => {
   const { mode } = useTheme();
   return (
     <div
       className={clsx(
-        'rounded overflow-hidden',
+        'overflow-hidden rounded',
         'border',
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50',
@@ -252,121 +221,18 @@ const Card = ({ className, children }: SectionProps) => {
   );
 };
 
-/* #region  BANK CARD */
-
-const BankCard = ({
-  chartData,
-  bankNameRef,
-  bankTotalRef,
-}: {
-  chartData: ChartData;
-  bankNameRef: React.RefObject<HTMLDivElement>;
-  bankTotalRef: React.RefObject<HTMLDivElement>;
-}) => {
-  const dataWithSkeleton = [data[0], data[1], null, data[2], null];
-
-  return (
-    <Card className='col-span-4 col-start-1 w-full overflow-hidden'>
-      <header
-        className={clsx(
-          'bg-gray-600/50',
-          'mb-2 w-full px-4 py-1',
-          'inline-flex items-center gap-1'
-        )}
-      >
-        <BsPiggyBankFill className='h-6 w-6' />
-        <h6 className='text-sm font-semibold drop-shadow-md'>
-          Connected Banks
-        </h6>
-      </header>
-
-      <section className='flex flex-col justify-between py-1 px-4 '>
-        <div className='mb-3 flex flex-col items-start justify-start gap-2'>
-          <ul className='flex w-[28rem] flex-wrap gap-[6px]'>
-            {dataWithSkeleton.map((data, i) => (
-              <BankChip
-                key={data ? data.bank : i}
-                bank={data ? data.bank : null}
-                chartData={chartData}
-              />
-            ))}
-          </ul>
-        </div>
-
-        <div
-          className='flex flex-col items-center 
-          justify-center rounded  '
-        >
-          <div className='flex w-5/6 items-baseline justify-between px-3'>
-            <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
-            <div className='mt-2 flex items-center justify-start gap-5'>
-              <h2 className='font-mono text-3xl font-normal drop-shadow-md'>
-                $
-              </h2>
-              <h2
-                className=' font-mono text-2xl font-light uppercase drop-shadow-md'
-                ref={bankTotalRef}
-              >
-                {chartData.bank === 'XXXX XXX XXXX' ? '0' : ''}
-              </h2>
-            </div>
-          </div>
-          <div className='mb-1 h-[2px] w-5/6 self-center rounded bg-gray-400 ' />
-          <h3
-            className='whitespace-nowrap font-serif text-xl 
-              font-normal uppercase drop-shadow-md'
-            ref={bankNameRef}
-          >
-            xxxxxxx
-          </h3>
-        </div>
-      </section>
-    </Card>
-  );
-};
-
-const BankChip = ({
-  bank,
-  chartData,
-}: {
-  bank: string | null;
-  chartData: ChartData;
-}) => {
-  const { mode } = useTheme();
-  return (
-    <li
-      className={clsx(
-        'drop-shadow-md transition-all duration-200',
-        'rounded-md border px-3 py-1 ',
-        mode === 'light' ? 'border-dark/50 ' : 'border-gray-400/50 ',
-
-        bank === chartData.bank
-          ? 'border-transparent bg-sky-500 text-white ring-4 ring-sky-600'
-          : 'bg-gray-600/30 ring-4 ring-transparent'
-      )}
-    >
-      {bank ? (
-        <h6 className='whitespace-nowrap text-sm font-semibold drop-shadow-md'>
-          {bank}
-        </h6>
-      ) : (
-        <h6 className='cursor-default text-sm opacity-0'>skeleton-skeleton</h6>
-      )}
-    </li>
-  );
-};
-/* #endregion */
-
 /* #region  SUMMARY CARD */
 const SummaryCard = ({
   chartData,
   summaryAccTypeRef,
   summaryAccSumRef,
 }: {
-  chartData: ChartData;
-  summaryAccTypeRef: React.MutableRefObject<any[]>;
-  summaryAccSumRef: React.MutableRefObject<any[]>;
+  chartData: DemoData;
+  summaryAccTypeRef: MutableRefObject<any[]>;
+  summaryAccSumRef: MutableRefObject<any[]>;
 }) => {
+  const { mode } = useTheme();
+
   const accountSums = chartData.accounts.map(({ sum }) => sum);
   const accountTypes = chartData.accounts.map(({ type }) => type);
 
@@ -388,8 +254,28 @@ const SummaryCard = ({
         <MdSwitchAccount className='h-6 w-6' />
         <h6 className='text-sm font-semibold drop-shadow-md'>Accounts</h6>
       </header>
-      <div className='flex flex-col items-start px-4 py-1'>
-        <div className='flex  w-full  items-center justify-between'>
+
+      <div className='flex flex-col items-start gap-2 py-1'>
+        <ul className='inline-flex w-80 gap-1 px-2'>
+          {accountTypes.map((type, i) => (
+            <li
+              key={type}
+              className={clsx(
+                'drop-shadow-md transition-all duration-200',
+                'rounded-md border px-3 py-1 ',
+                mode === 'light' ? 'border-dark/50 ' : 'border-gray-400/50 ',
+                'bg-gray-600/30'
+              )}
+            >
+              <h6
+                className='whitespace-nowrap text-sm drop-shadow-md '
+                ref={(el) => (summaryAccTypeRef.current[i] = el)}
+              />
+            </li>
+          ))}
+        </ul>
+
+        <div className='flex w-full items-center justify-between pr-4'>
           <ul className='flex w-1/3 flex-col items-start gap-1 self-start sm:w-4/6'>
             {chartData.accounts.map(({ type, sum }, i) => (
               <SummaryData
@@ -419,9 +305,9 @@ const SummaryData = ({
   summaryAccSumRef,
   i,
 }: {
-  chartData: ChartData;
-  summaryAccTypeRef: React.MutableRefObject<any[]>;
-  summaryAccSumRef: React.MutableRefObject<any[]>;
+  chartData: DemoData;
+  summaryAccTypeRef: MutableRefObject<any[]>;
+  summaryAccSumRef: MutableRefObject<any[]>;
   i: number;
 }) => {
   const { mode } = useTheme();
@@ -429,7 +315,8 @@ const SummaryData = ({
     <li
       className={clsx(
         'flex w-full items-center justify-between',
-        'rounded border px-2',
+        'rounded-tr rounded-br px-2',
+        'border-t border-r border-b',
         mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
       )}
@@ -441,12 +328,6 @@ const SummaryData = ({
             i === 0 ? 'bg-stone-300' : i === 1 ? 'bg-stone-500' : 'bg-stone-700'
           )}
         />
-        <h6
-          className='sm:text-md font-mono text-sm font-normal opacity-0 '
-          ref={(el) => (summaryAccTypeRef.current[i] = el)}
-        >
-          {chartData.bank === 'XXXX XXX XXXX' ? 'XXXXXX' : ''}
-        </h6>
       </div>
       <div className='flex w-24 items-center justify-between'>
         <h6 className='ml-3 font-mono font-normal'>$</h6>
@@ -462,7 +343,7 @@ const SummaryData = ({
 /* #endregion */
 
 /* #region  CHART CARD */
-const ChartCard = ({ chartData }: { chartData: ChartData }) => {
+const ChartCard = ({ chartData }: { chartData: DemoData }) => {
   const dataset = chartData.dynamic;
   const labels = months
     .filter((month, i) => i < dataset.length)
@@ -518,9 +399,9 @@ const TransactionsCard = ({
   transactionsRef,
   transactionsTotalRef,
 }: {
-  chartData: ChartData;
-  transactionsRef: React.MutableRefObject<any[]>;
-  transactionsTotalRef: React.MutableRefObject<any>;
+  chartData: DemoData;
+  transactionsRef: MutableRefObject<any[]>;
+  transactionsTotalRef: MutableRefObject<any>;
 }) => {
   return (
     <Card className='col-span-2 col-start-3 row-span-3 row-start-5 hidden w-full md:block'>
@@ -535,7 +416,6 @@ const TransactionsCard = ({
         <h6 className='text-sm font-semibold drop-shadow-md'>Transactions</h6>
       </header>
       <div className='flex flex-col items-start justify-start gap-3 px-4 py-1'>
-
         <ul className='flex w-5/6 flex-col gap-1'>
           {chartData.transactions.map((amount, i) => (
             <TransactionItem
@@ -569,7 +449,7 @@ const TransactionItem = ({
   amount,
   i,
 }: {
-  transactionsRef: React.MutableRefObject<any[]>;
+  transactionsRef: MutableRefObject<any[]>;
   amount: number;
   i: number;
 }) => {
@@ -617,31 +497,27 @@ gsap.registerEffect({
 /* #endregion */
 
 /* #region  Helper functions */
-function countTotal(index: number) {
-  return data[index].accounts
-    .map((acc) => acc.sum)
-    .reduce((a: number, b: number) => a + b);
-}
+
 function countTransTotal(index: number) {
-  return data[index].transactions
+  return demoDataCollection[index].transactions
     .map((n) => n)
     .reduce((a: number, b: number) => a + b);
 }
 /* #endregion */
 
 /* #region  Data */
-const skeletonData = {
-  bank: 'XXXX XXX XXXX',
-  transactions: [],
-  accounts: [
-    { type: 'XXXXXX', sum: 10 },
-    { type: 'XXXXXX', sum: 10 },
-    { type: 'XXXXXX', sum: 10 },
-  ],
-  dynamic: [1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000],
-};
 
-const data = [
+export interface DemoData {
+  bank: string;
+  transactions: number[];
+  accounts: {
+    type: string;
+    sum: number;
+  }[];
+  dynamic: number[];
+}
+
+export const demoDataCollection: DemoData[] = [
   {
     bank: 'Capital One',
     transactions: [-403, -28, -159, 120],
