@@ -18,6 +18,8 @@ import Accounts from './Accounts';
 import Transactions from './Transactions';
 import Charts from './Charts';
 
+import { DemoData, demoDataCollection } from './demoData';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export default function DemoCard({ className }: { className?: string }) {
@@ -38,7 +40,6 @@ export default function DemoCard({ className }: { className?: string }) {
     }, delay);
     return () => clearInterval(timer);
   }, [counter]);
-
 
   return (
     <div
@@ -117,46 +118,4 @@ export interface DemoCardProps {
   masterTimeline: MutableRefObject<gsap.core.Timeline>;
 }
 
-export interface DemoData {
-  bank: string;
-  transactions: number[];
-  accounts: {
-    type: string;
-    sum: number;
-  }[];
-  dynamic: number[];
-}
 
-/* Demo data collection */
-export const demoDataCollection: DemoData[] = [
-  {
-    bank: 'Capital One',
-    transactions: [-403, -28, -159, 120],
-    accounts: [
-      { type: 'Credit', sum: -2200 },
-      { type: 'Saving', sum: 5000 },
-      { type: 'Checking', sum: 1100 },
-    ],
-    dynamic: [1000, 1200, 1400, 1800, 1400, 1600, 1700, 1200],
-  },
-  {
-    bank: 'Bank of America',
-    transactions: [-23, -17, -85, 50],
-    accounts: [
-      { type: 'Checking', sum: 4200 },
-      { type: 'Saving', sum: 9700 },
-      { type: 'Credit', sum: -1700 },
-    ],
-    dynamic: [1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200],
-  },
-  {
-    bank: 'American Express',
-    transactions: [-120, -500, 297, 1700],
-    accounts: [
-      { type: 'Saving', sum: 12000 },
-      { type: 'Checking-1', sum: 2700 },
-      { type: 'Checking-2', sum: 700 },
-    ],
-    dynamic: [2200, 1700, 1400, 1800, 1500, 1200, 1100, 1700],
-  },
-];
