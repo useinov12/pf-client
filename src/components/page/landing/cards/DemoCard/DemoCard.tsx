@@ -8,22 +8,30 @@ import {
 } from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
-import PieChart from '../../../../charts/PieChart';
 import LineChart from '../../../../charts/LineChart';
 import BarChart from '../../../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { ThemeContext, useTheme } from '@/context/ThemeProvider';
-import { IncomingData } from '@/components/charts/types';
+import { ChartDataFormat } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
 import '@/lib/swapText';
+
 
 import { MdSwitchAccount } from 'react-icons/md';
 import { FaRegChartBar } from 'react-icons/fa';
 import { CgArrowsExchange } from 'react-icons/cg';
 
 import Banks from './Banks';
+import Accounts from './Accounts';
 
 gsap.registerPlugin(ScrollTrigger);
+
+
+export interface DemoCardProps{
+  counter: number;
+  prevCounter: number;
+  masterTimeline: MutableRefObject<gsap.core.Timeline>;
+}
 
 export default function DemoCard({ className }: { className?: string }) {
   const { mode } = useContext(ThemeContext);
@@ -41,8 +49,7 @@ export default function DemoCard({ className }: { className?: string }) {
   const transactionsRef = useRef(new Array(7));
   const transactionsTotalRef = useRef<HTMLDivElement>(null);
 
-  const summaryAccTypeRef = useRef(new Array(3));
-  const summaryAccSumRef = useRef(new Array(3));
+
   /* #endregion */
 
   /* #region  Timer */
@@ -78,41 +85,7 @@ export default function DemoCard({ className }: { className?: string }) {
       /* #endregion */
 
       /* #region  SUMMARY CARD */
-      const wrapCurrentAccTypes = gsap.utils.wrap(
-        currentBank.accounts.map((el) => el.type)
-      );
 
-      const accountTypes = currentBank.accounts.map((el) => el.type);
-
-      // animate account types
-      // firstTimeline.current.swapText(summaryAccTypeRef.current, {
-      //   text: wrapCurrentAccTypes,
-      //   delay: 0.5,
-      //   duration: 0.3,
-      // });
-
-      const previousAccSums =
-        counter === 0 ? demoDataCollection[2].accounts : demoDataCollection[counter - 1].accounts;
-      const wrapPreviousAccSums = gsap.utils.wrap(
-        previousAccSums.map((el) => el.sum)
-      );
-      const wrapCurrentAccSums = gsap.utils.wrap(
-        currentBank.accounts.map((el) => el.sum)
-      );
-
-      //animate account sums
-      firstTimeline.current.fromTo(
-        summaryAccSumRef.current,
-        { textContent: wrapPreviousAccSums, opacity: 0 },
-        {
-          textContent: wrapCurrentAccSums,
-          opacity: 1,
-          snap: { textContent: 1 },
-          stagger: 0.2,
-          duration: 0.2,
-          delay: 0.2,
-        }
-      );
       /* #endregion */
 
       /* #region  TRANSACTONS LIST */
@@ -182,10 +155,11 @@ export default function DemoCard({ className }: { className?: string }) {
             prevCounter={prevCountRef.current}
             masterTimeline={firstTimeline}
           />
-          <SummaryCard
-            chartData={currentBank}
-            summaryAccTypeRef={summaryAccSumRef}
-            summaryAccSumRef={summaryAccSumRef}
+          <Accounts
+            currentBank={currentBank}
+            counter={counter}
+            prevCounter={prevCountRef.current}
+            masterTimeline={firstTimeline}
           />
         </div>
 
@@ -222,123 +196,7 @@ export const Card = ({ className, children }: SectionProps) => {
 };
 
 /* #region  SUMMARY CARD */
-const SummaryCard = ({
-  chartData,
-  summaryAccTypeRef,
-  summaryAccSumRef,
-}: {
-  chartData: DemoData;
-  summaryAccTypeRef: MutableRefObject<any[]>;
-  summaryAccSumRef: MutableRefObject<any[]>;
-}) => {
-  const { mode } = useTheme();
 
-  const accountSums = chartData.accounts.map(({ sum }) => sum);
-  const accountTypes = chartData.accounts.map(({ type }) => type);
-
-  const data: IncomingData = {
-    labels: accountTypes,
-    label: '',
-    data: [accountSums],
-  };
-
-  return (
-    <Card className='col-span-4 col-start-1 row-span-2 row-start-3 hidden md:block '>
-      <header
-        className={clsx(
-          'bg-gray-600/50',
-          'mb-2 w-full px-4 py-1',
-          'inline-flex items-center gap-1'
-        )}
-      >
-        <MdSwitchAccount className='h-6 w-6' />
-        <h6 className='text-sm font-semibold drop-shadow-md'>Accounts</h6>
-      </header>
-
-      <div className='flex flex-col items-start gap-2 py-1'>
-        <ul className='inline-flex w-80 gap-1 px-2'>
-          {accountTypes.map((type, i) => (
-            <li
-              key={type}
-              className={clsx(
-                'drop-shadow-md transition-all duration-200',
-                'rounded-md border px-3 py-1 ',
-                mode === 'light' ? 'border-dark/50 ' : 'border-gray-400/50 ',
-                'bg-gray-600/30'
-              )}
-            >
-              <h6
-                className='whitespace-nowrap text-sm drop-shadow-md '
-                ref={(el) => (summaryAccTypeRef.current[i] = el)}
-              />
-            </li>
-          ))}
-        </ul>
-
-        <div className='flex w-full items-center justify-between pr-4'>
-          <ul className='flex w-1/3 flex-col items-start gap-1 self-start sm:w-4/6'>
-            {chartData.accounts.map(({ type, sum }, i) => (
-              <SummaryData
-                key={`summary-${i}`}
-                chartData={chartData}
-                summaryAccTypeRef={summaryAccTypeRef}
-                summaryAccSumRef={summaryAccSumRef}
-                i={i}
-              />
-            ))}
-          </ul>
-
-          <div className='flex w-2/3 justify-end'>
-            <div className='h-full w-5/6'>
-              <PieChart incomingData={data} delay={1600} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-};
-
-const SummaryData = ({
-  chartData,
-  summaryAccTypeRef,
-  summaryAccSumRef,
-  i,
-}: {
-  chartData: DemoData;
-  summaryAccTypeRef: MutableRefObject<any[]>;
-  summaryAccSumRef: MutableRefObject<any[]>;
-  i: number;
-}) => {
-  const { mode } = useTheme();
-  return (
-    <li
-      className={clsx(
-        'flex w-full items-center justify-between',
-        'rounded-tr rounded-br px-2',
-        'border-t border-r border-b',
-        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
-      )}
-    >
-      <div className='inline-flex items-center gap-2'>
-        <span
-          className={clsx(
-            'h-3 w-3  rounded-full',
-            i === 0 ? 'bg-stone-300' : i === 1 ? 'bg-stone-500' : 'bg-stone-700'
-          )}
-        />
-      </div>
-      <div className='flex w-24 items-center justify-between'>
-        <h6 className='ml-3 font-mono font-normal'>$</h6>
-        <h6
-          className='text-md font-mono font-normal uppercase'
-          ref={(el) => (summaryAccSumRef.current[i] = el)}
-        />
-      </div>
-    </li>
-  );
-};
 
 /* #endregion */
 
@@ -349,7 +207,7 @@ const ChartCard = ({ chartData }: { chartData: DemoData }) => {
     .filter((month, i) => i < dataset.length)
     .map((month) => month.slice(0, 3));
 
-  const data: IncomingData = {
+  const data: ChartDataFormat = {
     labels: labels,
     label: 'Account dynamic',
     data: [dataset],
