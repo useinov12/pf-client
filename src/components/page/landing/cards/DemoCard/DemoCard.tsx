@@ -25,6 +25,7 @@ import Transactions from './Transactions';
 gsap.registerPlugin(ScrollTrigger);
 
 export interface DemoCardProps {
+  currentBank: DemoData;
   counter: number;
   prevCounter: number;
   masterTimeline: MutableRefObject<gsap.core.Timeline>;

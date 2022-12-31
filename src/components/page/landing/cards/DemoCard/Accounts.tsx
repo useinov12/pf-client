@@ -7,16 +7,13 @@ import { MdSwitchAccount } from 'react-icons/md';
 import { ChartDataFormat } from '@/components/charts/types';
 import PieChart from '@/components/charts/PieChart';
 
-interface AccountsCardProps extends DemoCardProps {
-  currentBank: DemoData;
-}
 
 export default function Accounts({
   currentBank,
   counter,
   prevCounter,
   masterTimeline,
-}: AccountsCardProps) {
+}: DemoCardProps) {
   const { mode } = useTheme();
 
   const summaryAccTypeRef = useRef(new Array(3));

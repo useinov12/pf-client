@@ -5,16 +5,12 @@ import { MutableRefObject, useEffect, useRef } from 'react';
 import { DemoData, demoDataCollection, Card, DemoCardProps } from './DemoCard';
 import { CgArrowsExchange } from 'react-icons/cg';
 
-interface TransactionsCardProps extends DemoCardProps {
-  currentBank: DemoData;
-}
-
 export default function Transactions({
   currentBank,
   counter,
   prevCounter,
   masterTimeline,
-}: TransactionsCardProps) {
+}: DemoCardProps) {
   const transactionsRef = useRef(new Array(4));
   const transactionsTotalRef = useRef<HTMLDivElement>(null);
 

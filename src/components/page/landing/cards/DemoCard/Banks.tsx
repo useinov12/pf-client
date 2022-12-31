@@ -1,20 +1,16 @@
 import { useTheme } from '@/context/ThemeProvider';
 import clsx from 'clsx';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { DemoData, demoDataCollection, Card, DemoCardProps } from './DemoCard';
 import { BsPiggyBankFill } from 'react-icons/bs';
 import gsap from 'gsap';
-
-interface BanksCardProps extends DemoCardProps {
-  currentBank: DemoData;
-}
 
 export default function Banks({
   currentBank,
   counter,
   prevCounter,
   masterTimeline,
-}: BanksCardProps) {
+}: DemoCardProps) {
   const bankNameRef = useRef<HTMLDivElement>(null);
   const bankTotalRef = useRef<HTMLDivElement>(null);
 
