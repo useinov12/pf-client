@@ -1,15 +1,12 @@
 import { useTheme } from '@/context/ThemeProvider';
 import clsx from 'clsx';
 import { MutableRefObject, useEffect, useRef } from 'react';
-import { DemoData, demoDataCollection, Card } from './DemoCard';
+import { DemoData, demoDataCollection, Card, DemoCardProps } from './DemoCard';
 import { BsPiggyBankFill } from 'react-icons/bs';
 import gsap from 'gsap';
 
-interface BanksCardProps {
+interface BanksCardProps extends DemoCardProps {
   currentBank: DemoData;
-  prevCounter: number;
-  counter: number;
-  masterTimeline: MutableRefObject<gsap.core.Timeline>;
 }
 
 export default function Banks({
