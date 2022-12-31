@@ -1,7 +1,6 @@
 import {
   MutableRefObject,
   ReactNode,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -11,46 +10,36 @@ import clsx from 'clsx';
 import LineChart from '../../../../charts/LineChart';
 import BarChart from '../../../../charts/BarChart';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
-import { ThemeContext, useTheme } from '@/context/ThemeProvider';
+import { useTheme } from '@/context/ThemeProvider';
 import { ChartDataFormat } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
-import '@/lib/swapText';
 
-
-import { MdSwitchAccount } from 'react-icons/md';
 import { FaRegChartBar } from 'react-icons/fa';
 import { CgArrowsExchange } from 'react-icons/cg';
+import '@/lib/swapText';
 
 import Banks from './Banks';
 import Accounts from './Accounts';
+import Transactions from './Transactions';
 
 gsap.registerPlugin(ScrollTrigger);
 
-
-export interface DemoCardProps{
+export interface DemoCardProps {
   counter: number;
   prevCounter: number;
   masterTimeline: MutableRefObject<gsap.core.Timeline>;
 }
 
 export default function DemoCard({ className }: { className?: string }) {
-  const { mode } = useContext(ThemeContext);
-  const [currentBank, setCurrentBank] = useState<DemoData>(demoDataCollection[0]);
+  const { mode } = useTheme();
+  const [currentBank, setCurrentBank] = useState<DemoData>(
+    demoDataCollection[0]
+  );
   const [counter, setCounter] = useState(0);
 
   const prevCountRef = useRef(counter);
 
   const firstTimeline = useRef(gsap.timeline());
-
-  /* #region  Animated elements refs */
-
-  const pauseRef = useRef<HTMLDivElement>(null);
-
-  const transactionsRef = useRef(new Array(7));
-  const transactionsTotalRef = useRef<HTMLDivElement>(null);
-
-
-  /* #endregion */
 
   /* #region  Timer */
   /** Update counter every x seconds */
@@ -76,55 +65,6 @@ export default function DemoCard({ className }: { className?: string }) {
   }, [counter]);
   /* #endregion */
 
-  /* #region  Animation Sequence */
-  useEffect(() => {
-    gsap.ticker.lagSmoothing(false);
-    if (counter !== -1) {
-      /* #region  BANK NAME  */
-
-      /* #endregion */
-
-      /* #region  SUMMARY CARD */
-
-      /* #endregion */
-
-      /* #region  TRANSACTONS LIST */
-      const previousTransactions =
-        counter === 0 ? demoDataCollection[2].transactions : demoDataCollection[counter - 1].transactions;
-      const wrapPrevious = gsap.utils.wrap(previousTransactions);
-      const wrapCurrent = gsap.utils.wrap(currentBank.transactions);
-
-      firstTimeline.current.fromTo(
-        transactionsRef.current,
-        { textContent: prevCountRef.current === -1 ? 0 : wrapPrevious },
-        {
-          textContent: wrapCurrent,
-          snap: { textContent: 1 },
-          stagger: 0.3,
-          duration: 0.2,
-        }
-      );
-      /* #endregion */
-
-      /* #region  TRANSACTIONS TOTAL */
-      const previousTransTotal =
-        counter === 0 ? countTransTotal(2) : countTransTotal(counter - 1);
-      firstTimeline.current.fromTo(
-        transactionsTotalRef.current,
-        { textContent: prevCountRef.current === -1 ? 0 : previousTransTotal },
-        {
-          textContent: countTransTotal(counter),
-          duration: 0.1,
-          ease: 'ease.in',
-          snap: { textContent: 1 },
-          delay: 0.2,
-        }
-      );
-      /* #endregion */
-    }
-  }, [currentBank]);
-  /* #endregion */
-
   return (
     <div
       className={clsx(
@@ -137,7 +77,6 @@ export default function DemoCard({ className }: { className?: string }) {
         mode === 'light' ? 'bg-gray-100' : 'bg-gray-900',
         className
       )}
-      ref={pauseRef}
     >
       <header>
         <div className='my-3 ml-2 inline-flex items-center gap-2'>
@@ -164,10 +103,11 @@ export default function DemoCard({ className }: { className?: string }) {
         </div>
 
         <div className='flex flex-col gap-y-3 md:w-1/2'>
-          <TransactionsCard
-            chartData={currentBank}
-            transactionsRef={transactionsRef}
-            transactionsTotalRef={transactionsTotalRef}
+          <Transactions
+            currentBank={currentBank}
+            counter={counter}
+            prevCounter={prevCountRef.current}
+            masterTimeline={firstTimeline}
           />
           <ChartCard chartData={currentBank} />
         </div>
@@ -196,7 +136,6 @@ export const Card = ({ className, children }: SectionProps) => {
 };
 
 /* #region  SUMMARY CARD */
-
 
 /* #endregion */
 
@@ -252,90 +191,6 @@ const ChartCard = ({ chartData }: { chartData: DemoData }) => {
 /* #endregion */
 
 /* #region  TRANSACTIONS CARD */
-const TransactionsCard = ({
-  chartData,
-  transactionsRef,
-  transactionsTotalRef,
-}: {
-  chartData: DemoData;
-  transactionsRef: MutableRefObject<any[]>;
-  transactionsTotalRef: MutableRefObject<any>;
-}) => {
-  return (
-    <Card className='col-span-2 col-start-3 row-span-3 row-start-5 hidden w-full md:block'>
-      <header
-        className={clsx(
-          'bg-gray-600/50',
-          'mb-2 w-full px-4 py-1',
-          'inline-flex items-center gap-1'
-        )}
-      >
-        <CgArrowsExchange className='h-6 w-6' />
-        <h6 className='text-sm font-semibold drop-shadow-md'>Transactions</h6>
-      </header>
-      <div className='flex flex-col items-start justify-start gap-3 px-4 py-1'>
-        <ul className='flex w-5/6 flex-col gap-1'>
-          {chartData.transactions.map((amount, i) => (
-            <TransactionItem
-              transactionsRef={transactionsRef}
-              amount={amount}
-              key={`${amount}`}
-              i={i}
-            />
-          ))}
-        </ul>
-
-        <li className='my-2 mb-1 flex w-5/6 items-center justify-between px-1'>
-          <h4 className='text-center text-sm drop-shadow-md'>Total:</h4>
-          <div className='flex items-center justify-start'>
-            <h6 className='font-mono text-xl font-normal drop-shadow-md'>$</h6>
-            <h6
-              className='font-mono text-xl font-normal drop-shadow-md'
-              ref={transactionsTotalRef}
-            >
-              {chartData.bank === 'XXXX XXX XXXX' ? '0000' : ''}
-            </h6>
-          </div>
-        </li>
-      </div>
-    </Card>
-  );
-};
-
-const TransactionItem = ({
-  transactionsRef,
-  amount,
-  i,
-}: {
-  transactionsRef: MutableRefObject<any[]>;
-  amount: number;
-  i: number;
-}) => {
-  const { mode } = useTheme();
-  return (
-    <li
-      className={clsx(
-        'flex w-full items-center justify-between',
-        'rounded border px-2',
-        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
-      )}
-    >
-      <h6 className='text-md font-serif font-normal drop-shadow-md'>
-        #{i + 1}
-      </h6>
-      <div className={clsx('flex w-20 items-center justify-between rounded')}>
-        <h6 className='ml-3 font-mono font-normal drop-shadow-md'>$</h6>
-        <h6
-          className=' transactions text-left font-mono font-normal drop-shadow-md'
-          ref={(el) => (transactionsRef.current[i] = el)}
-        >
-          {amount}
-        </h6>
-      </div>
-    </li>
-  );
-};
 
 /* #endregion */
 
@@ -356,11 +211,6 @@ gsap.registerEffect({
 
 /* #region  Helper functions */
 
-function countTransTotal(index: number) {
-  return demoDataCollection[index].transactions
-    .map((n) => n)
-    .reduce((a: number, b: number) => a + b);
-}
 /* #endregion */
 
 /* #region  Data */
