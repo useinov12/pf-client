@@ -7,29 +7,18 @@ import {
 } from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
-import LineChart from '../../../../charts/LineChart';
-import BarChart from '../../../../charts/BarChart';
+
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useTheme } from '@/context/ThemeProvider';
-import { ChartDataFormat } from '@/components/charts/types';
-import { months } from '@/components/charts/defaults';
 
-import { FaRegChartBar } from 'react-icons/fa';
-import { CgArrowsExchange } from 'react-icons/cg';
 import '@/lib/swapText';
 
 import Banks from './Banks';
 import Accounts from './Accounts';
 import Transactions from './Transactions';
+import Charts from './Charts';
 
 gsap.registerPlugin(ScrollTrigger);
-
-export interface DemoCardProps {
-  currentBank: DemoData;
-  counter: number;
-  prevCounter: number;
-  masterTimeline: MutableRefObject<gsap.core.Timeline>;
-}
 
 export default function DemoCard({ className }: { className?: string }) {
   const { mode } = useTheme();
@@ -40,14 +29,11 @@ export default function DemoCard({ className }: { className?: string }) {
 
   const prevCountRef = useRef(counter);
 
-  const firstTimeline = useRef(gsap.timeline());
+  const masterTimeline = useRef(gsap.timeline());
 
-  /* #region  Timer */
   /** Update counter every x seconds */
   useEffect(() => {
-    //if initial load - delay animation for 1.5 sec
-    const delay = counter === -1 ? 1500 : 7400;
-
+    const delay = 7400;
     const timer = setInterval(() => {
       prevCountRef.current = counter; //save prev counter value
       setCounter((prev) => (prev >= 2 ? 0 : prev + 1));
@@ -55,16 +41,10 @@ export default function DemoCard({ className }: { className?: string }) {
     return () => clearInterval(timer);
   }, [counter]);
 
-  /**
-   * On counter update, iterate Data
-   * if counter === -1 -> it is initial render, do not update state
-   */
+  /* set currentBank data on counter update */
   useEffect(() => {
-    if (counter !== -1) {
-      setCurrentBank(demoDataCollection[counter]);
-    }
+    setCurrentBank(demoDataCollection[counter]);
   }, [counter]);
-  /* #endregion */
 
   return (
     <div
@@ -93,13 +73,13 @@ export default function DemoCard({ className }: { className?: string }) {
             currentBank={currentBank}
             counter={counter}
             prevCounter={prevCountRef.current}
-            masterTimeline={firstTimeline}
+            masterTimeline={masterTimeline}
           />
           <Accounts
             currentBank={currentBank}
             counter={counter}
             prevCounter={prevCountRef.current}
-            masterTimeline={firstTimeline}
+            masterTimeline={masterTimeline}
           />
         </div>
 
@@ -108,9 +88,9 @@ export default function DemoCard({ className }: { className?: string }) {
             currentBank={currentBank}
             counter={counter}
             prevCounter={prevCountRef.current}
-            masterTimeline={firstTimeline}
+            masterTimeline={masterTimeline}
           />
-          <ChartCard chartData={currentBank} />
+          <Charts currentBank={currentBank} />
         </div>
       </section>
     </div>
@@ -136,85 +116,12 @@ export const Card = ({ className, children }: SectionProps) => {
   );
 };
 
-/* #region  SUMMARY CARD */
-
-/* #endregion */
-
-/* #region  CHART CARD */
-const ChartCard = ({ chartData }: { chartData: DemoData }) => {
-  const dataset = chartData.dynamic;
-  const labels = months
-    .filter((month, i) => i < dataset.length)
-    .map((month) => month.slice(0, 3));
-
-  const data: ChartDataFormat = {
-    labels: labels,
-    label: 'Account dynamic',
-    data: [dataset],
-  };
-
-  return (
-    <Card className='col-span-4 col-start-1 row-span-3 md:col-span-2'>
-      <header
-        className={clsx(
-          'bg-gray-600/50',
-          'mb-2 w-full px-4 py-1',
-          'inline-flex items-center gap-1'
-        )}
-      >
-        <FaRegChartBar className='h-6 w-6' />
-        <h6 className='text-sm font-semibold drop-shadow-md'>Charts</h6>
-      </header>
-      <div className='flex flex-col items-start'>
-        <div className='flex h-full w-full flex-col items-center justify-center '>
-          <div className='h-20 w-5/6'>
-            <LineChart
-              width={'100%'}
-              height={'100%'}
-              incomingData={data}
-              delay={3200}
-            />
-          </div>
-          <div className='h-20 w-5/6'>
-            <BarChart
-              width={'100%'}
-              height={'100%'}
-              incomingData={data}
-              delay={3500}
-            />
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-};
-
-/* #endregion */
-
-/* #region  TRANSACTIONS CARD */
-
-/* #endregion */
-
-/* #region  Gsap swap text effect */
-gsap.registerEffect({
-  name: 'swapText',
-  effect: (targets: any, config: any) => {
-    const tl = gsap.timeline({ delay: config.delay });
-    tl.to(targets, { opacity: 0, duration: config.duration / 2 });
-    tl.add(() => (targets[0].innerText = config.text));
-    tl.to(targets, { opacity: 1, duration: config.duration });
-    return tl;
-  },
-  defaults: { duration: 0.5 },
-  extendTimeline: true,
-});
-/* #endregion */
-
-/* #region  Helper functions */
-
-/* #endregion */
-
-/* #region  Data */
+export interface DemoCardProps {
+  currentBank: DemoData;
+  counter: number;
+  prevCounter: number;
+  masterTimeline: MutableRefObject<gsap.core.Timeline>;
+}
 
 export interface DemoData {
   bank: string;
@@ -258,4 +165,3 @@ export const demoDataCollection: DemoData[] = [
     dynamic: [2200, 1700, 1400, 1800, 1500, 1200, 1100, 1700],
   },
 ];
-/* #endregion */
