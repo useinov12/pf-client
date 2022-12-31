@@ -22,9 +22,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function DemoCard({ className }: { className?: string }) {
   const { mode } = useTheme();
-  const [currentBank, setCurrentBank] = useState<DemoData>(
-    demoDataCollection[0]
-  );
+
   const [counter, setCounter] = useState(0);
 
   const prevCountRef = useRef(counter);
@@ -41,10 +39,6 @@ export default function DemoCard({ className }: { className?: string }) {
     return () => clearInterval(timer);
   }, [counter]);
 
-  /* set currentBank data on counter update */
-  useEffect(() => {
-    setCurrentBank(demoDataCollection[counter]);
-  }, [counter]);
 
   return (
     <div
@@ -70,13 +64,13 @@ export default function DemoCard({ className }: { className?: string }) {
       <section className='flex flex-col gap-3 md:flex-row'>
         <div className='flex flex-col gap-y-3 md:w-1/2'>
           <Banks
-            currentBank={currentBank}
+            currentBank={demoDataCollection[counter]}
             counter={counter}
             prevCounter={prevCountRef.current}
             masterTimeline={masterTimeline}
           />
           <Accounts
-            currentBank={currentBank}
+            currentBank={demoDataCollection[counter]}
             counter={counter}
             prevCounter={prevCountRef.current}
             masterTimeline={masterTimeline}
@@ -85,12 +79,12 @@ export default function DemoCard({ className }: { className?: string }) {
 
         <div className='flex flex-col gap-y-3 md:w-1/2'>
           <Transactions
-            currentBank={currentBank}
+            currentBank={demoDataCollection[counter]}
             counter={counter}
             prevCounter={prevCountRef.current}
             masterTimeline={masterTimeline}
           />
-          <Charts currentBank={currentBank} />
+          <Charts currentBank={demoDataCollection[counter]} />
         </div>
       </section>
     </div>
@@ -133,6 +127,7 @@ export interface DemoData {
   dynamic: number[];
 }
 
+/* Demo data collection */
 export const demoDataCollection: DemoData[] = [
   {
     bank: 'Capital One',
