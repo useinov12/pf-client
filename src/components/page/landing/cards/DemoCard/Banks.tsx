@@ -45,7 +45,7 @@ export default function Banks({
         ease: 'ease.in',
         snap: { textContent: 100 },
         delay: 0.4,
-        stagger:.2
+        stagger: 0.2,
       }
     );
   }, [currentBank]);
@@ -125,10 +125,10 @@ const BankChip = ({
         'rounded-md px-3 py-1 ',
         mode === 'light' ? 'border-dark/50 ' : 'border-gray-400/50 ',
 
-        'ring-4 border',
+        'border ring-4',
         bank === bankData.bank
           ? 'border-transparent bg-sky-500 text-white ring-sky-600'
-          : 'ring-transparent bg-gray-600/30 '
+          : 'bg-gray-600/30 ring-transparent '
       )}
     >
       {bank ? (
