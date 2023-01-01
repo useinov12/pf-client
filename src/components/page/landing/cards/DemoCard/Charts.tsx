@@ -1,9 +1,5 @@
-import gsap from 'gsap';
 import clsx from 'clsx';
-import { useTheme } from '@/context/ThemeProvider';
-import { MutableRefObject, useEffect, useRef } from 'react';
-import { DemoData, demoDataCollection, Card, DemoCardProps } from './DemoCard';
-import { MdSwitchAccount } from 'react-icons/md';
+import { DemoCardProps, Card } from './DemoCard';
 import { ChartDataFormat } from '@/components/charts/types';
 import LineChart from '@/components/charts/LineChart';
 import BarChart from '@/components/charts/BarChart';
@@ -12,9 +8,8 @@ import { months } from '@/components/charts/defaults';
 
 import { FaRegChartBar } from 'react-icons/fa';
 
-export default function Charts({ currentBank }: { currentBank: DemoData }) {
+export default function Charts({ currentBank }: DemoCardProps) {
   const dataset = currentBank.dynamic;
-
   const labels = months
     .filter((_, i) => i < dataset.length)
     .map((month) => month.slice(0, 3));
@@ -44,7 +39,7 @@ export default function Charts({ currentBank }: { currentBank: DemoData }) {
               width={'100%'}
               height={'100%'}
               incomingData={chartData}
-              delay={3200}
+              delay={5000}
             />
           </div>
           <div className='h-20 w-5/6'>
@@ -52,7 +47,7 @@ export default function Charts({ currentBank }: { currentBank: DemoData }) {
               width={'100%'}
               height={'100%'}
               incomingData={chartData}
-              delay={3500}
+              delay={5200}
             />
           </div>
         </div>
