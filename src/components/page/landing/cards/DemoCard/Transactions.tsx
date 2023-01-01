@@ -1,4 +1,3 @@
-import gsap from 'gsap';
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { MutableRefObject, useEffect, useRef } from 'react';
@@ -54,7 +53,7 @@ export default function Transactions({
   }, [currentBank]);
 
   return (
-    <Card className={clsx('w-full block')}>
+    <Card className='block w-full'>
       <header
         className={clsx(
           'bg-gray-600/50',
