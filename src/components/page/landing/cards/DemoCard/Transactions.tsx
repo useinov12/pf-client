@@ -2,7 +2,8 @@ import gsap from 'gsap';
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { MutableRefObject, useEffect, useRef } from 'react';
-import { DemoData, demoDataCollection, Card, DemoCardProps } from './DemoCard';
+import { Card, DemoCardProps } from './DemoCard';
+import { demoDataCollection, Transaction } from './demoData';
 import { CgArrowsExchange } from 'react-icons/cg';
 
 export default function Transactions({
@@ -11,30 +12,32 @@ export default function Transactions({
   prevCounter,
   masterTimeline,
 }: DemoCardProps) {
-  const transactionsRef = useRef(new Array(4));
+  const transactionsTypeRef = useRef<HTMLHeadingElement[] | null[]>(
+    new Array(4)
+  );
+  const transactionsAmountRef = useRef<HTMLHeadingElement[] | null[]>(
+    new Array(4)
+  );
   const transactionsTotalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const previousTransactions =
-      counter === 0
-        ? demoDataCollection[2].transactions
-        : demoDataCollection[counter - 1].transactions;
-    const wrapPrevious = gsap.utils.wrap(previousTransactions);
-    const wrapCurrent = gsap.utils.wrap(currentBank.transactions);
+    currentBank.transactions.map((item, i) => {
+      /*  animate list of transactions types */
+      masterTimeline.current.fromTo(
+        transactionsTypeRef.current[i],
+        { opacity: 0 },
+        { opacity: 1, duration: 0.2, stagger: 0.3 }
+      );
 
-    masterTimeline.current.fromTo(
-      transactionsRef.current,
-      { textContent: prevCounter === -1 ? 0 : wrapPrevious },
-      {
-        textContent: wrapCurrent,
-        snap: { textContent: 1 },
-        stagger: 0.3,
-        duration: 0.2,
-      }
-    );
-    /* #endregion */
+      /*  animate list of transactions sums */
+      masterTimeline.current.fromTo(
+        transactionsAmountRef.current[i],
+        { opacity: 0 },
+        { opacity: 1, duration: 0.2, stagger: 0.3 }
+      );
+    });
 
-    /* #region  TRANSACTIONS TOTAL */
+    /* animate transactions total */
     const previousTransTotal =
       counter === 0 ? countTransTotal(2) : countTransTotal(counter - 1);
     masterTimeline.current.fromTo(
@@ -42,7 +45,7 @@ export default function Transactions({
       { textContent: prevCounter === -1 ? 0 : previousTransTotal },
       {
         textContent: countTransTotal(counter),
-        duration: 0.1,
+        duration: 0.3,
         ease: 'ease.in',
         snap: { textContent: 1 },
         delay: 0.2,
@@ -51,7 +54,7 @@ export default function Transactions({
   }, [currentBank]);
 
   return (
-    <Card className='col-span-2 col-start-3 row-span-3 row-start-5 hidden w-full md:block'>
+    <Card className={clsx('w-full block')}>
       <header
         className={clsx(
           'bg-gray-600/50',
@@ -62,64 +65,76 @@ export default function Transactions({
         <CgArrowsExchange className='h-6 w-6' />
         <h6 className='text-sm font-semibold drop-shadow-md'>Transactions</h6>
       </header>
-      <div className='flex flex-col items-start justify-start gap-3 px-4 py-1'>
+      <div className='flex flex-col items-start justify-start gap-3 py-1 pr-4'>
         <ul className='flex w-5/6 flex-col gap-1'>
-          {currentBank.transactions.map((amount, i) => (
+          {currentBank.transactions.map((trans, i) => (
             <TransactionItem
-              transactionsRef={transactionsRef}
-              amount={amount}
-              key={`${amount}`}
-              i={i}
+              transactionsAmountRef={transactionsAmountRef}
+              transactionsTypeRef={transactionsTypeRef}
+              transactionData={trans}
+              key={`${trans.amount}`}
+              idx={i}
             />
           ))}
         </ul>
 
-        <li className='my-2 mb-1 flex w-5/6 items-center justify-between px-1'>
+        <div className='inline-flex w-full items-center justify-between px-7 pl-4'>
           <h4 className='text-center text-sm drop-shadow-md'>Total:</h4>
           <div className='flex items-center justify-start'>
             <h6 className='font-mono text-xl font-normal drop-shadow-md'>$</h6>
             <h6
               className='font-mono text-xl font-normal drop-shadow-md'
               ref={transactionsTotalRef}
-            >
-              {currentBank.bank === 'XXXX XXX XXXX' ? '0000' : ''}
-            </h6>
+            />
           </div>
-        </li>
+        </div>
       </div>
     </Card>
   );
 }
 
 const TransactionItem = ({
-  transactionsRef,
-  amount,
-  i,
+  transactionsAmountRef,
+  transactionsTypeRef,
+  transactionData,
+  idx,
 }: {
-  transactionsRef: MutableRefObject<any[]>;
-  amount: number;
-  i: number;
+  transactionsAmountRef: MutableRefObject<any[]>;
+  transactionData: Transaction;
+  transactionsTypeRef: MutableRefObject<any[]>;
+  idx: number;
 }) => {
   const { mode } = useTheme();
   return (
     <li
       className={clsx(
-        'flex w-full items-center justify-between',
-        'rounded border px-2',
+        'flex w-60 items-center justify-between',
+        'rounded-tr rounded-br px-2',
+        'border-t border-r border-b',
         mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
       )}
     >
-      <h6 className='text-md font-serif font-normal drop-shadow-md'>
-        #{i + 1}
+      <h6
+        className={clsx(
+          'opacity-0', // opacity at 0 -> handaled by gsap
+          'text-md font-normaldrop-shadow-md '
+        )}
+        ref={(el) => (transactionsTypeRef.current[idx] = el)}
+      >
+        {transactionData.type}
       </h6>
+
       <div className={clsx('flex w-20 items-center justify-between rounded')}>
         <h6 className='ml-3 font-mono font-normal drop-shadow-md'>$</h6>
         <h6
-          className=' transactions text-left font-mono font-normal drop-shadow-md'
-          ref={(el) => (transactionsRef.current[i] = el)}
+          className={clsx(
+            'opacity-0 ', // opacity at 0 -> handaled by gsap
+            'text-left font-mono font-normal drop-shadow-md'
+          )}
+          ref={(el) => (transactionsAmountRef.current[idx] = el)}
         >
-          {amount}
+          {transactionData.amount}
         </h6>
       </div>
     </li>
@@ -128,6 +143,6 @@ const TransactionItem = ({
 
 function countTransTotal(index: number) {
   return demoDataCollection[index].transactions
-    .map((n) => n)
+    .map((n) => n.amount)
     .reduce((a: number, b: number) => a + b);
 }
