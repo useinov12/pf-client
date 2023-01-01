@@ -1,7 +1,8 @@
 import { useTheme } from '@/context/ThemeProvider';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
-import { DemoData, demoDataCollection, Card, DemoCardProps } from './DemoCard';
+import { Card, DemoCardProps } from './DemoCard';
+import { DemoData, demoDataCollection } from './demoData';
 import { BsPiggyBankFill } from 'react-icons/bs';
 import gsap from 'gsap';
 
@@ -25,29 +26,28 @@ export default function Banks({
   useEffect(() => {
     gsap.ticker.lagSmoothing(false);
 
-    /* Bank Name */
+    /* swap Bank Name */
     masterTimeline.current.swapText(bankNameRef.current, {
       text: currentBank.bank,
-      delay: 0.5,
+      delay: 0.4,
       duration: 0.3,
     });
 
-    /* Bank Total */
-    if (counter) {
-      const previousTotal =
-        counter === 0 ? countTotal(2) : countTotal(counter - 1);
-      masterTimeline.current.fromTo(
-        bankTotalRef.current,
-        { textContent: prevCounter === -1 ? 0 : previousTotal },
-        {
-          textContent: countTotal(counter),
-          duration: 0.7,
-          ease: 'ease.in',
-          snap: { textContent: 100 },
-          delay: 0.2,
-        }
-      );
-    }
+    /* swap Bank Total */
+    const previousTotal =
+      counter === 0 ? countTotal(2) : countTotal(counter - 1);
+    masterTimeline.current.fromTo(
+      bankTotalRef.current,
+      { textContent: previousTotal },
+      {
+        textContent: countTotal(counter),
+        duration: 0.7,
+        ease: 'ease.in',
+        snap: { textContent: 100 },
+        delay: 0.4,
+        stagger:.2
+      }
+    );
   }, [currentBank]);
 
   return (
@@ -67,7 +67,7 @@ export default function Banks({
 
       <section className='flex flex-col justify-between py-1 px-4 '>
         <div className='mb-3 flex flex-col items-start justify-start gap-2'>
-          <ul className='flex w-[28rem] flex-wrap gap-[6px]'>
+          <ul className='flex w-full flex-wrap gap-[6px] md:w-[28rem]'>
             {dataWithSkeleton.map((data, i) => (
               <BankChip
                 key={data ? data.bank : i}
@@ -80,7 +80,7 @@ export default function Banks({
 
         <div
           className='flex flex-col items-center 
-            justify-center rounded  '
+            justify-center rounded'
         >
           <div className='flex w-5/6 items-baseline justify-between px-3'>
             <h4 className='text-center text-sm drop-shadow-md'>Balance:</h4>
@@ -119,13 +119,16 @@ const BankChip = ({
   return (
     <li
       className={clsx(
-        'drop-shadow-md transition-all duration-200',
-        'rounded-md border px-3 py-1 ',
+        /* if no bank -> hide skeleton chip for small screens */
+        !bank && 'hidden sm:block',
+        'drop-shadow-md transition-all duration-300',
+        'rounded-md px-3 py-1 ',
         mode === 'light' ? 'border-dark/50 ' : 'border-gray-400/50 ',
 
+        'ring-4 border',
         bank === bankData.bank
-          ? 'border-transparent bg-sky-500 text-white ring-4 ring-sky-600'
-          : 'bg-gray-600/30 ring-4 ring-transparent'
+          ? 'border-transparent bg-sky-500 text-white ring-sky-600'
+          : 'ring-transparent bg-gray-600/30 '
       )}
     >
       {bank ? (
@@ -133,7 +136,9 @@ const BankChip = ({
           {bank}
         </h6>
       ) : (
-        <h6 className='cursor-default text-sm opacity-0'>skeleton-skeleton</h6>
+        <h6 className={clsx('cursor-default text-sm opacity-0')}>
+          skeleton-skeleton
+        </h6>
       )}
     </li>
   );
