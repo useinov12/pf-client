@@ -26,17 +26,17 @@ export default function DemoCard({ className }: { className?: string }) {
   const { mode } = useTheme();
 
   const [counter, setCounter] = useState(0);
-
   const prevCountRef = useRef(counter);
 
+  /* gsap animation timeline */
   const masterTimeline = useRef(gsap.timeline());
 
-  /** Update counter every x seconds */
+  /* Timer */
   useEffect(() => {
-    const delay = 7400;
+    const delay = 9400;
     const timer = setInterval(() => {
       prevCountRef.current = counter; //save prev counter value
-      setCounter((prev) => (prev >= 2 ? 0 : prev + 1));
+      setCounter((prev) => (prev === 2 ? 0 : prev + 1));
     }, delay);
     return () => clearInterval(timer);
   }, [counter]);
@@ -62,7 +62,7 @@ export default function DemoCard({ className }: { className?: string }) {
         </div>
       </header>
 
-      <section className='flex flex-col gap-3 md:flex-row'>
+      <section className='flex  gap-3 md:flex-row'>
         <div className='flex flex-col gap-y-3 md:w-1/2'>
           <Banks
             currentBank={demoDataCollection[counter]}
@@ -85,7 +85,12 @@ export default function DemoCard({ className }: { className?: string }) {
             prevCounter={prevCountRef.current}
             masterTimeline={masterTimeline}
           />
-          <Charts currentBank={demoDataCollection[counter]} />
+          <Charts
+            currentBank={demoDataCollection[counter]}
+            counter={counter}
+            prevCounter={prevCountRef.current}
+            masterTimeline={masterTimeline}
+          />
         </div>
       </section>
     </div>
@@ -117,5 +122,3 @@ export interface DemoCardProps {
   prevCounter: number;
   masterTimeline: MutableRefObject<gsap.core.Timeline>;
 }
-
-
