@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { MutableRefObject, useEffect, useRef } from 'react';
 import { Card, DemoCardProps } from './DemoCard';
-import { DemoData, demoDataCollection } from './demoData';
+import { demoDataCollection } from './demoData';
 import { MdSwitchAccount } from 'react-icons/md';
 import { ChartDataFormat } from '@/components/charts/types';
 import PieChart from '@/components/charts/PieChart';
@@ -14,7 +14,6 @@ export default function Accounts({
   prevCounter,
   masterTimeline,
 }: DemoCardProps) {
-  const { mode } = useTheme();
 
   //   const summaryAccTypeRef = useRef(new Array(3));
   const summaryAccSumRef = useRef(new Array(3));
