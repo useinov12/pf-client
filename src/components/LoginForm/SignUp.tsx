@@ -1,9 +1,9 @@
 import React, { ChangeEvent, Dispatch, useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/buttons/Button';
-import { isPasswordMatch, hasMissingInputs } from '@/lib/form.validation';
+import { isPasswordMatch, hasMissingInputs } from '@/lib/formValidation';
 import toast from 'react-hot-toast';
-import { register } from '@/services/user/actions';
+import { register } from '@/services/auth/actions';
 
 const SignUp: React.FC<{
   setToggleForm: Dispatch<boolean>;
