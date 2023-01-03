@@ -1,16 +1,24 @@
 import type { ChartArea, ScriptableContext } from 'chart.js';
-import { IncomingData, ChartDataStructure, Dataset } from '@/components/charts/types';
-import { defaultColorsBackground, defaultColorsStroke } from '@/components/charts/defaults';
-
+import {
+  ChartDataFormat,
+  ChartDataStructure,
+  Dataset,
+} from '@/components/charts/types';
+import {
+  defaultColorsBackground,
+  defaultColorsStroke,
+  grayShades,
+  grayShadesBg,
+} from '@/components/charts/defaults';
 
 /* Creates a gradient background for Chart */
 export default function createGradient(
   ctx: CanvasRenderingContext2D | null,
   area: ChartArea
 ) {
-  const colorStart = 'rgba(208, 208, 208, 0.5)';
-  const colorMid = 'rgba(168, 168, 168, 0.5)';
-  const colorEnd = 'rgba(150, 149, 149, 0.5)';
+  const colorStart = 'rgba(128, 128, 128, 1)';
+  const colorMid = 'rgba(211, 211, 211, 1)';
+  const colorEnd = 'rgba(169, 169, 169, 1)';
 
   if (ctx) {
     const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
@@ -25,13 +33,15 @@ export default function createGradient(
 }
 
 /* Formats incoming dataseet into Chart Js data for charts */
-export function getChartDataStructure(incomingData: IncomingData): ChartDataStructure {
+export function getChartDataStructure(
+  incomingData: ChartDataFormat
+): ChartDataStructure {
   const datasets: Dataset[] = incomingData.data.map((dataset, i) => {
     return {
       label: incomingData.label,
       data: dataset,
-      backgroundColor: defaultColorsBackground,
-      borderColor: defaultColorsStroke,
+      backgroundColor: grayShadesBg,
+      borderColor: grayShades,
       borderWidth: 1,
     };
   });
@@ -42,57 +52,53 @@ export function getChartDataStructure(incomingData: IncomingData): ChartDataStru
   };
 }
 
-
-
 const labels = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  
-  
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
 const fakeDataset = {
-    labels,
-    datasets: [
-      {
-        label: 'Checking Account',
-        data: labels.map(() => [1,2,3,43,4]),
-        backgroundColor: ({ chart: { ctx } }: ScriptableContext<'bar'>) => {
-          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-          gradient.addColorStop(0, '#fde047');
-          gradient.addColorStop(1, '#f97316');
-          return gradient;
-        },
+  labels,
+  datasets: [
+    {
+      label: 'Checking Account',
+      data: labels.map(() => [1, 2, 3, 43, 4]),
+      backgroundColor: ({ chart: { ctx } }: ScriptableContext<'bar'>) => {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, '#fde047');
+        gradient.addColorStop(1, '#f97316');
+        return gradient;
       },
-      {
-        label: 'Saving Account',
-        data: labels.map(() => [1,2,3,43,4]),
-        backgroundColor: ({ chart: { ctx } }: ScriptableContext<'bar'>) => {
-          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-          gradient.addColorStop(0, '#bae6fd');
-          gradient.addColorStop(1, '#2563eb');
-          return gradient;
-        },
+    },
+    {
+      label: 'Saving Account',
+      data: labels.map(() => [1, 2, 3, 43, 4]),
+      backgroundColor: ({ chart: { ctx } }: ScriptableContext<'bar'>) => {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, '#bae6fd');
+        gradient.addColorStop(1, '#2563eb');
+        return gradient;
       },
-      {
-        label: 'Credit Account',
-        data: labels.map(() => [1,2,3,43,4]),
-        backgroundColor: ({ chart: { ctx } }: ScriptableContext<'bar'>) => {
-          const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-          gradient.addColorStop(0, '#a78bfa');
-          gradient.addColorStop(1, '#c026d3');
-          return gradient;
-        },
+    },
+    {
+      label: 'Credit Account',
+      data: labels.map(() => [1, 2, 3, 43, 4]),
+      backgroundColor: ({ chart: { ctx } }: ScriptableContext<'bar'>) => {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+        gradient.addColorStop(0, '#a78bfa');
+        gradient.addColorStop(1, '#c026d3');
+        return gradient;
       },
-    ],
-  };
+    },
+  ],
+};
