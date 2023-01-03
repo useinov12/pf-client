@@ -10,7 +10,7 @@ import { useAuth } from '@/services/auth/queries';
 import { useLoginForm } from '@/context/LoginFormProvider';
 import { getRedirect, clearRedirect } from '@/lib/lastRedirect';
 
-function Login({ className }: { className?: string }) {
+export default function Login({ className }: { className?: string }) {
   return <Form className={className} />;
 }
 
@@ -45,7 +45,7 @@ function Form({ className }: { className?: string }) {
       /* invalidate query to trigger update cashed user */
       queryClient.invalidateQueries(['user']);
       refetch();
-    handleOpenLoginForm();
+      handleOpenLoginForm();
     }
   }
 
@@ -123,4 +123,3 @@ function Form({ className }: { className?: string }) {
     </form>
   );
 }
-export default Login;
