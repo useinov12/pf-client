@@ -6,15 +6,11 @@ import { getChartDataStructure } from '@/lib/chartHelpers';
 
 import 'chart.js/auto';
 
-interface PieChartProps extends ChartProps {
-  radius: string;
-}
 
 export default function PieChart({
-  radius,
   delay,
   incomingData,
-}: PieChartProps) {
+}: ChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'pie'>>({
     datasets: [],
