@@ -19,7 +19,10 @@ type SectionProps = { className?: string; children?: ReactNode };
 
 const HeroDemo = ({ className, children }: SectionProps) => {
   return (
-    <StyledBgSection right>
+    <StyledBgSection
+      className='flex items-center justify-center lg:block'
+      right
+    >
       <div
         className={clsx(
           'translate-x-20 sm:translate-x-0',
@@ -34,7 +37,7 @@ const HeroDemo = ({ className, children }: SectionProps) => {
   );
 };
 
-const HeroText = ({ className, children }: SectionProps) => {
+const HeroText = ({ className }: SectionProps) => {
   return (
     <section
       className={clsx(

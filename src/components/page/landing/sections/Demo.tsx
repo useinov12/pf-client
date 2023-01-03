@@ -7,9 +7,9 @@ import { AiFillCheckSquare } from 'react-icons/ai';
 
 export default function Demo() {
   return (
-    <Screen className='flex flex-col gap-6  lg:flex-row-reverse'>
+    <Screen className='flex flex-col gap-6 lg:flex-row-reverse'>
       <DemoText className='lg:w-2/5' />
-      <StyledBgSection className='h-screen lg:w-3/5' left>
+      <StyledBgSection className='h-screen md:h-[90vh] lg:h-screen lg:w-3/5' left>
         <DemoCard
           className={clsx(
             'translate-x-10 sm:translate-x-0',
@@ -27,7 +27,7 @@ const DemoText = ({ className }: { className: string }) => {
   return (
     <section
       className={clsx(
-        'flex flex-col items-center justify-center  gap-6  lg:items-start',
+        'flex flex-col items-center justify-center gap-6 lg:items-start',
         className
       )}
     >

@@ -18,23 +18,17 @@ export default function StyledBgSection({
 }: StyledBgSection) {
   const { mode } = useTheme();
   return (
-    <div
-      className={clsx(
-        'relative h-screen overflow-hidden',
-        'flex items-start justify-center lg:block',
-        className
-      )}
-    >
+    <div className={clsx('relative h-screen overflow-hidden', className)}>
       <div
         className={clsx(
           'absolute',
-          right && 'right-0',
-          left && 'left-0',
-          mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-900/30',
+          mode === 'light' ? 'bg-gray-400/90' : 'bg-gray-900/50',
           'h-[43rem] w-1/2 lg:w-[20rem]',
           right && 'rounded-tl-2xl rounded-bl-2xl',
           left && 'rounded-tr-2xl rounded-br-2xl',
-          'drop-shadow-lg'
+          'drop-shadow-lg',
+          right && 'right-0',
+          left && 'left-0'
         )}
       />
       <Polkadot

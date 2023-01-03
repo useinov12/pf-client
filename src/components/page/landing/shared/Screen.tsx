@@ -10,7 +10,7 @@ export default function Screen({ children, className }: SectionWrapperProps) {
   return (
     <section
       className={clsx(
-        'h-full min-h-screen w-screen',
+        'h-full min-h-[80vh] w-screen',
         'overflow-hidden',
         className
       )}

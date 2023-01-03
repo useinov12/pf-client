@@ -1,90 +1,93 @@
 import React from 'react';
 import clsx from 'clsx';
-import Path from '../Path';
 import { TbSpeedboat } from 'react-icons/tb';
 import { RiUserSettingsFill, RiSafe2Fill } from 'react-icons/ri';
 import { BsSpeedometer } from 'react-icons/bs';
-import { ThemeContext } from '@/context/ThemeProvider';
+import { useTheme } from '@/context/ThemeProvider';
 import ArrowLink from '@/components/links/ArrowLink';
 
-const ExpirienceSection = () => {
-  const { mode } = React.useContext(ThemeContext);
-
+export default function ExpirienceSection() {
   return (
-    <article
+    <section
       className={clsx(
         'mx-auto',
         'px-3 sm:max-w-screen-sm',
         'md:max-w-screen-md ',
         'lg:max-w-screen-xl',
         'xl:max-w-screen-xl',
-        'mt-20 lg:mt-0',
-        'snap-start'
+        'my-20'
       )}
     >
-      <div className='flex w-full flex-col lg:gap-3 lg:flex-row'>
-        <div className='flex flex-col items-center justify-start lg:items-start'>
-          <TbSpeedboat className='lg:mb-2 h-20 w-20 rounded-full' />
-          <Path height={350} className='hidden lg:block'/>
+      <div className='flex w-full flex-col'>
+        <div className='flex w-full flex-col items-center  gap-y-1 gap-x-3 lg:flex-row'>
+          <TbSpeedboat className='h-24 w-24 rounded-full' />
+          <div className='flex w-full flex-col items-center lg:items-start'>
+            <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
+              Smooth Experience
+            </h2>
+            <h3 className='cursor-default text-center text-xl font-normal drop-shadow lg:text-left'>
+              Intuitive, easy and secure
+            </h3>
+          </div>
         </div>
 
-        <div className='w-full'>
-          <div className='w-full'>
-            <div className='lg:mt-4 flex w-full flex-col items-center lg:items-start'>
-              <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
-                Smooth Experience
-              </h2>
-              <h3 className='cursor-default text-center text-xl font-normal drop-shadow lg:text-left'>
-                Intuitive, easy and secure
-              </h3>
-            </div>
-          </div>
-
-          <div className='my-4 flex h-full w-full'>
-            <ul
-              className={clsx(
-                'w-full rounded-lg lg:h-60',
-                'flex flex-wrap items-center justify-center gap-1 md:flex-nowrap lg:flex-nowrap'
-              )}
-            >
-              {cards.map((card, i) => (
-                <li
-                  key={card.title}
-                  className={clsx(
-                    'flex-col items-center rounded',
-                    'w-full border py-2 md:h-72 md:w-1/3 md:px-2 lg:h-60',
-                    'flex flex-col items-start',
-                    mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-                    mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
-                  )}
-                >
-                  <div className='flex flex-col items-center gap-1 lg:self-center '>
-                    {card.icon}
-                    <h4 className='font-mono text-xl font-semibold tracking-tighter drop-shadow '>
-                      {card.title}
-                    </h4>
-                  </div>
-                  <div
-                    className={clsx(
-                      'w-full py-2 text-center font-serif text-lg font-normal drop-shadow md:mt-5',
-                      'w-full sm:px-10 md:px-0'
-                    )}
-                  >
-                    {card.secondTitle}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className='my-4 flex h-full w-full'>
+          <ul
+            className={clsx(
+              'w-full rounded-lg lg:h-60',
+              'flex flex-wrap items-center justify-center gap-2',
+              'lg:flex-col'
+            )}
+          >
+            {cards.map((card) => (
+              <ExpirienceCard card={card} key={card.title} />
+            ))}
+          </ul>
         </div>
       </div>
-    </article>
+    </section>
+  );
+}
+
+const ExpirienceCard = ({ card, className }: { card: DataType, className?:string }) => {
+  const { mode } = useTheme();
+  return (
+    <li
+      className={clsx(
+        'flex-col items-center rounded',
+        'w-full border py-2 md:w-80 md:h-72 md:px-2 lg:h-60',
+        'flex flex-col items-start',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
+        className
+      )}
+    >
+      <div className='flex flex-col items-center gap-1 lg:self-center '>
+        {card.icon}
+        <h4 className='font-mono text-xl font-semibold tracking-tighter drop-shadow '>
+          {card.title}
+        </h4>
+      </div>
+      <div
+        className={clsx(
+          'w-full py-2 text-center font-serif text-lg font-normal drop-shadow md:mt-5',
+          'w-full sm:px-10 md:px-0'
+        )}
+      >
+        {card.secondTitle}
+      </div>
+    </li>
   );
 };
 
-export default ExpirienceSection;
+type DataType = {
+  title: string;
+  secondTitle: string | JSX.Element;
+  icon: JSX.Element;
+  text?: string | undefined;
+};
 
-const cards = [
+const cards: DataType[] = [
   {
     title: 'Easy to set up',
     secondTitle:

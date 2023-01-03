@@ -14,16 +14,12 @@ export default function ReviewsSection() {
         'mx-auto mt-2 px-3',
         'sm:max-w-screen-sm ',
         'md:max-w-screen-lg ',
-        'lg:max-w-screen-xl',
+        'lg:max-w-screen-xl'
       )}
     >
-      <section className='flex flex-col items-center justify-end '>
-        <div className='flex w-full flex-col gap-3 lg:flex-row '>
-          <div className='flex flex-col items-center justify-center lg:items-start'>
-            <SiCircle className='mb-2 h-16 w-16 rounded-full' />
-            <Path height={500} className='hidden rotate-180 lg:block' />
-          </div>
-
+      <section className='my-20 flex flex-col items-center justify-end gap-6'>
+        <div className='flex w-full flex-col items-center gap-3 lg:flex-row'>
+          <SiCircle className=' h-16 w-16 rounded-full' />
           <div className=''>
             <div className='mb-10 flex w-full flex-col  items-center lg:mb-3 lg:items-start '>
               <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
@@ -33,19 +29,14 @@ export default function ReviewsSection() {
                 It was never this easy to look into your own financial state
               </h3>
             </div>
-
-            <div className='flex h-max w-full items-center justify-center sm:items-start '>
-              <ul
-                className={clsx(
-                  'grid gap-x-1 gap-y-1 sm:grid-cols-2 md:grid-cols-3'
-                )}
-              >
-                {reviews.map((review, i) => (
-                  <Review review={review} key={review.name} />
-                ))}
-              </ul>
-            </div>
           </div>
+        </div>
+        <div className='flex h-max w-full items-center justify-center sm:items-start'>
+          <ul className='grid gap-2 md:grid-cols-2  lg:grid-cols-3'>
+            {reviews.map((review, i) => (
+              <Review review={review} key={review.name} />
+            ))}
+          </ul>
         </div>
       </section>
     </article>
@@ -67,23 +58,24 @@ const Review = ({ review }: ReviewProps) => {
       className={clsx(
         'relative overflow-hidden',
         'flex items-center justify-center rounded',
-        'h-40 w-full border  py-2  px-2 md:h-48',
+        'h-40 w-full border  px-2 md:h-48  ',
         mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
       )}
     >
       <Polkadot className='absolute top-0 z-0 -translate-x-52' />
-      <FaQuoteLeft className='absolute bottom-8 left-32 text-xl' />
-      <FaQuoteRight className='opacity-98 absolute top-8 right-6 text-xl' />
+      <FaQuoteRight className='absolute top-6 right-6 text-2xl opacity-70' />
 
-      <div className='flex gap-4'>
-        <div className='w-1/3 '>
-          <Image src={review.image} width={120} height={110} className='' />
+      <div className='flex w-full h-full gap-4'>
+        <div className='w-2/5 my-4'>
+          <Image src={review.image} width={120} height={110} />
         </div>
 
-        <div className='w-2/3 shrink md:mt-5'>
-          <span className='py-2 font-serif text-lg'>{review.review}</span>
-          <h6 className='w-full px-8 text-right font-semibold'>
+        <div className='w-3/5 md:mt-5 flex flex-col justify-center items-center'>
+          <span className='py-2 font-semibold text-lg tracking-tight'>
+            {review.review}
+          </span>
+          <h6 className='w-full px-8 text-right font-serif text-xl'>
             {review.name}
           </h6>
         </div>
