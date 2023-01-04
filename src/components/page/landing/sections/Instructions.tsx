@@ -7,14 +7,14 @@ import ButtonLink from '../../../links/ButtonLink';
 import { AiOutlineLineChart } from 'react-icons/ai';
 import Ping from '../../../shared/Ping';
 import { useTheme } from '@/context/ThemeProvider';
-import Polkadot from '../shared/Polkadot';
+import Polkadot from '../../../shared/Polkadot';
 
 export default function InstructionsSection() {
   return (
-    <div>
+    <section>
       <Header />
       <MainSection />
-    </div>
+    </section>
   );
 }
 
@@ -87,8 +87,8 @@ const MainSection = () => {
         'md:max-w-screen-md ',
         'lg:max-w-screen-lg',
         'xl:max-w-screen-xl',
-        'flex flex-col md:flex-row gap-2',
-        'items-center '
+        'w-full rounded-lg lg:h-60',
+        'flex items-center justify-center gap-2'
       )}
     >
       <InstructionCard>
@@ -111,9 +111,7 @@ const MainSection = () => {
       </InstructionCard>
 
       <InstructionCard>
-        <div
-          className={clsx('flex flex-col items-center justify-center', 'py-2')}
-        >
+        <div className='flex flex-col items-center justify-center py-2'>
           <Image
             src={'/images/plaid.png'}
             width={100}
@@ -184,7 +182,7 @@ const InstructionCard = ({
       className={clsx(
         'rounded',
         'relative overflow-hidden',
-        'w-full border py-2 md:w-80 md:h-80 md:px-2',
+        'w-full border py-2 md:h-80 md:px-2',
         mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
         className
