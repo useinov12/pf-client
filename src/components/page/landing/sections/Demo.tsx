@@ -16,8 +16,8 @@ export default function Demo() {
         'overflow-hidden py-5'
       )}
     >
-      <SectionRight className='shrink lg:w-2/5' />
-      <SectionLeft className=' w-full ' />
+      <SectionText className='shrink lg:w-1/2' />
+      <SectionCard className=' w-full ' />
     </Container>
   );
 }
@@ -64,25 +64,25 @@ const BgSurface = () => {
   );
 };
 
-const SectionLeft = ({ className }: { className: string }) => {
+const SectionCard = ({ className }: { className: string }) => {
   return (
     <section
       className={clsx('relative', 'flex items-start justify-center', className)}
     >
-      <Polkadot className={clsx('absolute top-0 -right-5', 'h-80 w-2/3')} />
+      <Polkadot className={clsx('absolute -top-1 -right-4', 'h-80 w-2/3')} />
       <DemoCard
         className={clsx(
           'translate-x-10 sm:translate-x-0',
           'h-full w-full',
           'md:h-[32rem] md:w-[36rem]',
-          'translate-y-5 lg:-translate-x-5'
+          'translate-y-5 lg:-translate-x-0'
         )}
       />
     </section>
   );
 };
 
-const SectionRight = ({ className }: { className: string }) => {
+const SectionText = ({ className }: { className: string }) => {
   return (
     <section
       className={clsx(
@@ -90,13 +90,13 @@ const SectionRight = ({ className }: { className: string }) => {
         className
       )}
     >
-      <div className='my-4 flex flex-col items-center justify-center gap-2 lg:my-0 lg:flex-row lg:items-start'>
+      <div className='my-4 flex flex-col items-center justify-center gap-2'>
         <BsCashCoin className='h-16 w-16' />
-        <div className='flex flex-col items-center lg:items-start'>
-          <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
+        <div className='flex flex-col items-center'>
+          <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow'>
             PersonalFinance
           </h2>
-          <h3 className='cursor-default text-center text-xl font-normal  drop-shadow lg:text-left'>
+          <h3 className='cursor-default text-center text-xl font-normal tracking-tight  drop-shadow'>
             will help you organize your bank data
           </h3>
         </div>
@@ -110,7 +110,7 @@ const SectionRight = ({ className }: { className: string }) => {
         ].map((perk, i) => (
           <li key={i} className='inline-flex items-center gap-3'>
             <AiFillCheckSquare className='h-7 w-7' />
-            <h6 className='text-lg'>{perk}</h6>
+            <p className='text-md tracking-tight'>{perk}</p>
           </li>
         ))}
       </ul>
