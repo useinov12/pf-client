@@ -1,6 +1,10 @@
 import gsap from 'gsap';
 
-export default gsap.registerEffect({
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.registerEffect({
   name: 'swapText',
   effect: (targets: any, config: any) => {
     const tl = gsap.timeline({ delay: config.delay });
@@ -12,3 +16,5 @@ export default gsap.registerEffect({
   defaults: { duration: 0.5 },
   extendTimeline: true,
 });
+
+export * from 'gsap';
