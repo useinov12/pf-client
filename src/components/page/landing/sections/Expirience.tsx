@@ -9,7 +9,7 @@ import Polkadot from '@/components/shared/Polkadot';
 
 export default function ExpirienceSection() {
   return (
-    <Container className='flex w-full flex-col'>
+    <Container className='mt-40 lg:mt-0 mb-20 flex w-full flex-col'>
       <Header />
       <ListOfCards />
     </Container>
@@ -58,7 +58,8 @@ const ListOfCards = () => {
       <ul
         className={clsx(
           'w-full rounded-lg lg:h-60',
-          'grid gap-2 md:grid-cols-2  lg:grid-cols-3'
+          'flex flex-wrap items-center  gap-1',
+          'md:grid  md:grid-cols-3'
         )}
       >
         {cards.map((card) => (
@@ -89,7 +90,7 @@ const ExpirienceCard = ({
         className
       )}
     >
-      <Polkadot className='absolute top-0 z-0 -translate-x-60 -translate-y-10' />
+      <Polkadot className='absolute top-0 z-0 -translate-x-52 -translate-y-10' />
       <div className='flex flex-col items-center gap-1 lg:self-center '>
         {card.icon}
         <h4 className='font-mono text-xl font-semibold tracking-tighter drop-shadow '>
