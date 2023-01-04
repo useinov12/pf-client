@@ -8,7 +8,7 @@ import Polkadot from '../../../shared/Polkadot';
 
 export default function ReviewsSection() {
   return (
-    <Container className='my-20 flex flex-col items-center justify-end gap-6'>
+    <Container className='flex flex-col items-center justify-end gap-6'>
       <Header />
       <ReviewList />
     </Container>
@@ -24,7 +24,7 @@ const Container = ({ children, className }: SectionWrapperProps) => {
   return (
     <section
       className={clsx(
-        'mx-auto mt-2 px-3',
+        'mx-auto mt-20 px-3 md:mt-0',
         'sm:max-w-screen-sm ',
         'md:max-w-screen-lg ',
         'lg:max-w-screen-xl',
