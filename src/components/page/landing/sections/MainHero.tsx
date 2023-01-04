@@ -49,9 +49,9 @@ const BgSurface = () => {
     <div
       className={clsx(
         'absolute',
-        'mt-[22rem] lg:mt-0',
-        'h-[90vh] w-1/2',
-        'lg:w-1/3',
+        'mt-[24rem] lg:mt-0',
+        'h-[70vh] md:h-[90vh]',
+        'w-1/2 lg:w-1/3',
         'right-0',
         'rounded-tl-3xl rounded-bl-3xl',
         mode === 'light' ? 'bg-gray-400/90' : 'bg-gray-900/50'
