@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { ThemeContext } from '@/context/ThemeProvider';
+import { useTheme } from '@/context/ThemeProvider';
 import { useEffect, useState, useContext, ReactNode } from 'react';
 import Link from 'next/link';
 import Button from '@/components/buttons/Button';
@@ -8,6 +8,7 @@ import { useAuth } from '@/services/auth/queries';
 import ThemeButton from '../../shared/ThemeSwitch';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import LayoutCommon from '@/components/shared/LayoutCommon';
+import { BsFacebook, BsInstagram, BsTwitter, BsGithub } from 'react-icons/bs';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -45,7 +46,7 @@ const Navbar = () => {
     >
       <nav className='py-3' data-fade='1'>
         <ul className='flex items-center justify-between'>
-          <div/>
+          <div />
           <ul className='inline-flex items-center gap-2'>
             <li>{user ? <CabinetLink /> : <LoginButton />}</li>
             <li>
@@ -82,10 +83,7 @@ const LoginButton = () => {
 };
 
 const Footer = () => {
-  const {
-    // color,
-    mode,
-  } = useContext(ThemeContext);
+  const { mode } = useTheme();
   return (
     <footer
       className={clsx(
@@ -96,39 +94,15 @@ const Footer = () => {
         mode === 'dark' ? 'border-gray-50' : 'border-dark'
       )}
     >
-      <article
-        className={clsx(
-          'lg-px-4 mx-auto max-w-screen-md lg:max-w-screen-xl',
-          'flex flex-col items-start justify-center sm:flex-row',
-          'sm:justify-between'
+      <ul className='flex h-20 w-full items-center justify-center gap-4'>
+        {[<BsFacebook />, <BsInstagram />, <BsTwitter />, <BsGithub />].map(
+          (icon) => (
+            <li className='text-3xl hover:cursor-pointer hover:text-primary-500'>
+              {icon}
+            </li>
+          )
         )}
-      >
-        {/* <section className='my-5 flex flex-col gap-y-10'>
-            <h2 className='text-2xl text-center sm:text-start'>Get in touch</h2>
-            <form className='flex flex-col mb-8 items-center sm:items-start'>
-              <input type='email' placeholder='me@email.com' className='rounded my-1 px-1 py-1 text-sm w-44 text-dark'/>
-              <textarea placeholder='Your message' className='rounded my-1 px-1 py-1 text-sm w-56 text-dark'/>
-            </form>
-          </section> */}
-
-        <section className='my-5 flex flex-col'>
-          <h2 className='text-center text-2xl sm:text-start'>
-            PersonalFinance
-          </h2>
-          <h3 className=' my-2 text-center text-2xl sm:text-start'>Contacts</h3>
-          <ul className=' text-center text-xl sm:text-start'>
-            <li className='text-md my-2'>
-              <p>email: xxxxx@company.com</p>
-            </li>
-            <li className='text-md my-2'>
-              <p>phone: +1 xxx-xxx-xxxx</p>
-            </li>
-            <li className='text-md my-2'>
-              <p>address: xxxxx Street, xxxxx City, XXXX</p>
-            </li>
-          </ul>
-        </section>
-      </article>
+      </ul>
 
       <section className='text-center'>
         © {new Date().getFullYear()} {''}
