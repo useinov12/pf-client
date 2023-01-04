@@ -14,10 +14,10 @@ import { useTheme } from '@/context/ThemeProvider';
 import Polkadot from '../../../shared/Polkadot';
 import { useAuth } from '@/services/auth/queries';
 import { useLoginForm } from '@/context/LoginFormProvider';
-import gsap from 'gsap';
+import { gsap } from '@/lib/gsap';
+import { BsCartX } from 'react-icons/bs';
 
 export default function MainHeroSection() {
-
   /* to postpone the animation sequence until component is mounted */
   const [isMounted, setIsMouted] = useState(false);
 
@@ -32,7 +32,6 @@ export default function MainHeroSection() {
     return () => clearTimeout(timer);
   }, []);
 
-
   return (
     <Container
       className='mb-20 flex flex-col gap-6 overflow-hidden py-5 lg:flex-row'
@@ -40,11 +39,14 @@ export default function MainHeroSection() {
       timeline={masterTimeline}
     >
       <HeroText className='mt-20 h-full flex-none lg:w-1/2' />
-      <HeroDemo className='shrink' timeline={masterTimeline} isMounted={isMounted} />
+      <HeroDemo
+        className='shrink'
+        timeline={masterTimeline}
+        isMounted={isMounted}
+      />
     </Container>
   );
 }
-
 
 interface SectionWrapperProps {
   className?: string;
@@ -92,20 +94,25 @@ const BgSurface = ({
   /* animate background surface */
   useEffect(() => {
     if (isMounted) {
-      gsap.ticker.lagSmoothing(false);
-      timeline.current.fromTo(
-        BgSurfaceRef.current,
-        {
-          x: 100, y: 20,
-          opacity: 0,
-        },
-        {
-          x: 0, y: 0,
-          opacity: 1,
-          duration: 1.2,
-          ease: 'ease.in',
-        }, 0.6
-      );
+      let ctx = gsap.context(() => {
+        timeline.current.fromTo(
+          BgSurfaceRef.current,
+          {
+            x: 100,
+            y: 20,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: 'ease.in',
+          },
+          0.6
+        );
+      }, BgSurfaceRef);
+      return () => ctx.revert();
     }
   }, [isMounted]);
 
@@ -113,7 +120,7 @@ const BgSurface = ({
     <div
       ref={BgSurfaceRef}
       className={clsx(
-        'opacity-0', /* opacity handeled by gsap animation */
+        'opacity-0' /* opacity handeled by gsap animation */,
         'absolute',
         'mt-[24rem] lg:mt-0',
         'h-[70vh] md:h-[90vh]',
@@ -135,33 +142,40 @@ const HeroDemo = ({
   timeline: MutableRefObject<gsap.core.Timeline>;
   isMounted: boolean;
 }) => {
+  const animationScope = useRef<HTMLDivElement | null>(null);
   const PolkadotRef = useRef<HTMLDivElement | null>(null);
   const DemoRef = useRef<HTMLDivElement | null>(null);
 
   /* animate Polkadot and DemoCard */
   useEffect(() => {
     if (isMounted) {
-      gsap.ticker.lagSmoothing(false);
-      timeline.current.fromTo(
-        PolkadotRef.current,
-        { opacity: 0, y: 20 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.7,
-          ease: 'ease.in',
-        }, 0.4
-      );
-      timeline.current.fromTo(
-        DemoRef.current,
-        { opacity: 0, x: 100, y: 20 },
-        {
-          x: 60,y: 0,
-          opacity: 1,
-          duration: 1.3,
-          ease: 'ease.in',
-        }, 1.3
-      );
+      let ctx = gsap.context(() => {
+        timeline.current.fromTo(
+          PolkadotRef.current,
+          { opacity: 0, y: 20 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.7,
+            ease: 'ease.in',
+          },
+          0.4
+        );
+        timeline.current.fromTo(
+          DemoRef.current,
+          { opacity: 0, x: 100, y: 20 },
+          {
+            x: 60,
+            y: 0,
+            opacity: 1,
+            duration: 1.3,
+            ease: 'ease.in',
+          },
+          1.3
+        );
+      }, animationScope);
+
+      return () => ctx.revert();
     }
   }, [isMounted]);
 
@@ -172,9 +186,10 @@ const HeroDemo = ({
         'flex items-center justify-center',
         className
       )}
+      ref={animationScope}
     >
       {/* wrapper div for Polkadot to hook animation with */}
-      <div 
+      <div
         className='absolute top-16 -left-10 h-full w-full opacity-0'
         ref={PolkadotRef}
       >
