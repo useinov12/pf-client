@@ -7,18 +7,14 @@ import {
 } from 'react';
 import gsap from 'gsap';
 import clsx from 'clsx';
-
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useTheme } from '@/context/ThemeProvider';
-
-import '@/lib/swapText';
-
 import Banks from './Banks';
 import Accounts from './Accounts';
 import Transactions from './Transactions';
 import Charts from './Charts';
-
 import { DemoData, demoDataCollection } from './demoData';
+import '@/lib/swapText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -42,18 +38,7 @@ export default function DemoCard({ className }: { className?: string }) {
   }, [counter]);
 
   return (
-    <div
-      className={clsx(
-        'my-4 h-auto w-full lg:my-0',
-        'rounded-xl  p-3 ',
-        ' ring-white drop-shadow-lg ',
-        'transition-all duration-300',
-        'border',
-        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-100' : 'bg-gray-900',
-        className
-      )}
-    >
+    <Container className={className}>
       <header>
         <div className='my-3 ml-2 inline-flex items-center gap-2'>
           <div className='h-3 w-3 rounded-full bg-red-500/90 drop-shadow ' />
@@ -93,11 +78,38 @@ export default function DemoCard({ className }: { className?: string }) {
           />
         </div>
       </section>
-    </div>
+    </Container>
   );
 }
 
 type SectionProps = { className?: string; children?: ReactNode };
+
+const Container = ({
+  className,
+  children,
+}: {
+  className?: string;
+  children: ReactNode;
+}) => {
+  const { mode } = useTheme();
+  return (
+    <div
+      className={clsx(
+        'overflow-hidden',
+        'my-4 h-auto w-full lg:my-0',
+        'rounded-xl  p-3 ',
+        ' ring-white drop-shadow-lg ',
+        'transition-all duration-300',
+        'border',
+        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-100' : 'bg-gray-900',
+        className
+      )}
+    >
+      {children}
+    </div>
+  );
+};
 
 export const Card = ({ className, children }: SectionProps) => {
   const { mode } = useTheme();
