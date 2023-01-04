@@ -13,7 +13,9 @@ export default function InstructionsSection() {
   return (
     <section>
       <Header />
-      <MainSection />
+      <Container>
+        <CardList />
+      </Container>
     </section>
   );
 }
@@ -77,18 +79,33 @@ const Header = () => {
   );
 };
 
-const MainSection = () => {
-  const { mode } = useTheme();
+interface SectionWrapperProps {
+  className?: string;
+  children?: ReactNode;
+}
+const Container = ({ children, className }: SectionWrapperProps) => {
   return (
     <section
       className={clsx(
-        'mx-auto my-28 ',
-        'px-3 sm:max-w-screen-sm',
-        'md:max-w-screen-md ',
-        'lg:max-w-screen-lg',
-        'xl:max-w-screen-xl',
-        'w-full rounded-lg lg:h-60',
-        'flex items-center justify-center gap-2'
+        'mx-auto my-28 px-3',
+        'sm:max-w-screen-sm ',
+        'md:max-w-screen-lg ',
+        'lg:max-w-screen-xl'
+      )}
+    >
+      {children}
+    </section>
+  );
+};
+
+const CardList = () => {
+  const { mode } = useTheme();
+  return (
+    <ul
+      className={clsx(
+        'w-full',
+        'flex flex-wrap items-center  gap-1',
+        'md:grid  md:grid-cols-3'
       )}
     >
       <InstructionCard>
@@ -104,7 +121,7 @@ const MainSection = () => {
         </div>
 
         <div className='my-4 flex flex-col items-center justify-center px-5'>
-          <p className='text-center text-xl  tracking-tight drop-shadow'>
+          <p className='text-center text-md  tracking-tight drop-shadow'>
             We use special Plaid Key to display your data in our app.
           </p>
         </div>
@@ -127,7 +144,7 @@ const MainSection = () => {
         </div>
 
         <div className='my-4 flex flex-col items-center justify-center px-5'>
-          <p className='text-center text-xl tracking-tight drop-shadow'>
+          <p className='text-center text-md tracking-tight drop-shadow'>
             In your cabinet connect banks by clicking
           </p>
           <Button className='my-2 py-1'>Add bank</Button>
@@ -146,8 +163,8 @@ const MainSection = () => {
         </div>
 
         <div className='my-4 flex flex-col items-center justify-center px-5'>
-          <p className='text-center text-xl  tracking-tight drop-shadow'>
-            Open the PersonalFinance app and use it!
+          <p className='text-center text-md  tracking-tight drop-shadow'>
+            Open app and use it!
           </p>
           <ButtonLink
             variant={mode === 'dark' ? 'light' : 'dark'}
@@ -165,7 +182,7 @@ const MainSection = () => {
           </ButtonLink>
         </div>
       </InstructionCard>
-    </section>
+    </ul>
   );
 };
 
@@ -182,7 +199,7 @@ const InstructionCard = ({
       className={clsx(
         'rounded',
         'relative overflow-hidden',
-        'w-full border py-2 md:h-80 md:px-2',
+        'h-72 w-full border py-2 md:px-2',
         mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
         className
