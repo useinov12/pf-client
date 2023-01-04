@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 
 interface LayoutCommonProps {
-  isLoaded?: boolean;                       /* trigger fade-in animation */
+  isLoaded?: boolean /* trigger fade-in animation */;
   children: JSX.Element | JSX.Element[];
-  className?: string;                       /* only for wrapper div */
+  className?: string /* only for wrapper div */;
   withWrapper?: boolean | undefined;
 }
 
@@ -19,10 +19,10 @@ export default function LayoutCommon({
   return (
     <div
       className={clsx(
-        mode === 'dark' ? 'text-gray-100' : 'text-gray-800',
+        mode === 'dark' ? 'text-gray-200' : 'text-gray-800',
         mode === 'dark'
           ? 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black '
-          : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-100 to-gray-700 ',
+          : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-400 via-gray-100 to-gray-400 ',
         isLoaded && 'fade-in-start'
       )}
     >
@@ -30,7 +30,7 @@ export default function LayoutCommon({
       {withWrapper ? (
         <div
           className={clsx(
-            'mx-auto md:px-4 sm:max-w-screen-sm',
+            'mx-auto sm:max-w-screen-sm md:px-4',
             'md:max-w-screen-lg ',
             'lg:max-w-screen-xl',
             className
