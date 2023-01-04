@@ -1,14 +1,25 @@
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import {
+  MutableRefObject,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import DemoCard from '../cards/DemoCard/DemoCard';
 import { BsCashCoin } from 'react-icons/bs';
 import { AiFillCheckSquare } from 'react-icons/ai';
 import Polkadot from '../../../shared/Polkadot';
 import { useTheme } from '@/context/ThemeProvider';
+import { gsap } from '@/lib/gsap';
 
 export default function Demo() {
+  /* animation timeline */
+  const masterTimeline = useRef(gsap.timeline());
+
   return (
     <Container
+      timeline={masterTimeline}
       className={clsx(
         'min-h-screen',
         'flex flex-col gap-6',
@@ -17,7 +28,7 @@ export default function Demo() {
       )}
     >
       <SectionText className='shrink lg:w-1/2' />
-      <SectionCard className=' w-full ' />
+      <SectionCard className=' w-full ' timeline={masterTimeline} />
     </Container>
   );
 }
@@ -25,12 +36,13 @@ export default function Demo() {
 interface SectionWrapperProps {
   className?: string;
   children?: ReactNode;
+  timeline: MutableRefObject<gsap.core.Timeline>;
 }
 
-const Container = ({ children, className }: SectionWrapperProps) => {
+const Container = ({ timeline, children, className }: SectionWrapperProps) => {
   return (
-    <div className='relative h-full w-full'>
-      <BgSurface />
+    <div className='relative h-full w-full' id='DemoCardTrigger'>
+      <BgSurface timeline={timeline} />
       <div
         className={clsx(
           'relative',
@@ -47,16 +59,54 @@ const Container = ({ children, className }: SectionWrapperProps) => {
   );
 };
 
-const BgSurface = () => {
+const BgSurface = ({
+  timeline,
+}: {
+  timeline: MutableRefObject<gsap.core.Timeline>;
+}) => {
   const { mode } = useTheme();
+
+  const BgSurfaceRef = useRef<HTMLDivElement | null>(null);
+
+  /* animate background surface */
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      timeline.current.fromTo(
+        BgSurfaceRef.current,
+        { opacity: 0, x: -70, y: 35 },
+        {
+          x: 0,
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: 'none',
+          scrollTrigger: {
+            id: 'BgSurface',
+            trigger: BgSurfaceRef.current,
+            // markers: true,
+            start: 'top 80%',
+            end: 'top+=100px 65%',
+            toggleActions: 'play none none reverse',
+            scrub: true,
+          },
+        }
+      );
+    }, BgSurfaceRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div
+      ref={BgSurfaceRef}
       className={clsx(
+        'opacity-0' /* opacity handeled by gsap animation */,
+        'opacity-100',
         'absolute',
         'mt-[22rem] lg:mt-0',
         'h-4/6 w-1/2 lg:h-5/6',
         'lg:w-1/3',
-        'left-0',
+        'left-0 top-0',
         'rounded-tr-3xl rounded-br-3xl',
         mode === 'light' ? 'bg-gray-400/90' : 'bg-gray-900/50'
       )}
@@ -64,12 +114,55 @@ const BgSurface = () => {
   );
 };
 
-const SectionCard = ({ className }: { className: string }) => {
+const SectionCard = ({
+  className,
+  timeline,
+}: {
+  className: string;
+  timeline: MutableRefObject<gsap.core.Timeline>;
+}) => {
+  const PolkadotRef = useRef<HTMLDivElement | null>(null);
+
+  /* gsap context scope https://greensock.com/react/#scope */
+  const animationScope = useRef<HTMLDivElement | null>(null);
+
+  /* animate polkadot component */
+  useLayoutEffect(() => {
+    let ctx = gsap.context(() => {
+      timeline.current.fromTo(
+        PolkadotRef.current,
+        { x: -100, y: 50 },
+        {
+          x: 50,
+          y: -15,
+          ease: 'none',
+
+          scrollTrigger: {
+            id: 'Polkadot',
+            trigger: PolkadotRef.current,
+            // markers: true,
+            start: 'top+=1--px 80%',
+            end: 'top+=100px 65%',
+            toggleActions: 'play none none reverse',
+            scrub: true,
+          },
+        },
+        0.6
+      );
+    }, animationScope);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <section
+      ref={animationScope}
       className={clsx('relative', 'flex items-start justify-center', className)}
     >
-      <Polkadot className={clsx('absolute -top-1 -right-4', 'h-80 w-2/3')} />
+      {/* wrapper div for Polkadot to hook animation with */}
+      <div ref={PolkadotRef} className='absolute -top-1 -right-4'>
+        <Polkadot className='h-80 w-full' />
+      </div>
       <DemoCard
         className={clsx(
           'translate-x-10 sm:translate-x-0',
