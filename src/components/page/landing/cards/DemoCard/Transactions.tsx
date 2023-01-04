@@ -4,6 +4,7 @@ import { MutableRefObject, useEffect, useRef } from 'react';
 import { Card, DemoCardProps } from './DemoCard';
 import { demoDataCollection, Transaction } from './demoData';
 import { CgArrowsExchange } from 'react-icons/cg';
+import { gsap } from '@/lib/gsap';
 
 export default function Transactions({
   currentBank,
@@ -20,6 +21,8 @@ export default function Transactions({
   const transactionsTotalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    gsap.ticker.lagSmoothing(false);
+
     currentBank.transactions.map((item, i) => {
       /*  animate list of transactions types */
       masterTimeline.current.fromTo(
@@ -36,7 +39,7 @@ export default function Transactions({
       );
     });
 
-    /* animate transactions total */
+    /*  animate transactions total */
     const previousTransTotal =
       counter === 0 ? countTransTotal(2) : countTransTotal(counter - 1);
     masterTimeline.current.fromTo(

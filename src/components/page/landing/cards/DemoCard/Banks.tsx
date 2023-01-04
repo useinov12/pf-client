@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Card, DemoCardProps } from './DemoCard';
 import { DemoData, demoDataCollection } from './demoData';
 import { BsPiggyBankFill } from 'react-icons/bs';
-import gsap from 'gsap';
+import {gsap} from '@/lib/gsap'
 
 export default function Banks({
   currentBank,

@@ -5,22 +5,16 @@ import {
   useRef,
   useState,
 } from 'react';
-import gsap from 'gsap';
+import { gsap } from '@/lib/gsap';
 import clsx from 'clsx';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useTheme } from '@/context/ThemeProvider';
 import Banks from './Banks';
 import Accounts from './Accounts';
 import Transactions from './Transactions';
 import Charts from './Charts';
 import { DemoData, demoDataCollection } from './demoData';
-import '@/lib/swapText';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function DemoCard({ className }: { className?: string }) {
-  const { mode } = useTheme();
-
   const [counter, setCounter] = useState(0);
   const prevCountRef = useRef(counter);
 

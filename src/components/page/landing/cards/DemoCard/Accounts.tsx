@@ -1,4 +1,4 @@
-import gsap from 'gsap';
+import {gsap} from '@/lib/gsap'
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { MutableRefObject, useEffect, useRef } from 'react';
