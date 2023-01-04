@@ -1,10 +1,17 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
+import { MutableRefObject } from 'react';
 
-export default function Polkadot({ className }: { className?: string }) {
+export default function Polkadot({
+  className,
+  ref,
+}: {
+  className?: string;
+  ref?: MutableRefObject<SVGSVGElement | null>;
+}) {
   const { mode } = useTheme();
   return (
-    <svg className={clsx(className)}>
+    <svg className={clsx(className)} ref={ref}>
       <defs>
         <pattern
           id='myPattern'
@@ -21,7 +28,7 @@ export default function Polkadot({ className }: { className?: string }) {
             height='4'
             className={clsx(
               'drop-shadow',
-              mode === 'light' ? 'fill-gray-500/70 ' : 'fill-gray-600 '
+              mode === 'light' ? 'fill-gray-500/70 ' : 'fill-gray-600 ',
             )}
           />
         </pattern>
