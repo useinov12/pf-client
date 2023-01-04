@@ -1,6 +1,6 @@
 import logger from '@/lib/logger';
 import { useQuery } from 'react-query';
-import { getConnectedBanks as apiGetConnectedBanks } from '../api';
+import { getConnectedBanks as apiGetConnectedBanks } from '../api/api';
 
 export const useConnectedBanks = () => {
   return useQuery(['banks'], apiGetConnectedBanks, {

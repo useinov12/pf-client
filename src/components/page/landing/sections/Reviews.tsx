@@ -1,78 +1,111 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import clsx from 'clsx';
-import { SiCircle } from 'react-icons/si';
 import Image from 'next/image';
-import { ThemeContext } from '@/context/ThemeProvider';
-import Path from '../Path';
+import { useTheme } from '@/context/ThemeProvider';
+import { FaQuoteRight } from 'react-icons/fa';
+import { SiCircle } from 'react-icons/si';
+import Polkadot from '../../../shared/Polkadot';
 
-
-const ReviewsSection = () => {
-  const { mode } = React.useContext(ThemeContext)
+export default function ReviewsSection() {
   return (
-    <article
+    <Container className='flex flex-col items-center justify-end gap-6'>
+      <Header />
+      <ReviewList />
+    </Container>
+  );
+}
+
+interface SectionWrapperProps {
+  className?: string;
+  children?: ReactNode;
+}
+
+const Container = ({ children, className }: SectionWrapperProps) => {
+  return (
+    <section
       className={clsx(
-        'mx-auto px-3 mt-2',
+        'mx-auto mt-20 px-3 md:mt-0',
         'sm:max-w-screen-sm ',
         'md:max-w-screen-lg ',
         'lg:max-w-screen-xl',
-        'snap-start'
+        className
       )}
     >
-      <section
-        className='flex flex-col items-center justify-end '
-      >
-        <div className='flex flex-col lg:flex-row w-full gap-3 '>
-
-          <div className='flex flex-col items-center justify-center lg:items-start'>
-            <SiCircle className='mb-2 h-16 w-16 rounded-full' />
-            <Path height={500} className='hidden lg:block rotate-180' /> 
-          </div>
-
-          <div className=''>
-
-            <div className='flex flex-col items-center lg:items-start  w-full mb-10 lg:mb-3 '>
-              <h2 className='cursor-default text-center tracking-tight text-2xl drop-shadow lg:text-left'>
-                App that you looking for
-              </h2>
-              <h3 className='cursor-default text-center text-lg font-normal drop-shadow lg:text-left'>
-                It was never this easy to look into your own financial state
-              </h3>
-            </div>
-
-            <div className='flex h-max w-full items-center sm:items-start justify-center '>
-              <ul className={clsx(
-                'grid gap-x-1 gap-y-1 sm:grid-cols-2 md:grid-cols-3',
-              )}>
-                {reviews.map((review, i) =>
-                  <li 
-                    key={review.name} 
-                    className={clsx(
-                      'rounded flex-col items-center',
-                      'py-2 px-2 border  h-40  md:h-48 w-full', 
-                      mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
-                      mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
-                    )}>
-                    <div className='flex items-baseline gap-1'>
-                      <Image src={review.image} width={80} height={75}/>
-                      <h3 className=''>{review.name}</h3>
-                    </div>
-                    <div className='md:mt-5'>
-                      <span className='py-2 font-normal font-serif text-lg'>&quot;{review.review}&quot;</span>
-                    </div>
-                  </li>
-                )}
-              </ul>
-            </div>
-          </div>
-
-        </div>
-      </section>
-    </article>
+      {children}
+    </section>
   );
 };
 
-export default ReviewsSection;
+const Header = () => {
+  return (
+    <div className='flex w-full flex-col items-center gap-3 lg:flex-row'>
+      <SiCircle className=' h-16 w-16 rounded-full' />
+      <div className=''>
+        <div className='mb-10 flex w-full flex-col  items-center lg:mb-3 lg:items-start '>
+          <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
+            App that you looking for
+          </h2>
+          <h3 className='cursor-default text-center text-lg font-normal drop-shadow lg:text-left'>
+            It was never this easy to look into your own financial state
+          </h3>
+        </div>
+      </div>
+    </div>
+  );
+};
 
+const ReviewList = () => {
+  return (
+    <div className='flex h-max w-full items-center justify-center sm:items-start'>
+      <ul className='grid gap-2 md:grid-cols-2  lg:grid-cols-3'>
+        {reviews.map((review, i) => (
+          <Review review={review} key={review.name} />
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+interface ReviewProps {
+  review: {
+    name: string;
+    review: string;
+    image: string;
+  };
+}
+
+const Review = ({ review }: ReviewProps) => {
+  const { mode } = useTheme();
+  return (
+    <li
+      className={clsx(
+        'relative overflow-hidden',
+        'flex items-center justify-center rounded',
+        'h-36 w-full border  px-2 ',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50'
+      )}
+    >
+      <Polkadot className='absolute top-0 z-0 -translate-x-52' />
+      <FaQuoteRight className='absolute top-2 right-6 text-2xl opacity-70' />
+
+      <div className='flex h-full w-full gap-4'>
+        <div className='my-2 w-2/5'>
+          <Image src={review.image} width={120} height={110} />
+        </div>
+
+        <div className='relative flex w-3/5 flex-col items-center justify-start pt-10'>
+          <span className='text-md font-semibold tracking-tight'>
+            {review.review}
+          </span>
+          <h6 className='absolute bottom-1 right-2 text-right font-serif text-xl'>
+            {review.name}
+          </h6>
+        </div>
+      </div>
+    </li>
+  );
+};
 
 const reviews = [
   {
@@ -82,22 +115,22 @@ const reviews = [
   },
   {
     name: 'James',
-    review: 'Intuitive interface and beautiful design.',
+    review: 'Intuitive to use and beautiful design.',
     image: '/images/portraits/2.png',
   },
   {
     name: 'Noah',
-    review: 'The app is fast and realy informative!',
+    review: 'The app is realy helpful!',
     image: '/images/portraits/3.png',
   },
   {
     name: 'Emma',
-    review: 'I love the product! Definitely going to use it!',
+    review: 'Definitely going to use it!',
     image: '/images/portraits/4.png',
   },
   {
     name: 'Olivia',
-    review: 'Realy great idea and nice implementation!',
+    review: 'Great idea and nice implementation!',
     image: '/images/portraits/5.png',
   },
 ];

@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from './AuthProvider';
 import Loading from '@/components/shared/Loading';
+import { useAuth } from './queries';
+import { setRedirect } from '@/lib/lastRedirect';
 
 /**
  * Component holds the logic to conditionally render:
@@ -14,29 +15,25 @@ import Loading from '@/components/shared/Loading';
  * [Repo](https://github.com/ivandotv/nextjs-client-signin-logic)
  *  */
 export function AuthGuard({ children }: { children: JSX.Element }) {
-  const { user, isLoading, isFetching, setRedirect } = useAuth();
+  const { data: user, isLoading, isFetching } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-
-    if (isLoading) return;
-    if (isFetching) return;
-    if (!user) {
-      setRedirect(router.route);
-      router.push('/signup');
+    if(!isLoading && !isFetching){
+      if(!user){
+        setRedirect(router.route);
+        router.push('/signup');
+      }
     }
-  }, [isLoading, router, user, setRedirect, isFetching]);
+  }, [isLoading, user, isFetching]);
 
   /* show loading indicator while the auth provider is still isLoading */
-  if (isLoading) {
-    return <Loading />;
-  }
-  if (isFetching) {
+  if (isLoading || isFetching) {
     return <Loading />;
   }
 
   /* if auth initialized with a valid user show protected page  */
-  if (!isLoading && !isFetching && user) {
+  if (user) {
     return <>{children}</>;
   }
 

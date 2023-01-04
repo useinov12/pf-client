@@ -2,8 +2,7 @@ import React from 'react';
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider } from '@/services/user/AuthProvider';
-import { AuthGuard } from '@/services/user/AuthGuard';
+import { AuthGuard } from '@/services/auth/AuthGuard';
 import ThemeProvider from '@/context/ThemeProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { LoginFormProvider } from '@/context/LoginFormProvider';
@@ -27,19 +26,17 @@ function MyApp(props: AppProps) {
       <Toaster />
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            {/* if requireAuth property is present - protect the page */}
-            {Component.requireAuth ? (
-              <AuthGuard>
-                <Component {...pageProps} />
-              </AuthGuard>
-            ) : (
-              /* render public page */
-              <LoginFormProvider>
-                <Component {...pageProps} />
-              </LoginFormProvider>
-            )}
-          </AuthProvider>
+          {/* if requireAuth property is present - protect the page */}
+          {Component.requireAuth ? (
+            <AuthGuard>
+              <Component {...pageProps} />
+            </AuthGuard>
+          ) : (
+            /* render public page */
+            <LoginFormProvider>
+              <Component {...pageProps} />
+            </LoginFormProvider>
+          )}
         </QueryClientProvider>
       </ThemeProvider>
     </>

@@ -1,11 +1,11 @@
 export interface ChartProps{
-  incomingData: IncomingData;
+  incomingData: ChartDataFormat;
   delay?:number;
 }
 
 export type IncomingDataset = number[];
 
-export type IncomingData = {
+export type ChartDataFormat = {
   labels: string[];
   label: string; // common label is definitoin of dataset. Not the same as labels
   data: IncomingDataset[]; // array of datasets
