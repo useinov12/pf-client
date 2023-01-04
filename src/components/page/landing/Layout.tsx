@@ -9,6 +9,7 @@ import ThemeButton from '../../shared/ThemeSwitch';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import LayoutCommon from '@/components/shared/LayoutCommon';
 import { BsFacebook, BsInstagram, BsTwitter, BsGithub } from 'react-icons/bs';
+import { IconType } from 'react-icons/lib';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -95,10 +96,10 @@ const Footer = () => {
       )}
     >
       <ul className='flex h-20 w-full items-center justify-center gap-4'>
-        {[<BsFacebook />, <BsInstagram />, <BsTwitter />, <BsGithub />].map(
-          (icon, i) => (
+        {[BsFacebook, BsInstagram, BsTwitter, BsGithub].map(
+          (Icon, i) => (
             <li className='text-3xl hover:cursor-pointer hover:text-primary-500' key={`icon-${i}`}>
-              {icon}
+              <Icon/>
             </li>
           )
         )}
