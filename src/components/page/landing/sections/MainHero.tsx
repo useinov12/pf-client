@@ -3,54 +3,95 @@ import clsx from 'clsx';
 import ArrowLink from '@/components/links/ArrowLink';
 import Logo from '@/components/shared/Logo';
 import Button from '@/components/buttons/Button';
-import StyledBgSection from '../shared/StyledBgSection';
-import Screen from '../shared/Screen';
+import { useTheme } from '@/context/ThemeProvider';
+import Polkadot from '../../../shared/Polkadot';
 
 export default function MainHeroSection() {
   return (
-    <Screen className='flex flex-col gap-6  lg:flex-row'>
-      <HeroText className='h-full lg:w-1/2' />
-      <HeroDemo className=' lg:w-1/2 ' />
-    </Screen>
+    <Container className='mb-20 flex flex-col gap-6 overflow-hidden py-5 lg:flex-row'>
+      <HeroText className='mt-20 h-full flex-none lg:w-1/2' />
+      <HeroDemo className='shrink' />
+    </Container>
   );
 }
 
-type SectionProps = { className?: string; children?: ReactNode };
+interface SectionWrapperProps {
+  className?: string;
+  children?: ReactNode;
+}
 
-const HeroDemo = ({ className, children }: SectionProps) => {
+const Container = ({ children, className }: SectionWrapperProps) => {
   return (
-    <StyledBgSection
-      className='flex items-center justify-center lg:block'
-      right
-    >
+    <div className='relative h-full w-full'>
+      <BgSurface />
       <div
         className={clsx(
-          'translate-x-20 sm:translate-x-0',
-          'mt-12 lg:mt-0',
-          'h-[35rem] w-[35rem]',
-          'lg:translate-x-20 lg:translate-y-20',
-          ' bg-gray-200',
-          'rounded-2xl drop-shadow-lg'
+          'relative',
+          'mx-auto mt-2',
+          'sm:max-w-screen-sm',
+          'md:max-w-screen-xl ',
+          'lg:max-w-screen-2xl',
+          className
         )}
-      ></div>
-    </StyledBgSection>
+      >
+        {children}
+      </div>
+    </div>
   );
 };
 
-const HeroText = ({ className }: SectionProps) => {
+const BgSurface = () => {
+  const { mode } = useTheme();
+  return (
+    <div
+      className={clsx(
+        'absolute',
+        'mt-[24rem] lg:mt-0',
+        'h-screen w-1/2',
+        'lg:w-1/3',
+        'right-0',
+        'rounded-tl-3xl rounded-bl-3xl',
+        mode === 'light' ? 'bg-gray-400/90' : 'bg-gray-900/50'
+      )}
+    />
+  );
+};
+
+const HeroDemo = ({ className }: { className?: string }) => {
   return (
     <section
       className={clsx(
-        'mx-5 mt-5 ',
-        'lg:mt-20 lg:ml-16',
+        'relative',
         'flex items-center justify-center',
         className
       )}
     >
+      <Polkadot className={clsx('absolute top-16 -left-10', 'h-80 w-2/3')} />
+      <div
+        className={clsx(
+          'mt-28',
+          'h-[30rem] w-[30rem]',
+          'translate-x-20 sm:translate-x-0',
+          'md:h-[40rem] md:w-[40rem]',
+          'bg-gray-300',
+          'rounded-2xl drop-shadow-lg'
+        )}
+      />
+    </section>
+  );
+};
+
+const HeroText = ({ className }: { className?: string }) => {
+  return (
+    <section
+      className={clsx('flex items-center justify-center px-6', className)}
+    >
       <div className='flex w-fit flex-col  gap-6'>
         <div className='flex items-center gap-4'>
-          <Logo width={120} height={103} />
-          <h2 className=' mt-7 shrink text-2xl tracking-wide md:text-4xl'>
+          <div className='w-1/5 flex-none'>
+            <Logo width={120} height={103} />
+          </div>
+          <h2 className='shrink text-2xl tracking-wide sm:mt-5 sm:text-2xl md:text-4xl'>
             PersonalFinance
           </h2>
         </div>
