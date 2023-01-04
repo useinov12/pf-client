@@ -94,7 +94,7 @@ const BgSurface = ({
   /* animate background surface */
   useEffect(() => {
     if (isMounted) {
-      let ctx = gsap.context(() => {
+      const ctx = gsap.context(() => {
         timeline.current.fromTo(
           BgSurfaceRef.current,
           {
@@ -149,7 +149,7 @@ const HeroDemo = ({
   /* animate Polkadot and DemoCard */
   useEffect(() => {
     if (isMounted) {
-      let ctx = gsap.context(() => {
+      const ctx = gsap.context(() => {
         timeline.current.fromTo(
           PolkadotRef.current,
           { opacity: 0, y: 20 },

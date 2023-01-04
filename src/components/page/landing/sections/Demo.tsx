@@ -70,7 +70,7 @@ const BgSurface = ({
 
   /* animate background surface */
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       timeline.current.fromTo(
         BgSurfaceRef.current,
         { opacity: 0, x: -70, y: 35 },
@@ -128,7 +128,7 @@ const SectionCard = ({
 
   /* animate polkadot component */
   useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       timeline.current.fromTo(
         PolkadotRef.current,
         { x: -100, y: 50 },
