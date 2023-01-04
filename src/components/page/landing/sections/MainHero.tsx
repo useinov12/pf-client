@@ -95,11 +95,11 @@ const HeroText = ({ className }: { className?: string }) => {
       )}
     >
       <div className='flex w-fit flex-col  gap-2'>
-        <div className='flex items-center gap-1'>
+        <div className='flex flex-col items-start'>
           <div className='w-1/6 flex-none'>
-            <Logo width={90} height={80} />
+            <Logo width={100} height={85} />
           </div>
-          <h3 className='shrink text-xl tracking-wide sm:mt-3 sm:text-2xl md:text-3xl'>
+          <h3 className='shrink text-2xl tracking-wide md:text-3xl'>
             PersonalFinance
           </h3>
         </div>
