@@ -85,7 +85,7 @@ export default function Accounts({
         <div className='flex w-full items-center justify-between pr-4'>
           <ul className='flex w-1/3 flex-col items-start gap-1 self-start sm:w-4/6'>
             {currentBank.accounts.map(({ type, sum }, i) => (
-              <Account summaryAccSumRef={summaryAccSumRef} accountIdx={i} />
+              <Account summaryAccSumRef={summaryAccSumRef} accountIdx={i} key={`accounts-${i}`} />
             ))}
           </ul>
 
