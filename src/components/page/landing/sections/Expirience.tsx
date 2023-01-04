@@ -1,67 +1,95 @@
-import React from 'react';
+import { ReactNode } from 'react';
 import clsx from 'clsx';
 import { TbSpeedboat } from 'react-icons/tb';
 import { RiUserSettingsFill, RiSafe2Fill } from 'react-icons/ri';
 import { BsSpeedometer } from 'react-icons/bs';
 import { useTheme } from '@/context/ThemeProvider';
 import ArrowLink from '@/components/links/ArrowLink';
+import Polkadot from '@/components/shared/Polkadot';
 
 export default function ExpirienceSection() {
   return (
-    <section
-      className={clsx(
-        'mx-auto',
-        'px-3 sm:max-w-screen-sm',
-        'md:max-w-screen-md ',
-        'lg:max-w-screen-xl',
-        'xl:max-w-screen-xl',
-        'my-20'
-      )}
-    >
-      <div className='flex w-full flex-col'>
-        <div className='flex w-full flex-col items-center  gap-y-1 gap-x-3 lg:flex-row'>
-          <TbSpeedboat className='h-24 w-24 rounded-full' />
-          <div className='flex w-full flex-col items-center lg:items-start'>
-            <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
-              Smooth Experience
-            </h2>
-            <h3 className='cursor-default text-center text-xl font-normal drop-shadow lg:text-left'>
-              Intuitive, easy and secure
-            </h3>
-          </div>
-        </div>
-
-        <div className='my-4 flex h-full w-full'>
-          <ul
-            className={clsx(
-              'w-full rounded-lg lg:h-60',
-              'flex flex-wrap items-center justify-center gap-2',
-              'lg:flex-col'
-            )}
-          >
-            {cards.map((card) => (
-              <ExpirienceCard card={card} key={card.title} />
-            ))}
-          </ul>
-        </div>
-      </div>
-    </section>
+    <Container className='flex w-full flex-col'>
+      <Header />
+      <ListOfCards />
+    </Container>
   );
 }
 
-const ExpirienceCard = ({ card, className }: { card: DataType, className?:string }) => {
+interface SectionWrapperProps {
+  className?: string;
+  children?: ReactNode;
+}
+const Container = ({ children, className }: SectionWrapperProps) => {
+  return (
+    <section
+      className={clsx(
+        'mx-auto mt-2 px-3',
+        'sm:max-w-screen-sm ',
+        'md:max-w-screen-lg ',
+        'lg:max-w-screen-xl',
+        className
+      )}
+    >
+      {children}
+    </section>
+  );
+};
+
+const Header = () => {
+  return (
+    <div className='flex w-full flex-col items-center  gap-y-1 gap-x-3 lg:flex-row'>
+      <TbSpeedboat className='h-24 w-24 rounded-full' />
+      <div className='flex w-full flex-col items-center lg:items-start'>
+        <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow lg:text-left'>
+          Smooth Experience
+        </h2>
+        <h3 className='cursor-default text-center text-xl font-normal drop-shadow lg:text-left'>
+          Intuitive, easy and secure
+        </h3>
+      </div>
+    </div>
+  );
+};
+
+const ListOfCards = () => {
+  return (
+    <div className='my-4 flex h-full w-full'>
+      <ul
+        className={clsx(
+          'w-full rounded-lg lg:h-60',
+          'grid gap-2 md:grid-cols-2  lg:grid-cols-3'
+        )}
+      >
+        {cards.map((card) => (
+          <ExpirienceCard card={card} key={card.title} />
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+const ExpirienceCard = ({
+  card,
+  className,
+}: {
+  card: DataType;
+  className?: string;
+}) => {
   const { mode } = useTheme();
   return (
     <li
       className={clsx(
+        'relative overflow-hidden',
         'flex-col items-center rounded',
-        'w-full border py-2 md:w-80 md:h-72 md:px-2 lg:h-60',
+        'w-full border py-2 md:h-72 md:px-2',
         'flex flex-col items-start',
         mode === 'light' ? 'border-dark/50' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-700/50',
         className
       )}
     >
+      <Polkadot className='absolute top-0 z-0 -translate-x-60 -translate-y-10' />
       <div className='flex flex-col items-center gap-1 lg:self-center '>
         {card.icon}
         <h4 className='font-mono text-xl font-semibold tracking-tighter drop-shadow '>
