@@ -5,7 +5,6 @@ import {
   createContext,
   useCallback,
   useContext,
-  useRef,
 } from 'react';
 import { requestLinkToken } from './actions';
 
@@ -13,14 +12,12 @@ interface PlaidLinkContextShape {
   generateLinkToken: () => void;
   deleteLinkToken: () => void;
   linkToken: string | undefined;
-  // tokenMemo:string|undefined;
 }
 
 export const PlaidContext = createContext<PlaidLinkContextShape>({
   generateLinkToken: () => {},
   deleteLinkToken: () => {},
   linkToken: undefined,
-  // tokenMemo:undefined
 });
 
 export const PlaidLinkProvider = (props: any) => {
@@ -48,18 +45,8 @@ export const PlaidLinkProvider = (props: any) => {
     }),
     []
   );
-  // console.log('value link', value.linkToken)
 
-  // const tokenMemo = useRef(linkToken)
-
-  const value2 = {
-    generateLinkToken, 
-    deleteLinkToken, 
-    // tokenMemo,
-    linkToken, 
-  }
-
-  return <PlaidContext.Provider value={value2} {...props} />;
+  return <PlaidContext.Provider value={value} {...props} />;
 };
 
 export const usePlaidContext = () => useContext(PlaidContext);

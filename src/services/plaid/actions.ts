@@ -3,7 +3,7 @@ import { toast } from 'react-hot-toast';
 import {
   getLinkToken as apiGetLinkToken,
   exchangePublicToken as apiExchangePublicToken,
-} from '../api';
+} from '../api/api';
 
 /**
  * Calls Server that then handels call to Plaid
