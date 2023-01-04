@@ -5,6 +5,9 @@ import Logo from '@/components/shared/Logo';
 import Button from '@/components/buttons/Button';
 import { useTheme } from '@/context/ThemeProvider';
 import Polkadot from '../../../shared/Polkadot';
+import { useAuth } from '@/services/auth/queries';
+import ButtonLink from '@/components/links/ButtonLink';
+import { useLoginForm } from '@/context/LoginFormProvider';
 
 export default function MainHeroSection() {
   return (
@@ -46,8 +49,8 @@ const BgSurface = () => {
     <div
       className={clsx(
         'absolute',
-        'mt-[24rem] lg:mt-0',
-        'h-screen w-1/2',
+        'mt-[22rem] lg:mt-0',
+        'h-[90vh] w-1/2',
         'lg:w-1/3',
         'right-0',
         'rounded-tl-3xl rounded-bl-3xl',
@@ -82,30 +85,59 @@ const HeroDemo = ({ className }: { className?: string }) => {
 };
 
 const HeroText = ({ className }: { className?: string }) => {
+  const { data: user } = useAuth();
+  const { handleOpenLoginForm } = useLoginForm();
   return (
     <section
-      className={clsx('flex items-center justify-center px-6', className)}
+      className={clsx(
+        'flex items-center justify-center pl-3 pr-5 md:pl-12',
+        className
+      )}
     >
-      <div className='flex w-fit flex-col  gap-6'>
-        <div className='flex items-center gap-4'>
-          <div className='w-1/5 flex-none'>
-            <Logo width={120} height={103} />
+      <div className='flex w-fit flex-col  gap-2'>
+        <div className='flex items-center gap-1'>
+          <div className='w-1/6 flex-none'>
+            <Logo width={90} height={80} />
           </div>
-          <h2 className='shrink text-2xl tracking-wide sm:mt-5 sm:text-2xl md:text-4xl'>
+          <h3 className='shrink text-xl tracking-wide sm:mt-3 sm:text-2xl md:text-3xl'>
             PersonalFinance
-          </h2>
+          </h3>
         </div>
 
-        <div className='flex items-center gap-6'>
-          <p className='cursor-default rounded-md bg-primary-400/80 py-[2px] px-2 text-[.8rem] uppercase'>
-            Have an account?
-          </p>
-          <ArrowLink href='#'>sign in</ArrowLink>
-        </div>
+        {user ? (
+          <div className='inline-flex items-center gap-4 px-1'>
+            <h2 className='text-xl'>
+              Welcome,{' '}
+              <span className='bg-gradient-to-r  from-primary-500 to-primary-600 bg-clip-text text-transparent'>
+                {user.firstName}
+              </span>
+            </h2>
+            <ArrowLink
+              href='/cabinet'
+              className='text-md bg-gradient-to-r from-primary-400 to-primary-600'
+            >
+              Go to cabinet
+            </ArrowLink>
+          </div>
+        ) : (
+          <div className='flex items-center gap-6'>
+            <p className='cursor-default rounded-md bg-primary-400/80 py-[2px] px-2 text-[.8rem] uppercase'>
+              Have an account?
+            </p>
+            <button
+              onClick={handleOpenLoginForm}
+              className='bg-transparent py-0 px-2'
+            >
+              <ArrowLink href='#' disabled>
+                Sign In
+              </ArrowLink>
+            </button>
+          </div>
+        )}
         <h1
           className={clsx(
             'text-3xl font-extrabold',
-            'sm:text-3xl md:text-4xl lg:text-5xl',
+            'sm:text-2xl md:text-3xl lg:text-4xl',
             'tracking-tight',
             'cursor-default',
             'drop-shadow-xl',
@@ -114,27 +146,29 @@ const HeroText = ({ className }: { className?: string }) => {
         >
           Take control over your money
         </h1>
-        <h3
+        <h5
           className={clsx(
-            'pl-1 md:text-xl',
+            'pl-1 ',
             'font-normal tracking-tight drop-shadow-xl',
             'transition-all delay-75 duration-150'
           )}
         >
-          A financial app that lets you gather, analyze your banks data.
+          A financial app that lets you gather, analyze your banks data
           <br />
-          Securely conect your financial accounts in couple minutes.
-        </h3>
+          Securely conect your financial accounts in couple minutes
+        </h5>
 
-        <Button
-          className={clsx(
-            'ml-1',
-            'text-md w-min whitespace-nowrap rounded-md border-4 border-transparent px-6',
-            'ring-4 ring-transparent hover:ring-primary-500'
-          )}
-        >
-          Sign up
-        </Button>
+        {!user && (
+          <Button
+            className={clsx(
+              'ml-1',
+              'text-md w-min whitespace-nowrap rounded-md border-4 border-transparent px-6',
+              'ring-4 ring-transparent hover:ring-primary-500'
+            )}
+          >
+            Sign up
+          </Button>
+        )}
       </div>
     </section>
   );

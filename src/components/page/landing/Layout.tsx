@@ -4,9 +4,8 @@ import { useEffect, useState, useContext, ReactNode } from 'react';
 import Link from 'next/link';
 import Button from '@/components/buttons/Button';
 import { LoginFormContext } from '@/context/LoginFormProvider';
-import { useAuth } from '@/services/user/AuthProvider';
+import { useAuth } from '@/services/auth/queries';
 import ThemeButton from '../../shared/ThemeSwitch';
-import Logo from '@/components/shared/Logo';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import LayoutCommon from '@/components/shared/LayoutCommon';
 
@@ -33,23 +32,26 @@ export default function Layout({ children }: { children: ReactNode }) {
 }
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { data: user } = useAuth();
+
   return (
     <div
       className={clsx(
-        'mx-auto px-4 sm:max-w-screen-sm',
-        'md:max-w-screen-lg ',
-        'lg:max-w-screen-xl',
+        'mx-auto px-8 sm:max-w-screen-sm',
+        'md:max-w-screen-xl ',
+        'lg:max-w-screen-2xl',
         'h-full w-full'
       )}
     >
-      <nav className='flex items-center justify-between py-3' data-fade='1'>
-        <Logo />
-        <ul className='inline-flex items-center gap-2'>
-          <li>{user ? <CabinetLink /> : <LoginButton />}</li>
-          <li>
-            <ThemeButton />
-          </li>
+      <nav className='py-3' data-fade='1'>
+        <ul className='flex items-center justify-between'>
+          <div/>
+          <ul className='inline-flex items-center gap-2'>
+            <li>{user ? <CabinetLink /> : <LoginButton />}</li>
+            <li>
+              <ThemeButton />
+            </li>
+          </ul>
         </ul>
       </nav>
     </div>
@@ -74,7 +76,7 @@ const LoginButton = () => {
       variant='transparent'
       onClick={handleOpenLoginForm}
     >
-      Login
+      Sign In
     </Button>
   );
 };
