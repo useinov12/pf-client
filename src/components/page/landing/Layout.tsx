@@ -96,8 +96,8 @@ const Footer = () => {
     >
       <ul className='flex h-20 w-full items-center justify-center gap-4'>
         {[<BsFacebook />, <BsInstagram />, <BsTwitter />, <BsGithub />].map(
-          (icon) => (
-            <li className='text-3xl hover:cursor-pointer hover:text-primary-500'>
+          (icon, i) => (
+            <li className='text-3xl hover:cursor-pointer hover:text-primary-500' key={`icon-${i}`}>
               {icon}
             </li>
           )
