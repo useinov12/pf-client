@@ -34,7 +34,7 @@ export default Layout;
 
 const Navbar = () => {
   return (
-    <nav className='flex items-center justify-between py-3 px-3' data-fade='1'>
+    <nav className='flex items-center justify-between py-3 px-3 sm:px-1' data-fade='1'>
       <div className='inline-flex items-center gap-4'>
         <Logo />
       </div>

@@ -15,28 +15,26 @@ export default function BankMenu() {
   const connectedBanksData = data?.data.detail.data;
 
   return (
-    <>
-      <MenuSection
-        className={clsx(
-          'w-full grow',
-          'relative',
-          'overflow-y-scroll',
-          'relative'
-        )}
-      >
-        <MenuHeader>
-          <h4>Connected Banks</h4>
-          <AddBankButton />
-        </MenuHeader>
+    <MenuSection
+      className={clsx(
+        'w-full grow',
+        'relative',
+        'overflow-y-scroll',
+        'relative'
+      )}
+    >
+      <MenuHeader>
+        <h4>Connected Banks</h4>
+        <AddBankButton />
+      </MenuHeader>
 
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <ConnectedBanks banksData={connectedBanksData} />
-        )}
-        <OpenAppButton className='fixed bottom-6 right-6' />
-      </MenuSection>
-    </>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <ConnectedBanks banksData={connectedBanksData} />
+      )}
+      <OpenAppButton className='fixed bottom-6 right-6' />
+    </MenuSection>
   );
 }
 

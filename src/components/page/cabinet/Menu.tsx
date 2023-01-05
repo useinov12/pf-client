@@ -28,8 +28,10 @@ export function MenuSection({
 }
 
 export function MenuHeader({
+  className,
   children,
 }: {
+  className?: string;
   children: JSX.Element | JSX.Element[];
 }) {
   const { mode } = useTheme();
@@ -38,8 +40,9 @@ export function MenuHeader({
       className={clsx(
         'w-full',
         'sticky top-0 z-40',
-        'flex items-center justify-between px-7 py-4',
-        mode === 'light' ? 'bg-gray-400' : 'bg-gray-900'
+        'flex items-center justify-between px-4 py-4',
+        mode === 'light' ? 'bg-gray-400' : 'bg-gray-900',
+        className
       )}
     >
       {children}
