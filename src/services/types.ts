@@ -68,12 +68,12 @@ export type Account = {
   user_id: number;
 };
 type BankName = string;
-export type ConnectedBanks = Record<BankName, Account[]>;
+export type ConnectedBanksDict = Record<BankName, Account[]>;
 
-export type ConnectedBanksData = Response<ConnectedBanks>;
+export type ConnectedBanksData = Response<ConnectedBanksDict>;
 
 /* example */
-const banks: ConnectedBanks = {
+const banks: ConnectedBanksDict = {
   'Navy Federal': [
     {
       id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
