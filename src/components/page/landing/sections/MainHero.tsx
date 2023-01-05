@@ -93,7 +93,7 @@ const BgSurface = ({
 
   /* animate background surface */
   useEffect(() => {
-    if (isMounted) {
+    if (isMounted && BgSurfaceRef.current) {
       const ctx = gsap.context(() => {
         timeline.current.fromTo(
           BgSurfaceRef.current,
@@ -111,7 +111,7 @@ const BgSurface = ({
           },
           0.6
         );
-      }, BgSurfaceRef);
+      }, BgSurfaceRef.current);
       return () => ctx.revert();
     }
   }, [isMounted]);
@@ -148,7 +148,7 @@ const HeroDemo = ({
 
   /* animate Polkadot and DemoCard */
   useEffect(() => {
-    if (isMounted) {
+    if (isMounted && animationScope.current) {
       const ctx = gsap.context(() => {
         timeline.current.fromTo(
           PolkadotRef.current,
@@ -156,24 +156,26 @@ const HeroDemo = ({
           {
             y: 0,
             opacity: 1,
-            duration: 0.7,
+            duration: 1.3,
             ease: 'ease.in',
           },
-          0.4
+          0.7
         );
         timeline.current.fromTo(
           DemoRef.current,
-          { opacity: 0, x: 100, y: 20 },
+          { 
+            opacity: 0,
+             x: 120, y: 30 },
           {
             x: 60,
             y: 0,
             opacity: 1,
-            duration: 1.3,
+            duration: 1,
             ease: 'ease.in',
           },
           1.3
         );
-      }, animationScope);
+      }, animationScope.current );
 
       return () => ctx.revert();
     }
