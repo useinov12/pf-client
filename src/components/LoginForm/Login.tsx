@@ -45,23 +45,29 @@ function Form({ className }: { className?: string }) {
       /* invalidate query to trigger update cashed user */
       queryClient.invalidateQueries(['user']);
       refetch();
-      handleOpenLoginForm();
     }
   }
 
+  /* handle redirect on successfull login*/
   useEffect(() => {
     if (!isLoading) {
       if (user) {
         const lastVisited = getRedirect();
 
-        if (lastVisited) {
-          router.push(lastVisited);
+        if(!lastVisited || lastVisited === '/signup'){
           clearRedirect();
-        } else router.push('/cabinet');
+          router.push('/cabinet')
+          handleOpenLoginForm(); /* close login form */
+        }
+        else {
+          clearRedirect();
+          router.push(lastVisited);
+          handleOpenLoginForm(); /* close login form */
+        }
         logger({}, '⚪️ Redirect triggered');
       }
     }
-  }, [router, getRedirect, clearRedirect, isLoading, user]);
+  }, [router, isLoading, user]);
 
   return (
     <form

@@ -21,7 +21,7 @@ export function SignInForm({ withCloseBtn }: SignInFormProps) {
   }
 
   useEffect(() => {
-    /* Open Signin Popup on page load */
+    /* Open SignIn Popup on page load */
     setOpenLoginForm(true);
   }, []);
 
