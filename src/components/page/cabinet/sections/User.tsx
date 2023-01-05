@@ -1,24 +1,21 @@
 import { useContext } from 'react';
 import clsx from 'clsx';
-import MenuWrapper from '../Menu';
+import { MenuSection, MenuHeader } from '../Menu';
 import { ThemeContext } from '@/context/ThemeProvider';
 import { useAuth } from '@/services/auth/queries';
 import { FiLogOut } from 'react-icons/fi';
 import { FaUserCircle } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
-import { CgMenuGridO } from 'react-icons/cg';
-import MenuHeader from '../MenuHeader';
 import { Menu } from '@headlessui/react';
 import { useCashedClient } from '@/services/auth/actions';
 import { Storage } from '@/lib/storage';
 import { useRouter } from 'next/router';
 
-const UserMenu = () => {
+export default function UserMenu() {
   return (
-    <MenuWrapper
+    <MenuSection
       className={clsx(
-        'h-min w-full',
-        'md:h-full md:w-2/5 lg:w-1/4',
+        'h-min min-w-fit lg:h-full lg:w-max',
         'relative h-full overflow-y-scroll'
       )}
     >
@@ -27,22 +24,20 @@ const UserMenu = () => {
           <h4>Account</h4>
         </MenuHeader>
         <div className='relative flex  w-full px-4'>
-          <LogoutButton className='absolute right-4 top-2' />
+          {/* <LogoutButton className='absolute right-4 top-2' /> */}
           <UserProfile withSettings />
         </div>
       </section>
-    </MenuWrapper>
+    </MenuSection>
   );
-};
-
-export default UserMenu;
+}
 
 const UserProfile = ({ withSettings }: { withSettings?: boolean }) => {
-  const { data:user } = useAuth();
+  const { data: user } = useAuth();
 
   if (!user) return null;
   return (
-    <div className='flex gap-2 py-3 md:flex-col md:px-5'>
+    <div className='flex gap-2 py-3'>
       <FaUserCircle className='text-6xl' />
       <div className='flex items-center gap-2'>
         <div className='flex flex-col'>
@@ -73,16 +68,19 @@ const UserSettingsButton = () => {
 };
 
 const LogoutButton = ({ className }: { className?: string }) => {
-  const queryClient = useCashedClient()
-  const router = useRouter()
-  
+  const queryClient = useCashedClient();
+  const router = useRouter();
+
   return (
-    <button className={clsx('text-md', className)} onClick={()=>{
-      Storage.clear('accessToken')
-      Storage.clear('refreshToken')
-      queryClient.invalidateQueries('user')
-      router.push('/')
-    }}>
+    <button
+      className={clsx('text-md', className)}
+      onClick={() => {
+        Storage.clear('accessToken');
+        Storage.clear('refreshToken');
+        queryClient.invalidateQueries('user');
+        router.push('/');
+      }}
+    >
       <div className='inline-flex items-center gap-2'>
         <FiLogOut className='text-3xl ' />
       </div>
