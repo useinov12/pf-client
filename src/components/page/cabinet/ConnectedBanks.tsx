@@ -22,7 +22,7 @@ export default function ConnectedBanks({
   if (!banksData) return null;
   const connectedBanksList = getBankList(banksData);
   return (
-    <ul className='md:px-7'>
+    <ul className='md:px-4'>
       {connectedBanksList.map((bank) => (
         <li key={bank} className='md:my-2'>
           <BankInstance
@@ -48,7 +48,7 @@ function BankInstance({ bankName, accounts }: BankMenuProps) {
     <div
       className={clsx(
         'md:rounded',
-        'scroll-y h-full overflow-y-scroll',
+        'h-full overflow-hidden',
         'border-t border-b border-gray-500/50 md:border',
         'shadow-sm hover:shadow-gray-400/30'
       )}
