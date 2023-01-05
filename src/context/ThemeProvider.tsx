@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import { useContext, createContext, ReactNode, useState } from 'react';
 
-export const ThemeContext = React.createContext<{
+export const ThemeContext = createContext<{
   mode: 'dark' | 'light';
   setMode: React.Dispatch<any>;
 }>({
@@ -8,8 +8,8 @@ export const ThemeContext = React.createContext<{
   setMode: () => {},
 });
 
-const ThemeProvider: React.FC<{ children: JSX.Element }> = ({ children }) => {
-  const [mode, setMode] = React.useState<'dark' | 'light'>('dark');
+export default function ThemeProvider({ children }: { children: ReactNode }) {
+  const [mode, setMode] = useState<'dark' | 'light'>('light');
 
   return (
     <ThemeContext.Provider
@@ -21,9 +21,6 @@ const ThemeProvider: React.FC<{ children: JSX.Element }> = ({ children }) => {
       {children}
     </ThemeContext.Provider>
   );
-};
+}
 
-export default ThemeProvider;
-
-
-export const useTheme = ()=> useContext(ThemeContext)
+export const useTheme = () => useContext(ThemeContext);
