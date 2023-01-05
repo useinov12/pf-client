@@ -88,14 +88,14 @@ const Banner = () => {
         </p>
         <div className='z-10 my-4 flex gap-8'>
           <Link href='/finance'>
-            <Button variant='light' className='rounded-lg px-12 py-2 text-lg whitespace-nowrap'>
+            <Button variant='light' className='rounded-lg px-12 py-2 text-lg whitespace-nowrap drop-shadow-lg'>
               Try Demo
             </Button>
           </Link>
           <Button
             variant='light'
             onClick={() => setOpenLoginForm(true)}
-            className='rounded-lg px-12 py-2 text-lg whitespace-nowrap'
+            className='rounded-lg px-12 py-2 text-lg whitespace-nowrap drop-shadow-lg'
           >
             Sign Up
           </Button>
