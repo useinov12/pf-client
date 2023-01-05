@@ -17,7 +17,7 @@ export default function Login({ className }: { className?: string }) {
 function Form({ className }: { className?: string }) {
   const queryClient = useCashedClient();
   const router = useRouter();
-  const { isSuccess, isLoading, data: user , refetch} = useAuth();
+  const { isSuccess, isLoading, data: user, refetch } = useAuth();
   const { handleOpenLoginForm } = useLoginForm();
 
   const [formInputs, setFormInputs] = useState({ username: '', password: '' });
@@ -54,16 +54,15 @@ function Form({ className }: { className?: string }) {
       if (user) {
         const lastVisited = getRedirect();
 
-        if(!lastVisited || lastVisited === '/signup'){
-          clearRedirect();
-          router.push('/cabinet')
-          handleOpenLoginForm(); /* close login form */
-        }
-        else {
-          clearRedirect();
+        if (!lastVisited || lastVisited === '/signup') {
+          router.push('/cabinet');
+        } else {
           router.push(lastVisited);
-          handleOpenLoginForm(); /* close login form */
         }
+
+        clearRedirect();
+        handleOpenLoginForm(); /* close login form */
+
         logger({}, '⚪️ Redirect triggered');
       }
     }
