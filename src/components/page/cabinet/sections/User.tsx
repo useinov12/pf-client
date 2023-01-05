@@ -6,7 +6,7 @@ import { FiLogOut } from 'react-icons/fi';
 import { FaUserCircle } from 'react-icons/fa';
 import { HiDotsVertical } from 'react-icons/hi';
 import { Menu } from '@headlessui/react';
-import { useCashedClient } from '@/services/auth/actions';
+import { useQueryClient, QueryCache } from 'react-query';
 import { Storage } from '@/lib/storage';
 import { useRouter } from 'next/router';
 
@@ -52,7 +52,15 @@ function UserProfile() {
 }
 
 const LogoutButton = ({ className }: { className?: string }) => {
-  const queryClient = useCashedClient();
+  const queryClient = useQueryClient();
+
+  function logout() {
+    Storage.clear('accessToken');
+    Storage.clear('refreshToken');
+    queryClient.removeQueries({ queryKey: ['user'] });
+    router.push('/');
+  }
+
   const router = useRouter();
 
   return (
@@ -62,12 +70,7 @@ const LogoutButton = ({ className }: { className?: string }) => {
         'inline-flex items-center justify-between gap-2 px-3',
         className
       )}
-      onClick={() => {
-        Storage.clear('accessToken');
-        Storage.clear('refreshToken');
-        queryClient.invalidateQueries('user');
-        router.push('/');
-      }}
+      onClick={logout}
     >
       <span className='tracking-tight'>Logout</span>
       <FiLogOut className='text-2xl text-red-500 ' />
