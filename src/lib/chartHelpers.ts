@@ -36,7 +36,7 @@ export default function createGradient(
 export function getChartDataStructure(
   incomingData: ChartDataFormat
 ): ChartDataStructure {
-  const datasets: Dataset[] = incomingData.data.map((dataset, i) => {
+  const datasets: Dataset[] = incomingData.datasets.map((dataset, i) => {
     return {
       label: incomingData.label,
       data: dataset,
