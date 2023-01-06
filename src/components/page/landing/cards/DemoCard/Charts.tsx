@@ -17,7 +17,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
   const chartData: ChartDataFormat = {
     labels: labels,
     label: 'Account dynamic',
-    data: [dataset],
+    datasets: [dataset],
   };
 
   return (
