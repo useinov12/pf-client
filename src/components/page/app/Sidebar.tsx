@@ -27,11 +27,11 @@ function MobileSidebar({ className }: { className: string }) {
   return (
     <nav
       className={clsx(
-        'h-full w-fit sm:w-1/2 md:w-1/4',
+        'h-full w-full sm:w-1/2 md:w-1/4',
         'top-15 absolute',
         'transition-all duration-200 ease-in',
         openSidebar && '-translate-x-[105%]',
-        mode === 'light' ? 'bg-gray-500' : 'bg-gray-600',
+        mode === 'light' ? 'bg-gray-400' : 'bg-gray-600',
         className
       )}
     >
