@@ -1,6 +1,6 @@
-import { ConnectedBanks, Account } from '@/services/types';
+import { ConnectedBanksDict, Account } from '@/services/types';
 
-const data: ConnectedBanks = {
+const data: ConnectedBanksDict = {
   'Navy Federal': [
     {
       id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
