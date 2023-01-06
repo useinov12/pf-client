@@ -130,7 +130,7 @@ function Item({ item, open }: MenuItemProps) {
         <p
           className={clsx(
             'text-left',
-            open ? 'w-36' : 'w-0', /* control width of item */
+            open ? 'w-36' : 'w-0' /* control width of item */,
             'transition-all duration-300'
           )}
         >
