@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { ConnectedBanks, Account } from '@/services/types';
+import { ConnectedBanksDict, Account } from '@/services/types';
 import Collapse from '@/components/shared/Collapse';
 import { useTheme } from '@/context/ThemeProvider';
 
@@ -10,15 +10,19 @@ import { IoMdArrowDroprightCircle } from 'react-icons/io';
 
 import { useCabinetPageContext } from '@/context/CabinetContext';
 
-const getBankList = (data: ConnectedBanks) => Object.keys(data);
-const getAccountsByBank = (bank: string, data: ConnectedBanks) => data[bank];
+const getBankList = (data: ConnectedBanksDict) => Object.keys(data);
+const getAccountsByBank = (bank: string, data: ConnectedBanksDict) =>
+  data[bank];
 
-function ConnectedBanks({ banksData }: { banksData: ConnectedBanks | undefined }) {
-
-  if(!banksData) return null;
+export default function ConnectedBanks({
+  banksData,
+}: {
+  banksData: ConnectedBanksDict | undefined;
+}) {
+  if (!banksData) return null;
   const connectedBanksList = getBankList(banksData);
   return (
-    <ul className='md:px-7'>
+    <ul className='md:px-4'>
       {connectedBanksList.map((bank) => (
         <li key={bank} className='md:my-2'>
           <BankInstance
@@ -30,14 +34,13 @@ function ConnectedBanks({ banksData }: { banksData: ConnectedBanks | undefined }
     </ul>
   );
 }
-export default ConnectedBanks;
 
 interface BankMenuProps {
   bankName: string;
   accounts: Account[];
 }
 function BankInstance({ bankName, accounts }: BankMenuProps) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   function handleCollapse() {
     setOpen((p) => !p);
   }
@@ -45,7 +48,7 @@ function BankInstance({ bankName, accounts }: BankMenuProps) {
     <div
       className={clsx(
         'md:rounded',
-        'scroll-y h-full overflow-y-scroll',
+        'h-full overflow-hidden',
         'border-t border-b border-gray-500/50 md:border',
         'shadow-sm hover:shadow-gray-400/30'
       )}

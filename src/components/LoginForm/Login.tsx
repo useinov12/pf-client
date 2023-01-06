@@ -17,7 +17,7 @@ export default function Login({ className }: { className?: string }) {
 function Form({ className }: { className?: string }) {
   const queryClient = useCashedClient();
   const router = useRouter();
-  const { isSuccess, isLoading, data: user , refetch} = useAuth();
+  const { isSuccess, isLoading, data: user, refetch } = useAuth();
   const { handleOpenLoginForm } = useLoginForm();
 
   const [formInputs, setFormInputs] = useState({ username: '', password: '' });
@@ -45,23 +45,28 @@ function Form({ className }: { className?: string }) {
       /* invalidate query to trigger update cashed user */
       queryClient.invalidateQueries(['user']);
       refetch();
-      handleOpenLoginForm();
     }
   }
 
+  /* handle redirect on successfull login*/
   useEffect(() => {
     if (!isLoading) {
       if (user) {
         const lastVisited = getRedirect();
 
-        if (lastVisited) {
+        if (!lastVisited || lastVisited === '/signup') {
+          router.push('/cabinet');
+        } else {
           router.push(lastVisited);
-          clearRedirect();
-        } else router.push('/cabinet');
+        }
+
+        clearRedirect();
+        handleOpenLoginForm(); /* close login form */
+
         logger({}, '⚪️ Redirect triggered');
       }
     }
-  }, [router, getRedirect, clearRedirect, isLoading, user]);
+  }, [router, isLoading, user]);
 
   return (
     <form

@@ -3,28 +3,54 @@ import { useTheme } from '@/context/ThemeProvider';
 import { MdMenuOpen, MdOutlineSwitchAccount, MdGridView } from 'react-icons/md';
 import { RiBankFill } from 'react-icons/ri';
 import { CgArrowsExchange } from 'react-icons/cg';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/shared/Tooltip';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/shared/Tooltip';
 import Link from 'next/link';
 import { useAppPageContext } from '@/context/AppPageContext';
 import { RiUserSettingsFill } from 'react-icons/ri';
 
 export default function Sidebar({ className }: { className?: string }) {
-  const { mode } = useTheme();
-  const { openSidebar, hanldeSidebar } = useAppPageContext();
+  return (
+    <div className={clsx('h-full w-fit')}>
+      <MobileSidebar className='block md:hidden' />
+      <DesktopSidebar className='hidden md:block' />
+    </div>
+  );
+}
 
+function MobileSidebar({ className }: { className: string }) {
+  const { openSidebar } = useAppPageContext();
+  const { mode } = useTheme();
   return (
     <nav
       className={clsx(
-        'rounded border-r border-t md:border',
-        mode === 'light' ? 'border-dark/50' : 'border-gray-300/50',
+        'h-full w-fit sm:w-1/2 md:w-1/4',
+        'top-15 absolute',
+        'transition-all duration-200 ease-in',
+        openSidebar && '-translate-x-[105%]',
+        mode === 'light' ? 'bg-gray-500' : 'bg-gray-600',
         className
       )}
     >
-      <ul className='px-4 py-3'>
-        <MenuButton handleOpen={hanldeSidebar} />
+      <ul className='my-3 w-full'>
         {list.map((item, i) => (
-          <li key={item.title}>
-            <MenuItem item={item} open={openSidebar} />
+          <li
+            key={item.title}
+            className={clsx(
+              'w-full py-3 px-4',
+              'flex items-center gap-2',
+              'text-xl sm:text-xl md:text-3xl'
+            )}
+          >
+            <Link href={item.link}>
+              <>
+                <span>{item.icon}</span>
+                <strong>{item.title}</strong>
+              </>
+            </Link>
           </li>
         ))}
       </ul>
@@ -32,19 +58,30 @@ export default function Sidebar({ className }: { className?: string }) {
   );
 }
 
-const MenuButton = ({ handleOpen }: { handleOpen: () => void }) => {
+const DesktopSidebar = ({ className }: { className: string }) => {
+  const { mode } = useTheme();
+  const { openSidebar } = useAppPageContext();
   return (
-    <Tooltip placement='right-start'>
-      <TooltipTrigger
-        onClick={handleOpen}
-        className='flex items-center justify-center rounded p-0 hover:bg-gray-500/70 '
-      >
-        <MdMenuOpen className='text-4xl' />
-      </TooltipTrigger>
-      <TooltipContent className='rounded bg-gray-600 p-1 text-sm text-white '>
-        <p>Menu</p>
-      </TooltipContent>
-    </Tooltip>
+    <ul
+      className={clsx(
+        'z-40',
+        'top-15 absolute',
+        'h-full w-fit',
+        'px-4 py-3',
+        'border-r',
+        'transition-all duration-200 ease-in',
+        mode === 'light' ? 'border-gray-500/50' : 'border-gray-300/20',
+        openSidebar && mode === 'light' && 'bg-gray-400',
+        openSidebar && mode === 'dark' && 'bg-gray-900',
+        className
+      )}
+    >
+      {list.map((item, i) => (
+        <li key={item.title}>
+          <MenuItem item={item} open={openSidebar} />
+        </li>
+      ))}
+    </ul>
   );
 };
 
@@ -58,8 +95,7 @@ function MenuItem({ item, open }: MenuItemProps) {
       className={clsx(
         'transition-all duration-300',
         'overflow-hidden',
-        open ? 'w-40' : 'w-10',
-        'my-2'
+        open ? 'w-40' : 'w-10' /* control width of item wrapper */
       )}
     >
       <ItemWithTooltip item={item} open={open} />
@@ -67,7 +103,7 @@ function MenuItem({ item, open }: MenuItemProps) {
   );
 }
 
-const ItemWithTooltip = ({ item, open }: MenuItemProps) => {
+function ItemWithTooltip({ item, open }: MenuItemProps) {
   return (
     <Tooltip placement='right-start' open={open ? false : undefined}>
       <TooltipTrigger>
@@ -78,9 +114,9 @@ const ItemWithTooltip = ({ item, open }: MenuItemProps) => {
       </TooltipContent>
     </Tooltip>
   );
-};
+}
 
-const Item = ({ item, open }: MenuItemProps) => {
+function Item({ item, open }: MenuItemProps) {
   return (
     <Link href={item.link}>
       <div
@@ -94,7 +130,7 @@ const Item = ({ item, open }: MenuItemProps) => {
         <p
           className={clsx(
             'text-left',
-            open ? 'w-36' : 'w-0',
+            open ? 'w-36' : 'w-0' /* control width of item */,
             'transition-all duration-300'
           )}
         >
@@ -103,48 +139,13 @@ const Item = ({ item, open }: MenuItemProps) => {
       </div>
     </Link>
   );
-};
-
-export const MobileSidebar = () => {
-  const { openSidebar } = useAppPageContext();
-  const { mode } = useTheme();
-  return (
-    <nav
-      className={clsx(
-        'w-5/6',
-        'absolute top-20',
-        'block md:hidden',
-        'transition-all duration-200',
-        openSidebar ? '' : '-translate-x-[105%]',
-        'h-screen rounded-tr border-r border-t md:border',
-        mode === 'light' ? 'border-dark/50' : 'border-gray-300/50',
-        'scroll-y-none backdrop-blur-4xl bg-opacity-20 bg-clip-padding backdrop-filter'
-      )}
-    >
-      <ul className='w-full px-4 py-3'>
-        {list.map((item, i) => (
-          <li
-            key={item.title}
-            className='my-5 flex items-center gap-2 text-6xl'
-          >
-            <Link href={item.link}>
-              <>
-              <span>{item.icon}</span>
-              <h1>{item.title}</h1>
-              </>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-};
+}
 
 export const MobileMenuButton = () => {
   const { hanldeSidebar } = useAppPageContext();
   return (
     <button onClick={hanldeSidebar} className=''>
-      <MdMenuOpen className='text-5xl' />
+      <MdMenuOpen className='text-4xl' />
     </button>
   );
 };
