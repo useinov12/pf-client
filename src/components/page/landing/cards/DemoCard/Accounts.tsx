@@ -24,7 +24,7 @@ export default function Accounts({
   const chartData: ChartDataFormat = {
     labels: accountTypes,
     label: '',
-    data: [accountSums],
+    datasets: [accountSums],
   };
 
   useEffect(() => {
