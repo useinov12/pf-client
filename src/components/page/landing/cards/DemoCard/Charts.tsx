@@ -39,6 +39,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
               width={'100%'}
               height={'100%'}
               incomingData={chartData}
+              styleOptions={'LANDING'}
               delay={5000}
             />
           </div>
@@ -47,6 +48,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
               width={'100%'}
               height={'100%'}
               incomingData={chartData}
+              styleOptions={'LANDING'}
               delay={5200}
             />
           </div>
