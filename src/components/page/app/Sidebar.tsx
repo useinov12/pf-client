@@ -11,13 +11,22 @@ import {
 import Link from 'next/link';
 import { useAppPageContext } from '@/context/AppPageContext';
 import { RiUserSettingsFill } from 'react-icons/ri';
+import { RiArrowDropRightLine } from 'react-icons/ri';
+import { HiMenuAlt1 } from 'react-icons/hi';
+import { useRouter } from 'next/router';
 
 export default function Sidebar({ className }: { className?: string }) {
+  {
+    /* <div className='relative h-full w-fit'> */
+  }
+  {
+    /* </div> */
+  }
   return (
-    <div className={clsx('h-full w-fit')}>
+    <>
       <MobileSidebar className='block md:hidden' />
       <DesktopSidebar className='hidden md:block' />
-    </div>
+    </>
   );
 }
 
@@ -31,7 +40,7 @@ function MobileSidebar({ className }: { className: string }) {
         'top-15 absolute',
         'transition-all duration-200 ease-in',
         openSidebar && '-translate-x-[105%]',
-        mode === 'light' ? 'bg-gray-400' : 'bg-gray-600',
+        mode === 'light' ? 'bg-gray-300' : 'bg-gray-600',
         className
       )}
     >
@@ -64,14 +73,12 @@ const DesktopSidebar = ({ className }: { className: string }) => {
   return (
     <ul
       className={clsx(
-        'z-40',
-        'top-15 absolute',
         'h-full w-fit',
-        'px-4 py-3',
+        // 'px-3 py-3',
+        'py-3',
         'border-r',
-        'transition-all duration-200 ease-in',
         mode === 'light' ? 'border-gray-500/50' : 'border-gray-300/20',
-        openSidebar && mode === 'light' && 'bg-gray-400',
+        openSidebar && mode === 'light' && 'bg-gray-300',
         openSidebar && mode === 'dark' && 'bg-gray-900',
         className
       )}
@@ -93,9 +100,8 @@ function MenuItem({ item, open }: MenuItemProps) {
   return (
     <div
       className={clsx(
-        'transition-all duration-300',
         'overflow-hidden',
-        open ? 'w-40' : 'w-10' /* control width of item wrapper */
+        open ? 'w-40' : 'w-14' /* control width of item wrapper */
       )}
     >
       <ItemWithTooltip item={item} open={open} />
@@ -117,21 +123,27 @@ function ItemWithTooltip({ item, open }: MenuItemProps) {
 }
 
 function Item({ item, open }: MenuItemProps) {
+  const router = useRouter();
+
+  const location = router.asPath.slice(5);
+
   return (
     <Link href={item.link}>
       <div
         className={clsx(
-          'flex items-center gap-2',
-          'hover:cursor-pointer hover:bg-gray-500/70',
-          'rounded'
+          'transition-all duration-300',
+          'flex items-center gap-2 py-1 px-4',
+          'hover:cursor-pointer hover:bg-gray-400/20',
+          location === item.title.toLowerCase() && 'bg-gray-400/20'
         )}
       >
-        <span>{item.icon}</span>
+        <span className='text-2xl'>{item.icon}</span>
         <p
           className={clsx(
-            'text-left',
-            open ? 'w-36' : 'w-0' /* control width of item */,
-            'transition-all duration-300'
+            'text-left text-sm',
+            open && '',
+            open ? 'visible w-40' : 'invisible w-0' /* control width of item */,
+            location === item.title.toLowerCase() && 'font-semibold'
           )}
         >
           {item.title}
@@ -142,38 +154,45 @@ function Item({ item, open }: MenuItemProps) {
 }
 
 export const MobileMenuButton = () => {
-  const { hanldeSidebar } = useAppPageContext();
+  const { hanldeSidebar, openSidebar } = useAppPageContext();
   return (
-    <button onClick={hanldeSidebar} className=''>
-      <MdMenuOpen className='text-4xl' />
+    <button onClick={hanldeSidebar} className='inline-flex items-center py-2'>
+      <HiMenuAlt1 className='text-3xl' />
+      <RiArrowDropRightLine
+        className={clsx(
+          'transition-all duration-300 ease-in-out',
+          'text-3xl hover:-translate-x-3',
+          openSidebar ? '-translate-x-3 rotate-180' : '-translate-x-4 rotate-0'
+        )}
+      />
     </button>
   );
 };
 
 const list = [
   {
-    icon: <MdGridView className='text-4xl' />,
+    icon: <MdGridView />,
     title: 'Overview',
     link: '/app/overview',
   },
   {
-    icon: <RiBankFill className='text-4xl' />,
+    icon: <RiBankFill />,
     title: 'Banks',
     link: '/app/banks',
   },
   {
-    icon: <MdOutlineSwitchAccount className='text-4xl' />,
+    icon: <MdOutlineSwitchAccount />,
     title: 'Accounts',
     link: '/app/accounts',
   },
   {
-    icon: <CgArrowsExchange className='text-4xl' />,
+    icon: <CgArrowsExchange />,
     title: 'Transactions',
     link: '/app/transactions',
   },
-  {
-    icon: <RiUserSettingsFill className='text-4xl' />,
-    title: 'Cabinet',
-    link: '/cabinet',
-  },
+  // {
+  //   icon: <RiUserSettingsFill />,
+  //   title: 'Cabinet',
+  //   link: '/cabinet',
+  // },
 ];
