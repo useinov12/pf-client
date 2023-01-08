@@ -1,7 +1,9 @@
 export interface ChartProps{
   incomingData: ChartDataFormat;
   delay?:number;
+  styleOptions:StyleOptions
 }
+export type StyleOptions = 'LANDING' | 'APP'
 
 export type IncomingDataset = number[];
 
