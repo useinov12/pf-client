@@ -217,8 +217,9 @@ function ConnectedAccountsChips({ bank }: { bank: string }) {
   const bankData = sampleData[bank];
   return (
     <ul className='scrollbar-hide flex w-full items-center  gap-1 overflow-y-hidden overflow-x-scroll py-1 pl-3'>
-      {bankData.map((account) => (
+      {bankData.map((account, i) => (
         <li
+          key={`bankAcc-${i}`}
           className={clsx(
             'w-min text-sm',
             'drop-shadow-md',
