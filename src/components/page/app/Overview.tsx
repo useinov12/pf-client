@@ -1,13 +1,16 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { sampleData } from '../cabinet/sections/sampleData';
 import { ChartDataFormat } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
 import LineChart from '@/components/charts/LineChart';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
+import { BiCarousel } from 'react-icons/bi';
+import { CgMenuGridR } from 'react-icons/cg';
+import { BsPiggyBankFill } from 'react-icons/bs';
 
-export function GeneralInfo() {
+export function GeneralInfo({ className }: { className: string }) {
   const connectedBanks = Object.keys(sampleData);
   const connectedAccounts = connectedBanks.map((bank, i) => sampleData[bank]);
 
@@ -16,16 +19,20 @@ export function GeneralInfo() {
     .reduce((a, b) => a + b);
 
   return (
-    <Card className=' flex w-1/3 flex-col justify-between' title='General Info'>
-      <Card className='w-full py-1'>
+    <Card
+      className={clsx('flex flex-col justify-between py-3', className)}
+      title='General Info'
+    >
+      <div className='w-full py-4'>
         <p className='text-sm'>Account</p>
         <h4> Ruslan Useinov</h4>
-      </Card>
-      <table className='w-full table-fixed'>
+      </div>
+
+      <table className='w-full table-auto lg:table-fixed'>
         <tbody>
           <tr>
             <td>
-              <strong>Connected banks </strong>
+              <strong className='md:text-md text-sm'>Connected banks </strong>
             </td>
             <td>
               <strong>{connectedBanks.length}</strong>
@@ -33,7 +40,7 @@ export function GeneralInfo() {
           </tr>
           <tr>
             <td>
-              <strong>Connected accounts</strong>
+              <strong className='md:text-md text-sm'>Connected accounts</strong>
             </td>
             <td>
               <strong>{connectedAccountsQuantity}</strong>
@@ -42,25 +49,25 @@ export function GeneralInfo() {
         </tbody>
       </table>
 
-      <div className='flex items-center gap-2'>
-        <Card className='w-full py-1'>
+      <div className='my-2 flex items-center gap-2'>
+        <div className='w-full py-1'>
           <p className='text-sm'>Credit</p>
           <h3> $2000</h3>
-        </Card>
-        <Card className='w-full py-1'>
+        </div>
+        <div className='w-full py-1'>
           <p className='text-sm'>Balance</p>
           <h3> $10000</h3>
-        </Card>
-        <Card className='w-full py-1'>
+        </div>
+        <div className='w-full py-1'>
           <p className='text-sm'>Total</p>
           <h3> $8000</h3>
-        </Card>
+        </div>
       </div>
     </Card>
   );
 }
 
-export function ChartGroup() {
+export function ChartGroup({ className }: { className: string }) {
   const dataset = [
     1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200, 2400, 1800, 2100,
   ];
@@ -75,29 +82,156 @@ export function ChartGroup() {
   };
 
   return (
-    <Card className='h-72 w-[60%]'>
-      <LineChart
-        incomingData={testDataset}
-        width='100%'
-        height='100%'
-        styleOptions={'APP'}
-      />
+    <Card
+      className={clsx('h-60 py-10 px-0 md:h-72', className)}
+      title='Total summary'
+    >
+      <div className='h-5/6 w-full'>
+        <LineChart
+          incomingData={testDataset}
+          width='100%'
+          height='100%'
+          styleOptions={'APP'}
+        />
+      </div>
     </Card>
   );
 }
 
 export function ListOfBanks() {
   const banks = Object.keys(sampleData);
+
+  const [toggleLayout, setToggleLayout] = useState(false);
   return (
-    <Carousel>
-      {banks.map((bank, i) => (
-        <li key={bank}>
-          <CarouselItem width='256'>
-            <BankCard bank={bank} />
-          </CarouselItem>
+    <div className='h-3/5 w-full'>
+      <BanksViewToggle
+        toggleLayout={toggleLayout}
+        setToggleLayout={setToggleLayout}
+      />
+      {toggleLayout ? (
+        <Carousel>
+          {banks.map((bank, i) => (
+            <li key={bank}>
+              <CarouselItem width='256'>
+                <BankCard bank={bank} className='w-64' />
+              </CarouselItem>
+            </li>
+          ))}
+        </Carousel>
+      ) : (
+        <div className=''>
+          <ul className='grid grid-cols-1 gap-2 px-2 sm:grid-cols-2 lg:grid-cols-5'>
+            {banks.map((bank, i) => (
+              <li key={bank}>
+                <BankCard bank={bank} className='w-full' />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function BanksViewToggle({
+  setToggleLayout,
+  toggleLayout,
+}: {
+  toggleLayout: boolean;
+  setToggleLayout: (bool: boolean) => void;
+}) {
+  return (
+    <div className='mb-3 inline-flex items-center gap-4'>
+      <h3 className='px-2 py-2 font-normal'>Connected Banks</h3>
+      <div className='inline-flex items-center gap-2'>
+        <button
+          onClick={() => setToggleLayout(true)}
+          className={clsx(
+            'scale-100 rounded-md p-1 text-3xl hover:scale-[1.1] hover:bg-gray-400/40',
+            toggleLayout && 'bg-gray-400/40'
+          )}
+        >
+          <BiCarousel />
+        </button>
+        <button
+          onClick={() => setToggleLayout(false)}
+          className={clsx(
+            'scale-100 rounded-md p-1 text-3xl hover:scale-[1.1] hover:bg-gray-400/40',
+            !toggleLayout && 'bg-gray-400/40'
+          )}
+        >
+          <CgMenuGridR />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function BankCard({ bank, className }: { bank: string; className: string }) {
+  const { mode } = useTheme();
+
+  const bankData = sampleData[bank];
+
+  const bankTotal = bankData
+    .map((acc) =>
+      acc.subtype === 'credit card' ? acc.balance * -1 : acc.balance
+    )
+    .reduce((a, b) => a + b);
+
+  return (
+    <div
+      className={clsx(
+        'h-40',
+        'flex flex-col items-start',
+        'rounded',
+        'overflow-hidden border',
+        className,
+        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
+        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50'
+      )}
+    >
+      <header
+        className={clsx(
+          'bg-gray-600/50',
+          'w-full px-3 py-1',
+          'inline-flex items-center gap-1'
+        )}
+      >
+        <BsPiggyBankFill className='h-6 w-6' />
+        <h6 className='text-sm font-semibold drop-shadow-md'>{bank}</h6>
+      </header>
+      <h6 className='px-3 py-1 text-sm font-semibold drop-shadow-md'>
+        Connected accounts
+      </h6>
+      <ConnectedAccountsChips bank={bank} />
+      <div className='flex w-full flex-col items-end px-3'>
+        <p className='text-sm drop-shadow-md'>Total</p>
+        <h3 className='text-2xl font-normal drop-shadow-md'>$ {bankTotal}</h3>
+      </div>
+    </div>
+  );
+}
+
+function ConnectedAccountsChips({ bank }: { bank: string }) {
+  const { mode } = useTheme();
+  const bankData = sampleData[bank];
+  return (
+    <ul className='scrollbar-hide flex w-full items-center  gap-1 overflow-y-hidden overflow-x-scroll py-1 pl-3'>
+      {bankData.map((account) => (
+        <li
+          className={clsx(
+            'w-min text-sm',
+            'drop-shadow-md',
+            'rounded-md px-2 py-[2px] ',
+            mode === 'light' ? 'border-dark/30 ' : 'border-gray-400/50 ',
+            'border bg-gray-500/30',
+            'whitespace-nowrap'
+          )}
+        >
+          <p>{account.subtype}</p>
         </li>
       ))}
-    </Carousel>
+    </ul>
   );
 }
 
@@ -124,8 +258,9 @@ function Card({ title, className, children, withBorder }: CardProps) {
       {title && (
         <strong
           className={clsx(
-            'absolute -top-3 left-2 px-1',
-            mode === 'light' ? 'bg-gray-300' : 'bg-gray-900'
+            'absolute -top-3 left-1 px-1',
+            'bg-transparent'
+            // mode === 'light' ? 'bg-gray-300' : 'bg-gray-900'
           )}
         >
           {title}
@@ -133,66 +268,5 @@ function Card({ title, className, children, withBorder }: CardProps) {
       )}
       {children}
     </div>
-  );
-}
-
-function BankCard({ bank }: { bank: string }) {
-  const { mode } = useTheme();
-
-  const bankData = sampleData[bank];
-
-  const bankTotal = bankData
-    .map((acc) =>
-      acc.subtype === 'credit card' ? acc.balance * -1 : acc.balance
-    )
-    .reduce((a, b) => a + b);
-
-  return (
-    <Card
-      className={clsx(
-        'relative h-48 w-64',
-        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50'
-      )}
-      withBorder
-    >
-      <h4 className='drop-shadow-md'>{bank}</h4>
-      <h6 className='my-2 text-sm font-semibold drop-shadow-md'>
-        Connected accounts
-      </h6>
-      <ConnectedAccountsChips bank={bank} />
-      <div
-        className={clsx(
-          'absolute bottom-0 left-0',
-          'w-full py-1 px-3',
-          'flex flex-col items-end'
-        )}
-      >
-        <p className=' drop-shadow-md '>Total</p>
-        <h3 className='text-3xl drop-shadow-md'>$ {bankTotal}</h3>
-      </div>
-    </Card>
-  );
-}
-
-function ConnectedAccountsChips({ bank }: { bank: string }) {
-  const { mode } = useTheme();
-  const bankData = sampleData[bank];
-  return (
-    <ul className='flex flex-wrap items-center gap-1'>
-      {bankData.map((account) => (
-        <li
-          className={clsx(
-            'w-min text-sm',
-            'drop-shadow-md',
-            'rounded-md px-2 py-[2px] ',
-            mode === 'light' ? 'border-dark/30 ' : 'border-gray-400/50 ',
-            'border bg-gray-500/30'
-          )}
-        >
-          <p>{account.subtype}</p>
-        </li>
-      ))}
-    </ul>
   );
 }
