@@ -49,7 +49,7 @@ const Navbar = () => {
         <ul className='flex items-center justify-between'>
           <div />
           <ul className='inline-flex items-center gap-2'>
-            <li>{user ? <CabinetLink /> : <LoginButton />}</li>
+            <li>{user ? <AppLink /> : <LoginButton />}</li>
             <li>
               <ThemeButton />
             </li>
@@ -60,11 +60,12 @@ const Navbar = () => {
   );
 };
 
-const CabinetLink = () => {
+
+const AppLink = () => {
   return (
-    <Link href='/cabinet'>
+    <Link href='/app/overview'>
       <Button variant='transparent' className='text-md py-1'>
-        Cabinet
+        Open app
       </Button>
     </Link>
   );
@@ -96,13 +97,14 @@ const Footer = () => {
       )}
     >
       <ul className='flex h-20 w-full items-center justify-center gap-4'>
-        {[BsFacebook, BsInstagram, BsTwitter, BsGithub].map(
-          (Icon, i) => (
-            <li className='text-3xl hover:cursor-pointer hover:text-primary-500' key={`icon-${i}`}>
-              <Icon/>
-            </li>
-          )
-        )}
+        {[BsFacebook, BsInstagram, BsTwitter, BsGithub].map((Icon, i) => (
+          <li
+            className='text-3xl hover:cursor-pointer hover:text-primary-500'
+            key={`icon-${i}`}
+          >
+            <Icon />
+          </li>
+        ))}
       </ul>
 
       <section className='text-center'>
