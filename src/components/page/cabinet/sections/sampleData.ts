@@ -67,7 +67,7 @@ const sampleData: ConnectedBanksDict = {
       user_id: 6,
     },
   ],
-  'PNC': [
+  PNC: [
     {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
@@ -122,11 +122,43 @@ const sampleData: ConnectedBanksDict = {
 const connectedBanks = Object.keys(sampleData);
 const getAccountsByBank = (bank: string) => sampleData[bank];
 
-const accountTitleByBank = (bank: string) => sampleData[bank].map((acc) => acc.name);
+const accountTitleByBank = (bank: string) =>
+  sampleData[bank].map((acc) => acc.name);
 const accountTypesByBank = (bank: string) =>
-sampleData[bank].map((acc) => acc.subtype);
-const accBalanceByBank = (bank: string) => sampleData[bank].map((acc) => acc.balance);
+  sampleData[bank].map((acc) => acc.subtype);
+const accBalanceByBank = (bank: string) =>
+  sampleData[bank].map((acc) => acc.balance);
 const totalBalanceByBank = (bank: string) =>
   accBalanceByBank(bank).reduce((a, b) => a + b);
 
-export { sampleData };
+function getListOfAllAccounts(data: ConnectedBanksDict): Account[] {
+  const accounts: Account[] = [];
+  for (let bank in data) {
+    data[bank].map((acc) => accounts.push(acc));
+  }
+  return accounts;
+}
+
+function getTotalCredit(data: ConnectedBanksDict): number {
+  const accounts = getListOfAllAccounts(data);
+
+  const negativeAccounts = accounts
+    .filter((acc) => acc.subtype === 'credit card')
+    .map((acc) => acc.balance)
+    .reduce((a, b) => a + b);
+
+  return negativeAccounts;
+}
+
+function getTotalBalance(data: ConnectedBanksDict): number {
+  const accounts = getListOfAllAccounts(data);
+
+  const balance = accounts
+    .filter((acc) => acc.subtype !== 'credit card')
+    .map((acc) => acc.balance)
+    .reduce((a, b) => a + b);
+
+  return balance - getTotalCredit(data);
+}
+
+export { sampleData, getListOfAllAccounts, getTotalCredit, getTotalBalance };
