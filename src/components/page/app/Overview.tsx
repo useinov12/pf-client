@@ -1,7 +1,12 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { ReactNode, useState } from 'react';
-import { sampleData } from '../cabinet/sections/sampleData';
+import {
+  sampleData,
+  getListOfAllAccounts,
+  getTotalCredit,
+  getTotalBalance,
+} from '../cabinet/sections/sampleData';
 import { ChartDataFormat } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
 import LineChart from '@/components/charts/LineChart';
@@ -13,11 +18,9 @@ import BarChart from '@/components/charts/BarChart';
 
 export function GeneralInfo({ className }: { className: string }) {
   const connectedBanks = Object.keys(sampleData);
-  const connectedAccounts = connectedBanks.map((bank, i) => sampleData[bank]);
-
-  const connectedAccountsQuantity = connectedBanks
-    .map((bank) => sampleData[bank].length)
-    .reduce((a, b) => a + b);
+  const connectedAccountsQuantity = getListOfAllAccounts(sampleData).length;
+  const creditTotal = getTotalCredit(sampleData);
+  const balanceTotal = getTotalBalance(sampleData);
 
   return (
     <Card
@@ -53,15 +56,11 @@ export function GeneralInfo({ className }: { className: string }) {
       <div className='my-2 flex items-center gap-2'>
         <div className='w-full py-1'>
           <p className='text-sm'>Credit</p>
-          <h3 className='text-md md:text-xl'> $2000</h3>
+          <h3 className='text-md md:text-xl'> $ -{creditTotal}</h3>
         </div>
         <div className='w-full py-1'>
           <p className='text-sm'>Balance</p>
-          <h3 className='text-md md:text-xl'> $10000</h3>
-        </div>
-        <div className='w-full py-1'>
-          <p className='text-sm'>Total</p>
-          <h3 className='text-md md:text-xl'> $8000</h3>
+          <h3 className='text-md md:text-xl'> ${balanceTotal}</h3>
         </div>
       </div>
     </Card>
@@ -109,6 +108,7 @@ export function ChartGroup({ className }: { className: string }) {
           width='50%'
           height='100%'
           styleOptions={'APP'}
+          vertical
         />
       </div>
     </Card>
