@@ -9,20 +9,15 @@ import Link from 'next/link';
 import Button from '@/components/buttons/Button';
 import { RiUserSettingsFill } from 'react-icons/ri';
 
-export default function Layout({
-  children,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <LayoutCommon withWrapper className='h-screen w-screen 2xl:py-5 2xl:px-4'>
+    <LayoutCommon className='h-screen w-screen 2xl:py-4' withWrapper>
       <ContentWrapper>
         <Navbar />
-        <div className='flex h-full w-full '>
+        <main className='flex h-[90vh] w-full'>
           <Sidebar />
-          <main className='z-0 w-full px-3'>{children}</main>
-        </div>
+          {children}
+        </main>
       </ContentWrapper>
     </LayoutCommon>
   );
@@ -30,16 +25,15 @@ export default function Layout({
 
 function ContentWrapper({ children }: { children: ReactNode }) {
   const { mode } = useTheme();
+
   return (
     <section
       className={clsx(
-        'overflow-hidden',
-        'h-screen w-screen  2xl:h-[90vh]',
-        '2xl:rounded 2xl:border',
+        'overflow-x-hidden overflow-y-scroll',
+        'h-full w-full',
+        'border 2xl:rounded 2xl:border',
         mode === 'light' ? 'border-gray-400/50' : 'border-gray-300/20',
-        // mode === 'light' ? 'bg-dark/10' : 'bg-gray-300/10'
-        // mode === 'light' ? 'bg-gray-300' : 'bg-gray-900',
-        mode === 'light' ? 'bg-gray-200' : 'bg-gray-900',
+        mode === 'light' ? 'bg-gray-200' : 'bg-gray-900'
       )}
     >
       {children}
@@ -66,7 +60,7 @@ function Navbar() {
             height={56}
             className='scale-100 hover:scale-[1.03]'
           />
-          <h3 className='mt-2'>Personal Finance</h3>
+          <h3 className='mt-2 hidden sm:block'>Personal Finance</h3>
         </div>
       </div>
       <div className='inline-flex items-center gap-3'>
@@ -84,8 +78,8 @@ const CabinetLink = () => {
         variant='transparent'
         className='text-md inline-flex items-center gap-1 py-1'
       >
-        <RiUserSettingsFill className='text-2xl' />
-        <span>Cabinet</span>
+        <RiUserSettingsFill className='text-3xl sm:text-2xl' />
+        <span className='hidden sm:block'>Cabinet</span>
       </Button>
     </Link>
   );

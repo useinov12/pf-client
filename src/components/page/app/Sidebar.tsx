@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
-import { MdMenuOpen, MdOutlineSwitchAccount, MdGridView } from 'react-icons/md';
+import { MdOutlineSwitchAccount, MdGridView } from 'react-icons/md';
 import { RiBankFill } from 'react-icons/ri';
 import { CgArrowsExchange } from 'react-icons/cg';
 import {
@@ -10,18 +10,11 @@ import {
 } from '@/components/shared/Tooltip';
 import Link from 'next/link';
 import { useAppPageContext } from '@/context/AppPageContext';
-import { RiUserSettingsFill } from 'react-icons/ri';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { HiMenuAlt1 } from 'react-icons/hi';
 import { useRouter } from 'next/router';
 
 export default function Sidebar({ className }: { className?: string }) {
-  {
-    /* <div className='relative h-full w-fit'> */
-  }
-  {
-    /* </div> */
-  }
   return (
     <>
       <MobileSidebar className='block md:hidden' />
@@ -33,14 +26,17 @@ export default function Sidebar({ className }: { className?: string }) {
 function MobileSidebar({ className }: { className: string }) {
   const { openSidebar } = useAppPageContext();
   const { mode } = useTheme();
+  const router = useRouter();
+  const location = router.asPath.slice(5);
+
   return (
     <nav
       className={clsx(
-        'h-full w-full sm:w-1/2 md:w-1/4',
-        'top-15 absolute',
+        'h-[90vh] w-full',
+        'top-15 absolute z-50',
         'transition-all duration-200 ease-in',
         openSidebar && '-translate-x-[105%]',
-        mode === 'light' ? 'bg-gray-300' : 'bg-gray-600',
+        mode === 'light' ? 'bg-gray-200' : 'bg-gray-900',
         className
       )}
     >
@@ -49,16 +45,18 @@ function MobileSidebar({ className }: { className: string }) {
           <li
             key={item.title}
             className={clsx(
-              'w-full py-3 px-4',
-              'flex items-center gap-2',
-              'text-xl sm:text-xl md:text-3xl'
+              'w-full cursor-pointer py-3 px-4',
+              'text-xl sm:text-2xl',
+              location === item.title.toLowerCase() && 'font-semibold'
             )}
           >
             <Link href={item.link}>
-              <>
-                <span>{item.icon}</span>
-                <strong>{item.title}</strong>
-              </>
+              <div className='flex h-full w-full items-center gap-2'>
+                <>
+                  <span>{item.icon}</span>
+                  <strong>{item.title}</strong>
+                </>
+              </div>
             </Link>
           </li>
         ))}
@@ -73,12 +71,12 @@ const DesktopSidebar = ({ className }: { className: string }) => {
   return (
     <ul
       className={clsx(
+        // 'flex-none',
         'h-full w-fit',
-        // 'px-3 py-3',
         'py-3',
         'border-r',
         mode === 'light' ? 'border-gray-500/50' : 'border-gray-300/20',
-        openSidebar && mode === 'light' && 'bg-gray-300',
+        openSidebar && mode === 'light' && 'bg-gray-200',
         openSidebar && mode === 'dark' && 'bg-gray-900',
         className
       )}
