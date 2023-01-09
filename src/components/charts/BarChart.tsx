@@ -10,6 +10,7 @@ interface BarChartProps extends ChartProps {
   width: string;
   height: string;
   stacked?: boolean | undefined;
+  vertical?: boolean | undefined;
 }
 
 export default function BarChart({
@@ -18,7 +19,8 @@ export default function BarChart({
   delay,
   incomingData,
   stacked,
-  styleOptions
+  vertical,
+  styleOptions,
 }: BarChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
@@ -42,6 +44,12 @@ export default function BarChart({
     } else setChartData(chartData);
   }, [incomingData]);
 
+  const options = stacked
+    ? optionsStacked
+    : vertical
+    ? optionsVerticalRegular
+    : optionsRegular;
+
   return (
     <Chart
       type='bar'
@@ -49,7 +57,7 @@ export default function BarChart({
       data={chartData}
       width={width}
       height={height}
-      options={stacked ? optionsStacked : optionsRegular}
+      options={options}
     />
   );
 }
@@ -78,6 +86,8 @@ const optionsRegular = {
     },
   },
 };
+
+const optionsVerticalRegular = { ...optionsRegular, indexAxis: 'y' as const };
 
 const optionsStacked = {
   responsive: true,
