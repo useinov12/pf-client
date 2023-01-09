@@ -26,8 +26,8 @@ export default function OverviewPage() {
       >
         <h4 className='px-2 py-3 text-2xl font-bold capitalize'>{location}</h4>
         <div className='my-2 flex flex-col gap-2 md:flex-row'>
-          <GeneralInfo className='w-full md:w-1/2' />
-          <ChartGroup className='w-full md:w-1/2' />
+          <GeneralInfo className='w-full md:w-1/3' />
+          <ChartGroup className='w-full md:w-2/3' />
         </div>
         <ListOfBanks />
       </section>
