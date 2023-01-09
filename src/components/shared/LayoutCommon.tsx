@@ -22,7 +22,7 @@ export default function LayoutCommon({
         mode === 'dark' ? 'text-gray-200' : 'text-gray-800',
         mode === 'dark'
           ? 'bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black '
-          : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-400 via-gray-100 to-gray-400 ',
+          : 'bg-[conic-gradient(at_top,_var(--tw-gradient-stops))] from-gray-600 via-gray-100 to-gray-600 ',
         isLoaded && 'fade-in-start'
       )}
     >
@@ -30,7 +30,8 @@ export default function LayoutCommon({
       {withWrapper ? (
         <div
           className={clsx(
-            'mx-auto sm:max-w-screen-md',
+            'mx-auto',
+            'sm:max-w-screen-md',
             'md:max-w-screen-xl ',
             'lg:max-w-screen-2xl',
             className
