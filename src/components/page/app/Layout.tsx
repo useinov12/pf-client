@@ -31,7 +31,7 @@ function ContentWrapper({ children }: { children: ReactNode }) {
       className={clsx(
         'overflow-x-hidden overflow-y-scroll',
         'h-full w-full',
-        'border 2xl:rounded 2xl:border',
+        '2xl:rounded 2xl:border',
         mode === 'light' ? 'border-gray-400/50' : 'border-gray-300/20',
         mode === 'light' ? 'bg-gray-200' : 'bg-gray-900'
       )}
