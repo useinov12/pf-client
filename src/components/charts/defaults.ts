@@ -32,21 +32,21 @@ export const defaultColorsStroke = [
 ];
 
 export const defaultColorsBackground = [
-  'rgba(63, 81, 181, 0.4)', // Indigo
-  'rgba(0, 150, 136, 0.4)', // Teal
-  'rgba(255, 193, 7, 0.4)', // Amber
-  'rgba(153, 102, 204, 0.4)', // Purple
-  'rgba(236, 64, 122, 0.4)', // Rose pink
-  'rgba(243, 156, 18, 0.4)', // Mustard yellow
-  'rgba(255, 87, 34, 0.4)', // Coral
-  'rgba(156, 39, 176, 0.4)', // Purple
-  'rgba(76, 175, 80, 0.4)', // Green
-  'rgba(0, 188, 212, 0.4)', // Turquoise
-  'rgba(121, 85, 72, 0.4)', // Cocoa brown
-  'rgba(189, 189, 189, 0.4)', // Silver
-  'rgba(205, 220, 57, 0.4)', // Lime
-  'rgba(139, 195, 74, 0.4)', // Olive
-  'rgba(255, 235, 59, 0.4)', // Yellow
+  'rgba(63, 81, 181, .4)', // Indigo
+  'rgba(0, 150, 136, .4)', // Teal
+  'rgba(255, 193, 7, .4)', // Amber
+  'rgba(156, 39, 176, .4)', // Purple
+  'rgba(236, 64, 122, .4)', // Rose pink
+  'rgba(243, 156, 18, .4)', // Mustard yellow
+  'rgba(255, 87, 34, .4)', // Coral
+  'rgba(153, 102, 204, .4)', // Purple
+  'rgba(76, 175, 80, .4)', // Green
+  'rgba(0, 188, 212, .4)', // Turquoise
+  'rgba(121, 85, 72, .4)', // Cocoa brown
+  'rgba(189, 189, 189, .4)', // Silver
+  'rgba(205, 220, 57, .4)', // Lime
+  'rgba(139, 195, 74, .4)', // Olive
+  'rgba(255, 235, 59, .4)', // Yellow
 ];
 
 export const grayShades = [
