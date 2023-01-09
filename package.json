@@ -41,7 +41,8 @@
     "react-merge-refs": "^2.0.1",
     "react-plaid-link": "^3.3.2",
     "react-query": "^3.39.2",
-    "tailwind-merge": "^1.6.0"
+    "tailwind-merge": "^1.6.0",
+    "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.19.0",

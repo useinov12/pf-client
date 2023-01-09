@@ -57,9 +57,9 @@ export const grayShades = [
   'rgba(150, 150, 150, 1)', // Medium Gray
 ];
 export const grayShadesBg = [
-  'rgba(128, 128, 128, 0.7)', // Light Gray
-  'rgba(211, 211, 211, 0.7)', // Light Steel Blue
-  'rgba(169, 169, 169, 0.7)', // Dark Gray
-  'rgba(105, 105, 105, 0.7)', // Dim Gray
-  'rgba(150, 150, 150, 0.7)', // Medium Gray
+  'rgba(128, 128, 128, 0.3)', // Light Gray
+  'rgba(211, 211, 211, 0.3)', // Light Steel Blue
+  'rgba(169, 169, 169, 0.3)', // Dark Gray
+  'rgba(105, 105, 105, 0.3)', // Dim Gray
+  'rgba(150, 150, 150, 0.3)', // Medium Gray
 ];

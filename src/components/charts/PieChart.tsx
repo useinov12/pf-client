@@ -6,10 +6,10 @@ import { getChartDataStructure } from '@/lib/chartHelpers';
 
 import 'chart.js/auto';
 
-
 export default function PieChart({
   delay,
   incomingData,
+  styleOptions,
 }: ChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'pie'>>({
@@ -23,7 +23,7 @@ export default function PieChart({
       return;
     }
 
-    const chartData = getChartDataStructure(incomingData);
+    const chartData = getChartDataStructure(incomingData, styleOptions);
 
     /* if delay -> update datat with delay */
     if (delay) {

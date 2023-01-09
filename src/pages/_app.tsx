@@ -6,6 +6,7 @@ import { AuthGuard } from '@/services/auth/AuthGuard';
 import ThemeProvider from '@/context/ThemeProvider';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { LoginFormProvider } from '@/context/LoginFormProvider';
+import { AppPageProvider } from '@/context/AppPageContext';
 
 const queryClient = new QueryClient();
 
@@ -34,7 +35,9 @@ function MyApp(props: AppProps) {
           ) : (
             /* render public page */
             <LoginFormProvider>
-              <Component {...pageProps} />
+              <AppPageProvider>
+                <Component {...pageProps} />
+              </AppPageProvider>
             </LoginFormProvider>
           )}
         </QueryClientProvider>

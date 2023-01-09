@@ -1,6 +1,6 @@
 import { ConnectedBanksDict, Account } from '@/services/types';
 
-const data: ConnectedBanksDict = {
+const sampleData: ConnectedBanksDict = {
   'Navy Federal': [
     {
       id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
@@ -119,14 +119,14 @@ const data: ConnectedBanksDict = {
   ],
 };
 
-const connectedBanks = Object.keys(data);
-const getAccountsByBank = (bank: string) => data[bank];
+const connectedBanks = Object.keys(sampleData);
+const getAccountsByBank = (bank: string) => sampleData[bank];
 
-const accountTitleByBank = (bank: string) => data[bank].map((acc) => acc.name);
+const accountTitleByBank = (bank: string) => sampleData[bank].map((acc) => acc.name);
 const accountTypesByBank = (bank: string) =>
-  data[bank].map((acc) => acc.subtype);
-const accBalanceByBank = (bank: string) => data[bank].map((acc) => acc.balance);
+sampleData[bank].map((acc) => acc.subtype);
+const accBalanceByBank = (bank: string) => sampleData[bank].map((acc) => acc.balance);
 const totalBalanceByBank = (bank: string) =>
   accBalanceByBank(bank).reduce((a, b) => a + b);
 
-export { data };
+export { sampleData };
