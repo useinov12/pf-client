@@ -55,8 +55,6 @@ export function getChartDataStructure(
   };
 }
 
-export function getChartDataStyles() {}
-
 const labels = [
   'Jan',
   'Feb',
