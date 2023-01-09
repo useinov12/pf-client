@@ -9,6 +9,7 @@ import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { BiCarousel } from 'react-icons/bi';
 import { CgMenuGridR } from 'react-icons/cg';
 import { BsPiggyBankFill } from 'react-icons/bs';
+import BarChart from '@/components/charts/BarChart';
 
 export function GeneralInfo({ className }: { className: string }) {
   const connectedBanks = Object.keys(sampleData);
@@ -52,15 +53,15 @@ export function GeneralInfo({ className }: { className: string }) {
       <div className='my-2 flex items-center gap-2'>
         <div className='w-full py-1'>
           <p className='text-sm'>Credit</p>
-          <h3> $2000</h3>
+          <h3 className='text-md md:text-xl'> $2000</h3>
         </div>
         <div className='w-full py-1'>
           <p className='text-sm'>Balance</p>
-          <h3> $10000</h3>
+          <h3 className='text-md md:text-xl'> $10000</h3>
         </div>
         <div className='w-full py-1'>
           <p className='text-sm'>Total</p>
-          <h3> $8000</h3>
+          <h3 className='text-md md:text-xl'> $8000</h3>
         </div>
       </div>
     </Card>
@@ -68,28 +69,44 @@ export function GeneralInfo({ className }: { className: string }) {
 }
 
 export function ChartGroup({ className }: { className: string }) {
-  const dataset = [
+  const dataset1 = [
     1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200, 2400, 1800, 2100,
   ];
+  const dataset2 = [
+    1200, 1700, -1400, 1800, 2100, -1900, 1700, 2200, -2400, 1800, -2100,
+  ];
   const labels = months
-    .filter((_, i) => i < dataset.length)
+    .filter((_, i) => i < dataset1.length)
     .map((month) => month.slice(0, 3));
 
-  const testDataset: ChartDataFormat = {
+  const testDataset1: ChartDataFormat = {
     label: 'Total Dynamic',
     labels: labels,
-    datasets: [dataset],
+    datasets: [dataset1],
+  };
+  const testDataset2: ChartDataFormat = {
+    label: 'Total Dynamic',
+    labels: labels,
+    datasets: [dataset2.sort((a, b) => a - b)],
   };
 
   return (
     <Card
-      className={clsx('h-60 py-10 px-0 md:h-72', className)}
+      className={clsx('flex h-60 flex-col px-0 md:h-72 lg:flex-row', className)}
       title='Total summary'
     >
-      <div className='h-5/6 w-full'>
+      <div className='h-1/2 w-full lg:h-full lg:w-1/2'>
         <LineChart
-          incomingData={testDataset}
-          width='100%'
+          incomingData={testDataset1}
+          width='50%'
+          height='100%'
+          styleOptions={'APP'}
+        />
+      </div>
+      <div className='h-1/2 w-full lg:h-full lg:w-1/2'>
+        <BarChart
+          incomingData={testDataset2}
+          width='50%'
           height='100%'
           styleOptions={'APP'}
         />
