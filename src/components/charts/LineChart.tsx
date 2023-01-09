@@ -15,7 +15,7 @@ export default function LineChart({
   height,
   delay,
   incomingData,
-  styleOptions,
+  styleOptions:chartStyles,
 }: LineChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
@@ -29,7 +29,7 @@ export default function LineChart({
       return;
     }
 
-    const formatedChartData = getChartDataStructure(incomingData, styleOptions);
+    const formatedChartData = getChartDataStructure({incomingData, chartStyles, chart});
 
     if (delay) {
       const timer = setTimeout(() => {
@@ -44,7 +44,7 @@ export default function LineChart({
       ref={chartRef}
       type='line'
       data={chartData}
-      options={styleOptions === 'APP' ? optionsApp : optionsLanding}
+      options={chartStyles === 'APP' ? optionsApp : optionsLanding}
       width={width}
       height={height}
     />
@@ -63,7 +63,7 @@ const optionsApp = {
   elements: {
     line: {
       tension: 0.3,
-      borderWidth: 3,
+      borderWidth: 5,
       fill: 'start',
     },
     point: {
@@ -73,7 +73,7 @@ const optionsApp = {
   },
   scales: {
     y: {
-      display: true,
+      display: false,
       grid: {
         color: 'transparent',
       },

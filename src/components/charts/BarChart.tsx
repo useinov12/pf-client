@@ -20,7 +20,7 @@ export default function BarChart({
   incomingData,
   stacked,
   vertical,
-  styleOptions,
+  styleOptions: chartStyles,
 }: BarChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
@@ -34,7 +34,11 @@ export default function BarChart({
       return;
     }
 
-    const chartData = getChartDataStructure(incomingData, styleOptions);
+    const chartData = getChartDataStructure({
+      incomingData,
+      chartStyles,
+      chart,
+    });
 
     if (delay) {
       const timer = setTimeout(() => {
@@ -74,12 +78,24 @@ const optionsRegular = {
   },
   scales: {
     xAxis: {
-      display: false,
+      display: true,
+      grid: {
+        color: 'transparent',
+      },
+      autoSkip: true,
+      ticks: {
+        // Include a dollar sign in the ticks
+        callback: (value: string | number, index: number, ticks: any) => {
+          const formatter = Intl.NumberFormat('en', {
+            notation: 'compact',
+            compactDisplay: 'short',
+          });
+          return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
+        },
+      },
     },
     yAxis: {
-      display: false,
-    },
-    x: {
+      display: true,
       grid: {
         color: 'transparent',
       },

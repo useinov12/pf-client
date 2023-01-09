@@ -1,4 +1,4 @@
-import type { ChartArea, ScriptableContext } from 'chart.js';
+import type { ChartArea, ScriptableContext, Chart } from 'chart.js';
 import {
   StyleOptions,
   ChartDataFormat,
@@ -34,10 +34,16 @@ export default function createGradient(
 }
 
 /* Formats incoming dataseet into Chart Js data for charts */
-export function getChartDataStructure(
-  incomingData: ChartDataFormat,
-  chartStyles: StyleOptions
-): ChartDataStructure {
+interface GetChartStructureProps {
+  incomingData: ChartDataFormat;
+  chartStyles: StyleOptions;
+  chart: Chart;
+}
+export function getChartDataStructure({
+  incomingData,
+  chartStyles,
+  chart,
+}: GetChartStructureProps) {
   const datasets: Dataset[] = incomingData.datasets.map((dataset, i) => {
     return {
       label: incomingData.label,

@@ -28,6 +28,18 @@ export type ChartDataStructure = {
   datasets: Dataset[];
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
 const example: ChartDataStructure = {
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
   datasets: [
