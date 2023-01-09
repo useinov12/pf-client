@@ -6,6 +6,7 @@ import {
   getListOfAllAccounts,
   getTotalCredit,
   getTotalBalance,
+  getListOfBanksTotals,
 } from '../cabinet/sections/sampleData';
 import { ChartDataFormat } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
@@ -15,6 +16,7 @@ import { BiCarousel } from 'react-icons/bi';
 import { CgMenuGridR } from 'react-icons/cg';
 import { BsPiggyBankFill } from 'react-icons/bs';
 import BarChart from '@/components/charts/BarChart';
+import PolarAreaChart from '@/components/charts/PolarAreaChart';
 
 export function GeneralInfo({ className }: { className: string }) {
   const connectedBanks = Object.keys(sampleData);
@@ -50,6 +52,22 @@ export function GeneralInfo({ className }: { className: string }) {
               <strong>{connectedAccountsQuantity}</strong>
             </td>
           </tr>
+          <tr>
+            <td>
+              <strong className='md:text-md text-sm'>Most money at</strong>
+            </td>
+            <td>
+              <strong>Navy Federal</strong>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <strong className='md:text-md text-sm'>Biggest debt at</strong>
+            </td>
+            <td>
+              <strong>Trust Bank</strong>
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -68,25 +86,24 @@ export function GeneralInfo({ className }: { className: string }) {
 }
 
 export function ChartGroup({ className }: { className: string }) {
-  const dataset1 = [
+  const monhtlyTotalBalance = [
     1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200, 2400, 1800, 2100,
   ];
-  const dataset2 = [
-    1200, 1700, -1400, 1800, 2100, -1900, 1700, 2200, -2400, 1800, -2100,
-  ];
   const labels = months
-    .filter((_, i) => i < dataset1.length)
+    .filter((_, i) => i < monhtlyTotalBalance.length)
     .map((month) => month.slice(0, 3));
 
   const testDataset1: ChartDataFormat = {
     label: 'Total Dynamic',
     labels: labels,
-    datasets: [dataset1],
+    datasets: [monhtlyTotalBalance],
   };
+
+  const listOfBankBalances = getListOfBanksTotals(sampleData);
   const testDataset2: ChartDataFormat = {
-    label: 'Total Dynamic',
-    labels: labels,
-    datasets: [dataset2.sort((a, b) => a - b)],
+    label: 'Balance',
+    labels: Object.keys(sampleData),
+    datasets: [listOfBankBalances.sort((a, b) => a - b)],
   };
 
   return (
@@ -94,22 +111,40 @@ export function ChartGroup({ className }: { className: string }) {
       className={clsx('flex h-60 flex-col px-0 md:h-72 lg:flex-row', className)}
       title='Total summary'
     >
-      <div className='h-1/2 w-full lg:h-full lg:w-1/2'>
-        <LineChart
-          incomingData={testDataset1}
-          width='50%'
-          height='100%'
-          styleOptions={'APP'}
-        />
+      <div className='h-full w-full lg:w-2/3 '>
+        <div className='h-full lg:h-12/3'>
+          {/* <BarChart
+            incomingData={testDataset2}
+            width='100%'
+            height='100%'
+            styleOptions={'APP'}
+            stacked
+          /> */}
+          <PolarAreaChart
+            incomingData={testDataset2}
+            width='100%'
+            height='100%'
+            styleOptions='APP'
+          />
+        </div>
+        <div className='h-full lg:h-1/3'>
+          <LineChart
+            incomingData={testDataset1}
+            width='100%'
+            height='100%'
+            styleOptions={'APP'}
+          />
+        </div>
       </div>
-      <div className='h-1/2 w-full lg:h-full lg:w-1/2'>
+      <div className='h-1/2 w-full lg:h-full lg:w-full'>
         <BarChart
           incomingData={testDataset2}
-          width='50%'
+          width='100%'
           height='100%'
           styleOptions={'APP'}
           vertical
         />
+        {/* <div className='h-20 w-full bg-red-500'></div> */}
       </div>
     </Card>
   );
