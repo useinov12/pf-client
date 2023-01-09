@@ -18,6 +18,7 @@ export default function BarChart({
   delay,
   incomingData,
   stacked,
+  styleOptions
 }: BarChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
@@ -31,7 +32,7 @@ export default function BarChart({
       return;
     }
 
-    const chartData = getChartDataStructure(incomingData);
+    const chartData = getChartDataStructure(incomingData, styleOptions);
 
     if (delay) {
       const timer = setTimeout(() => {

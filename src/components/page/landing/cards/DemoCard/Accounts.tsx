@@ -1,4 +1,4 @@
-import {gsap} from '@/lib/gsap'
+import { gsap } from '@/lib/gsap';
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { MutableRefObject, useEffect, useRef } from 'react';
@@ -14,7 +14,6 @@ export default function Accounts({
   prevCounter,
   masterTimeline,
 }: DemoCardProps) {
-
   //   const summaryAccTypeRef = useRef(new Array(3));
   const summaryAccSumRef = useRef(new Array(3));
 
@@ -85,13 +84,21 @@ export default function Accounts({
         <div className='flex w-full items-center justify-between pr-4'>
           <ul className='flex w-1/3 flex-col items-start gap-1 self-start sm:w-4/6'>
             {currentBank.accounts.map(({ type, sum }, i) => (
-              <Account summaryAccSumRef={summaryAccSumRef} accountIdx={i} key={`accounts-${i}`} />
+              <Account
+                summaryAccSumRef={summaryAccSumRef}
+                accountIdx={i}
+                key={`accounts-${i}`}
+              />
             ))}
           </ul>
 
           <div className='flex w-2/3 justify-end'>
             <div className='h-full w-4/6'>
-              <PieChart incomingData={chartData} delay={1600} />
+              <PieChart
+                incomingData={chartData}
+                delay={1600}
+                styleOptions={'LANDING'}
+              />
             </div>
           </div>
         </div>
