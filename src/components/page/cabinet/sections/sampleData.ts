@@ -6,7 +6,7 @@ const sampleData: ConnectedBanksDict = {
       id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
       subtype: 'credit card',
       bank_name: 'Navy Federal',
-      balance: 175,
+      balance: 1175,
       name: 'More Rewards Amex',
       user_id: 6,
     },
@@ -32,8 +32,16 @@ const sampleData: ConnectedBanksDict = {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
       bank_name: 'American Express',
-      balance: 769,
+      balance: 3169,
       name: 'MAKSYM KALINCHENKO -91008',
+      user_id: 6,
+    },
+    {
+      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
+      subtype: 'checking',
+      bank_name: 'Navy Federal',
+      balance: 1253,
+      name: 'Active Duty Checking',
       user_id: 6,
     },
   ],
@@ -42,7 +50,7 @@ const sampleData: ConnectedBanksDict = {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
       bank_name: 'American Express',
-      balance: 769,
+      balance: 1869,
       name: 'MAKSYM KALINCHENKO -91008',
       user_id: 6,
     },
@@ -52,8 +60,16 @@ const sampleData: ConnectedBanksDict = {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
       bank_name: 'American Express',
-      balance: 769,
+      balance: 1269,
       name: 'MAKSYM KALINCHENKO -91008',
+      user_id: 6,
+    },
+    {
+      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
+      subtype: 'checking',
+      bank_name: 'Navy Federal',
+      balance: 4200,
+      name: 'Active Duty Checking',
       user_id: 6,
     },
   ],
@@ -62,8 +78,24 @@ const sampleData: ConnectedBanksDict = {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
       bank_name: 'American Express',
-      balance: 769,
+      balance: 1769,
       name: 'MAKSYM KALINCHENKO -91008',
+      user_id: 6,
+    },
+    {
+      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
+      subtype: 'checking',
+      bank_name: 'Navy Federal',
+      balance: 6253,
+      name: 'Active Duty Checking',
+      user_id: 6,
+    },
+    {
+      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
+      subtype: 'checking',
+      bank_name: 'Navy Federal',
+      balance: 4253,
+      name: 'Active Duty Checking',
       user_id: 6,
     },
   ],
@@ -76,43 +108,39 @@ const sampleData: ConnectedBanksDict = {
       name: 'MAKSYM KALINCHENKO -91008',
       user_id: 6,
     },
+    {
+      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
+      subtype: 'checking',
+      bank_name: 'Navy Federal',
+      balance: 1153,
+      name: 'Active Duty Checking',
+      user_id: 6,
+    },
+    {
+      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
+      subtype: 'checking',
+      bank_name: 'Navy Federal',
+      balance: 153,
+      name: 'Active Duty Checking',
+      user_id: 6,
+    },
   ],
   'Union Pay': [
     {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
       bank_name: 'American Express',
-      balance: 769,
+      balance: 169,
       name: 'MAKSYM KALINCHENKO -91008',
       user_id: 6,
     },
   ],
-  'Bank #3': [
+  'Trust Bank': [
     {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
       bank_name: 'American Express',
-      balance: 769,
-      name: 'MAKSYM KALINCHENKO -91008',
-      user_id: 6,
-    },
-  ],
-  'Bank #7': [
-    {
-      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
-      subtype: 'credit card',
-      bank_name: 'American Express',
-      balance: 769,
-      name: 'MAKSYM KALINCHENKO -91008',
-      user_id: 6,
-    },
-  ],
-  'Bank #12': [
-    {
-      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
-      subtype: 'credit card',
-      bank_name: 'American Express',
-      balance: 769,
+      balance: 7619,
       name: 'MAKSYM KALINCHENKO -91008',
       user_id: 6,
     },
@@ -161,4 +189,49 @@ function getTotalBalance(data: ConnectedBanksDict): number {
   return balance - getTotalCredit(data);
 }
 
-export { sampleData, getListOfAllAccounts, getTotalCredit, getTotalBalance };
+interface PropsByBank {
+  bank: string;
+  data: ConnectedBanksDict;
+}
+
+function getPositiveAccTotalByBank({ bank, data }: PropsByBank): number {
+  const positiveAccounts = data[bank].filter(
+    (acc) => acc.subtype !== 'credit card'
+  );
+
+  return positiveAccounts.length > 0
+    ? positiveAccounts.map((acc) => acc.balance).reduce((a, b) => a + b)
+    : 0;
+}
+function getNegativeAccTotalByBank({ bank, data }: PropsByBank): number {
+  const negativeAccounts = data[bank].filter(
+    (acc) => acc.subtype === 'credit card'
+  );
+
+  return negativeAccounts.length > 0
+    ? negativeAccounts.map((acc) => acc.balance).reduce((a, b) => a + b)
+    : 0;
+}
+
+const getTotalBalanceByBank = ({ bank, data }: PropsByBank): number => {
+  const positiveAccounts = getPositiveAccTotalByBank({ bank, data });
+  const negativeAccounts = getNegativeAccTotalByBank({ bank, data });
+  return positiveAccounts - negativeAccounts;
+};
+
+function getListOfBanksTotals(data: ConnectedBanksDict): number[] {
+  const banksTotal = [];
+  for (let bank in data) {
+    banksTotal.push(getTotalBalanceByBank({ bank, data }));
+  }
+  return banksTotal;
+}
+
+export {
+  sampleData,
+  getListOfAllAccounts,
+  getTotalCredit,
+  getTotalBalance,
+  getTotalBalanceByBank,
+  getListOfBanksTotals,
+};
