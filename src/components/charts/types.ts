@@ -2,6 +2,7 @@ export interface ChartProps{
   incomingData: ChartDataFormat;
   delay?:number;
   styleOptions:StyleOptions
+  title:string
 }
 export type StyleOptions = 'LANDING' | 'APP'
 

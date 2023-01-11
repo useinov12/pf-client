@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   sampleData,
   getListOfAllAccounts,
@@ -17,6 +17,8 @@ import { CgMenuGridR } from 'react-icons/cg';
 import { BsPiggyBankFill } from 'react-icons/bs';
 import BarChart from '@/components/charts/BarChart';
 import PolarAreaChart from '@/components/charts/PolarAreaChart';
+import { useAppPageContext } from '@/context/AppPageContext';
+import DoughnutChart from '@/components/charts/Doughnut';
 
 export function GeneralInfo({ className }: { className: string }) {
   const connectedBanks = Object.keys(sampleData);
@@ -24,71 +26,10 @@ export function GeneralInfo({ className }: { className: string }) {
   const creditTotal = getTotalCredit(sampleData);
   const balanceTotal = getTotalBalance(sampleData);
 
-  return (
-    <Card
-      className={clsx('flex flex-col justify-between py-3', className)}
-      title='General Info'
-    >
-      <div className='w-full py-4'>
-        <p className='text-sm'>Account</p>
-        <h4> Ruslan Useinov</h4>
-      </div>
-
-      <table className='w-full table-auto lg:table-fixed'>
-        <tbody>
-          <tr>
-            <td>
-              <strong className='md:text-md text-sm'>Connected banks </strong>
-            </td>
-            <td>
-              <strong>{connectedBanks.length}</strong>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong className='md:text-md text-sm'>Connected accounts</strong>
-            </td>
-            <td>
-              <strong>{connectedAccountsQuantity}</strong>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong className='md:text-md text-sm'>Most money at</strong>
-            </td>
-            <td>
-              <strong>Navy Federal</strong>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <strong className='md:text-md text-sm'>Biggest debt at</strong>
-            </td>
-            <td>
-              <strong>Trust Bank</strong>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div className='my-2 flex items-center gap-2'>
-        <div className='w-full py-1'>
-          <p className='text-sm'>Credit</p>
-          <h3 className='text-md md:text-xl'> $ -{creditTotal}</h3>
-        </div>
-        <div className='w-full py-1'>
-          <p className='text-sm'>Balance</p>
-          <h3 className='text-md md:text-xl'> ${balanceTotal}</h3>
-        </div>
-      </div>
-    </Card>
-  );
-}
-
-export function ChartGroup({ className }: { className: string }) {
   const monhtlyTotalBalance = [
     1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200, 2400, 1800, 2100,
   ];
+
   const labels = months
     .filter((_, i) => i < monhtlyTotalBalance.length)
     .map((month) => month.slice(0, 3));
@@ -99,6 +40,91 @@ export function ChartGroup({ className }: { className: string }) {
     datasets: [monhtlyTotalBalance],
   };
 
+  return (
+    <Card
+      className={clsx('flex flex-col justify-start py-3', className)}
+      title='General Info'
+      withBorder
+    >
+      <div className='flex h-12'>
+        <div className='w-1/3 py-1'>
+          <p className='text-sm'>Account</p>
+          <strong className='m-0 p-0'>John Doe</strong>
+        </div>
+      </div>
+
+      <table className='w-full table-auto lg:table-fixed'>
+        <tbody>
+          <tr>
+            <td>
+              <p className='text-sm'>Connected banks </p>
+            </td>
+            <td>
+              <p className='text-sm'>{connectedBanks.length}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p className='text-sm'>Connected accounts</p>
+            </td>
+            <td>
+              <p className='text-sm'>{connectedAccountsQuantity}</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p className='text-sm'>Most money at</p>
+            </td>
+            <td>
+              <p className='text-sm'>Navy Federal</p>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p className='text-sm'>Biggest debt at</p>
+            </td>
+            <td>
+              <p className='text-sm'>Trust Bank</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div className='h-1/3 w-5/6'>
+        <LineChart
+          incomingData={testDataset1}
+          width='100%'
+          height='100%'
+          styleOptions={'APP'}
+          title={'Total balance dynamic'}
+        />
+      </div>
+
+      <div className='my-2 flex items-center gap-2'>
+        <div className='w-full py-1'>
+          <p className='text-sm'>Credit</p>
+          <strong className='text-xl'> $ -{creditTotal}</strong>
+        </div>
+        <div className='w-full py-1'>
+          <p className='text-sm'>Balance</p>
+          <strong className='text-xl'> ${balanceTotal}</strong>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+export function ChartGroup({ className }: { className: string }) {
+  // const labels = months
+  //   .filter((_, i) => i < monhtlyTotalBalance.length)
+  //   .map((month) => month.slice(0, 3));
+
+  // const testDataset1: ChartDataFormat = {
+  //   label: 'Total Dynamic',
+  //   labels: labels,
+  //   datasets: [monhtlyTotalBalance],
+  // };
+
   const listOfBankBalances = getListOfBanksTotals(sampleData);
   const testDataset2: ChartDataFormat = {
     label: 'Balance',
@@ -106,46 +132,61 @@ export function ChartGroup({ className }: { className: string }) {
     datasets: [listOfBankBalances.sort((a, b) => a - b)],
   };
 
+  const { openSidebar } = useAppPageContext();
+
+  useEffect(() => {}, [openSidebar]);
+
+  /* polar area:
+    include only positive balances
+
+    vertical bar:
+    fix data
+    add totals
+  
+  */
+
   return (
     <Card
-      className={clsx('flex h-60 flex-col px-0 md:h-72 lg:flex-row', className)}
+      className={clsx(
+        'flex h-[50vh] flex-col-reverse px-0 py-3 md:h-[23rem] lg:flex-row',
+        className
+      )}
       title='Total summary'
+      withBorder
     >
-      <div className='h-full w-full lg:w-2/3 '>
-        <div className='h-full lg:h-12/3'>
-          {/* <BarChart
-            incomingData={testDataset2}
-            width='100%'
-            height='100%'
-            styleOptions={'APP'}
-            stacked
-          /> */}
-          <PolarAreaChart
+      <section className='h-1/2 w-full lg:h-full lg:w-1/2'>
+        <div className='hidden lg:block lg:h-full'>
+          <DoughnutChart
             incomingData={testDataset2}
             width='100%'
             height='100%'
             styleOptions='APP'
+            title='Money size per bank'
           />
         </div>
-        <div className='h-full lg:h-1/3'>
-          <LineChart
-            incomingData={testDataset1}
-            width='100%'
-            height='100%'
-            styleOptions={'APP'}
-          />
-        </div>
-      </div>
-      <div className='h-1/2 w-full lg:h-full lg:w-full'>
+
+        {/* <div className='my-2 flex items-center justify-center gap-2 '>
+          <div className='w-1/2 py-1'>
+            <p className='text-sm'>Credit</p>
+            <strong className='text-xl'> $ -{1000}</strong>
+          </div>
+          <div className='w-1/2 py-1'>
+            <p className='text-sm'>Balance</p>
+            <strong className='text-xl'> ${10000}</strong>
+          </div>
+        </div> */}
+      </section>
+
+      <section className='h-2/3 w-full lg:h-full lg:w-1/2'>
         <BarChart
           incomingData={testDataset2}
           width='100%'
           height='100%'
           styleOptions={'APP'}
           vertical
+          title={'Banks balances'}
         />
-        {/* <div className='h-20 w-full bg-red-500'></div> */}
-      </div>
+      </section>
     </Card>
   );
 }
@@ -155,11 +196,20 @@ export function ListOfBanks() {
 
   const [toggleLayout, setToggleLayout] = useState(false);
   return (
-    <div className='h-3/5 w-full'>
-      <BanksViewToggle
+    <Card
+      className='h-3/5 w-full px-0'
+      title={
+        <BanksViewToggle
+          toggleLayout={toggleLayout}
+          setToggleLayout={setToggleLayout}
+        />
+      }
+      withBorder
+    >
+      {/* <BanksViewToggle
         toggleLayout={toggleLayout}
         setToggleLayout={setToggleLayout}
-      />
+      /> */}
       {toggleLayout ? (
         <Carousel>
           {banks.map((bank, i) => (
@@ -181,7 +231,7 @@ export function ListOfBanks() {
           </ul>
         </div>
       )}
-    </div>
+    </Card>
   );
 }
 
@@ -193,13 +243,13 @@ function BanksViewToggle({
   setToggleLayout: (bool: boolean) => void;
 }) {
   return (
-    <div className='mb-3 inline-flex items-center gap-4'>
-      <h3 className='px-2 py-2 font-normal'>Connected Banks</h3>
+    <div className='inline-flex items-center gap-4 -translate-y-1'>
+      <strong className='px-2 text-md'>Connected Banks</strong>
       <div className='inline-flex items-center gap-2'>
         <button
           onClick={() => setToggleLayout(true)}
           className={clsx(
-            'scale-100 rounded-md p-1 text-3xl hover:scale-[1.1] hover:bg-gray-400/40',
+            'scale-100 rounded-md p-1 text-2xl hover:scale-[1.1] hover:bg-gray-400/40',
             toggleLayout && 'bg-gray-400/40'
           )}
         >
@@ -208,7 +258,7 @@ function BanksViewToggle({
         <button
           onClick={() => setToggleLayout(false)}
           className={clsx(
-            'scale-100 rounded-md p-1 text-3xl hover:scale-[1.1] hover:bg-gray-400/40',
+            'scale-100 rounded-md p-1 text-2xl hover:scale-[1.1] hover:bg-gray-400/40',
             !toggleLayout && 'bg-gray-400/40'
           )}
         >
@@ -233,7 +283,7 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
   return (
     <div
       className={clsx(
-        'h-40',
+        'h-36',
         'flex flex-col items-start',
         'rounded',
         'overflow-hidden border',
@@ -244,7 +294,7 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
     >
       <header
         className={clsx(
-          'bg-gray-600/50',
+          'bg-blue-700/30',
           'w-full px-3 py-1',
           'inline-flex items-center gap-1'
         )}
@@ -275,7 +325,7 @@ function ConnectedAccountsChips({ bank }: { bank: string }) {
           className={clsx(
             'w-min text-sm',
             'drop-shadow-md',
-            'rounded-md px-2 py-[2px] ',
+            'rounded-md px-2 py-[1px] ',
             mode === 'light' ? 'border-dark/30 ' : 'border-gray-400/50 ',
             'border bg-gray-500/30',
             'whitespace-nowrap'
@@ -292,7 +342,7 @@ interface CardProps {
   className: string;
   children: ReactNode;
   withBorder?: boolean | undefined;
-  title?: string;
+  title?: string | JSX.Element;
 }
 
 function Card({ title, className, children, withBorder }: CardProps) {
@@ -301,9 +351,9 @@ function Card({ title, className, children, withBorder }: CardProps) {
   return (
     <div
       className={clsx(
-        'relative px-2 py-3',
-        'rounded ',
-        withBorder && 'border',
+        'relative px-2 py-5',
+        // 'rounded',
+        withBorder && 'md:border-t',
         mode === 'light' ? 'border-dark/50' : 'border-gray-300/50',
         className
       )}
@@ -312,8 +362,8 @@ function Card({ title, className, children, withBorder }: CardProps) {
         <strong
           className={clsx(
             'absolute -top-3 left-1 px-1',
-            'bg-transparent'
-            // mode === 'light' ? 'bg-gray-300' : 'bg-gray-900'
+            'rounded-lg bg-transparent',
+            mode === 'light' ? 'bg-gray-200' : 'bg-gray-900'
           )}
         >
           {title}
