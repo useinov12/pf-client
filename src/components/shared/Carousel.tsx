@@ -21,7 +21,7 @@ export function Carousel({ children }: { children: ReactElement[] }) {
   }
 
   return (
-    <section className='group relative w-full overflow-hidden p-1 hover:bg-dark/10'>
+    <section className='group relative w-full overflow-hidden py-2'>
       <button
         className={clsx(
           'absolute z-40',

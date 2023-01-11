@@ -18,16 +18,16 @@ export default function OverviewPage() {
     <Layout>
       <section
         className={clsx(
-          'md:px-3',
+          'md:px-3 pt-8',
           'flex h-full flex-col gap-4',
           openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]',
           'overflow-y-scroll'
         )}
       >
-        <h4 className='px-2 py-3 text-2xl font-bold capitalize'>{location}</h4>
-        <div className='my-2 flex flex-col gap-2 md:flex-row'>
+        {/* <h4 className='px-2 py-1 text-2xl font-bold capitalize'>{location}</h4> */}
+        <div className={clsx('my-1 flex flex-col gap-2 md:flex-row')}>
           <GeneralInfo className='w-full md:w-1/3' />
-          <ChartGroup className='w-full md:w-2/3' />
+          <ChartGroup className='h-full w-full md:w-2/3' />
         </div>
         <ListOfBanks />
       </section>
