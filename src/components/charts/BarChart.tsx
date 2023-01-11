@@ -21,6 +21,7 @@ export default function BarChart({
   stacked,
   vertical,
   styleOptions: chartStyles,
+  title,
 }: BarChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
@@ -48,11 +49,19 @@ export default function BarChart({
     } else setChartData(chartData);
   }, [incomingData]);
 
-  const options = stacked
-    ? optionsStacked
-    : vertical
-    ? optionsVerticalRegular
-    : optionsRegular;
+  /* Set Bar Chart options: Vertical, Stacked */
+  let options = vertical ? optionsVertical : optionsHorizontal;
+  useEffect(() => {
+    stacked
+      ? () => {
+          options.scales.x.stacked = true;
+          options.scales.y.stacked = true;
+        }
+      : () => {
+          options.scales.x.stacked = false;
+          options.scales.y.stacked = false;
+        };
+  }, []);
 
   return (
     <Chart
@@ -66,8 +75,12 @@ export default function BarChart({
   );
 }
 
+/* type declaration because typescript Chart js type error */
+type AlitnType = 'start' | 'end' | 'center' | undefined;
+const alignTitle: AlitnType = 'start';
+
 /* Chart JS oprtions for Bar Chart*/
-const optionsRegular = {
+const optionsCommon = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -75,15 +88,22 @@ const optionsRegular = {
       position: 'top' as const,
       display: false,
     },
+    title: {
+      display: true,
+      text: 'Title',
+      align: alignTitle,
+      // color: '#C0C0C0',
+    },
   },
   scales: {
-    xAxis: {
-      display: true,
+    x: {
+      stacked: false,
       grid: {
         color: 'transparent',
       },
       autoSkip: true,
       ticks: {
+        // color: '#C0C0C0',
         // Include a dollar sign in the ticks
         callback: (value: string | number, index: number, ticks: any) => {
           const formatter = Intl.NumberFormat('en', {
@@ -94,46 +114,24 @@ const optionsRegular = {
         },
       },
     },
-    yAxis: {
-      display: true,
+    y: {
+      stacked: false,
       grid: {
         color: 'transparent',
+      },
+      ticks: {
+        // color: '#C0C0C0',
       },
     },
   },
 };
 
-const optionsVerticalRegular = { ...optionsRegular, indexAxis: 'y' as const };
+const optionsVertical = {
+  ...optionsCommon,
+  indexAxis: 'y' as const,
+};
 
-const optionsStacked = {
-  responsive: true,
-  maintainAspectRatio: false,
-  scales: {
-    xAxis: {
-      display: false,
-    },
-    yAxis: {
-      display: false,
-    },
-    x: {
-      stacked: true,
-      grid: {
-        color: 'transparent',
-      },
-      ticks: {
-        color: '#374151',
-      },
-    },
-    y: {
-      stacked: true,
-      grid: {
-        color: 'transparent',
-        beginAtZero: true,
-      },
-      ticks: {
-        color: '#374151',
-        beginAtZero: true,
-      },
-    },
-  },
+const optionsHorizontal = {
+  ...optionsCommon,
+  indexAxis: 'x' as const,
 };

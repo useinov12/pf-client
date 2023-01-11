@@ -15,6 +15,12 @@ export const months = [
 
 export const defaultColorsStroke = [
   'rgba(63, 81, 181, 1)', // Indigo
+  'rgba(103, 101, 261, 1)', // Indigo
+  'rgba(73, 121, 201, 1)', // Indigo
+  'rgba(73, 51, 171, 1)', // Indigo
+  'rgba(83, 101, 161, 1)', // Indigo
+  'rgba(103, 91, 191, 1)', // Indigo
+  'rgba(103, 91, 201, 1)', // Indigo
   // 'rgba(0, 150, 136, 1)', // Teal
   // 'rgba(255, 193, 7, 1)', // Amber
   // 'rgba(156, 39, 176, 1)', // Purple
@@ -33,6 +39,12 @@ export const defaultColorsStroke = [
 
 export const defaultColorsBackground = [
   'rgba(63, 81, 181, .4)', // Indigo
+  'rgba(103, 101, 261, .4)', // Indigo
+  'rgba(73, 121, 201, .4)', // Indigo
+  'rgba(73, 51, 171, .4)', // Indigo
+  'rgba(83, 101, 161, .4)', // Indigo
+  'rgba(103, 91, 191, .4)', // Indigo
+  'rgba(103, 91, 201, .4)', // Indigo
   // 'rgba(0, 150, 136, .4)', // Teal
   // 'rgba(255, 193, 7, .4)', // Amber
   // 'rgba(156, 39, 176, .4)', // Purple

@@ -4,6 +4,7 @@ import { Chart } from 'react-chartjs-2';
 import { ChartProps } from './types';
 import 'chart.js/auto';
 import { getChartDataStructure } from '@/lib/chartHelpers';
+import { useTheme } from '@/context/ThemeProvider';
 
 interface LineChartProps extends ChartProps {
   width: string;
@@ -15,12 +16,15 @@ export default function LineChart({
   height,
   delay,
   incomingData,
-  styleOptions:chartStyles,
+  styleOptions: chartStyles,
+  title,
 }: LineChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
     datasets: [],
   });
+
+  const { mode } = useTheme();
 
   useEffect(() => {
     const chart = chartRef.current;
@@ -29,7 +33,11 @@ export default function LineChart({
       return;
     }
 
-    const formatedChartData = getChartDataStructure({incomingData, chartStyles, chart});
+    const formatedChartData = getChartDataStructure({
+      incomingData,
+      chartStyles,
+      chart,
+    });
 
     if (delay) {
       const timer = setTimeout(() => {
@@ -39,36 +47,39 @@ export default function LineChart({
     } else setChartData(formatedChartData);
   }, [incomingData]);
 
+  const options = chartStyles === 'APP' ? optionsApp : optionsLanding;
+  options.plugins.title.text = title;
+
+
   return (
     <Chart
       ref={chartRef}
       type='line'
       data={chartData}
-      options={chartStyles === 'APP' ? optionsApp : optionsLanding}
       width={width}
       height={height}
+      options={options}
     />
   );
 }
 
+/* type declaration because typescript Chart js type error */
+type AlitnType = 'start' | 'end' | 'center' | undefined;
+const alignTitle: AlitnType = 'start';
+
 /* Chart JS options for Line chart*/
-const optionsApp = {
+const optionsCommon = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
     legend: {
       display: false,
     },
-  },
-  elements: {
-    line: {
-      tension: 0.3,
-      borderWidth: 5,
-      fill: 'start',
-    },
-    point: {
-      radius: 0,
-      itRadius: 1,
+    title: {
+      display: true,
+      text: 'Title',
+      align: alignTitle,
+      // color: '#C0C0C0',
     },
   },
   scales: {
@@ -79,14 +90,10 @@ const optionsApp = {
       },
       autoSkip: true,
       ticks: {
+        // color: '#C0C0C0',
         // Include a dollar sign in the ticks
-        callback: (value: string | number, index: number, ticks: any) => {
-          const formatter = Intl.NumberFormat('en', {
-            notation: 'compact',
-            compactDisplay: 'short',
-          });
-          return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
-        },
+        callback: (value: string | number, index: number, ticks: any) =>
+          formatFinancialNumber(value, index, ticks),
       },
     },
     x: {
@@ -95,18 +102,30 @@ const optionsApp = {
         color: 'transparent',
       },
       autoSkip: true,
+      ticks: {
+        // color: '#C0C0C0',
+      },
+    },
+  },
+};
+
+const optionsApp = {
+  ...optionsCommon,
+  elements: {
+    line: {
+      tension: 0.2,
+      borderWidth: 5,
+      fill: 'start',
+    },
+    point: {
+      radius: 0,
+      itRadius: 1,
     },
   },
 };
 
 const optionsLanding = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
+  ...optionsCommon,
   elements: {
     line: {
       tension: 0.2,
@@ -118,30 +137,17 @@ const optionsLanding = {
       itRadius: 1,
     },
   },
-  scales: {
-    y: {
-      display: false,
-      grid: {
-        color: 'transparent',
-      },
-      autoSkip: true,
-      ticks: {
-        // Include a dollar sign in the ticks
-        callback: (value: string | number, index: number, ticks: any) => {
-          const formatter = Intl.NumberFormat('en', {
-            notation: 'compact',
-            compactDisplay: 'short',
-          });
-          return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
-        },
-      },
-    },
-    x: {
-      display: true,
-      grid: {
-        color: 'transparent',
-      },
-      autoSkip: true,
-    },
-  },
 };
+
+// Include a dollar sign in the ticks
+function formatFinancialNumber(
+  value: string | number,
+  index: number,
+  ticks: any
+) {
+  const formatter = Intl.NumberFormat('en', {
+    notation: 'compact',
+    compactDisplay: 'short',
+  });
+  return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
+}

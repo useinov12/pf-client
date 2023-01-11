@@ -16,6 +16,7 @@ export default function PolarAreaChart({
   delay,
   incomingData,
   styleOptions: chartStyles,
+  title,
 }: PolarAreaChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'polarArea'>>({
@@ -43,18 +44,23 @@ export default function PolarAreaChart({
     } else setChartData(formatedChartData);
   }, [incomingData]);
 
+  options.plugins.title.text = title;
+
   return (
     <Chart
       ref={chartRef}
       type='polarArea'
       data={chartData}
       options={options}
-      //   options={chartStyles === 'APP' ? optionsApp : optionsLanding}
       width={width}
       height={height}
     />
   );
 }
+
+/* type declaration because typescript Chart js type error */
+type AlitnType = 'start' | 'end' | 'center' | undefined;
+const alignTitle: AlitnType = 'start';
 
 const options = {
   responsive: true,
@@ -63,12 +69,24 @@ const options = {
     legend: {
       display: false,
     },
+    title: {
+      display: true,
+      text: 'Title',
+      align: alignTitle,
+      color: '#C0C0C0',
+    },
   },
-  scales:{
-    r:{
-      grid:{
-        color:'rgba(63, 81, 181, .4)'
+  scales: {
+    r: {
+      grid: {
+        color: 'rgba(63, 81, 181, .4)',
+      },
+      ticks:{
+        color: 'gray',
+        backdropColor: 'transparent',
+        z:100
       }
-    }
-  }
+      
+    },
+  },
 };
