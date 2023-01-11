@@ -38,6 +38,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
             <LineChart
               width={'100%'}
               height={'100%'}
+              title={''}
               incomingData={chartData}
               styleOptions={'LANDING'}
               delay={5000}
@@ -47,6 +48,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
             <BarChart
               width={'100%'}
               height={'100%'}
+              title={''}
               incomingData={chartData}
               styleOptions={'LANDING'}
               delay={5200}
