@@ -1,12 +1,13 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
-import { ReactNode, useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   sampleData,
   getListOfAllAccounts,
   getTotalCredit,
   getTotalBalance,
-  getListOfBanksTotals,
+  sortedListOfBanksByBalance,
+  getTotalBalanceByBank,
 } from '../cabinet/sections/sampleData';
 import { ChartDataFormat } from '@/components/charts/types';
 import { months } from '@/components/charts/defaults';
@@ -16,9 +17,8 @@ import { BiCarousel } from 'react-icons/bi';
 import { CgMenuGridR } from 'react-icons/cg';
 import { BsPiggyBankFill } from 'react-icons/bs';
 import BarChart from '@/components/charts/BarChart';
-import PolarAreaChart from '@/components/charts/PolarAreaChart';
-import { useAppPageContext } from '@/context/AppPageContext';
 import DoughnutChart from '@/components/charts/Doughnut';
+import Card from './Card';
 
 export function GeneralInfo({ className }: { className: string }) {
   const connectedBanks = Object.keys(sampleData);
@@ -115,47 +115,29 @@ export function GeneralInfo({ className }: { className: string }) {
 }
 
 export function ChartGroup({ className }: { className: string }) {
-  // const labels = months
-  //   .filter((_, i) => i < monhtlyTotalBalance.length)
-  //   .map((month) => month.slice(0, 3));
+  const sortedBanks = sortedListOfBanksByBalance(sampleData);
+  const sortedBankNames = sortedBanks.map((bank) => bank[0].bank_name);
+  const sortedTotals = sortedBanks.map((bankName) =>
+    getTotalBalanceByBank({ bank: bankName[0].bank_name, data: sampleData })
+  );
 
-  // const testDataset1: ChartDataFormat = {
-  //   label: 'Total Dynamic',
-  //   labels: labels,
-  //   datasets: [monhtlyTotalBalance],
-  // };
-
-  const listOfBankBalances = getListOfBanksTotals(sampleData);
   const testDataset2: ChartDataFormat = {
     label: 'Balance',
-    labels: Object.keys(sampleData),
-    datasets: [listOfBankBalances.sort((a, b) => a - b)],
+    labels: sortedBankNames,
+    datasets: [sortedTotals],
   };
-
-  const { openSidebar } = useAppPageContext();
-
-  useEffect(() => {}, [openSidebar]);
-
-  /* polar area:
-    include only positive balances
-
-    vertical bar:
-    fix data
-    add totals
-  
-  */
 
   return (
     <Card
       className={clsx(
-        'flex h-[50vh] flex-col-reverse px-0 py-3 md:h-[23rem] lg:flex-row',
+        'flex h-[60vh] flex-col-reverse px-0 py-3 md:h-[23rem] lg:flex-row',
         className
       )}
-      title='Total summary'
+      title='Summary'
       withBorder
     >
       <section className='h-1/2 w-full lg:h-full lg:w-1/2'>
-        <div className='hidden lg:block lg:h-full'>
+        <div className='my-2 h-full lg:h-full'>
           <DoughnutChart
             incomingData={testDataset2}
             width='100%'
@@ -164,20 +146,9 @@ export function ChartGroup({ className }: { className: string }) {
             title='Money size per bank'
           />
         </div>
-
-        {/* <div className='my-2 flex items-center justify-center gap-2 '>
-          <div className='w-1/2 py-1'>
-            <p className='text-sm'>Credit</p>
-            <strong className='text-xl'> $ -{1000}</strong>
-          </div>
-          <div className='w-1/2 py-1'>
-            <p className='text-sm'>Balance</p>
-            <strong className='text-xl'> ${10000}</strong>
-          </div>
-        </div> */}
       </section>
 
-      <section className='h-2/3 w-full lg:h-full lg:w-1/2'>
+      <section className='h-1/2 w-full lg:h-full lg:w-1/2'>
         <BarChart
           incomingData={testDataset2}
           width='100%'
@@ -215,7 +186,7 @@ export function ListOfBanks() {
           {banks.map((bank, i) => (
             <li key={bank}>
               <CarouselItem width='256'>
-                <BankCard bank={bank} className='w-64' />
+                <BankCard bank={bank} className='' />
               </CarouselItem>
             </li>
           ))}
@@ -243,8 +214,8 @@ function BanksViewToggle({
   setToggleLayout: (bool: boolean) => void;
 }) {
   return (
-    <div className='inline-flex items-center gap-4 -translate-y-1'>
-      <strong className='px-2 text-md'>Connected Banks</strong>
+    <div className='inline-flex -translate-y-1 items-center gap-4'>
+      <strong className='text-md px-2'>Connected Banks</strong>
       <div className='inline-flex items-center gap-2'>
         <button
           onClick={() => setToggleLayout(true)}
@@ -335,41 +306,5 @@ function ConnectedAccountsChips({ bank }: { bank: string }) {
         </li>
       ))}
     </ul>
-  );
-}
-
-interface CardProps {
-  className: string;
-  children: ReactNode;
-  withBorder?: boolean | undefined;
-  title?: string | JSX.Element;
-}
-
-function Card({ title, className, children, withBorder }: CardProps) {
-  const { mode } = useTheme();
-
-  return (
-    <div
-      className={clsx(
-        'relative px-2 py-5',
-        // 'rounded',
-        withBorder && 'md:border-t',
-        mode === 'light' ? 'border-dark/50' : 'border-gray-300/50',
-        className
-      )}
-    >
-      {title && (
-        <strong
-          className={clsx(
-            'absolute -top-3 left-1 px-1',
-            'rounded-lg bg-transparent',
-            mode === 'light' ? 'bg-gray-200' : 'bg-gray-900'
-          )}
-        >
-          {title}
-        </strong>
-      )}
-      {children}
-    </div>
   );
 }
