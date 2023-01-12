@@ -44,7 +44,7 @@ export default function DoughnutChart({
     } else setChartData(formatedChartData);
   }, [incomingData]);
 
-//   options.plugins.title.text = title;
+  options.plugins.title.text = title;
 
   return (
     <Chart

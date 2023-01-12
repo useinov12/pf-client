@@ -51,6 +51,7 @@ export default function BarChart({
 
   /* Set Bar Chart options: Vertical, Stacked */
   let options = vertical ? optionsVertical : optionsHorizontal;
+  options.plugins.title.text = title;
   useEffect(() => {
     stacked
       ? () => {
