@@ -25,7 +25,7 @@ export function Carousel({ children }: { children: ReactElement[] }) {
       <button
         className={clsx(
           'absolute z-40',
-          // 'group-hover:opacity-100 xl:opacity-0',
+          'group-hover:opacity-100 xl:opacity-0',
           'top-0 left-0 h-full rounded px-2',
           'group-hover:bg-dark/20',
           'group-focus:bg-dark/20',
@@ -41,7 +41,9 @@ export function Carousel({ children }: { children: ReactElement[] }) {
 
       <ul
         style={{
-          transform: `translateX(-${activeIndex * Children.count(children)}%)`,
+          transform: `translateX(-${
+            activeIndex * 1.5 * Children.count(children)
+          }%)`,
         }}
         className={clsx(
           'list-none',
@@ -59,7 +61,7 @@ export function Carousel({ children }: { children: ReactElement[] }) {
       <button
         className={clsx(
           'absolute z-40',
-          // 'group-hover:opacity-100 xl:opacity-0',
+          'group-hover:opacity-100 xl:opacity-0',
           'bg-dark/20',
           'group-hover:bg-dark/20',
           'group-focus:bg-dark/20',
@@ -85,7 +87,10 @@ export function CarouselItem({
   width: string;
 }) {
   return (
-    <div style={{ width: width }} className='inline-block'>
+    <div
+      // style={{ width: width }}
+      className={clsx('inline-block', `w-[${width}px]`)}
+    >
       {children}
     </div>
   );
