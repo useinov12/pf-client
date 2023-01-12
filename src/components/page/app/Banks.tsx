@@ -1,27 +1,11 @@
+import clsx from 'clsx';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { useTheme } from '@/context/ThemeProvider';
-import clsx from 'clsx';
-import { Dispatch } from 'react';
+import { useBankPageContext } from '@/pages/app/banks';
 import { sampleData } from '../cabinet/sections/sampleData';
 import Card from './Card';
 
-export function AccountsSection() {
-  return (
-    <Card withBorder title={'Accounts'} className='w-full'>
-      <h2>content</h2>
-    </Card>
-  );
-}
-
-export function StatisticSection() {
-  return (
-    <Card withBorder title={'Statistics'} className='w-full'>
-      <h2>content</h2>
-    </Card>
-  );
-}
-
-export function ListOfBanks({setCurrentBank}:{setCurrentBank:Dispatch<any>}) {
+export function ListOfBanks() {
   const banks = Object.keys(sampleData);
 
   return (
@@ -41,8 +25,10 @@ export function ListOfBanks({setCurrentBank}:{setCurrentBank:Dispatch<any>}) {
 
 function BankCard({ bank, className }: { bank: string; className: string }) {
   const { mode } = useTheme();
+  const { setSelectedBank } = useBankPageContext();
   return (
     <div
+      onClick={() => setSelectedBank(bank)}
       className={clsx(
         'h-28 p-3',
         'flex flex-col items-start',
@@ -50,10 +36,39 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
         'overflow-hidden border',
         className,
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50'
+        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50',
+        'cursor-pointer',
+        'hover:border-primary-500'
       )}
     >
       <strong className=''>{bank}</strong>
+      {/* <Button>open</Button> */}
     </div>
+  );
+}
+
+export function AccountsSection() {
+  const { bankData } = useBankPageContext();
+
+  return (
+    <Card withBorder title={'Accounts'} className='w-full'>
+      <ul>
+        {bankData &&
+          bankData.map((account, i) => (
+            <li>
+              <p>{account.name}</p>
+            </li>
+          ))}
+      </ul>
+    </Card>
+  );
+}
+
+export function StatisticSection() {
+  const { bankData } = useBankPageContext();
+  return (
+    <Card withBorder title={'Statistics'} className='w-full'>
+      <h1>content</h1>
+    </Card>
   );
 }
