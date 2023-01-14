@@ -12,6 +12,8 @@ import Link from 'next/link';
 import { useAppPageContext } from '@/context/AppPageContext';
 import { RiArrowDropRightLine } from 'react-icons/ri';
 import { HiMenuAlt1 } from 'react-icons/hi';
+import { RiApps2Line } from 'react-icons/ri';
+import { TbBuildingBank } from 'react-icons/tb';
 import { useRouter } from 'next/router';
 
 export default function Sidebar({ className }: { className?: string }) {
@@ -169,12 +171,12 @@ export const MobileMenuButton = () => {
 
 const list = [
   {
-    icon: <MdGridView />,
+    icon: <RiApps2Line />,
     title: 'Overview',
     link: '/app/overview',
   },
   {
-    icon: <RiBankFill />,
+    icon: <TbBuildingBank />,
     title: 'Banks',
     link: '/app/banks',
   },
