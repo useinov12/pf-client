@@ -61,6 +61,11 @@ export default function DoughnutChart({
 /* type declaration because typescript Chart js type error */
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
+const alignLegend: AlitnType = 'center';
+
+/* type declaration because typescript Chart js type error */
+type PositionType = "center" | "left" | "top" | "right" | "bottom" | "chartArea" | undefined ;
+const position: PositionType = 'left';
 
 const options = {
   responsive: true,
@@ -68,7 +73,8 @@ const options = {
   plugins: {
     legend: {
       display: true,
-      align: alignTitle,
+      align: alignLegend,
+      position:position
     //   color: '#C0C0C0',
     },
     title: {
