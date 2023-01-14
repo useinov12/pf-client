@@ -18,14 +18,14 @@ export default function BanksPage() {
       <Layout>
         <section
           className={clsx(
-            'pt-8 md:px-3',
-            'flex h-full flex-col gap-4 ',
+            'pt-8 md:px-6',
+            'flex h-full flex-col gap-4',
             openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]',
             'overflow-y-scroll'
           )}
         >
           <ListOfBanks />
-          <div className='my-1 flex flex-col gap-2 md:flex-row'>
+          <div className='my-0 flex h-full flex-col gap-x-4 md:flex-row'>
             <AccountsSection />
             <StatisticSection />
           </div>
@@ -35,13 +35,11 @@ export default function BanksPage() {
   );
 }
 
-interface BankPageContext {
+const BankPageContext = createContext<{
   setSelectedBank: (bankName: string) => void;
   selectedBank: string | null;
   bankData: Bank | null;
-}
-
-const BankPageContext = createContext<BankPageContext>({
+}>({
   setSelectedBank: () => {},
   selectedBank: null,
   bankData: null,
