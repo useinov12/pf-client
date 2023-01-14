@@ -16,7 +16,7 @@ export default function Card({ title, className, children, withBorder }: CardPro
     <div
       className={clsx(
         'relative px-2 py-5',
-        withBorder && 'md:border-t',
+        // withBorder && 'md:border-t',
         mode === 'light' ? 'border-dark/50' : 'border-gray-300/50',
         className
       )}
