@@ -79,19 +79,6 @@ export function Carousel({ children }: { children: ReactElement[] }) {
   );
 }
 
-export function CarouselItem({
-  children,
-  width,
-}: {
-  children: ReactElement;
-  width: string;
-}) {
-  return (
-    <div
-      // style={{ width: width }}
-      className={clsx('inline-block', `w-[${width}px]`)}
-    >
-      {children}
-    </div>
-  );
+export function CarouselItem({ children }: { children: ReactElement }) {
+  return <div className={clsx('inline-block', 'w-fit')}>{children}</div>;
 }
