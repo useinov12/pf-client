@@ -1,25 +1,31 @@
+import { useState } from 'react';
 import clsx from 'clsx';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { useTheme } from '@/context/ThemeProvider';
 import { useBankPageContext } from '@/pages/app/banks';
-import { sampleData } from '../cabinet/sections/sampleData';
+import {
+  sampleData,
+  getTotalBalanceByBank,
+} from '../cabinet/sections/sampleData';
 import Card from './Card';
 import { Account } from '@/services/types';
 import { ChartDataFormat } from '@/components/charts/types';
 import DoughnutChart from '@/components/charts/Doughnut';
 import BarChart from '@/components/charts/BarChart';
 import { months } from '@/components/charts/defaults';
+import { BsBank2 } from 'react-icons/bs';
+import { RiBankFill } from 'react-icons/ri';
 
 export function ListOfBanks() {
   const banks = Object.keys(sampleData);
 
   return (
-    <Card withBorder className='' title={'Banks'}>
+    <Card withBorder className='' title={'Connected banks'}>
       <Carousel>
         {banks.map((bank, i) => (
           <li key={bank}>
-            <CarouselItem width='256'>
-              <BankCard bank={bank} className='w-full' />
+            <CarouselItem>
+              <BankCard bank={bank} className='w-48' />
             </CarouselItem>
           </li>
         ))}
@@ -30,23 +36,78 @@ export function ListOfBanks() {
 
 function BankCard({ bank, className }: { bank: string; className: string }) {
   const { mode } = useTheme();
-  const { setSelectedBank } = useBankPageContext();
+  const { setSelectedBank, selectedBank } = useBankPageContext();
+
+  const [cardHover, setCardHover] = useState(false);
+  const bankTotal = getTotalBalanceByBank({ bank: bank, data: sampleData });
+  const connectedAccounts = sampleData[bank];
+
   return (
     <div
       onClick={() => setSelectedBank(bank)}
+      onMouseEnter={() => setCardHover(true)}
+      onMouseLeave={() => setCardHover(false)}
       className={clsx(
-        'h-28 p-3',
-        'flex flex-col items-start',
+        'h-28',
+        'cursor-pointer',
         'rounded',
         'overflow-hidden border',
-        className,
+        'flex flex-col items-center ',
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50',
-        'cursor-pointer',
-        'hover:border-primary-500'
+        selectedBank === bank
+          ? 'border-blue-600/50'
+          : cardHover && 'border-blue-600/50',
+        className
       )}
     >
-      <strong className=''>{bank}</strong>
+      <header
+        className={clsx(
+          'w-full px-3 ',
+          'transition-all duration-100 ease-in',
+          'flex flex-col items-center gap-1',
+          selectedBank === bank
+            ? 'bg-blue-600/50'
+            : cardHover && 'bg-blue-600/50',
+          selectedBank === bank
+            ? '-translate-y-7'
+            : cardHover
+            ? '-translate-y-7'
+            : 'translate-y-6'
+        )}
+      >
+        <RiBankFill
+          className={clsx(
+            'h-10 w-10',
+            selectedBank === bank
+              ? 'scale-0'
+              : cardHover
+              ? 'scale-0'
+              : 'scale-100',
+            'transition-all duration-200 ease-in'
+          )}
+        />
+        <h6 className={clsx('text-md font-semibold drop-shadow-md')}>{bank}</h6>
+      </header>
+
+      <div
+        className={clsx(
+          'transition-all duration-200 ease-in',
+          selectedBank === bank
+            ? '-translate-y-4 scale-y-100'
+            : cardHover
+            ? '-translate-y-4 scale-y-100'
+            : 'translate-y-12 scale-y-0'
+        )}
+      >
+        <h6 className='px-3 text-sm drop-shadow-md'>
+          Connected accounts {`${connectedAccounts.length}`}
+        </h6>
+        <div className='inline-flex w-full items-end justify-between px-3'>
+          <p className='text-sm drop-shadow-md'>Total</p>
+          <h3 className='text-xl font-normal drop-shadow-md'>$ {bankTotal}</h3>
+        </div>
+      </div>
     </div>
   );
 }
@@ -54,6 +115,10 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
 export function AccountsSection() {
   const { bankData } = useBankPageContext();
 
+  const bankName = bankData && bankData[0].bank_name;
+  const bankTotal = bankData
+    ? getTotalBalanceByBank({ bank: bankName!, data: sampleData })
+    : 0;
   const accountsTitles = bankData ? bankData.map((acc) => acc.name) : [];
   const accountTotals = bankData ? bankData.map((acc) => acc.balance) : [];
 
@@ -69,32 +134,39 @@ export function AccountsSection() {
       title={'Accounts'}
       className='flex h-full w-full flex-col justify-between'
     >
-      <table className='w-full table-auto  lg:table-fixed'>
-        <thead>
-          <tr>
-            <td>
-              <strong>Name</strong>
-            </td>
-            <td>
-              <strong>Type</strong>
-            </td>
-            <td>
-              <strong>Balance</strong>
-            </td>
-          </tr>
-        </thead>
+      <div className='h-1/2 overflow-x-hidden overflow-y-scroll'>
+        <table className=' w-full table-auto   lg:table-fixed'>
+          <thead>
+            <tr>
+              <td>
+                <strong>Name</strong>
+              </td>
+              <td>
+                <strong>Type</strong>
+              </td>
+              <td>
+                <strong>Balance</strong>
+              </td>
+            </tr>
+          </thead>
+          <tbody>
+            {bankData &&
+              bankData.map((account, i) => (
+                <AccountRow account={account} key={`acc-row-${i}`} />
+              ))}
+          </tbody>
+        </table>
+      </div>
+
+      <table className='w-full table-auto lg:table-fixed'>
         <tbody>
-          {bankData &&
-            bankData.map((account, i) => (
-              <AccountRow account={account} key={`acc-row-${i}`} />
-            ))}
           <tr>
             <td></td>
             <td>
-              <strong>Total</strong>
+              <h3>Total</h3>
             </td>
             <td>
-              <strong>$xxxx</strong>
+              <h3>$ {bankTotal}</h3>
             </td>
           </tr>
         </tbody>
@@ -140,6 +212,7 @@ export function StatisticSection() {
   const { bankData } = useBankPageContext();
 
   const dataset = [1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200];
+  const dataset2 = [300, 700, 400, 100, 100, 900, 700, 200];
   const labels = months
     .filter((_, i) => i < dataset.length)
     .map((month) => month.slice(0, 3));
@@ -148,6 +221,11 @@ export function StatisticSection() {
     labels: labels,
     label: 'Account dynamic',
     datasets: [dataset],
+  };
+  const chartData2: ChartDataFormat = {
+    labels: labels,
+    label: 'Account dynamic',
+    datasets: [dataset, dataset2],
   };
 
   return (
@@ -165,8 +243,8 @@ export function StatisticSection() {
         <BarChart
           width={'100%'}
           height={'100%'}
-          title={'Chart '}
-          incomingData={chartData}
+          title={'Income/Expense by months'}
+          incomingData={chartData2}
           styleOptions={'APP'}
         />
       </div>
@@ -177,3 +255,8 @@ export function StatisticSection() {
 function capitalize(word: string) {
   return word[0].toUpperCase() + word.slice(1).toLowerCase();
 }
+
+/* 
+  Decide on Bar charts content
+  Maybe change to heatmap or lines
+*/
