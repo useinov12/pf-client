@@ -52,6 +52,12 @@ export default function BarChart({
   /* Set Bar Chart options: Vertical, Stacked */
   let options = vertical ? optionsVertical : optionsHorizontal;
   options.plugins.title.text = title;
+  chartStyles === 'APP'
+    ? (options.scales.y.display = true)
+    : (options.scales.y.display = false);
+
+  options.scales.y.ticks = {...dollarTicks};
+
   useEffect(() => {
     stacked
       ? () => {
@@ -97,25 +103,28 @@ const optionsCommon = {
     },
   },
   scales: {
-    x: {
+    y: {
+      display: true,
       stacked: false,
       grid: {
         color: 'transparent',
       },
       autoSkip: true,
-      ticks: {
-        // color: '#C0C0C0',
-        // Include a dollar sign in the ticks
-        callback: (value: string | number, index: number, ticks: any) => {
-          const formatter = Intl.NumberFormat('en', {
-            notation: 'compact',
-            compactDisplay: 'short',
-          });
-          return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
-        },
-      },
+      ticks: {},
+      // ticks: {
+      //   // color: '#C0C0C0',
+      //   // Include a dollar sign in the ticks
+      //   callback: (value: string | number, index: number, ticks: any) => {
+      //     const formatter = Intl.NumberFormat('en', {
+      //       notation: 'compact',
+      //       compactDisplay: 'short',
+      //     });
+      //     return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
+      //   },
+      // },
     },
-    y: {
+    x: {
+      display: true,
       stacked: false,
       grid: {
         color: 'transparent',
@@ -135,4 +144,16 @@ const optionsVertical = {
 const optionsHorizontal = {
   ...optionsCommon,
   indexAxis: 'x' as const,
+};
+
+const dollarTicks = {
+  // color: '#C0C0C0',
+  // Include a dollar sign in the ticks
+  callback: (value: string | number, index: number, ticks: any) => {
+    const formatter = Intl.NumberFormat('en', {
+      notation: 'compact',
+      compactDisplay: 'short',
+    });
+    return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
+  },
 };
