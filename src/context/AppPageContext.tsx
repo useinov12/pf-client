@@ -6,7 +6,7 @@ const AppPageContext = createContext({
 })
 
 export const AppPageProvider = (props:any) => {
-    const [openSidebar, setOpenSidebar] = useState(false)
+    const [openSidebar, setOpenSidebar] = useState(true)
 
     function hanldeSidebar(){
         setOpenSidebar(p => !p)
