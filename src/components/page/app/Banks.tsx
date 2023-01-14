@@ -132,45 +132,47 @@ export function AccountsSection() {
     <Card
       withBorder
       title={'Accounts'}
-      className='flex h-full w-full flex-col justify-between'
+      className='flex h-full w-full flex-col justify-start'
     >
-      <div className='h-1/2 overflow-x-hidden overflow-y-scroll'>
-        <table className=' w-full table-auto   lg:table-fixed'>
+      <div className='h-2/5 overflow-x-hidden overflow-y-scroll'>
+        <table className=' w-full table-auto   border-separate border-spacing-y-1'>
           <thead>
             <tr>
               <td>
-                <strong>Name</strong>
+                <strong className='text-sm'>Name</strong>
               </td>
               <td>
-                <strong>Type</strong>
+                <strong className='text-sm'>Type</strong>
               </td>
               <td>
-                <strong>Balance</strong>
+                <strong className='text-sm'>Balance</strong>
               </td>
             </tr>
           </thead>
           <tbody>
-            {bankData &&
+            {bankData ? (
               bankData.map((account, i) => (
                 <AccountRow account={account} key={`acc-row-${i}`} />
-              ))}
+              ))
+            ) : (
+              <AccountsSkeleton />
+            )}
+          </tbody>
+        </table>
+        <table className='w-full table-auto  lg:table-fixed  '>
+          <tbody>
+            <tr>
+              <td></td>
+              <td>
+                <h4>Total</h4>
+              </td>
+              <td>
+                <h4>$ {bankTotal}</h4>
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
-
-      <table className='w-full table-auto lg:table-fixed'>
-        <tbody>
-          <tr>
-            <td></td>
-            <td>
-              <h3>Total</h3>
-            </td>
-            <td>
-              <h3>$ {bankTotal}</h3>
-            </td>
-          </tr>
-        </tbody>
-      </table>
 
       <div className='h-56 w-full'>
         <DoughnutChart
@@ -187,7 +189,7 @@ export function AccountsSection() {
 
 function AccountRow({ account }: { account: Account }) {
   const accountName =
-    account.name.length > 20 ? `${account.name.slice(0, 19)}...` : account.name;
+    account.name.length > 30 ? `${account.name.slice(0, 29)}...` : account.name;
 
   return (
     <tr>
@@ -195,7 +197,7 @@ function AccountRow({ account }: { account: Account }) {
         <p className='text-sm'>{capitalize(accountName.toLowerCase())}</p>
       </td>
       <td>
-        <p className='text-sm'>{account.subtype}</p>
+        <p className='font-mono text-sm tracking-tighter'>{account.subtype}</p>
       </td>
       <td>
         <p className='text-sm'>
@@ -203,6 +205,33 @@ function AccountRow({ account }: { account: Account }) {
             ? `$ -${account.balance}`
             : `$ ${account.balance}`}
         </p>
+      </td>
+    </tr>
+  );
+}
+
+function AccountsSkeleton() {
+  const array = [0, 0, 0, 0];
+  return (
+    <>
+      {array.map((acc, i) => (
+        <AccountRowSkeleton key={`acc-skeleton-${i}`} />
+      ))}
+    </>
+  );
+}
+
+function AccountRowSkeleton() {
+  return (
+    <tr className='bg-gray-300/20'>
+      <td>
+        <p className='invisible text-sm'>data</p>
+      </td>
+      <td>
+        <p className='text-sm'></p>
+      </td>
+      <td>
+        <p className='text-sm'></p>
       </td>
     </tr>
   );
@@ -255,8 +284,3 @@ export function StatisticSection() {
 function capitalize(word: string) {
   return word[0].toUpperCase() + word.slice(1).toLowerCase();
 }
-
-/* 
-  Decide on Bar charts content
-  Maybe change to heatmap or lines
-*/
