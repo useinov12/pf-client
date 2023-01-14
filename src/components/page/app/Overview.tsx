@@ -165,7 +165,7 @@ export function ChartGroup({ className }: { className: string }) {
 export function ListOfBanks() {
   const banks = Object.keys(sampleData);
 
-  const [toggleLayout, setToggleLayout] = useState(false);
+  const [toggleLayout, setToggleLayout] = useState(true);
   return (
     <Card
       className='h-3/5 w-full px-0'
@@ -177,16 +177,12 @@ export function ListOfBanks() {
       }
       withBorder
     >
-      {/* <BanksViewToggle
-        toggleLayout={toggleLayout}
-        setToggleLayout={setToggleLayout}
-      /> */}
       {toggleLayout ? (
         <Carousel>
           {banks.map((bank, i) => (
             <li key={bank}>
-              <CarouselItem width='256'>
-                <BankCard bank={bank} className='' />
+              <CarouselItem>
+                <BankCard bank={bank} className='w-56' />
               </CarouselItem>
             </li>
           ))}
@@ -254,7 +250,7 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
   return (
     <div
       className={clsx(
-        'h-36',
+        'h-36 w-full',
         'flex flex-col items-start',
         'rounded',
         'overflow-hidden border',
@@ -308,3 +304,12 @@ function ConnectedAccountsChips({ bank }: { bank: string }) {
     </ul>
   );
 }
+
+
+
+/* 
+  Add Pie chart: total checking/saving/credit sums
+
+
+
+*/
