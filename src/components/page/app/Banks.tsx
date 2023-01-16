@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { useTheme } from '@/context/ThemeProvider';
@@ -8,7 +8,7 @@ import {
   getTotalBalanceByBank,
 } from '../cabinet/sections/sampleData';
 import Card from './Card';
-import { Account } from '@/services/types';
+import { Account, Bank } from '@/services/types';
 import { ChartDataFormat } from '@/components/charts/types';
 import DoughnutChart from '@/components/charts/Doughnut';
 import BarChart from '@/components/charts/BarChart';
@@ -114,19 +114,33 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
 
 export function AccountsSection() {
   const { bankData } = useBankPageContext();
+  const [chartData, setChartData] = useState<ChartDataFormat>({
+    label: '',
+    labels: [],
+    datasets: [[]],
+  });
+  const [bankTotal, setBankTotal] = useState(0);
 
-  const bankName = bankData && bankData[0].bank_name;
-  const bankTotal = bankData
-    ? getTotalBalanceByBank({ bank: bankName!, data: sampleData })
-    : 0;
-  const accountsTitles = bankData ? bankData.map((acc) => acc.name) : [];
-  const accountTotals = bankData ? bankData.map((acc) => acc.balance) : [];
+  useEffect(() => {
+    if (bankData) {
+      const bankName = bankData[0].bank_name;
+      const total = getTotalBalanceByBank({
+        bank: bankName!,
+        data: sampleData,
+      });
+      const accountsTitles = bankData.map((acc) => acc.name);
+      const accountTotals = bankData.map((acc) => acc.balance);
 
-  const testDataset2: ChartDataFormat = {
-    label: 'Balance',
-    labels: accountsTitles,
-    datasets: [accountTotals],
-  };
+      const testDataset2: ChartDataFormat = {
+        label: 'Balance',
+        labels: accountsTitles,
+        datasets: [accountTotals],
+      };
+
+      setChartData(testDataset2);
+      setBankTotal(total);
+    }
+  }, [bankData]);
 
   return (
     <Card
@@ -176,7 +190,7 @@ export function AccountsSection() {
 
       <div className='h-56 w-full'>
         <DoughnutChart
-          incomingData={testDataset2}
+          incomingData={chartData}
           width='100%'
           height='100%'
           styleOptions='APP'
