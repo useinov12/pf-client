@@ -25,7 +25,7 @@ export default function BanksPage() {
           )}
         >
           <ListOfBanks />
-          <div className='my-0 flex h-full flex-col gap-x-4 md:flex-row'>
+          <div className='my-0 flex h-full flex-col gap-x-4 lg:flex-row'>
             <AccountsSection />
             <StatisticSection />
           </div>
