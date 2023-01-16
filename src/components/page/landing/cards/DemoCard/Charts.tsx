@@ -17,7 +17,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
   const chartData: ChartDataFormat = {
     labels: labels,
     label: 'Account dynamic',
-    data: [dataset],
+    datasets: [dataset],
   };
 
   return (
@@ -38,7 +38,9 @@ export default function Charts({ currentBank }: DemoCardProps) {
             <LineChart
               width={'100%'}
               height={'100%'}
+              title={''}
               incomingData={chartData}
+              styleOptions={'LANDING'}
               delay={5000}
             />
           </div>
@@ -46,7 +48,9 @@ export default function Charts({ currentBank }: DemoCardProps) {
             <BarChart
               width={'100%'}
               height={'100%'}
+              title={''}
               incomingData={chartData}
+              styleOptions={'LANDING'}
               delay={5200}
             />
           </div>

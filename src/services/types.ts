@@ -1,4 +1,4 @@
-/* =============== Common ================== */
+/* Shared */
 
 /* backend response format */
 type Response<T> = {
@@ -25,7 +25,7 @@ type UserData = {
 };
 export type Error = any;
 
-/* ================== User ==================*/
+/* User */
 export type UserApiData = Omit<UserData, 'password'>;
 export type RegisterCredentials = UserData;
 export type RegisterFormCredentials = RegisterCredentials & {
@@ -54,11 +54,10 @@ export type UserInContext = {
   username: string;
 };
 
-
-/* ================== Plaid ================== */
+/* Plaid */
 export type LinkTokenData = Response<string>;
 
-/* ================== Data ================== */
+/* Data */
 export type Account = {
   id: string;
   subtype: string;
@@ -67,47 +66,10 @@ export type Account = {
   name: string;
   user_id: number;
 };
+
+export type Bank = Account[];
+
 type BankName = string;
 export type ConnectedBanksDict = Record<BankName, Account[]>;
 
 export type ConnectedBanksData = Response<ConnectedBanksDict>;
-
-/* example */
-const banks: ConnectedBanksDict = {
-  'Navy Federal': [
-    {
-      id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
-      subtype: 'credit card',
-      bank_name: 'Navy Federal',
-      balance: 175,
-      name: 'More Rewards Amex',
-      user_id: 6,
-    },
-    {
-      id: 'QLBP76NJAwTvarMmkr5Zs1k6OmNpRmHEKqYj6',
-      subtype: 'savings',
-      bank_name: 'Navy Federal',
-      balance: 6515,
-      name: 'Share Savings',
-      user_id: 6,
-    },
-    {
-      id: 'RDbqKLNJv6SpdmPyJmA5f70Lekrp8kHykmxR0',
-      subtype: 'checking',
-      bank_name: 'Navy Federal',
-      balance: 1253,
-      name: 'Active Duty Checking',
-      user_id: 6,
-    },
-  ],
-  'American Express': [
-    {
-      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
-      subtype: 'credit card',
-      bank_name: 'American Express',
-      balance: 769,
-      name: 'MAKSYM KALINCHENKO -91008',
-      user_id: 6,
-    },
-  ],
-};

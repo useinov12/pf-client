@@ -1,5 +1,6 @@
-import type { ChartArea, ScriptableContext } from 'chart.js';
+import type { ChartArea, ScriptableContext, Chart } from 'chart.js';
 import {
+  StyleOptions,
   ChartDataFormat,
   ChartDataStructure,
   Dataset,
@@ -16,9 +17,9 @@ export default function createGradient(
   ctx: CanvasRenderingContext2D | null,
   area: ChartArea
 ) {
-  const colorStart = 'rgba(128, 128, 128, 1)';
-  const colorMid = 'rgba(211, 211, 211, 1)';
-  const colorEnd = 'rgba(169, 169, 169, 1)';
+  const colorStart = 'rgba(128, 128, 128, .8)';
+  const colorMid = 'rgba(211, 211, 211, .5)';
+  const colorEnd = 'rgba(169, 169, 169, .1)';
 
   if (ctx) {
     const gradient = ctx.createLinearGradient(0, area.bottom, 0, area.top);
@@ -33,15 +34,23 @@ export default function createGradient(
 }
 
 /* Formats incoming dataseet into Chart Js data for charts */
-export function getChartDataStructure(
-  incomingData: ChartDataFormat
-): ChartDataStructure {
-  const datasets: Dataset[] = incomingData.data.map((dataset, i) => {
+interface GetChartStructureProps {
+  incomingData: ChartDataFormat;
+  chartStyles: StyleOptions;
+  chart: Chart;
+}
+export function getChartDataStructure({
+  incomingData,
+  chartStyles,
+  chart,
+}: GetChartStructureProps) {
+  const datasets: Dataset[] = incomingData.datasets.map((dataset, i) => {
     return {
       label: incomingData.label,
       data: dataset,
-      backgroundColor: grayShadesBg,
-      borderColor: grayShades,
+      backgroundColor:
+        chartStyles === 'APP' ? defaultColorsBackground : grayShadesBg,
+      borderColor: chartStyles === 'APP' ? defaultColorsStroke : grayShades,
       borderWidth: 1,
     };
   });

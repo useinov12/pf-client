@@ -1,14 +1,17 @@
 export interface ChartProps{
   incomingData: ChartDataFormat;
   delay?:number;
+  styleOptions:StyleOptions
+  title:string
 }
+export type StyleOptions = 'LANDING' | 'APP'
 
 export type IncomingDataset = number[];
 
 export type ChartDataFormat = {
   labels: string[];
   label: string; // common label is definitoin of dataset. Not the same as labels
-  data: IncomingDataset[]; // array of datasets
+  datasets: IncomingDataset[]; // array of datasets
 };
 
 /* IncomingData mapped and datasets created */
@@ -25,6 +28,18 @@ export type ChartDataStructure = {
   labels: string[];
   datasets: Dataset[];
 };
+
+
+
+
+
+
+
+
+
+
+
+
 
 const example: ChartDataStructure = {
   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
