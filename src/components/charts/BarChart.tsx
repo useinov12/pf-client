@@ -50,7 +50,7 @@ export default function BarChart({
   }, [incomingData]);
 
   /* Set Bar Chart options: Vertical, Stacked */
-  let options = vertical ? optionsVertical : optionsHorizontal;
+  const options = vertical ? optionsVertical : optionsHorizontal;
   options.plugins.title.text = title;
   chartStyles === 'APP'
     ? (options.scales.y.display = true)
