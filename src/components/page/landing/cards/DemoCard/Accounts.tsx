@@ -98,6 +98,7 @@ export default function Accounts({
                 incomingData={chartData}
                 delay={1600}
                 styleOptions={'LANDING'}
+                title='Accounts share'
               />
             </div>
           </div>
