@@ -3,7 +3,7 @@ import { ConnectedBanksDict, Account, Bank } from '@/services/types';
 // get list of all acounts from all banks
 export function getListOfAllAccounts(data: ConnectedBanksDict): Account[] {
   const accounts: Account[] = [];
-  for (let bank in data) {
+  for (const bank in data) {
     data[bank].map((acc) => accounts.push(acc));
   }
   return accounts;
@@ -48,7 +48,7 @@ export function getTotalBalance(data: ConnectedBanksDict): number {
 export function getListOfBanks(data: ConnectedBanksDict): Bank[] {
   const listOfBanks: Bank[] = [];
 
-  for (let bankName in data) {
+  for (const bankName in data) {
     const bank = data[bankName];
     listOfBanks.push(bank);
   }
