@@ -2,29 +2,36 @@ import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { useState } from 'react';
 import {
-  sampleData,
   getListOfAllAccounts,
   getTotalCredit,
   getTotalBalance,
   sortedListOfBanksByBalance,
   getTotalBalanceByBank,
 } from '../cabinet/sections/sampleData';
-import { ChartDataFormat } from '@/components/charts/types';
-import { months } from '@/components/charts/defaults';
+import Card from './Card';
+import BarChart from '@/components/charts/BarChart';
 import LineChart from '@/components/charts/LineChart';
+import DoughnutChart from '@/components/charts/Doughnut';
+import { ChartDataFormat } from '@/components/charts/types';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
+import { months } from '@/components/charts/defaults';
+import { Bank, ConnectedBanksData, ConnectedBanksDict } from '@/services/types';
 import { BiCarousel } from 'react-icons/bi';
 import { CgMenuGridR } from 'react-icons/cg';
 import { BsPiggyBankFill } from 'react-icons/bs';
-import BarChart from '@/components/charts/BarChart';
-import DoughnutChart from '@/components/charts/Doughnut';
-import Card from './Card';
 
-export function GeneralInfo({ className }: { className: string }) {
-  const connectedBanks = Object.keys(sampleData);
-  const connectedAccountsQuantity = getListOfAllAccounts(sampleData).length;
-  const creditTotal = getTotalCredit(sampleData);
-  const balanceTotal = getTotalBalance(sampleData);
+export function GeneralInfo({
+  className,
+  connectedBanksDict,
+}: {
+  className: string;
+  connectedBanksDict: ConnectedBanksDict;
+}) {
+  const connectedBanks = Object.keys(connectedBanksDict);
+  const connectedAccountsQuantity =
+    getListOfAllAccounts(connectedBanksDict).length;
+  const creditTotal = getTotalCredit(connectedBanksDict);
+  const balanceTotal = getTotalBalance(connectedBanksDict);
 
   const monhtlyTotalBalance = [
     1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200, 2400, 1800, 2100,
@@ -114,11 +121,20 @@ export function GeneralInfo({ className }: { className: string }) {
   );
 }
 
-export function ChartGroup({ className }: { className: string }) {
-  const sortedBanks = sortedListOfBanksByBalance(sampleData);
+export function ChartGroup({
+  className,
+  connectedBanksDict,
+}: {
+  className: string;
+  connectedBanksDict: ConnectedBanksDict;
+}) {
+  const sortedBanks = sortedListOfBanksByBalance(connectedBanksDict);
   const sortedBankNames = sortedBanks.map((bank) => bank[0].bank_name);
   const sortedTotals = sortedBanks.map((bankName) =>
-    getTotalBalanceByBank({ bank: bankName[0].bank_name, data: sampleData })
+    getTotalBalanceByBank({
+      bank: bankName[0].bank_name,
+      data: connectedBanksDict,
+    })
   );
 
   const testDataset2: ChartDataFormat = {
@@ -162,8 +178,12 @@ export function ChartGroup({ className }: { className: string }) {
   );
 }
 
-export function ListOfBanks() {
-  const banks = Object.keys(sampleData);
+export function ListOfBanks({
+  connectedBanksDict,
+}: {
+  connectedBanksDict: ConnectedBanksDict;
+}) {
+  const banks = Object.keys(connectedBanksDict);
 
   const [toggleLayout, setToggleLayout] = useState(true);
   return (
@@ -182,7 +202,7 @@ export function ListOfBanks() {
           {banks.map((bank, i) => (
             <li key={bank}>
               <CarouselItem>
-                <BankCard bank={bank} className='w-56' />
+                <BankCard bank={connectedBanksDict[bank]} className='w-56' />
               </CarouselItem>
             </li>
           ))}
@@ -192,7 +212,7 @@ export function ListOfBanks() {
           <ul className='grid grid-cols-1 gap-2 px-2 sm:grid-cols-2 lg:grid-cols-5'>
             {banks.map((bank, i) => (
               <li key={bank}>
-                <BankCard bank={bank} className='w-full' />
+                <BankCard bank={connectedBanksDict[bank]} className='w-full' />
               </li>
             ))}
           </ul>
@@ -236,12 +256,11 @@ function BanksViewToggle({
   );
 }
 
-function BankCard({ bank, className }: { bank: string; className: string }) {
+function BankCard({ bank, className }: { bank: Bank; className: string }) {
   const { mode } = useTheme();
 
-  const bankData = sampleData[bank];
-
-  const bankTotal = bankData
+  const BankName = bank[0].bank_name;
+  const bankTotal = bank
     .map((acc) =>
       acc.subtype === 'credit card' ? acc.balance * -1 : acc.balance
     )
@@ -267,7 +286,7 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
         )}
       >
         <BsPiggyBankFill className='h-6 w-6' />
-        <h6 className='text-sm font-semibold drop-shadow-md'>{bank}</h6>
+        <h6 className='text-sm font-semibold drop-shadow-md'>{BankName}</h6>
       </header>
       <h6 className='px-3 py-1 text-sm font-semibold drop-shadow-md'>
         Connected accounts
@@ -281,12 +300,15 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
   );
 }
 
-function ConnectedAccountsChips({ bank }: { bank: string }) {
+function ConnectedAccountsChips({ bank }: { bank: Bank }) {
   const { mode } = useTheme();
-  const bankData = sampleData[bank];
+
   return (
-    <ul className='scrollbar-hide flex w-full items-center  gap-1 overflow-y-hidden overflow-x-scroll py-1 pl-3'>
-      {bankData.map((account, i) => (
+    <ul
+      className='scrollbar-hide flex w-full items-center  
+      gap-1 overflow-y-hidden overflow-x-scroll py-1 pl-3'
+    >
+      {bank.map((account, i) => (
         <li
           key={`bankAcc-${i}`}
           className={clsx(
@@ -304,12 +326,3 @@ function ConnectedAccountsChips({ bank }: { bank: string }) {
     </ul>
   );
 }
-
-
-
-/* 
-  Add Pie chart: total checking/saving/credit sums
-
-
-
-*/

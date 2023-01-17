@@ -3,21 +3,21 @@ import clsx from 'clsx';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { useTheme } from '@/context/ThemeProvider';
 import { useBankPageContext } from '@/pages/app/banks';
-import {
-  sampleData,
-  getTotalBalanceByBank,
-} from '../cabinet/sections/sampleData';
+import { getTotalBalanceByBank } from '../cabinet/sections/sampleData';
 import Card from './Card';
-import { Account, Bank } from '@/services/types';
+import { Account, Bank, ConnectedBanksDict } from '@/services/types';
 import { ChartDataFormat } from '@/components/charts/types';
 import DoughnutChart from '@/components/charts/Doughnut';
 import BarChart from '@/components/charts/BarChart';
 import { months } from '@/components/charts/defaults';
-import { BsBank2 } from 'react-icons/bs';
 import { RiBankFill } from 'react-icons/ri';
 
-export function ListOfBanks() {
-  const banks = Object.keys(sampleData);
+export function ListOfBanks({
+  connectedBanksDict,
+}: {
+  connectedBanksDict: ConnectedBanksDict;
+}) {
+  const banks = Object.keys(connectedBanksDict);
 
   return (
     <Card withBorder className='' title={'Connected banks'}>
@@ -25,7 +25,11 @@ export function ListOfBanks() {
         {banks.map((bank, i) => (
           <li key={bank}>
             <CarouselItem>
-              <BankCard bank={bank} className='w-48' />
+              <BankCard
+                className='w-48'
+                bank={connectedBanksDict[bank]}
+                connectedBanksDict={connectedBanksDict}
+              />
             </CarouselItem>
           </li>
         ))}
@@ -34,17 +38,28 @@ export function ListOfBanks() {
   );
 }
 
-function BankCard({ bank, className }: { bank: string; className: string }) {
+function BankCard({
+  bank,
+  className,
+  connectedBanksDict,
+}: {
+  bank: Bank;
+  className: string;
+  connectedBanksDict: ConnectedBanksDict;
+}) {
   const { mode } = useTheme();
   const { setSelectedBank, selectedBank } = useBankPageContext();
 
   const [cardHover, setCardHover] = useState(false);
-  const bankTotal = getTotalBalanceByBank({ bank: bank, data: sampleData });
-  const connectedAccounts = sampleData[bank];
+  const bankName = bank[0].bank_name;
+  const bankTotal = getTotalBalanceByBank({
+    bank: bankName,
+    data: connectedBanksDict,
+  });
 
   return (
     <div
-      onClick={() => setSelectedBank(bank)}
+      onClick={() => setSelectedBank(bankName)}
       onMouseEnter={() => setCardHover(true)}
       onMouseLeave={() => setCardHover(false)}
       className={clsx(
@@ -55,7 +70,7 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
         'flex flex-col items-center ',
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50',
-        selectedBank === bank
+        selectedBank === bankName
           ? 'border-blue-600/50'
           : cardHover && 'border-blue-600/50',
         className
@@ -66,10 +81,10 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
           'w-full px-3 ',
           'transition-all duration-100 ease-in',
           'flex flex-col items-center gap-1',
-          selectedBank === bank
+          selectedBank === bankName
             ? 'bg-blue-600/50'
             : cardHover && 'bg-blue-600/50',
-          selectedBank === bank
+          selectedBank === bankName
             ? '-translate-y-7'
             : cardHover
             ? '-translate-y-7'
@@ -79,7 +94,7 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
         <RiBankFill
           className={clsx(
             'h-10 w-10',
-            selectedBank === bank
+            selectedBank === bankName
               ? 'scale-0'
               : cardHover
               ? 'scale-0'
@@ -87,13 +102,15 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
             'transition-all duration-200 ease-in'
           )}
         />
-        <h6 className={clsx('text-md font-semibold drop-shadow-md')}>{bank}</h6>
+        <h6 className={clsx('text-md font-semibold drop-shadow-md')}>
+          {bankName}
+        </h6>
       </header>
 
       <div
         className={clsx(
           'transition-all duration-200 ease-in',
-          selectedBank === bank
+          selectedBank === bankName
             ? '-translate-y-4 scale-y-100'
             : cardHover
             ? '-translate-y-4 scale-y-100'
@@ -101,7 +118,7 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
         )}
       >
         <h6 className='px-3 text-sm drop-shadow-md'>
-          Connected accounts {`${connectedAccounts.length}`}
+          Connected accounts {`${bank.length}`}
         </h6>
         <div className='inline-flex w-full items-end justify-between px-3'>
           <p className='text-sm drop-shadow-md'>Total</p>
@@ -112,7 +129,11 @@ function BankCard({ bank, className }: { bank: string; className: string }) {
   );
 }
 
-export function AccountsSection() {
+export function AccountsSection({
+  connectedBanksDict,
+}: {
+  connectedBanksDict: ConnectedBanksDict;
+}) {
   const { bankData } = useBankPageContext();
   const [chartData, setChartData] = useState<ChartDataFormat>({
     label: '',
@@ -126,7 +147,7 @@ export function AccountsSection() {
       const bankName = bankData[0].bank_name;
       const total = getTotalBalanceByBank({
         bank: bankName!,
-        data: sampleData,
+        data: connectedBanksDict,
       });
       const accountsTitles = bankData.map((acc) => acc.name);
       const accountTotals = bankData.map((acc) => acc.balance);
@@ -252,8 +273,6 @@ function AccountRowSkeleton() {
 }
 
 export function StatisticSection() {
-  const { bankData } = useBankPageContext();
-
   const dataset = [1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200];
   const dataset2 = [300, 700, 400, 100, 100, 900, 700, 200];
   const labels = months

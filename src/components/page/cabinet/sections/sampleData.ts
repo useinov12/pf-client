@@ -72,7 +72,7 @@ export function sortedListOfBanksByBalance(data: ConnectedBanksDict): Bank[] {
   return sortedList;
 }
 
-/*  by bank funcitons */
+/* methods by bank  */
 interface PropsByBank {
   bank: string;
   data: ConnectedBanksDict;

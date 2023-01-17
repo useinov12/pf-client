@@ -1,3 +1,10 @@
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import clsx from 'clsx';
 import Layout from '@/components/page/app/Layout';
 import { useAppPageContext } from '@/context/AppPageContext';
@@ -6,15 +13,15 @@ import {
   StatisticSection,
   ListOfBanks,
 } from '@/components/page/app/Banks';
-import { createContext, useContext, useEffect, useState } from 'react';
 import { sampleData } from '@/components/page/cabinet/sections/sampleData';
-import { Bank } from '@/services/types';
+import { Bank, ConnectedBanksDict } from '@/services/types';
 
 export default function BanksPage() {
   const { openSidebar } = useAppPageContext();
+  const connectedBanksDict = sampleData;
 
   return (
-    <BankPageProvider>
+    <BankPageProvider connectedBanksDict={sampleData}>
       <Layout>
         <section
           className={clsx(
@@ -24,9 +31,9 @@ export default function BanksPage() {
             'overflow-y-scroll'
           )}
         >
-          <ListOfBanks />
+          <ListOfBanks connectedBanksDict={connectedBanksDict} />
           <div className='my-0 flex h-full flex-col gap-x-4 lg:flex-row'>
-            <AccountsSection />
+            <AccountsSection connectedBanksDict={connectedBanksDict} />
             <StatisticSection />
           </div>
         </section>
@@ -45,14 +52,20 @@ const BankPageContext = createContext<{
   bankData: null,
 });
 
-export function BankPageProvider(props: any) {
+export function BankPageProvider({
+  children,
+  connectedBanksDict,
+}: {
+  children: ReactNode;
+  connectedBanksDict: ConnectedBanksDict;
+}) {
   const [selectedBank, setSelectedBank] = useState<string | null>(null);
 
   const [bankData, setBankData] = useState<Bank | null>(null);
 
   useEffect(() => {
     if (selectedBank) {
-      setBankData(sampleData[selectedBank]);
+      setBankData(connectedBanksDict[selectedBank]);
     }
   }, [selectedBank]);
 
@@ -63,8 +76,9 @@ export function BankPageProvider(props: any) {
         selectedBank,
         bankData,
       }}
-      {...props}
-    />
+    >
+      {children}
+    </BankPageContext.Provider>
   );
 }
 
