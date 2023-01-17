@@ -274,8 +274,8 @@ function BankCard({ bank, className }: { bank: Bank; className: string }) {
         'rounded',
         'overflow-hidden border',
         className,
-        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50'
+        mode === 'light' ? 'border-dark/20' : 'border-gray-400/20',
+        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/20'
       )}
     >
       <header
@@ -288,14 +288,14 @@ function BankCard({ bank, className }: { bank: Bank; className: string }) {
         <BsPiggyBankFill className='h-6 w-6' />
         <h6 className='text-sm font-semibold drop-shadow-md'>{BankName}</h6>
       </header>
-      <h6 className='px-3 py-1 text-sm font-semibold drop-shadow-md'>
+      {/* <h6 className='px-3 py-1 text-sm font-semibold drop-shadow-md'>
         Connected accounts
-      </h6>
-      <ConnectedAccountsChips bank={bank} />
-      <div className='flex w-full flex-col items-end px-3'>
-        <p className='text-sm drop-shadow-md'>Total</p>
-        <h3 className='text-2xl font-normal drop-shadow-md'>$ {bankTotal}</h3>
-      </div>
+      </h6> */}
+      {/* <ConnectedAccountsChips bank={bank} /> */}
+      <section className='flex w-full h-full flex-col items-center justify-center px-3'>
+        <p className='text-lg drop-shadow-md'>Total</p>
+        <h3 className='text-3xl font-normal drop-shadow-md'>$ {bankTotal}</h3>
+      </section>
     </div>
   );
 }

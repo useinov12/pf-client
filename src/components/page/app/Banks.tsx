@@ -69,7 +69,7 @@ function BankCard({
         'overflow-hidden border',
         'flex flex-col items-center ',
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/50',
+        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/20',
         selectedBank === bankName
           ? 'border-blue-600/50'
           : cardHover && 'border-blue-600/50',
@@ -102,7 +102,7 @@ function BankCard({
             'transition-all duration-200 ease-in'
           )}
         />
-        <h6 className={clsx('text-md font-semibold drop-shadow-md')}>
+        <h6 className={clsx('text-lg font-semibold drop-shadow-md')}>
           {bankName}
         </h6>
       </header>
@@ -167,46 +167,39 @@ export function AccountsSection({
     <Card
       withBorder
       title={'Accounts'}
-      className='flex h-full w-full flex-col justify-start'
+      className='flex h-fit w-full flex-col justify-start'
     >
-      <div className='h-2/5 overflow-x-hidden overflow-y-scroll'>
-        <table className=' w-full table-auto   border-separate border-spacing-y-1'>
-          <thead>
-            <tr>
-              <td>
-                <strong className='text-sm'>Name</strong>
-              </td>
-              <td>
-                <strong className='text-sm'>Type</strong>
-              </td>
-              <td>
-                <strong className='text-sm'>Balance</strong>
-              </td>
-            </tr>
-          </thead>
-          <tbody>
-            {bankData ? (
-              bankData.map((account, i) => (
-                <AccountRow account={account} key={`acc-row-${i}`} />
-              ))
-            ) : (
-              <AccountsSkeleton />
-            )}
-          </tbody>
-        </table>
-        <table className='w-full table-auto  lg:table-fixed  '>
-          <tbody>
-            <tr>
-              <td></td>
-              <td>
-                <h4>Total</h4>
-              </td>
-              <td>
-                <h4>$ {bankTotal}</h4>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div className='flex h-36 flex-col justify-between'>
+        <div className=' overflow-x-hidden overflow-y-scroll'>
+          <table className='w-full table-auto   border-separate border-spacing-y-1'>
+            <thead>
+              <tr>
+                <td>
+                  <strong className='text-sm'>Name</strong>
+                </td>
+                <td>
+                  <strong className='text-sm'>Type</strong>
+                </td>
+                <td>
+                  <strong className='text-sm'>Balance</strong>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              {bankData ? (
+                bankData.map((account, i) => (
+                  <AccountRow account={account} key={`acc-row-${i}`} />
+                ))
+              ) : (
+                <AccountsSkeleton />
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className='flex items-center justify-end gap-10 px-5'>
+          <h5>Total</h5>
+          <h4>$ {bankTotal}</h4>
+        </div>
       </div>
 
       <div className='h-56 w-full'>
@@ -291,8 +284,8 @@ export function StatisticSection() {
   };
 
   return (
-    <Card withBorder title={'Statistics'} className='h-full w-full'>
-      <div className='h-1/2 w-5/6'>
+    <Card withBorder title={'Statistics'} className='h-fit w-full'>
+      <div className='h-48 w-5/6'>
         <BarChart
           width={'100%'}
           height={'100%'}
@@ -301,7 +294,7 @@ export function StatisticSection() {
           styleOptions={'APP'}
         />
       </div>
-      <div className='h-1/2 w-5/6'>
+      <div className='h-48 w-5/6'>
         <BarChart
           width={'100%'}
           height={'100%'}
