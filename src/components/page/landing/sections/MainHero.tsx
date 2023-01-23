@@ -1,7 +1,6 @@
 import React, {
   MutableRefObject,
   ReactNode,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -15,7 +14,8 @@ import Polkadot from '../../../shared/Polkadot';
 import { useAuth } from '@/services/auth/queries';
 import { useLoginForm } from '@/context/LoginFormProvider';
 import { gsap } from '@/lib/gsap';
-import { BsCartX } from 'react-icons/bs';
+import Image from 'next/image';
+import ButtonLink from '@/components/links/ButtonLink';
 
 export default function MainHeroSection() {
   /* to postpone the animation sequence until component is mounted */
@@ -163,9 +163,11 @@ const HeroDemo = ({
         );
         timeline.current.fromTo(
           DemoRef.current,
-          { 
+          {
             opacity: 0,
-             x: 120, y: 30 },
+            x: 120,
+            y: 30,
+          },
           {
             x: 60,
             y: 0,
@@ -175,7 +177,7 @@ const HeroDemo = ({
           },
           1.3
         );
-      }, animationScope.current );
+      }, animationScope.current);
 
       return () => ctx.revert();
     }
@@ -206,9 +208,20 @@ const HeroDemo = ({
           'translate-x-20 sm:translate-x-0',
           'md:h-[40rem] md:w-[40rem]',
           'bg-gray-300',
-          'rounded-2xl drop-shadow-lg'
+          'rounded-2xl drop-shadow-lg',
+          'overflow-hidden',
+          'p-1',
+          'relative'
         )}
-      />
+      >
+        <Image
+          src='/images/card.png'
+          layout='fill'
+          objectPosition='left top'
+          objectFit='cover'
+          className='rounded-2xl'
+        />
+      </div>
     </section>
   );
 };
@@ -288,7 +301,9 @@ const HeroText = ({ className }: { className?: string }) => {
         </h5>
 
         {!user && (
-          <Button
+          <ButtonLink
+          href='/signup'
+            // onClick={handleOpenLoginForm}
             className={clsx(
               'ml-1',
               'text-md w-min whitespace-nowrap rounded-md border-4 border-transparent px-6',
@@ -296,7 +311,7 @@ const HeroText = ({ className }: { className?: string }) => {
             )}
           >
             Sign up
-          </Button>
+          </ButtonLink>
         )}
       </div>
     </section>
