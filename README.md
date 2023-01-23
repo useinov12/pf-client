@@ -1,6 +1,6 @@
 # Personal banking tracker
 
-An App for tracking and analazyng data from all your banks using Plaid API
+Web app for tracking and analazyng data from all your banks using Plaid API
 
 
 [Live version](https://pf-bank.vercel.app/)
