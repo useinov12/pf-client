@@ -2,7 +2,6 @@ import React from 'react';
 import Layout from '@/components/page/landing/Layout';
 import MainHero from '@/components/page/landing/sections/MainHero';
 import Demo from '@/components/page/landing/sections/Demo';
-// import Showcase from '@/components/page/landing/sections/Showcase';
 import Expirience from '@/components/page/landing/sections/Expirience';
 import Instructions from '@/components/page/landing/sections/Instructions';
 import Reviews from '@/components/page/landing/sections/Reviews';
@@ -14,14 +13,13 @@ export default function HomePage() {
     <>
       <Layout>
         <MainHero />
-        <Demo/>
+        <Demo />
         <Expirience />
         <Reviews />
-        {/* <Showcase /> */}
         <Instructions />
         <Banner />
       </Layout>
-      <SignInForm withCloseBtn/>
+      <SignInForm withCloseBtn />
     </>
   );
 }
