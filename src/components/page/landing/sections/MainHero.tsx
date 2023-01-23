@@ -206,7 +206,7 @@ const HeroDemo = ({
           'mt-28',
           'h-[30rem] w-[30rem]',
           'translate-x-20 sm:translate-x-0',
-          'md:h-[40rem] md:w-[40rem]',
+          'md:h-[51rem] md:w-[40rem]',
           'bg-gray-300',
           'rounded-2xl drop-shadow-lg',
           'overflow-hidden',
