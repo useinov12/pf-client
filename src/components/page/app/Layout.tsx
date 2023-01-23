@@ -46,9 +46,9 @@ function Navbar() {
   return (
     <div
       className={clsx(
-        'h-16',
+        'h-20',
         'border-b',
-        'flex items-center justify-between px-3 py-0',
+        'flex items-center justify-between px-3 py-2',
         mode === 'light' ? 'border-gray-500/50' : 'border-gray-300/20'
       )}
     >
