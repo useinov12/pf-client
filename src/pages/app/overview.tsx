@@ -15,7 +15,7 @@ export default function OverviewPage() {
     <Layout>
       <section
         className={clsx(
-          'pt-8 md:px-3',
+          'pt-4 md:px-3',
           'overflow-y-scroll',
           'flex h-full flex-col gap-4',
           openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]',
@@ -23,11 +23,11 @@ export default function OverviewPage() {
       >
         <div className='my-1 flex flex-col gap-2 md:flex-row'>
           <GeneralInfo
-            className='w-full md:w-1/3'
+            className='w-full md:w-2/5'
             connectedBanksDict={connectedBanksDict}
           />
           <ChartGroup
-            className='h-full w-full md:w-2/3'
+            className='h-full w-full md:w-3/5'
             connectedBanksDict={connectedBanksDict}
           />
         </div>
