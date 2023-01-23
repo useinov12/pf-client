@@ -3,7 +3,7 @@
 An App for tracking and analazyng data from all your banks using Plaid API
 
 
-[Live version]()
+[Live version](https://pf-bank.vercel.app/)
 
 
 [Client code](https://github.com/useinov12/pf-client) | [Server code](https://github.com/kalinchenko23/personal_finance_tracker)
