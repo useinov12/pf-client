@@ -14,8 +14,8 @@ import Polkadot from '../../../shared/Polkadot';
 import { useAuth } from '@/services/auth/queries';
 import { useLoginForm } from '@/context/LoginFormProvider';
 import { gsap } from '@/lib/gsap';
-import Image from 'next/image';
 import ButtonLink from '@/components/links/ButtonLink';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 export default function MainHeroSection() {
   /* to postpone the animation sequence until component is mounted */
@@ -205,22 +205,31 @@ const HeroDemo = ({
           'opacity-0',
           'mt-28',
           'h-[30rem] w-[30rem]',
-          'translate-x-20 sm:translate-x-0',
-          'md:h-[51rem] md:w-[40rem]',
-          'bg-gray-300',
+          'md:h-[40rem] md:w-[40rem]',
           'rounded-2xl drop-shadow-lg',
-          'overflow-hidden',
-          'p-1',
-          'relative'
+          'translate-x-20 sm:translate-x-0',
+          'relative overflow-hidden',
+          "bg-[url('/images/card.png')] bg-cover"
         )}
       >
-        <Image
-          src='/images/card.png'
-          layout='fill'
-          objectPosition='left top'
-          objectFit='cover'
-          className='rounded-2xl'
-        />
+        <div
+          className={clsx(
+            'h-full w-full',
+            'transition-all duration-300',
+            'flex items-center justify-center',
+            'bg-transparent',
+            'from-transparent via-transparent to-dark/20 hover:bg-gradient-to-b'
+          )}
+        >
+          <ButtonLink
+            href='/app/overview'
+            variant='dark'
+            className='mt-80 inline-flex items-center gap-2 rounded-2xl px-8 text-xl'
+          >
+            <FaExternalLinkAlt className='opacity-70' />
+            <span>Demo</span>
+          </ButtonLink>
+        </div>
       </div>
     </section>
   );
@@ -302,7 +311,7 @@ const HeroText = ({ className }: { className?: string }) => {
 
         {!user && (
           <ButtonLink
-          href='/signup'
+            href='/signup'
             // onClick={handleOpenLoginForm}
             className={clsx(
               'ml-1',
