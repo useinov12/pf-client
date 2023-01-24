@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { useTheme } from '@/context/ThemeProvider';
 import { useBankPageContext } from '@/pages/app/banks';
-import { getTotalBalanceByBank } from '../cabinet/sections/sampleData';
+import { getTotalBalanceByBank } from '@/lib/dataFunctions';
 import Card from './Card';
 import { Account, Bank, ConnectedBanksDict } from '@/services/types';
 import { ChartDataFormat } from '@/components/charts/types';
@@ -169,7 +169,7 @@ export function AccountsSection({
       title={'Accounts'}
       className='flex h-fit w-full flex-col justify-start'
     >
-      <div className='flex h-36 flex-col justify-between'>
+      <div className='flex h-40 flex-col justify-between'>
         <div className=' overflow-x-hidden overflow-y-scroll'>
           <table className='w-full table-auto   border-separate border-spacing-y-1'>
             <thead>
@@ -195,10 +195,6 @@ export function AccountsSection({
               )}
             </tbody>
           </table>
-        </div>
-        <div className='flex items-center justify-end gap-10 px-5'>
-          <h5>Total</h5>
-          <h4>$ {bankTotal}</h4>
         </div>
       </div>
 
