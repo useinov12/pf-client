@@ -5,56 +5,40 @@ import {
   getListOfAllAccounts,
   getTotalCredit,
   getTotalBalance,
-  sortedListOfBanksByBalance,
-  getTotalBalanceByBank,
-} from '../cabinet/sections/sampleData';
+  getSortedBankData,
+} from '@/lib/dataFunctions';
 import Card from './Card';
 import BarChart from '@/components/charts/BarChart';
 import LineChart from '@/components/charts/LineChart';
 import DoughnutChart from '@/components/charts/Doughnut';
 import { ChartDataFormat } from '@/components/charts/types';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
-import { months } from '@/components/charts/defaults';
-import { Bank, ConnectedBanksData, ConnectedBanksDict } from '@/services/types';
+import { Bank, ConnectedBanksDict } from '@/services/types';
 import { BiCarousel } from 'react-icons/bi';
 import { CgMenuGridR } from 'react-icons/cg';
 import { BsPiggyBankFill } from 'react-icons/bs';
+import { BanksData } from '@/constant/demoData';
 
 export function GeneralInfo({
   className,
-  connectedBanksDict,
+  banksData,
 }: {
   className: string;
-  connectedBanksDict: ConnectedBanksDict;
+  banksData: BanksData;
 }) {
-  const connectedBanks = Object.keys(connectedBanksDict);
-  const connectedAccountsQuantity =
-    getListOfAllAccounts(connectedBanksDict).length;
-  const creditTotal = getTotalCredit(connectedBanksDict);
-  const balanceTotal = getTotalBalance(connectedBanksDict);
+  const banks = banksData.connectedBanksDict;
+  const connectedBanks = Object.keys(banksData.connectedBanksDict);
 
-  /*  */
-  const sortedBanks = sortedListOfBanksByBalance(connectedBanksDict);
-  const sortedBankNames = sortedBanks.map((bank) => bank[0].bank_name);
-  const sortedTotals = sortedBanks.map((bankName) =>
-    getTotalBalanceByBank({
-      bank: bankName[0].bank_name,
-      data: connectedBanksDict,
-    })
-  );
-
-  const testDataset2: ChartDataFormat = {
+  const sortedDataset = getSortedBankData(banksData.connectedBanksDict);
+  const doughnutChartDataset: ChartDataFormat = {
     label: 'Balance',
-    labels: sortedBankNames,
-    datasets: [sortedTotals],
+    labels: sortedDataset.sortedBankNames,
+    datasets: [sortedDataset.sortedTotals],
   };
 
   return (
     <Card
-      className={clsx(
-        'flex flex-col justify-start py-[5px]',
-        className
-      )}
+      className={clsx('flex flex-col justify-start py-[5px]', className)}
       title='General Info'
       withBorder
     >
@@ -68,34 +52,36 @@ export function GeneralInfo({
           <tbody>
             <tr>
               <td>
-                <p className=''>Connected banks </p>
+                <p>Connected banks </p>
               </td>
               <td>
-                <p className=''>{connectedBanks.length}</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p className=''>Connected accounts</p>
-              </td>
-              <td>
-                <p className=''>{connectedAccountsQuantity}</p>
+                <p>{connectedBanks.length}</p>
               </td>
             </tr>
             <tr>
               <td>
-                <p className=''>Most money at</p>
+                <p>Connected accounts</p>
               </td>
               <td>
-                <p className=''>Navy Federal</p>
+                <p>
+                  {getListOfAllAccounts(banksData.connectedBanksDict).length}
+                </p>
               </td>
             </tr>
             <tr>
               <td>
-                <p className=''>Biggest debt at</p>
+                <p>Most money at</p>
               </td>
               <td>
-                <p className=''>Trust Bank</p>
+                <p>Navy Federal</p>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p>Biggest debt at</p>
+              </td>
+              <td>
+                <p>Trust Bank</p>
               </td>
             </tr>
           </tbody>
@@ -106,16 +92,16 @@ export function GeneralInfo({
         <div className='flex h-1/5 items-center gap-2'>
           <div className='w-full py-1'>
             <p className='text-sm opacity-70'>Total Debt</p>
-            <strong className='text-2xl'> $ -{creditTotal}</strong>
+            <strong className='text-2xl'> $ -{getTotalCredit(banks)}</strong>
           </div>
           <div className='w-full py-1'>
             <p className='text-sm opacity-70'>Total Balance</p>
-            <strong className='text-2xl'> ${balanceTotal}</strong>
+            <strong className='text-2xl'> ${getTotalBalance(banks)}</strong>
           </div>
         </div>
         <div className='h-4/5 w-full'>
           <DoughnutChart
-            incomingData={testDataset2}
+            incomingData={doughnutChartDataset}
             width='100%'
             height='100%'
             styleOptions='APP'
@@ -129,38 +115,23 @@ export function GeneralInfo({
 
 export function ChartGroup({
   className,
-  connectedBanksDict,
+  banksData,
 }: {
   className: string;
-  connectedBanksDict: ConnectedBanksDict;
+  banksData: BanksData;
 }) {
-  const sortedBanks = sortedListOfBanksByBalance(connectedBanksDict);
-  const sortedBankNames = sortedBanks.map((bank) => bank[0].bank_name);
-  const sortedTotals = sortedBanks.map((bankName) =>
-    getTotalBalanceByBank({
-      bank: bankName[0].bank_name,
-      data: connectedBanksDict,
-    })
-  );
+  const sortedDataset = getSortedBankData(banksData.connectedBanksDict);
 
-  const testDataset2: ChartDataFormat = {
+  const barChartDataset: ChartDataFormat = {
     label: 'Balance',
-    labels: sortedBankNames,
-    datasets: [sortedTotals],
+    labels: sortedDataset.sortedBankNames,
+    datasets: [sortedDataset.sortedTotals],
   };
 
-  const monhtlyTotalBalance = [
-    1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200, 2400, 1800, 2100,
-  ];
-
-  const labels = months
-    .filter((_, i) => i < monhtlyTotalBalance.length)
-    .map((month) => month.slice(0, 3));
-
-  const testDataset1: ChartDataFormat = {
+  const lineChartDataset: ChartDataFormat = {
     label: 'Total Dynamic',
-    labels: labels,
-    datasets: [monhtlyTotalBalance],
+    labels: banksData.monthlyBalanceDynamic.months,
+    datasets: [banksData.monthlyBalanceDynamic.balances],
   };
 
   return (
@@ -175,7 +146,7 @@ export function ChartGroup({
       <section className='h-1/2 w-full'>
         <div className='my-2 h-full'>
           <LineChart
-            incomingData={testDataset1}
+            incomingData={lineChartDataset}
             width='100%'
             height='100%'
             styleOptions={'APP'}
@@ -187,7 +158,7 @@ export function ChartGroup({
       <section className='h-1/2 w-full'>
         <div className='my-2 h-full'>
           <BarChart
-            incomingData={testDataset2}
+            incomingData={barChartDataset}
             width='100%'
             height='100%'
             styleOptions={'APP'}
@@ -291,9 +262,9 @@ function BankCard({ bank, className }: { bank: Bank; className: string }) {
   return (
     <div
       className={clsx(
+        'rounded',
         'h-36 w-full',
         'flex flex-col items-start',
-        'rounded',
         'overflow-hidden border',
         className,
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/20',
@@ -310,13 +281,13 @@ function BankCard({ bank, className }: { bank: Bank; className: string }) {
         <BsPiggyBankFill className='h-6 w-6' />
         <h6 className='text-md font-semibold drop-shadow-md'>{BankName}</h6>
       </header>
-      {/* <h6 className='px-3 py-1 text-sm font-semibold drop-shadow-md'>
-        Connected accounts
-      </h6>
-      <ConnectedAccountsChips bank={bank} /> */}
-      <section className='flex h-full w-full flex-col items-center justify-center px-3'>
+      <section className='inline-flex h-full w-full items-center  justify-end gap-2 px-3'>
+        <p className='text-md opacity-70 drop-shadow-md'>Connected accounts</p>
+        <h4 className='text-lg  drop-shadow-md'>3</h4>
+      </section>
+      <section className='flex h-full w-full flex-col items-end justify-center px-3'>
         <p className='text-md opacity-70 drop-shadow-md'>Total balance</p>
-        <h3 className='text-3xl  drop-shadow-md'>$ {bankTotal}</h3>
+        <h4 className='text-3xl  drop-shadow-md'>$ {bankTotal}</h4>
       </section>
     </div>
   );
