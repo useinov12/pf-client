@@ -8,7 +8,6 @@ import React, {
 import clsx from 'clsx';
 import ArrowLink from '@/components/links/ArrowLink';
 import Logo from '@/components/shared/Logo';
-import Button from '@/components/buttons/Button';
 import { useTheme } from '@/context/ThemeProvider';
 import Polkadot from '../../../shared/Polkadot';
 import { useAuth } from '@/services/auth/queries';
@@ -217,8 +216,7 @@ const HeroDemo = ({
             'h-full w-full',
             'transition-all duration-300',
             'flex items-center justify-center',
-            'bg-transparent',
-            'from-transparent via-transparent to-dark/20 hover:bg-gradient-to-b'
+            'bg-gradient-to-b from-transparent via-transparent to-dark/40'
           )}
         >
           <ButtonLink
@@ -314,8 +312,8 @@ const HeroText = ({ className }: { className?: string }) => {
             href='/signup'
             // onClick={handleOpenLoginForm}
             className={clsx(
-              'ml-1',
-              'text-md w-min whitespace-nowrap rounded-md border-4 border-transparent px-6',
+              'ml-1 py-[2px] px-9',
+              'text-md w-min whitespace-nowrap rounded-md border-4 border-transparent',
               'ring-4 ring-transparent hover:ring-primary-500'
             )}
           >
