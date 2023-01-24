@@ -34,7 +34,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
       </header>
       <div className='flex flex-col items-start'>
         <div className='flex h-full w-full flex-col items-center justify-center '>
-          <div className='h-20 w-5/6'>
+          <div className='h-24 w-full'>
             <LineChart
               width={'100%'}
               height={'100%'}
@@ -44,7 +44,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
               delay={5000}
             />
           </div>
-          <div className='h-20 w-5/6'>
+          <div className='h-24 w-full'>
             <BarChart
               width={'100%'}
               height={'100%'}
