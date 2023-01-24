@@ -24,8 +24,6 @@ export default function LineChart({
     datasets: [],
   });
 
-  const { mode } = useTheme();
-
   useEffect(() => {
     const chart = chartRef.current;
 
@@ -49,7 +47,6 @@ export default function LineChart({
 
   const options = chartStyles === 'APP' ? optionsApp : optionsLanding;
   options.plugins.title.text = title;
-
 
   return (
     <Chart
@@ -133,7 +130,7 @@ const optionsLanding = {
       fill: 'start',
     },
     point: {
-      radius: 0,
+      radius: 1.5,
       itRadius: 1,
     },
   },

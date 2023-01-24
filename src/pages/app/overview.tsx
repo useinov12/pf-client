@@ -6,11 +6,16 @@ import {
 } from '@/components/page/app/Overview';
 import Layout from '@/components/page/app/Layout';
 import { useAppPageContext } from '@/context/AppPageContext';
-import { sampleData } from '@/components/page/cabinet/sections/sampleData';
+import { ConnectedBanksDict } from '@/services/types';
+import { demoData } from '@/constant/demoData';
+
 
 export default function OverviewPage() {
   const { openSidebar } = useAppPageContext();
-  const connectedBanksDict = sampleData;
+  /* 
+    const bankData = session ? data : demoData 
+  */
+
   return (
     <Layout>
       <section
@@ -18,20 +23,14 @@ export default function OverviewPage() {
           'pt-4 md:px-3',
           'overflow-y-scroll',
           'flex h-full flex-col gap-4',
-          openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]',
+          openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]'
         )}
       >
         <div className='my-1 flex flex-col gap-2 md:flex-row'>
-          <GeneralInfo
-            className='w-full md:w-2/5'
-            connectedBanksDict={connectedBanksDict}
-          />
-          <ChartGroup
-            className='h-full w-full md:w-3/5'
-            connectedBanksDict={connectedBanksDict}
-          />
+          <GeneralInfo banksData={demoData} className='w-full md:w-2/5' />
+          <ChartGroup banksData={demoData} className='h-full w-full md:w-2/5' />
         </div>
-        <ListOfBanks connectedBanksDict={connectedBanksDict} />
+        <ListOfBanks connectedBanksDict={demoData.connectedBanksDict} />
       </section>
     </Layout>
   );

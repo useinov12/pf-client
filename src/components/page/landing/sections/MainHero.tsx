@@ -8,14 +8,13 @@ import React, {
 import clsx from 'clsx';
 import ArrowLink from '@/components/links/ArrowLink';
 import Logo from '@/components/shared/Logo';
-import Button from '@/components/buttons/Button';
 import { useTheme } from '@/context/ThemeProvider';
 import Polkadot from '../../../shared/Polkadot';
 import { useAuth } from '@/services/auth/queries';
 import { useLoginForm } from '@/context/LoginFormProvider';
 import { gsap } from '@/lib/gsap';
-import Image from 'next/image';
 import ButtonLink from '@/components/links/ButtonLink';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 
 export default function MainHeroSection() {
   /* to postpone the animation sequence until component is mounted */
@@ -205,22 +204,30 @@ const HeroDemo = ({
           'opacity-0',
           'mt-28',
           'h-[30rem] w-[30rem]',
-          'translate-x-20 sm:translate-x-0',
           'md:h-[40rem] md:w-[40rem]',
-          'bg-gray-300',
           'rounded-2xl drop-shadow-lg',
-          'overflow-hidden',
-          'p-1',
-          'relative'
+          'translate-x-20 sm:translate-x-0',
+          'relative overflow-hidden',
+          "bg-[url('/images/card.png')] bg-cover"
         )}
       >
-        <Image
-          src='/images/card.png'
-          layout='fill'
-          objectPosition='left top'
-          objectFit='cover'
-          className='rounded-2xl'
-        />
+        <div
+          className={clsx(
+            'h-full w-full',
+            'transition-all duration-300',
+            'flex items-center justify-center',
+            'bg-gradient-to-b from-transparent via-transparent to-dark/40'
+          )}
+        >
+          <ButtonLink
+            href='/app/overview'
+            variant='dark'
+            className='mt-80 inline-flex items-center gap-2 rounded-2xl px-8 text-xl'
+          >
+            <FaExternalLinkAlt className='opacity-70' />
+            <span>Demo</span>
+          </ButtonLink>
+        </div>
       </div>
     </section>
   );
@@ -302,11 +309,11 @@ const HeroText = ({ className }: { className?: string }) => {
 
         {!user && (
           <ButtonLink
-          href='/signup'
+            href='/signup'
             // onClick={handleOpenLoginForm}
             className={clsx(
-              'ml-1',
-              'text-md w-min whitespace-nowrap rounded-md border-4 border-transparent px-6',
+              'ml-1 py-[2px] px-9',
+              'text-md w-min whitespace-nowrap rounded-md border-4 border-transparent',
               'ring-4 ring-transparent hover:ring-primary-500'
             )}
           >
