@@ -17,7 +17,7 @@ export default function Demo() {
       )}
     >
       <SectionText className='shrink lg:w-1/2' />
-      <SectionCard className=' w-full ' />
+      <SectionCard className='w-full' />
     </Container>
   );
 }
@@ -88,22 +88,23 @@ const SectionText = ({ className }: { className: string }) => {
   return (
     <section
       className={clsx(
-        'flex flex-col items-center justify-center px-6',
+        'flex flex-col items-center md:items-start  justify-start px-6 md:pt-36',
         className
       )}
     >
-      <div className='my-4 flex flex-col items-center justify-center gap-2'>
-        <BsCashCoin className='h-16 w-16' />
-        <div className='flex flex-col items-center'>
+      <header className='my-2 flex flex-col items-center md:flex-row  md:items-start justify-center gap-2'>
+        <BsCashCoin className='mt-2 h-12 w-12' />
+        <div className='flex flex-col items-center md:items-start'>
           <h2 className='cursor-default text-center text-2xl tracking-tight drop-shadow'>
             PersonalFinance
           </h2>
-          <h3 className='cursor-default text-center text-xl font-normal tracking-tight  drop-shadow'>
+          <p className='text-md cursor-default text-center font-normal tracking-tight  drop-shadow'>
             will help you organize your bank data
-          </h3>
+          </p>
         </div>
-      </div>
-      <ul className='my-6 flex flex-col'>
+      </header>
+
+      <ul className='my-2 flex flex-col'>
         {[
           'Unlimited banks connection',
           'Cross-bank data analytics',
