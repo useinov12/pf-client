@@ -56,7 +56,7 @@ export default function BarChart({
     ? (options.scales.y.display = true)
     : (options.scales.y.display = false);
 
-  options.scales.y.ticks = {...dollarTicks};
+  // options.scales.y.ticks = {...dollarTicks};
 
   useEffect(() => {
     stacked
@@ -112,8 +112,8 @@ const optionsCommon = {
       autoSkip: true,
       ticks: {},
       // ticks: {
-      //   // color: '#C0C0C0',
-      //   // Include a dollar sign in the ticks
+      // //   // color: '#C0C0C0',
+      // //   // Include a dollar sign in the ticks
       //   callback: (value: string | number, index: number, ticks: any) => {
       //     const formatter = Intl.NumberFormat('en', {
       //       notation: 'compact',
