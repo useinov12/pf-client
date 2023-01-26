@@ -7,9 +7,8 @@ import { getChartDataStructure } from '@/lib/chartHelpers';
 import 'chart.js/auto';
 
 export default function PieChart({
-  delay,
   incomingData,
-  styleOptions:chartStyles,
+  styleOptions: chartStyles,
 }: ChartProps) {
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'pie'>>({
@@ -19,19 +18,11 @@ export default function PieChart({
   useEffect(() => {
     const chart = chartRef.current;
 
-    if (!chart || !incomingData) {
-      return;
-    }
+    if (!chart || !incomingData) return;
 
-    const chartData = getChartDataStructure({incomingData, chartStyles, chart});
+    const data = getChartDataStructure({ incomingData, chartStyles, chart });
 
-    /* if delay -> update datat with delay */
-    if (delay) {
-      const timer = setTimeout(() => {
-        setChartData(chartData);
-      }, delay);
-      return () => clearTimeout(timer);
-    } else setChartData(chartData);
+    setChartData(data);
   }, [incomingData]);
 
   return <Chart type='pie' ref={chartRef} data={chartData} options={options} />;
