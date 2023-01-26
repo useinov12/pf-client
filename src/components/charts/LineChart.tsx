@@ -1,10 +1,9 @@
 import { useRef, useEffect, useState } from 'react';
 import { Chart as ChartJS, ChartData } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
-import { ChartProps } from './types';
+import { ChartProps, StyleOptions } from './types';
+import { getChartDataStructure, dollarTicks } from '@/lib/chartHelpers';
 import 'chart.js/auto';
-import { getChartDataStructure } from '@/lib/chartHelpers';
-import { useTheme } from '@/context/ThemeProvider';
 
 interface LineChartProps extends ChartProps {
   width: string;
@@ -45,8 +44,7 @@ export default function LineChart({
     } else setChartData(formatedChartData);
   }, [incomingData]);
 
-  const options = chartStyles === 'APP' ? optionsApp : optionsLanding;
-  options.plugins.title.text = title;
+  const options = getLineChartOptions({ title, chartStyles });
 
   return (
     <Chart
@@ -64,87 +62,47 @@ export default function LineChart({
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
 
-/* Chart JS options for Line chart*/
-const optionsCommon = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: true,
-      text: 'Title',
-      align: alignTitle,
-      // color: '#C0C0C0',
-    },
-  },
-  scales: {
-    y: {
-      display: false,
-      grid: {
-        color: 'transparent',
+function getLineChartOptions({
+  title,
+  chartStyles,
+}: {
+  title: string | undefined;
+  chartStyles: StyleOptions;
+}) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        display: false,
       },
-      autoSkip: true,
-      ticks: {
-        // color: '#C0C0C0',
-        // Include a dollar sign in the ticks
-        callback: (value: string | number, index: number, ticks: any) =>
-          formatFinancialNumber(value, index, ticks),
+      title: {
+        display: title ? true : false,
+        text: title ? title : 'none',
+        align: alignTitle,
       },
     },
-    x: {
-      display: true,
-      grid: {
-        color: 'transparent',
+    elements: {
+      line: {
+        tension: 0.2,
+        borderWidth: chartStyles === 'APP' ? 5 : 2,
+        fill: 'start',
       },
-      autoSkip: true,
-      ticks: {
-        // color: '#C0C0C0',
+      point: {
+        radius: chartStyles === 'APP' ? 0 : 1.5,
+        itRadius: 1,
       },
     },
-  },
-};
-
-const optionsApp = {
-  ...optionsCommon,
-  elements: {
-    line: {
-      tension: 0.2,
-      borderWidth: 5,
-      fill: 'start',
+    scales: {
+      y: {
+        display: chartStyles === 'APP' ? true : false,
+        grid: {
+          color: 'transparent',
+        },
+        autoSkip: true,
+        ticks: chartStyles === 'APP' ? dollarTicks : {},
+      },
     },
-    point: {
-      radius: 0,
-      itRadius: 1,
-    },
-  },
-};
-
-const optionsLanding = {
-  ...optionsCommon,
-  elements: {
-    line: {
-      tension: 0.2,
-      borderWidth: 2,
-      fill: 'start',
-    },
-    point: {
-      radius: 1.5,
-      itRadius: 1,
-    },
-  },
-};
-
-// Include a dollar sign in the ticks
-function formatFinancialNumber(
-  value: string | number,
-  index: number,
-  ticks: any
-) {
-  const formatter = Intl.NumberFormat('en', {
-    notation: 'compact',
-    compactDisplay: 'short',
-  });
-  return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
+  };
 }
