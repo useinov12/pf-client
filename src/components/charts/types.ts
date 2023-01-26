@@ -1,8 +1,8 @@
 export interface ChartProps{
-  incomingData: ChartDataFormat;
+  incomingData: ChartDataFormat | undefined;
   delay?:number;
   styleOptions:StyleOptions
-  title:string
+  title?:string
 }
 export type StyleOptions = 'LANDING' | 'APP'
 
