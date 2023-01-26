@@ -80,7 +80,7 @@ function getDoughnutChartOptions({ title }: { title: string | undefined }) {
       },
       title: {
         display: title ? true : false,
-        text: 'Title',
+        text: title,
         align: alignTitle,
         //   color: '#C0C0C0',
       },
