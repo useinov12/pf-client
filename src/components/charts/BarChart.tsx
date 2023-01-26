@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 import { Chart as ChartJS, ChartData } from 'chart.js';
-import { getChartDataStructure } from '@/lib/chartHelpers';
-import { ChartProps } from './types';
+import { getChartDataStructure, dollarTicks } from '@/lib/chartHelpers';
+import { ChartProps, StyleOptions } from './types';
 
 import 'chart.js/auto';
 
@@ -31,9 +31,8 @@ export default function BarChart({
   useEffect(() => {
     const chart = chartRef.current;
 
-    if (!chart || !incomingData) {
-      return;
-    }
+    if (!chart || !incomingData) return;
+   
 
     const chartData = getChartDataStructure({
       incomingData,
@@ -41,34 +40,11 @@ export default function BarChart({
       chart,
     });
 
-    if (delay) {
-      const timer = setTimeout(() => {
-        setChartData(chartData);
-      }, delay);
-      return () => clearTimeout(timer);
-    } else setChartData(chartData);
+    setChartData(chartData);
   }, [incomingData]);
 
-  /* Set Bar Chart options: Vertical, Stacked */
-  const options = vertical ? optionsVertical : optionsHorizontal;
-  options.plugins.title.text = title;
-  chartStyles === 'APP'
-    ? (options.scales.y.display = true)
-    : (options.scales.y.display = false);
-
-  // options.scales.y.ticks = {...dollarTicks};
-
-  useEffect(() => {
-    stacked
-      ? () => {
-          options.scales.x.stacked = true;
-          options.scales.y.stacked = true;
-        }
-      : () => {
-          options.scales.x.stacked = false;
-          options.scales.y.stacked = false;
-        };
-  }, []);
+  /* Set Bar Chart options: Vertical, Stacked, chartStyles, title */
+  const options = getBarChartOptions({ title, vertical, stacked, chartStyles });
 
   return (
     <Chart
@@ -86,74 +62,51 @@ export default function BarChart({
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
 
-/* Chart JS oprtions for Bar Chart*/
-const optionsCommon = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-      display: false,
-    },
-    title: {
-      display: true,
-      text: 'Title',
-      align: alignTitle,
-      // color: '#C0C0C0',
-    },
-  },
-  scales: {
-    y: {
-      display: true,
-      stacked: false,
-      grid: {
-        color: 'transparent',
+/* Accept all conditions and return Chart JS options object for BarChart */
+function getBarChartOptions({
+  title,
+  vertical,
+  stacked,
+  chartStyles,
+}: {
+  title: string | undefined;
+  vertical: boolean | undefined;
+  stacked: boolean | undefined;
+  chartStyles: StyleOptions;
+}) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        display: false,
       },
-      autoSkip: true,
-      ticks: {},
-      // ticks: {
-      // //   // color: '#C0C0C0',
-      // //   // Include a dollar sign in the ticks
-      //   callback: (value: string | number, index: number, ticks: any) => {
-      //     const formatter = Intl.NumberFormat('en', {
-      //       notation: 'compact',
-      //       compactDisplay: 'short',
-      //     });
-      //     return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
-      //   },
-      // },
-    },
-    x: {
-      display: true,
-      stacked: false,
-      grid: {
-        color: 'transparent',
-      },
-      ticks: {
-        // color: '#C0C0C0',
+      title: {
+        display: title ? true : false,
+        text: title ? title : 'none',
+        align: alignTitle,
       },
     },
-  },
-};
-
-const optionsVertical = {
-  ...optionsCommon,
-  indexAxis: 'y' as const,
-};
-
-const optionsHorizontal = {
-  ...optionsCommon,
-  indexAxis: 'x' as const,
-};
-
-const dollarTicks = {
-  // color: '#C0C0C0',
-  // Include a dollar sign in the ticks
-  callback: (value: string | number, index: number, ticks: any) => {
-    const formatter = Intl.NumberFormat('en', {
-      notation: 'compact',
-      compactDisplay: 'short',
-    });
-    return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
-  },
-};
+    indexAxis: vertical ? ('y' as const) : ('x' as const),
+    scales: {
+      y: {
+        display: chartStyles === 'APP' ? true : false,
+        stacked: stacked,
+        grid: {
+          color: 'transparent',
+        },
+        autoSkip: true,
+        ticks: vertical ? {} : dollarTicks,
+      },
+      x: {
+        display: true,
+        stacked: stacked,
+        grid: {
+          color: 'transparent',
+        },
+        ticks: vertical ? dollarTicks : {},
+      },
+    },
+  };
+}
