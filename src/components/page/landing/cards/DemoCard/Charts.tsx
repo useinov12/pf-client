@@ -7,6 +7,7 @@ import BarChart from '@/components/charts/BarChart';
 import { months } from '@/components/charts/defaults';
 
 import { FaRegChartBar } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
 
 export default function Charts({ currentBank }: DemoCardProps) {
   const dataset = currentBank.dynamic;
@@ -14,11 +15,23 @@ export default function Charts({ currentBank }: DemoCardProps) {
     .filter((_, i) => i < dataset.length)
     .map((month) => month.slice(0, 3));
 
-  const chartData: ChartDataFormat = {
-    labels: labels,
-    label: 'Account dynamic',
-    datasets: [dataset],
-  };
+  const [chartData, setChartData] = useState<ChartDataFormat | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    const data: ChartDataFormat = {
+      labels: labels,
+      label: 'Account dynamic',
+      datasets: [dataset],
+    };
+
+    const timer = setTimeout(() => {
+      setChartData(data);
+    }, 5200);
+
+    return () => clearTimeout(timer);
+  }, [currentBank]);
 
   return (
     <Card className='col-span-4 col-start-1 row-span-3 md:col-span-2'>
@@ -38,20 +51,16 @@ export default function Charts({ currentBank }: DemoCardProps) {
             <LineChart
               width={'100%'}
               height={'100%'}
-              title={''}
               incomingData={chartData}
               styleOptions={'LANDING'}
-              delay={5000}
             />
           </div>
           <div className='h-24 w-full'>
             <BarChart
               width={'100%'}
               height={'100%'}
-              title={''}
               incomingData={chartData}
               styleOptions={'LANDING'}
-              delay={5200}
             />
           </div>
         </div>
