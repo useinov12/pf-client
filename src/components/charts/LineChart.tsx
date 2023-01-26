@@ -13,7 +13,6 @@ interface LineChartProps extends ChartProps {
 export default function LineChart({
   width,
   height,
-  delay,
   incomingData,
   styleOptions: chartStyles,
   title,
@@ -26,22 +25,14 @@ export default function LineChart({
   useEffect(() => {
     const chart = chartRef.current;
 
-    if (!chart || !incomingData) {
-      return;
-    }
+    if (!chart || !incomingData) return;
 
-    const formatedChartData = getChartDataStructure({
+    const data = getChartDataStructure({
       incomingData,
       chartStyles,
       chart,
     });
-
-    if (delay) {
-      const timer = setTimeout(() => {
-        setChartData(formatedChartData);
-      }, delay);
-      return () => clearTimeout(timer);
-    } else setChartData(formatedChartData);
+    setChartData(data);
   }, [incomingData]);
 
   const options = getLineChartOptions({ title, chartStyles });
@@ -62,6 +53,7 @@ export default function LineChart({
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
 
+/* Accept all conditions and return Chart JS options object for LineChart */
 function getLineChartOptions({
   title,
   chartStyles,
