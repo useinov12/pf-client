@@ -1,6 +1,5 @@
 export interface ChartProps{
   incomingData: ChartDataFormat | undefined;
-  delay?:number;
   styleOptions:StyleOptions
   title?:string
 }
