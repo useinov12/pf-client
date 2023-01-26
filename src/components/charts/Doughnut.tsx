@@ -13,7 +13,6 @@ interface DoughnutChartProps extends ChartProps {
 export default function DoughnutChart({
   width,
   height,
-  delay,
   incomingData,
   styleOptions: chartStyles,
   title,
@@ -30,21 +29,15 @@ export default function DoughnutChart({
       return;
     }
 
-    const formatedChartData = getChartDataStructure({
+    const data = getChartDataStructure({
       incomingData,
       chartStyles,
       chart,
     });
-
-    if (delay) {
-      const timer = setTimeout(() => {
-        setChartData(formatedChartData);
-      }, delay);
-      return () => clearTimeout(timer);
-    } else setChartData(formatedChartData);
+    setChartData(data);
   }, [incomingData]);
 
-  options.plugins.title.text = title;
+  const options = getDoughnutChartOptions({ title });
 
   return (
     <Chart
@@ -58,30 +51,39 @@ export default function DoughnutChart({
   );
 }
 
-/* type declaration because typescript Chart js type error */
+/* type declaration for typescript Chart js */
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
 const alignLegend: AlitnType = 'center';
 
-/* type declaration because typescript Chart js type error */
-type PositionType = "center" | "left" | "top" | "right" | "bottom" | "chartArea" | undefined ;
+/* type declaration for typescript Chart js */
+type PositionType =
+  | 'center'
+  | 'left'
+  | 'top'
+  | 'right'
+  | 'bottom'
+  | 'chartArea'
+  | undefined;
 const position: PositionType = 'left';
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: true,
-      align: alignLegend,
-      position:position
-    //   color: '#C0C0C0',
+function getDoughnutChartOptions({ title }: { title: string | undefined }) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        align: alignLegend,
+        position: position,
+        //   color: '#C0C0C0',
+      },
+      title: {
+        display: title ? true : false,
+        text: 'Title',
+        align: alignTitle,
+        //   color: '#C0C0C0',
+      },
     },
-    title: {
-      display: true,
-      text: 'Title',
-      align: alignTitle,
-    //   color: '#C0C0C0',
-    },
-  },
-};
+  };
+}
