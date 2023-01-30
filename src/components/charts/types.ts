@@ -11,6 +11,7 @@ export type ChartDataFormat = {
   labels: string[];
   label: string; // common label is definitoin of dataset. Not the same as labels
   datasets: IncomingDataset[]; // array of datasets
+  datasetsLabels?: string[]; // label for each IncomingDataset in IncomingDataset[]
 };
 
 /* IncomingData mapped and datasets created */

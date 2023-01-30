@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 import { Chart as ChartJS, ChartData } from 'chart.js';
-import { getChartDataStructure, dollarTicks } from '@/lib/chartHelpers';
+import { getChartDataStructure } from '@/lib/chartHelpers';
 import { ChartProps, StyleOptions } from './types';
 
 import 'chart.js/auto';
+import { shortSumFormatter } from '@/lib/sharedUtils';
+import { useTheme } from '@/context/ThemeProvider';
 
 interface BarChartProps extends ChartProps {
   width: string;
@@ -16,13 +18,13 @@ interface BarChartProps extends ChartProps {
 export default function BarChart({
   width,
   height,
-  delay,
   incomingData,
   stacked,
   vertical,
   styleOptions: chartStyles,
   title,
 }: BarChartProps) {
+  const { mode } = useTheme();
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
     datasets: [],
@@ -32,7 +34,6 @@ export default function BarChart({
     const chart = chartRef.current;
 
     if (!chart || !incomingData) return;
-   
 
     const chartData = getChartDataStructure({
       incomingData,
@@ -44,7 +45,13 @@ export default function BarChart({
   }, [incomingData]);
 
   /* Set Bar Chart options: Vertical, Stacked, chartStyles, title */
-  const options = getBarChartOptions({ title, vertical, stacked, chartStyles });
+  const options = getBarChartOptions({
+    title,
+    vertical,
+    stacked,
+    chartStyles,
+    theme: mode,
+  });
 
   return (
     <Chart
@@ -68,11 +75,13 @@ function getBarChartOptions({
   vertical,
   stacked,
   chartStyles,
+  theme,
 }: {
   title: string | undefined;
   vertical: boolean | undefined;
   stacked: boolean | undefined;
   chartStyles: StyleOptions;
+  theme: 'light' | 'dark';
 }) {
   return {
     responsive: true,
@@ -86,6 +95,8 @@ function getBarChartOptions({
         display: title ? true : false,
         text: title ? title : 'none',
         align: alignTitle,
+        color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+        padding: 15,
       },
     },
     indexAxis: vertical ? ('y' as const) : ('x' as const),
@@ -94,19 +105,50 @@ function getBarChartOptions({
         display: chartStyles === 'APP' ? true : false,
         stacked: stacked,
         grid: {
-          color: 'transparent',
+          color:
+            theme === 'light'
+              ? 'rgba(105, 105, 105, .4)'
+              : 'rgba(128, 128, 128, .4)',
+          drawOnChartArea: false,
+          drawTicks: false,
         },
         autoSkip: true,
-        ticks: vertical ? {} : dollarTicks,
+        ticks: vertical
+          ? {
+              color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+            }
+          : dollarTicks(theme),
       },
       x: {
         display: true,
         stacked: stacked,
         grid: {
-          color: 'transparent',
+          color:
+            theme === 'light'
+              ? 'rgba(105, 105, 105, .4)'
+              : 'rgba(128, 128, 128, .4)',
+
+          drawOnChartArea: false,
+          offset: true,
         },
-        ticks: vertical ? dollarTicks : {},
+        ticks: vertical
+          ? dollarTicks(theme)
+          : {
+              color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+            },
       },
     },
   };
 }
+
+const dollarTicks = (theme: 'light' | 'dark') => {
+  return {
+    padding: 9,
+    color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+    callback: (value: string | number, index: number, ticks: any) => {
+      return index % 2 === 0
+        ? '$' + shortSumFormatter.format(Number(value))
+        : '';
+    },
+  };
+};

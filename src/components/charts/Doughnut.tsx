@@ -4,6 +4,7 @@ import { Chart } from 'react-chartjs-2';
 import { ChartProps } from './types';
 import 'chart.js/auto';
 import { getChartDataStructure } from '@/lib/chartHelpers';
+import { useTheme } from '@/context/ThemeProvider';
 
 interface DoughnutChartProps extends ChartProps {
   width: string;
@@ -17,6 +18,7 @@ export default function DoughnutChart({
   styleOptions: chartStyles,
   title,
 }: DoughnutChartProps) {
+  const { mode } = useTheme();
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'polarArea'>>({
     datasets: [],
@@ -37,7 +39,7 @@ export default function DoughnutChart({
     setChartData(data);
   }, [incomingData]);
 
-  const options = getDoughnutChartOptions({ title });
+  const options = getDoughnutChartOptions({ title, theme: mode });
 
   return (
     <Chart
@@ -67,7 +69,13 @@ type PositionType =
   | undefined;
 const position: PositionType = 'left';
 
-function getDoughnutChartOptions({ title }: { title: string | undefined }) {
+function getDoughnutChartOptions({
+  title,
+  theme,
+}: {
+  title: string | undefined;
+  theme: 'light' | 'dark';
+}) {
   return {
     responsive: true,
     maintainAspectRatio: false,
@@ -76,13 +84,13 @@ function getDoughnutChartOptions({ title }: { title: string | undefined }) {
         display: true,
         align: alignLegend,
         position: position,
-        //   color: '#C0C0C0',
+        color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
       },
       title: {
         display: title ? true : false,
         text: title,
         align: alignTitle,
-        //   color: '#C0C0C0',
+        color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
       },
     },
   };
