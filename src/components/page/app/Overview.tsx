@@ -1,17 +1,7 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
 import { useState } from 'react';
-import {
-  getListOfAllAccounts,
-  getTotalCredit,
-  getTotalBalance,
-  getSortedBankData,
-} from '@/lib/dataFunctions';
 import Card from './Card';
-import BarChart from '@/components/charts/BarChart';
-import LineChart from '@/components/charts/LineChart';
-import DoughnutChart from '@/components/charts/Doughnut';
-import { ChartDataFormat } from '@/components/charts/types';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { Bank, ConnectedBanksDict } from '@/services/types';
 import { BiCarousel } from 'react-icons/bi';
@@ -19,158 +9,41 @@ import { CgMenuGridR } from 'react-icons/cg';
 import { BsPiggyBankFill } from 'react-icons/bs';
 import { BanksData } from '@/constant/demoData';
 
-export function GeneralInfo({
+export function BankList({
   className,
   banksData,
 }: {
   className: string;
   banksData: BanksData;
 }) {
-  const banks = banksData.connectedBanksDict;
-  const connectedBanks = Object.keys(banksData.connectedBanksDict);
-
-  const sortedDataset = getSortedBankData(banksData.connectedBanksDict);
-  const doughnutChartDataset: ChartDataFormat = {
-    label: 'Balance',
-    labels: sortedDataset.sortedBankNames,
-    datasets: [sortedDataset.sortedTotals],
-  };
-
+  const { mode } = useTheme();
+  const banks = Object.keys(banksData.connectedBanksDict);
   return (
-    <Card
-      className={clsx('flex flex-col justify-start py-[5px]', className)}
-      title='General Info'
-      withBorder
-    >
-      <section className='h-2/5'>
-        <div className='w-full pt-3'>
-          <p className='pl-1 text-sm opacity-70'>Account</p>
-          <strong className='text-2xl'>John Doe</strong>
-        </div>
-
-        <table className='text-md w-full table-auto tracking-tight lg:table-fixed'>
-          <tbody>
-            <tr>
-              <td>
-                <p>Connected banks </p>
-              </td>
-              <td>
-                <p>{connectedBanks.length}</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>Connected accounts</p>
-              </td>
-              <td>
-                <p>
-                  {getListOfAllAccounts(banksData.connectedBanksDict).length}
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>Most money at</p>
-              </td>
-              <td>
-                <p>Navy Federal</p>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <p>Biggest debt at</p>
-              </td>
-              <td>
-                <p>Trust Bank</p>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section className='h-3/5'>
-        <div className='flex h-1/5 items-center gap-2'>
-          <div className='w-full py-1'>
-            <p className='text-sm opacity-70'>Total Debt</p>
-            <strong className='text-2xl'> $ -{getTotalCredit(banks)}</strong>
-          </div>
-          <div className='w-full py-1'>
-            <p className='text-sm opacity-70'>Total Balance</p>
-            <strong className='text-2xl'> ${getTotalBalance(banks)}</strong>
-          </div>
-        </div>
-        <div className='h-4/5 w-full'>
-          <DoughnutChart
-            incomingData={doughnutChartDataset}
-            width='100%'
-            height='100%'
-            styleOptions='APP'
-            title='Money size per bank'
-          />
-        </div>
-      </section>
+    <Card className={clsx('w-full px-0', className)} title='Banks' withBorder>
+      <ul className='flex flex-col gap-1'>
+        {banks.map((bank) => (
+          <li
+            key={`connected-${bank}`}
+            className={clsx(
+              'px-2 py-1',
+              'rounded',
+              'w-full border',
+              mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
+              mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-400/20'
+            )}
+          >
+            <div className='inline-flex items-center gap-2'>
+              {/* <BsPiggyBankFill className='h-6 w-6' /> */}
+              <p className='text-md font-semibold'>{bank}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </Card>
   );
 }
 
-export function ChartGroup({
-  className,
-  banksData,
-}: {
-  className: string;
-  banksData: BanksData;
-}) {
-  const sortedDataset = getSortedBankData(banksData.connectedBanksDict);
-
-  const barChartDataset: ChartDataFormat = {
-    label: 'Balance',
-    labels: sortedDataset.sortedBankNames,
-    datasets: [sortedDataset.sortedTotals],
-  };
-
-  const lineChartDataset: ChartDataFormat = {
-    label: 'Total Dynamic',
-    labels: banksData.monthlyBalanceDynamic.months,
-    datasets: [banksData.monthlyBalanceDynamic.balances],
-  };
-
-  return (
-    <Card
-      className={clsx(
-        'flex h-[60vh] flex-col-reverse gap-3 px-0 py-4 md:h-[60vh]',
-        className
-      )}
-      title='Summary'
-      withBorder
-    >
-      <section className='h-1/2 w-full'>
-        <div className='my-2 h-full'>
-          <LineChart
-            incomingData={lineChartDataset}
-            width='100%'
-            height='100%'
-            styleOptions={'APP'}
-            title={'Total balance dynamic'}
-          />
-        </div>
-      </section>
-
-      <section className='h-1/2 w-full'>
-        <div className='my-2 h-full'>
-          <BarChart
-            incomingData={barChartDataset}
-            width='100%'
-            height='100%'
-            styleOptions={'APP'}
-            vertical
-            title={'Banks balances'}
-          />
-        </div>
-      </section>
-    </Card>
-  );
-}
-
+/* Bank list carousel */
 export function ListOfBanks({
   connectedBanksDict,
 }: {
@@ -268,7 +141,7 @@ function BankCard({ bank, className }: { bank: Bank; className: string }) {
         'overflow-hidden border',
         className,
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/20',
-        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/20'
+        mode === 'light' ? 'bg-gray-400' : 'bg-gray-700'
       )}
     >
       <header
