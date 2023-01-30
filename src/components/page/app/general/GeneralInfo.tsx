@@ -23,13 +23,13 @@ export default function GeneralInfo({
     <Card
       className={clsx(
         'py-1 px-0',
-        'flex flex-col justify-start gap-3 ',
+        'flex flex-col justify-start gap-4 ',
         className
       )}
       title='General Info'
-      withBorder
+      // withBorder
     >
-      <AccountSummary banksData={banksData} />
+      {/* <AccountSummary banksData={banksData} /> */}
       <AccountDetails banksData={banksData} />
     </Card>
   );
@@ -43,8 +43,9 @@ function AccountSummary({ banksData }: { banksData: BanksData }) {
   return (
     <main
       className={clsx(
-        'mt-3 inline-flex justify-between px-2',
+        'inline-flex justify-between px-2',
         'rounded border px-7 py-1',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
       )}
     >
@@ -68,6 +69,9 @@ function AccountSummary({ banksData }: { banksData: BanksData }) {
 function AccountDetails({ banksData }: { banksData: BanksData }) {
   const { mode } = useTheme();
   const connectedBanks = Object.keys(banksData.connectedBanksDict);
+  const banks = banksData.connectedBanksDict;
+  const totalDebt = shortSumFormatter.format(getTotalCredit(banks));
+  const totalBalance = shortSumFormatter.format(getTotalBalance(banks));
 
   const sortedDataset = getSortedBankData(banksData.connectedBanksDict);
   const doughnutChartDataset: ChartDataFormat = {
@@ -78,26 +82,33 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
   return (
     <main
       className={clsx(
-        'mt-3 h-full',
+        'h-full',
+        'flex-col items-center justify-between',
         'rounded border px-7 py-4',
-        mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+        'bg-gray-600/10',
+        mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
+        mode === 'light' ? 'text-gray-700' : 'text-gray-400'
       )}
     >
-      <InfoLine title='Connected banks' data={connectedBanks.length} />
+      <section className={clsx('w-full', 'inline-flex justify-between')}>
+        <div className='whitespace-nowrap'>
+          <p className='pl-1 text-sm font-semibold opacity-70'>Account</p>
+          <strong className='text-xl '>John Doe</strong>
+        </div>
 
-      <section className='h-1/2 '>
-        <div className='h-full w-full'>
-          <DoughnutChart
-            incomingData={doughnutChartDataset}
-            width='100%'
-            height='100%'
-            styleOptions='APP'
-          />
+        <div className='flex w-1/2 flex-col items-end '>
+          <p className='text-sm font-semibold opacity-70'>Total Balance</p>
+          <h2 className='text-center text-xl'>{`$ ${totalBalance}`}</h2>
+        </div>
+        <div className='flex w-1/2 flex-col items-end '>
+          <p className='text-sm font-semibold opacity-70'>Total Debt</p>
+          <h2 className='text-center text-xl'>{`$ ${totalDebt}`}</h2>
         </div>
       </section>
 
       <section className={clsx('flex flex-col', '  py-2')}>
         <div className='flex-col gap-2'>
+          <InfoLine title='Connected banks' data={connectedBanks.length} />
           <InfoLine title='Saving accounts' data={'7'} />
           <InfoLine title='Credit accounts' data={'4'} />
           <InfoLine title='Checking accounts' data={'7'} />
@@ -106,6 +117,14 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
           <InfoLine title='Most money at' data={'Navy Federal'} />
           <InfoLine title='Biggest debt at' data={'Trust Bank'} />
         </div>
+      </section>
+      <section className='h-1/2 '>
+        <DoughnutChart
+          incomingData={doughnutChartDataset}
+          width='100%'
+          height='100%'
+          styleOptions='APP'
+        />
       </section>
     </main>
   );
