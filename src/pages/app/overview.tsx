@@ -21,12 +21,15 @@ export default function OverviewPage() {
           'h-full w-full'
         )}
       >
-        <div className=' flex h-full w-full flex-col gap-6 md:flex-row md:px-6 '>
+        <div className='flex h-full w-full flex-col gap-6 md:flex-row md:px-6 '>
           <GeneralInfo
             banksData={demoData}
             className='h-full w-full md:w-1/3'
           />
-          <Summary banksData={demoData} className='h-full w-full md:w-2/3' />
+          <Summary 
+            banksData={demoData} 
+            className='h-full w-full md:w-2/3' 
+          />
         </div>
       </section>
     </Layout>

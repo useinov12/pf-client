@@ -15,7 +15,7 @@ import {
 } from '@/components/page/app/Banks';
 import { demoData } from '@/constant/demoData';
 import { Bank, ConnectedBanksDict } from '@/services/types';
-import { getTotalBalanceByBank } from '@/lib/dataFunctions';
+import { getTotalBalanceByBank } from '@/lib/dataFormatingMethods';
 
 export default function BanksPage() {
   const { openSidebar } = useAppPageContext();
@@ -26,10 +26,10 @@ export default function BanksPage() {
       <Layout>
         <section
           className={clsx(
-            'pt-8 md:px-6',
+            'pt-4',
+            'overflow-y-scroll',
             'flex h-full flex-col gap-4',
-            openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]',
-            'overflow-y-scroll'
+            openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]'
           )}
         >
           <ListOfBanks connectedBanksDict={connectedBanksDict} />
