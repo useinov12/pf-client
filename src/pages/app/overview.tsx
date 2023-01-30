@@ -1,14 +1,9 @@
 import clsx from 'clsx';
-import {
-  GeneralInfo,
-  ChartGroup,
-  ListOfBanks,
-} from '@/components/page/app/Overview';
 import Layout from '@/components/page/app/Layout';
 import { useAppPageContext } from '@/context/AppPageContext';
-import { ConnectedBanksDict } from '@/services/types';
 import { demoData } from '@/constant/demoData';
-
+import GeneralInfo from '@/components/page/app/general/GeneralInfo';
+import Summary from '@/components/page/app/general/Summary';
 
 export default function OverviewPage() {
   const { openSidebar } = useAppPageContext();
@@ -20,17 +15,19 @@ export default function OverviewPage() {
     <Layout>
       <section
         className={clsx(
-          'pt-4 md:px-3',
+          'pt-7',
           'overflow-y-scroll',
           'flex h-full flex-col gap-4',
-          openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]'
+          'h-full w-full'
         )}
       >
-        <div className='my-1 flex flex-col gap-2 md:flex-row'>
-          <GeneralInfo banksData={demoData} className='w-full md:w-2/5' />
-          <ChartGroup banksData={demoData} className='h-full w-full md:w-2/5' />
+        <div className=' flex h-full w-full flex-col gap-6 md:flex-row md:px-6 '>
+          <GeneralInfo
+            banksData={demoData}
+            className='h-full w-full md:w-1/3'
+          />
+          <Summary banksData={demoData} className='h-full w-full md:w-2/3' />
         </div>
-        <ListOfBanks connectedBanksDict={demoData.connectedBanksDict} />
       </section>
     </Layout>
   );
