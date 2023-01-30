@@ -12,6 +12,14 @@ const banksDict: ConnectedBanksDict = {
       user_id: 6,
     },
     {
+      id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
+      subtype: 'credit card',
+      bank_name: 'Navy Federal',
+      balance: 230,
+      name: 'More Rewards Amex',
+      user_id: 6,
+    },
+    {
       id: 'QLBP76NJAwTvarMmkr5Zs1k6OmNpRmHEKqYj6',
       subtype: 'savings',
       bank_name: 'Navy Federal',
@@ -34,7 +42,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'American Express',
       balance: 430,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -52,7 +60,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Capital One',
       balance: 100,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
   ],
@@ -62,7 +70,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Bank of America',
       balance: 800,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -80,7 +88,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Chase JP Morgan',
       balance: 1230,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -100,13 +108,13 @@ const banksDict: ConnectedBanksDict = {
       user_id: 6,
     },
   ],
-  PNC: [
+  'PNC': [
     {
       id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
       subtype: 'credit card',
       bank_name: 'PNC',
       balance: 567,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -132,7 +140,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Union Pay',
       balance: 5678,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
   ],
@@ -142,7 +150,27 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Trust Bank',
       balance: 1200,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
+      user_id: 6,
+    },
+  ],
+  'Eagle Bank': [
+    {
+      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
+      subtype: 'credit card',
+      bank_name: 'Eagle Bank',
+      balance: 1200,
+      name: 'John Doe -91008',
+      user_id: 6,
+    },
+  ],
+  'Sunrise Bank': [
+    {
+      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
+      subtype: 'credit card',
+      bank_name: 'Sunrise Bank',
+      balance: 1200,
+      name: 'John Doe -91008',
       user_id: 6,
     },
   ],
