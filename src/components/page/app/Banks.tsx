@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 import { useTheme } from '@/context/ThemeProvider';
 import { useBankPageContext } from '@/pages/app/banks';
-import { getTotalBalanceByBank } from '@/lib/dataFunctions';
+import { getTotalBalanceByBank } from '@/lib/dataFormatingMethods';
 import Card from './Card';
 import { Account, Bank, ConnectedBanksDict } from '@/services/types';
 import { ChartDataFormat } from '@/components/charts/types';
@@ -20,8 +20,8 @@ export function ListOfBanks({
   const banks = Object.keys(connectedBanksDict);
 
   return (
-    <Card withBorder className='' title={'Connected banks'}>
-      <Carousel>
+    <Card withBorder className='px-0' title={'Connected banks'}>
+      <Carousel maxNumberOfChildrensInFrame={8}>
         {banks.map((bank, i) => (
           <li key={bank}>
             <CarouselItem>

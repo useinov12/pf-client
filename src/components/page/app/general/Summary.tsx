@@ -1,13 +1,6 @@
 import clsx from 'clsx';
 import { useTheme } from '@/context/ThemeProvider';
-import {
-  Children,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import {
   getDebtBalanceByBank,
   getSortedBankData,
@@ -22,7 +15,7 @@ import { Bank } from '@/services/types';
 import { BanksData } from '@/constant/demoData';
 import { months } from '@/components/charts/defaults';
 import { faker } from '@faker-js/faker';
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
+import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 
 export default function Summary({
   className,
@@ -256,10 +249,10 @@ function SelectedBank({
                 ))}
               </ul>
             ) : (
-              <MyCarousel maxNumberOfChildrensInFrame={2.3}>
+              <Carousel maxNumberOfChildrensInFrame={2.3}>
                 {selectedBank.map((account, i) => (
                   <li key={`selected-bank-acc-${i}`} className='list-none'>
-                    <MyCarouselItem>
+                    <CarouselItem>
                       <div
                         className={clsx(
                           'h-full w-36 whitespace-nowrap py-2 pl-2',
@@ -286,10 +279,10 @@ function SelectedBank({
                             : account.balance}
                         </p>
                       </div>
-                    </MyCarouselItem>
+                    </CarouselItem>
                   </li>
                 ))}
-              </MyCarousel>
+              </Carousel>
             )}
           </section>
         </div>
@@ -312,10 +305,10 @@ function ConnectedBanks({ banksData }: { banksData: BanksData }) {
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
       )}
     >
-      <MyCarousel maxNumberOfChildrensInFrame={6}>
+      <Carousel maxNumberOfChildrensInFrame={6}>
         {Object.entries(banksDict).map(([name, bank]) => (
           <li key={`bank-cards ${name}`} className='list-none'>
-            <MyCarouselItem>
+            <CarouselItem>
               <div
                 className={clsx(
                   'cursor-default',
@@ -352,10 +345,10 @@ function ConnectedBanks({ banksData }: { banksData: BanksData }) {
                   </div>
                 </div>
               </div>
-            </MyCarouselItem>
+            </CarouselItem>
           </li>
         ))}
-      </MyCarousel>
+      </Carousel>
     </section>
   );
 }
@@ -568,79 +561,4 @@ function SelectedBankAnalytics({
       </section>
     </>
   );
-}
-
-function MyCarousel({
-  children,
-  maxNumberOfChildrensInFrame,
-}: {
-  children: ReactNode;
-  maxNumberOfChildrensInFrame: number;
-}) {
-  const numberOfChildren = Children.count(children);
-  const moveDistance = 100 / numberOfChildren;
-  const [index, setIndex] = useState(0);
-
-  const { mode } = useTheme();
-
-  /* reset slider if children changed */
-  useEffect(() => {
-    setIndex(0);
-  }, [children]);
-
-  return (
-    <div className='group relative flex h-full w-full justify-between'>
-      <button
-        className={clsx(
-          'h-full px-1',
-          'absolute top-0 left-0 z-10',
-          'transition-colors duration-100',
-          'pointer-events-none opacity-0',
-          'flex-none text-2xl',
-          'bg-gray-600/50',
-          'group-hover:bg-gray-400',
-          numberOfChildren > maxNumberOfChildrensInFrame &&
-            index > 0 &&
-            'pointer-events-auto opacity-100'
-        )}
-        onClick={() => setIndex((p) => p - 1)}
-      >
-        <HiOutlineChevronLeft />
-      </button>
-      <section className={clsx('relative', 'grow ', 'overflow-hidden')}>
-        <div
-          className={clsx(
-            'h-full',
-            'absolute top-0 left-0 z-0',
-            'ease transition-transform duration-200',
-            'inline-flex'
-          )}
-          style={{ transform: `translateX(${index * -moveDistance}%)` }}
-        >
-          {children}
-        </div>
-      </section>
-      <button
-        className={clsx(
-          'h-full px-1',
-          'absolute top-0 right-0',
-          'transition-colors duration-100',
-          'pointer-events-none opacity-0',
-          'flex-none text-2xl',
-          'bg-gray-600/50',
-          'group-hover:bg-gray-400',
-          numberOfChildren > maxNumberOfChildrensInFrame &&
-            index < numberOfChildren % maxNumberOfChildrensInFrame &&
-            'pointer-events-auto opacity-100'
-        )}
-        onClick={() => setIndex((p) => p + 1)}
-      >
-        <HiOutlineChevronRight />
-      </button>
-    </div>
-  );
-}
-
-function MyCarouselItem({ children }: { children: ReactNode }) {
-  return <section className={clsx('h-full w-fit')}>{children}</section>;
 }
