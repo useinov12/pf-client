@@ -96,7 +96,6 @@ export default function Accounts({
             <div className='h-full w-4/6'>
               <PieChart
                 incomingData={chartData}
-                delay={1600}
                 styleOptions={'LANDING'}
                 title='Accounts share'
               />

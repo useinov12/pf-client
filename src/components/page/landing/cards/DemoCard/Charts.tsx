@@ -53,6 +53,7 @@ export default function Charts({ currentBank }: DemoCardProps) {
               height={'100%'}
               incomingData={chartData}
               styleOptions={'LANDING'}
+              showScales={false}
             />
           </div>
           <div className='h-24 w-full'>
