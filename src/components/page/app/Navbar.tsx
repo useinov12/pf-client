@@ -18,22 +18,17 @@ export function Navbar() {
   const router = useRouter();
   const location = router.asPath;
   return (
-    <div
-      className={clsx(
-        'px-7 pt-3',
-        'flex items-center justify-between ',
-      )}
-    >
+    <div className={clsx('px-7 pt-3', 'flex items-center justify-between ')}>
       <MobileMenuButton />
 
       <Logo width={60} height={55} className='scale-100 hover:scale-[1.03]' />
 
       <nav
         className={clsx(
-          'rounded-xl px-3 py-1',
+          'rounded px-3 py-1',
           'inline-flex gap-3 border',
           mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
-          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
         )}
       >
         <ul
@@ -52,7 +47,7 @@ export function Navbar() {
               <Link href={link.path}>
                 <div
                   className={clsx(
-                    'w-20 py-1',
+                    'w-[4.5rem] py-1',
                     'flex flex-col items-center  justify-center  font-semibold',
                     mode === 'light'
                       ? location === link.path && 'text-blue-600 '
