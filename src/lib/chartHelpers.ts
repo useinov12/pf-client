@@ -25,12 +25,19 @@ export function getChartDataStructure({
   chart: Chart;
 }) {
   const datasets: Dataset[] = incomingData.datasets.map((dataset, i) => {
+    const { bgColor, strokeColor } = getDatasetColor({
+      numberOfDatasets: incomingData.datasets.length,
+      datasetIdx: i,
+      chartStyles,
+    });
+
     return {
-      label: incomingData.label,
+      label: incomingData.datasetsLabels
+        ? incomingData.datasetsLabels[i]
+        : incomingData.label,
       data: dataset,
-      backgroundColor:
-        chartStyles === 'APP' ? defaultColorsBackground : grayShadesBg,
-      borderColor: chartStyles === 'APP' ? defaultColorsStroke : grayShades,
+      backgroundColor: bgColor,
+      borderColor: strokeColor,
       borderWidth: 1,
     };
   });
@@ -39,6 +46,37 @@ export function getChartDataStructure({
     labels: incomingData.labels,
     datasets: datasets,
   };
+}
+
+function getDatasetColor({
+  numberOfDatasets,
+  datasetIdx,
+  chartStyles,
+}: {
+  numberOfDatasets: number;
+  datasetIdx: number;
+  chartStyles: StyleOptions;
+}) {
+  const appBgColors =
+    numberOfDatasets > 1
+      ? [defaultColorsBackground[datasetIdx]]
+      : defaultColorsBackground;
+  const landingBgColors =
+    numberOfDatasets > 1 ? [grayShadesBg[datasetIdx]] : grayShadesBg;
+
+  const appStrokeColors =
+    numberOfDatasets > 1
+      ? [defaultColorsStroke[datasetIdx]]
+      : defaultColorsStroke;
+
+  const landingStrokeColors =
+    numberOfDatasets > 1 ? [grayShades[datasetIdx]] : grayShades;
+
+  const bgColor = chartStyles === 'APP' ? appBgColors : landingBgColors;
+  const strokeColor =
+    chartStyles === 'APP' ? appStrokeColors : landingStrokeColors;
+
+  return { bgColor, strokeColor };
 }
 
 /**  Creates a gradient background for Chart */
