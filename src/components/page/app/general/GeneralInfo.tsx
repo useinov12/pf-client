@@ -8,6 +8,7 @@ import {
 import { shortSumFormatter } from '@/lib/sharedUtils';
 
 import DoughnutChart from '@/components/charts/Doughnut';
+import LineChart from '@/components/charts/LineChart';
 import { ChartDataFormat } from '@/components/charts/types';
 
 import { BanksData } from '@/constant/demoData';
@@ -51,10 +52,15 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
     labels: sortedDataset.sortedBankNames,
     datasets: [sortedDataset.sortedTotals],
   };
+  const lineChartDataset: ChartDataFormat = {
+    label: 'Total Dynamic',
+    labels: banksData.monthlyBalanceDynamic.months.slice(0, 6),
+    datasets: [banksData.monthlyBalanceDynamic.balances.slice(0, 6)],
+  };
   return (
     <main
       className={clsx(
-        'h-full',
+        'h-full ',
         'flex-col items-center justify-between',
         'rounded border px-3 py-4',
         'bg-gray-600/10',
@@ -62,7 +68,7 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
         mode === 'light' ? 'text-gray-700' : 'text-gray-400'
       )}
     >
-      <section className={clsx('w-full', 'inline-flex justify-between')}>
+      <section className='inline-flex w-full flex-none justify-between'>
         <div className='w-full whitespace-nowrap'>
           <p className='whitespace-nowrap pl-1 text-sm font-medium opacity-70'>
             Account
@@ -86,7 +92,7 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
         </div>
       </section>
 
-      <section className={clsx('flex flex-col', '  py-2')}>
+      <section className='flex flex-none  flex-col  py-2'>
         <div className='flex-col gap-2'>
           <InfoLine title='Connected banks' data={connectedBanks.length} />
           <InfoLine title='Saving accounts' data='7' />
@@ -98,13 +104,30 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
           <InfoLine title='Biggest debt at' data='Trust Bank' />
         </div>
       </section>
-      <section className='h-1/2 '>
-        <DoughnutChart
-          incomingData={doughnutChartDataset}
-          width='100%'
-          height='100%'
-          styleOptions='APP'
-        />
+
+      {/* <section className='h-full w-full border border-red-500'>
+        <h1>content</h1>
+      </section> */}
+
+      <section className='h-[50vh] grow md:h-3/5'>
+        <div className='h-1/3'>
+          <LineChart
+            incomingData={lineChartDataset}
+            width='100%'
+            height='100%'
+            styleOptions='APP'
+            title='All banks balance dynamic'
+            showScales={true}
+          />
+        </div>
+        <div className='h-2/3'>
+          <DoughnutChart
+            incomingData={doughnutChartDataset}
+            width='100%'
+            height='100%'
+            styleOptions='APP'
+          />
+        </div>
       </section>
     </main>
   );

@@ -33,8 +33,11 @@ export default function Summary({
 
   return (
     <Card
-      className={clsx('px-0', 'flex flex-col justify-start gap-3 ', className)}
-      // title='Summary'
+      className={clsx(
+        'px-0 py-1',
+        'flex flex-col justify-start gap-3 ',
+        className
+      )}
     >
       <div className='flex items-center justify-between'>
         <strong>Summary</strong>
@@ -407,13 +410,8 @@ function AllBanksAnalytics({ banksData }: { banksData: BanksData }) {
   );
   const barChartDataset: ChartDataFormat = {
     label: 'Balance',
-    labels: sortedDataset.sortedBankNames,
+    labels: sortedDataset.sortedBankNames.map((name) => name.slice(0, 9)),
     datasets: [sortedDataset.sortedTotals],
-  };
-  const lineChartDataset: ChartDataFormat = {
-    label: 'Total Dynamic',
-    labels: banksData.monthlyBalanceDynamic.months.slice(0, 6),
-    datasets: [banksData.monthlyBalanceDynamic.balances.slice(0, 6)],
   };
   const stackedBarChartData: ChartDataFormat = {
     label: 'Balance',
@@ -422,39 +420,24 @@ function AllBanksAnalytics({ banksData }: { banksData: BanksData }) {
     datasetsLabels: ['Saving change', 'Checking change', 'Credit Change'],
   };
   return (
-    <section
-      className={clsx('h-full w-full', 'flex flex-col gap-1 md:flex-row')}
-    >
-      <div className={clsx('h-full w-full px-4 md:w-2/5')}>
+    <section className='flex h-full w-full flex-col gap-1'>
+      <div className='h-3/5 w-full'>
         <BarChart
           incomingData={barChartDataset}
           width='100%'
           height='100%'
           styleOptions='APP'
-          vertical
           title='Banks balances'
         />
       </div>
-      <div className='h-full w-full md:w-3/5'>
-        <div className='h-1/2'>
-          <LineChart
-            incomingData={lineChartDataset}
-            width='100%'
-            height='100%'
-            styleOptions='APP'
-            title='All banks balance dynamic'
-            showScales={true}
-          />
-        </div>
-        <div className='h-1/2 w-full'>
-          <BarChart
-            incomingData={stackedBarChartData}
-            width='100%'
-            height='100%'
-            styleOptions='APP'
-            title='All banks monthly change by account type'
-          />
-        </div>
+      <div className='h-2/5 w-full'>
+        <BarChart
+          incomingData={stackedBarChartData}
+          width='100%'
+          height='100%'
+          styleOptions='APP'
+          title='All banks monthly change by account type'
+        />
       </div>
     </section>
   );
