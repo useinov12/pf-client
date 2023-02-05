@@ -15,25 +15,20 @@ export default function OverviewPage() {
     <Layout>
       <section
         className={clsx(
-          'overflow-y-scroll',
-          'flex h-full flex-col gap-4',
-          'h-full w-full'
+          'px-2 md:px-6',
+          'flex',
+          'flex-col lg:flex-row',
+          'h-max w-full gap-6 '
         )}
       >
-        <div
-          className={clsx(
-            'px-2 md:px-6',
-            'flex',
-            'flex-col lg:flex-row',
-            'h-full w-full  gap-6 '
-          )}
-        >
-          <GeneralInfo
-            banksData={demoData}
-            className='h-full w-full lg:w-1/3'
-          />
-          <Summary banksData={demoData} className='h-full w-full lg:w-2/3' />
-        </div>
+        <GeneralInfo
+          banksData={demoData}
+          className='h-[85vh] w-full md:h-[65vh] lg:h-[85vh] lg:w-1/3'
+        />
+        <Summary
+          banksData={demoData}
+          className='h-[85vh] w-full md:h-[65vh] lg:h-[85vh] lg:w-2/3'
+        />
       </section>
     </Layout>
   );
