@@ -1,13 +1,5 @@
-import { useTheme } from '@/context/ThemeProvider';
 import clsx from 'clsx';
-import {
-  useState,
-  Children,
-  ReactElement,
-  cloneElement,
-  ReactNode,
-  useEffect,
-} from 'react';
+import { Children, ReactNode, useEffect, useState } from 'react';
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 
 export function Carousel({
@@ -17,7 +9,6 @@ export function Carousel({
   children: ReactNode;
   maxNumberOfChildrensInFrame: number;
 }) {
-  const { mode } = useTheme();
   const numberOfChildren = Children.count(children);
   const moveDistance = 100 / numberOfChildren;
   const [index, setIndex] = useState(0);
