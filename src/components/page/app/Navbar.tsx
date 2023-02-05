@@ -1,24 +1,23 @@
 import clsx from 'clsx';
-import { useTheme } from '@/context/ThemeProvider';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { useAppPageContext } from '@/context/AppPageContext';
-import { RiArrowDropRightLine } from 'react-icons/ri';
+import { useRouter } from 'next/router';
+import { CgArrowsExchange } from 'react-icons/cg';
 import { HiMenuAlt1 } from 'react-icons/hi';
+import { MdOutlineSwitchAccount } from 'react-icons/md';
+import { RiArrowDropRightLine } from 'react-icons/ri';
 import { RiApps2Line, RiUserSettingsFill } from 'react-icons/ri';
 import { TbBuildingBank } from 'react-icons/tb';
-import { MdOutlineSwitchAccount } from 'react-icons/md';
-import { CgArrowsExchange } from 'react-icons/cg';
-import ThemeSwitch from '@/components/shared/ThemeSwitch';
+
 import Logo from '@/components/shared/Logo';
+import ThemeSwitch from '@/components/shared/ThemeSwitch';
+
+import { useAppPageContext } from '@/context/AppPageContext';
+import { useTheme } from '@/context/ThemeProvider';
 
 export function Navbar() {
   const { mode } = useTheme();
-
-  const router = useRouter();
-  const location = router.asPath;
   return (
-    <div className={clsx('px-7 pt-3', 'flex items-center justify-between ')}>
+    <div className={clsx('px-7 py-3', 'flex items-center justify-between ')}>
       <MobileMenuButton />
 
       <Logo width={60} height={55} className='scale-100 hover:scale-[1.03]' />
@@ -31,50 +30,60 @@ export function Navbar() {
           mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
         )}
       >
-        <ul
-          className={clsx(
-            'flex items-center gap-1  px-5',
-            'border-r',
-            mode === 'light' ? 'border-dark/50' : 'border-gray-300/50'
-          )}
-        >
-          {/* <li className='mr-6'>
-            <p className='pl-1 text-sm opacity-70'>Account</p>
-            <strong className='text-xl '>John Doe</strong>
-          </li> */}
-          {list.map((link) => (
-            <li key={link.title}>
-              <Link href={link.path}>
-                <div
-                  className={clsx(
-                    'w-[4.5rem] py-1',
-                    'flex flex-col items-center  justify-center  font-semibold',
-                    mode === 'light'
-                      ? location === link.path && 'text-blue-600 '
-                      : location === link.path && 'text-blue-500',
-                    mode === 'light'
-                      ? location === link.path
-                        ? ' text-gray-900'
-                        : 'text-gray-800'
-                      : location === link.path
-                      ? 'text-white'
-                      : 'text-gray-400',
-                    mode === 'light'
-                      ? location !== link.path && 'hover:text-gray-700'
-                      : location !== link.path && 'hover:text-gray-300',
-                    'cursor-pointer'
-                  )}
-                >
-                  <span className='text-2xl'>{link.icon}</span>
-                  <span className='text-sm'>{link.title}</span>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <Navigation />
         <ThemeSwitch />
       </nav>
     </div>
+  );
+}
+
+function Navigation() {
+  const { mode } = useTheme();
+  const router = useRouter();
+  const location = router.asPath;
+  return (
+    <ul
+      className={clsx(
+        'hidden md:flex',
+        'items-center gap-1  px-5',
+        'border-r',
+        mode === 'light' ? 'border-dark/50' : 'border-gray-300/50'
+      )}
+    >
+      {/* <li className='mr-6'>
+      <p className='pl-1 text-sm opacity-70'>Account</p>
+      <strong className='text-xl '>John Doe</strong>
+    </li> */}
+      {list.map((link) => (
+        <li key={link.title}>
+          <Link href={link.path}>
+            <div
+              className={clsx(
+                'w-[4.5rem] py-1',
+                'flex flex-col items-center  justify-center  font-semibold',
+                mode === 'light'
+                  ? location === link.path && 'text-blue-600 '
+                  : location === link.path && 'text-blue-500',
+                mode === 'light'
+                  ? location === link.path
+                    ? ' text-gray-900'
+                    : 'text-gray-800'
+                  : location === link.path
+                  ? 'text-white'
+                  : 'text-gray-400',
+                mode === 'light'
+                  ? location !== link.path && 'hover:text-gray-700'
+                  : location !== link.path && 'hover:text-gray-300',
+                'cursor-pointer'
+              )}
+            >
+              <span className='text-2xl'>{link.icon}</span>
+              <span className='text-sm'>{link.title}</span>
+            </div>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 
