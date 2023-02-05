@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { CgArrowsExchange } from 'react-icons/cg';
 import { HiMenuAlt1 } from 'react-icons/hi';
 import { MdOutlineSwitchAccount } from 'react-icons/md';
@@ -16,8 +17,30 @@ import { useTheme } from '@/context/ThemeProvider';
 
 export function Navbar() {
   const { mode } = useTheme();
+  const [onTop, setOnTop] = useState(true);
+
+  /* track page scroll */
+  useEffect(() => {
+    const handleScroll = () => {
+      setOnTop(window.pageYOffset === 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <div className={clsx('px-7 py-3', 'flex items-center justify-between ')}>
+    <div
+      className={clsx(
+        'sticky top-0',
+        'px-7 py-3',
+        'flex items-center justify-between ',
+        'z-40 ',
+        !onTop &&
+          'bg-opacity-80 bg-clip-padding backdrop-blur-2xl backdrop-filter '
+      )}
+    >
       <MobileMenuButton />
 
       <Logo width={60} height={55} className='scale-100 hover:scale-[1.03]' />
