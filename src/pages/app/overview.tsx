@@ -1,12 +1,12 @@
 import clsx from 'clsx';
-import Layout from '@/components/page/app/Layout';
-import { useAppPageContext } from '@/context/AppPageContext';
-import { demoData } from '@/constant/demoData';
+
 import GeneralInfo from '@/components/page/app/general/GeneralInfo';
 import Summary from '@/components/page/app/general/Summary';
+import Layout from '@/components/page/app/Layout';
+
+import { demoData } from '@/constant/demoData';
 
 export default function OverviewPage() {
-  const { openSidebar } = useAppPageContext();
   /* 
     const bankData = session ? data : demoData 
   */
@@ -15,21 +15,24 @@ export default function OverviewPage() {
     <Layout>
       <section
         className={clsx(
-          'pt-7',
           'overflow-y-scroll',
           'flex h-full flex-col gap-4',
           'h-full w-full'
         )}
       >
-        <div className='flex h-full w-full flex-col gap-6 md:flex-row md:px-6 '>
+        <div
+          className={clsx(
+            'px-2 md:px-6',
+            'flex',
+            'flex-col lg:flex-row',
+            'h-full w-full  gap-6 '
+          )}
+        >
           <GeneralInfo
             banksData={demoData}
-            className='h-full w-full md:w-1/3'
+            className='h-full w-full lg:w-1/3'
           />
-          <Summary 
-            banksData={demoData} 
-            className='h-full w-full md:w-2/3' 
-          />
+          <Summary banksData={demoData} className='h-full w-full lg:w-2/3' />
         </div>
       </section>
     </Layout>
