@@ -1,21 +1,25 @@
+import { faker } from '@faker-js/faker';
 import clsx from 'clsx';
-import { useTheme } from '@/context/ThemeProvider';
 import { Dispatch, SetStateAction, useState } from 'react';
+
 import {
   getDebtBalanceByBank,
   getSortedBankData,
   getTotalBalanceByBank,
 } from '@/lib/dataFormatingMethods';
-import Card from '../Card';
+
 import BarChart from '@/components/charts/BarChart';
-import LineChart from '@/components/charts/LineChart';
-import DoughnutChart from '@/components/charts/Doughnut';
-import { ChartDataFormat } from '@/components/charts/types';
-import { Bank } from '@/services/types';
-import { BanksData } from '@/constant/demoData';
 import { months } from '@/components/charts/defaults';
-import { faker } from '@faker-js/faker';
+import DoughnutChart from '@/components/charts/Doughnut';
+import LineChart from '@/components/charts/LineChart';
+import { ChartDataFormat } from '@/components/charts/types';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
+
+import { BanksData } from '@/constant/demoData';
+import { useTheme } from '@/context/ThemeProvider';
+import { Bank } from '@/services/types';
+
+import Card from '../Card';
 
 export default function Summary({
   className,
@@ -30,8 +34,12 @@ export default function Summary({
   return (
     <Card
       className={clsx('px-0', 'flex flex-col justify-start gap-3 ', className)}
-      title='Summary'
+      // title='Summary'
     >
+      <div className='flex items-center justify-between'>
+        <strong>Summary</strong>
+        <div>{/* <AddBankButton /> */}</div>
+      </div>
       <BankList
         banksData={banksData}
         openBankId={openBankId}
@@ -46,7 +54,7 @@ export default function Summary({
           selectedBank={selectedBank}
         />
       ) : (
-        <ConnectedBanks banksData={banksData} />
+        <AllBanks banksData={banksData} />
       )}
       <Overview banksData={banksData} selectedBank={selectedBank} />
     </Card>
@@ -189,7 +197,7 @@ function SelectedBank({
                 incomingData={lineChartDataset}
                 width='100%'
                 height='100%'
-                styleOptions={'APP'}
+                styleOptions='APP'
                 showScales={true}
               />
             ) : (
@@ -197,7 +205,7 @@ function SelectedBank({
                 incomingData={doughnutChartDataset}
                 width='100%'
                 height='100%'
-                styleOptions={'APP'}
+                styleOptions='APP'
               />
             )}
           </section>
@@ -291,13 +299,14 @@ function SelectedBank({
   );
 }
 
-function ConnectedBanks({ banksData }: { banksData: BanksData }) {
+function AllBanks({ banksData }: { banksData: BanksData }) {
   const { connectedBanksDict: banksDict } = banksData;
   const { mode } = useTheme();
 
   return (
     <section
       className={clsx(
+        'flex-none',
         'rounded',
         'overflow-hidden',
         'ease transition-all duration-150',
@@ -365,8 +374,7 @@ function Overview({
   return (
     <section
       className={clsx(
-        'h-4/6',
-        'flex w-full gap-1',
+        'h-full px-2',
         'rounded border',
         'bg-gray-600/10',
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
@@ -375,6 +383,7 @@ function Overview({
     >
       {selectedBank ? (
         <SelectedBankAnalytics
+          className='w-full md:w-2/5'
           banksData={banksData}
           selectedBank={selectedBank}
         />
@@ -413,25 +422,27 @@ function AllBanksAnalytics({ banksData }: { banksData: BanksData }) {
     datasetsLabels: ['Saving change', 'Checking change', 'Credit Change'],
   };
   return (
-    <>
-      <div className='h-full w-2/5 px-4'>
+    <section
+      className={clsx('h-full w-full', 'flex flex-col gap-1 md:flex-row')}
+    >
+      <div className={clsx('h-full w-full px-4 md:w-2/5')}>
         <BarChart
           incomingData={barChartDataset}
           width='100%'
           height='100%'
-          styleOptions={'APP'}
+          styleOptions='APP'
           vertical
-          title={'Banks balances'}
+          title='Banks balances'
         />
       </div>
-      <div className='h-full w-2/3'>
+      <div className='h-full w-full md:w-3/5'>
         <div className='h-1/2'>
           <LineChart
             incomingData={lineChartDataset}
             width='100%'
             height='100%'
-            styleOptions={'APP'}
-            title={'All banks balance dynamic'}
+            styleOptions='APP'
+            title='All banks balance dynamic'
             showScales={true}
           />
         </div>
@@ -440,21 +451,23 @@ function AllBanksAnalytics({ banksData }: { banksData: BanksData }) {
             incomingData={stackedBarChartData}
             width='100%'
             height='100%'
-            styleOptions={'APP'}
-            title={'All banks monthly change by account type'}
+            styleOptions='APP'
+            title='All banks monthly change by account type'
           />
         </div>
       </div>
-    </>
+    </section>
   );
 }
 
 function SelectedBankAnalytics({
   selectedBank,
   banksData,
+  className,
 }: {
   banksData: BanksData;
   selectedBank: Bank;
+  className: string;
 }) {
   const { mode } = useTheme();
   const savingMonthlyChange = months.map((d, i) =>
@@ -491,7 +504,7 @@ function SelectedBankAnalytics({
 
   return (
     <>
-      <section className='h-full w-2/5 overflow-hidden '>
+      <section className={clsx('h-full  overflow-hidden ', className)}>
         <div
           className={clsx(
             'h-full w-full border-r py-1',
@@ -544,7 +557,7 @@ function SelectedBankAnalytics({
             incomingData={lineChartDataset}
             width='100%'
             height='100%'
-            styleOptions={'APP'}
+            styleOptions='APP'
             title={`${selectedBank[0].bank_name} balance dynamic`}
             showScales={true}
           />
@@ -554,7 +567,7 @@ function SelectedBankAnalytics({
             incomingData={stackedBarChartData}
             width='100%'
             height='100%'
-            styleOptions={'APP'}
+            styleOptions='APP'
             title={`${selectedBank[0].bank_name} monthly change by account type`}
           />
         </div>
