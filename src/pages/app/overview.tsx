@@ -15,19 +15,19 @@ export default function OverviewPage() {
     <Layout>
       <section
         className={clsx(
-          'px-2 md:px-6',
           'flex',
+          'px-2 md:px-6',
           'flex-col lg:flex-row',
-          'h-max w-full gap-6 '
+          'h-max w-full gap-6'
         )}
       >
         <GeneralInfo
           banksData={demoData}
-          className='h-[85vh] w-full md:h-[65vh] lg:h-[85vh] lg:w-1/3'
+          className='h-full w-full  lg:h-[85vh] lg:w-1/3'
         />
         <Summary
           banksData={demoData}
-          className='h-[85vh] w-full md:h-[65vh] lg:h-[85vh] lg:w-2/3'
+          className='h-full w-full  lg:h-[85vh] lg:w-2/3'
         />
       </section>
     </Layout>
