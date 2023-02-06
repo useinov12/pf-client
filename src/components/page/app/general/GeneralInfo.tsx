@@ -25,11 +25,7 @@ export default function GeneralInfo({
 }) {
   return (
     <Card
-      className={clsx(
-        'py-1 px-0',
-        'flex flex-col justify-start gap-4 ',
-        className
-      )}
+      className={clsx('p-0', 'flex flex-col justify-start gap-2 ', className)}
     >
       <div className='flex items-center justify-between'>
         <strong>General Info</strong>
@@ -62,7 +58,7 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
       className={clsx(
         'h-full ',
         'flex-col items-center justify-between',
-        'rounded border px-3 py-4',
+        'rounded border px-3 py-2',
         'bg-gray-600/10',
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
         mode === 'light' ? 'text-gray-700' : 'text-gray-400'
@@ -92,14 +88,14 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
         </div>
       </section>
 
-      <section className='flex flex-none  flex-col  py-2'>
-        <div className='flex-col gap-2'>
+      <section className='flex flex-none  flex-col'>
+        <div className='flex-col'>
           <InfoLine title='Connected banks' data={connectedBanks.length} />
           <InfoLine title='Saving accounts' data='7' />
           <InfoLine title='Credit accounts' data='4' />
           <InfoLine title='Checking accounts' data='7' />
         </div>
-        <div className='mt-2 flex-col gap-2'>
+        <div className=' flex-col'>
           <InfoLine title='Most money at' data='Navy Federal' />
           <InfoLine title='Biggest debt at' data='Trust Bank' />
         </div>
@@ -144,8 +140,8 @@ function InfoLine({
 }) {
   return (
     <div className={clsx('flex w-full justify-between', className)}>
-      <p className='text-md translate-y-1 font-semibold  opacity-70'>{title}</p>
-      <strong className='pl-6 text-center text-xl'>{data}</strong>
+      <p className='translate-y-1 text-sm font-semibold  opacity-70'>{title}</p>
+      <strong className='pl-6 text-center text-lg'>{data}</strong>
     </div>
   );
 }
