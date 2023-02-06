@@ -61,7 +61,7 @@ function SelectedBank({
           'h-full w-full justify-between'
         )}
       >
-        <section className='inline-flex w-full flex-none   lg:w-1/4'>
+        <section className='inline-flex w-full flex-none lg:w-1/4'>
           <div className='flex w-44 flex-col items-start'>
             <div className='flex  flex-col items-start py-1 pl-2'>
               <p className='text-sm  opacity-70'>Selected bank</p>
@@ -111,7 +111,7 @@ function SelectedBank({
 
         <section
           className={clsx(
-            'border-t lg:border-l',
+            'lg:border-l',
             'h-full w-full lg:w-2/5 ',
             'flex-none self-end',
             mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
@@ -127,11 +127,10 @@ function SelectedBank({
                 >
                   <div
                     className={clsx(
+                      'py-2 pl-2',
                       'h-full w-full ',
                       'bg-gray-500/20 ',
-                      i !== selectedBank.length - 1 && 'border-r ',
-                      'whitespace-nowrap py-2 pl-2',
-                      'border-r ',
+                      i !== selectedBank.length - 1 && 'border-r  ',
                       'flex flex-col justify-between',
                       mode === 'light'
                         ? 'border-gray-600/50'
@@ -141,7 +140,7 @@ function SelectedBank({
                       mode === 'light' ? 'text-gray-700' : 'text-gray-400'
                     )}
                   >
-                    <div>
+                    <div className=''>
                       <strong className='text-sm'>{account.subtype}</strong>
                       <p className=' text-ellipsis text-sm lowercase'>
                         {account.name}
