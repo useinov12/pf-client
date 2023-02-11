@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import {
   createContext,
   ReactNode,
@@ -5,17 +6,19 @@ import {
   useEffect,
   useState,
 } from 'react';
-import clsx from 'clsx';
-import Layout from '@/components/page/app/Layout';
-import { useAppPageContext } from '@/context/AppPageContext';
+
+import { getTotalBalanceByBank } from '@/lib/dataFormatingMethods';
+
 import {
   AccountsSection,
-  StatisticSection,
   ListOfBanks,
+  StatisticSection,
 } from '@/components/page/app/Banks';
+import Layout from '@/components/page/app/Layout';
+
 import { demoData } from '@/constant/demoData';
+import { useAppPageContext } from '@/context/AppPageContext';
 import { Bank, ConnectedBanksDict } from '@/services/types';
-import { getTotalBalanceByBank } from '@/lib/dataFormatingMethods';
 
 export default function BanksPage() {
   const { openSidebar } = useAppPageContext();
@@ -55,14 +58,12 @@ function BankSection({
 
   return (
     <div>
-      {
-        <div className='mb-6 flex items-center justify-start gap-10 px-2'>
-          <h4 className='text-2xl'>
-            {selectedBank ? selectedBank : 'Select bank'}
-          </h4>
-          <h5 className='text-2xl'>$ {selectedBank ? bankTotal : 'xxxxx'}</h5>
-        </div>
-      }
+      <div className='mb-6 flex items-center justify-start gap-10 px-2'>
+        <h4 className='text-2xl'>
+          {selectedBank ? selectedBank : 'Select bank'}
+        </h4>
+        <h5 className='text-2xl'>$ {selectedBank ? bankTotal : 'xxxxx'}</h5>
+      </div>
       <section className='my-0 flex h-full flex-col gap-x-4 lg:flex-row'>
         <AccountsSection connectedBanksDict={connectedBanksDict} />
         <StatisticSection />
