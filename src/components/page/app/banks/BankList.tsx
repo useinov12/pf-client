@@ -20,7 +20,7 @@ export default function ListOfBanks({
 
   return (
     <Card className='px-0 '>
-      <div className='flex items-center justify-between'>
+      <div className='mb-2 flex items-center justify-between px-1'>
         <strong>Connected banks</strong>
       </div>
       <Carousel
