@@ -5,9 +5,15 @@ import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi';
 export function Carousel({
   children,
   maxNumberOfChildrensInFrame,
+  widthClass,
+  heightClass,
+  className,
 }: {
   children: ReactNode;
   maxNumberOfChildrensInFrame: number;
+  widthClass: string;
+  heightClass: string;
+  className?: string;
 }) {
   const numberOfChildren = Children.count(children);
   const moveDistance = 100 / numberOfChildren;
@@ -19,7 +25,14 @@ export function Carousel({
   }, [children]);
 
   return (
-    <div className='group relative flex h-full w-full justify-between'>
+    <div
+      className={clsx(
+        'group relative flex h-full w-full justify-between',
+        className,
+        widthClass,
+        heightClass
+      )}
+    >
       <button
         className={clsx(
           'h-full px-1',

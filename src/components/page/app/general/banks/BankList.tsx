@@ -19,13 +19,20 @@ export default function ListOfBanks({
   const banks = Object.keys(connectedBanksDict);
 
   return (
-    <Card withBorder className='px-0' title='Connected banks'>
-      <Carousel maxNumberOfChildrensInFrame={8}>
+    <Card className='px-0 '>
+      <div className='flex items-center justify-between'>
+        <strong>Connected banks</strong>
+      </div>
+      <Carousel
+        maxNumberOfChildrensInFrame={7}
+        widthClass='w-full'
+        heightClass='h-28'
+      >
         {banks.map((bank) => (
-          <li key={bank}>
+          <li key={`bank-${bank}`} className='mx-1 list-none'>
             <CarouselItem>
               <BankCard
-                className='w-48'
+                className=' w-48'
                 bank={connectedBanksDict[bank]}
                 connectedBanksDict={connectedBanksDict}
               />
@@ -57,7 +64,7 @@ function BankCard({
   });
 
   return (
-    <div
+    <button
       onClick={() => setSelectedBank(bankName)}
       onMouseEnter={() => setCardHover(true)}
       onMouseLeave={() => setCardHover(false)}
@@ -124,6 +131,6 @@ function BankCard({
           <h3 className='text-xl font-normal drop-shadow-md'>$ {bankTotal}</h3>
         </div>
       </div>
-    </div>
+    </button>
   );
 }

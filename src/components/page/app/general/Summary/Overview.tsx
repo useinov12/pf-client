@@ -91,7 +91,7 @@ function SelectedBank({
         </section>
 
         <section className='h-full w-full flex-grow py-1 lg:w-1/3'>
-          {selectedBank.length < 2 ? (
+          {selectedBank.length < 3 ? (
             <LineChart
               incomingData={lineChartDataset}
               width='100%'
@@ -157,42 +157,44 @@ function SelectedBank({
               ))}
             </ul>
           ) : (
-            <div className='h-28 w-full'>
-              <Carousel maxNumberOfChildrensInFrame={2.3}>
-                {selectedBank.map((account, i) => (
-                  <li key={`selected-bank-acc-${i}`} className='list-none'>
-                    <CarouselItem>
-                      <div
-                        className={clsx(
-                          'h-full w-36 whitespace-nowrap py-2 pl-2',
-                          'border-r ',
-                          'flex flex-col justify-between',
-                          mode === 'light'
-                            ? 'border-gray-600/50'
-                            : 'border-gray-300/20',
-                          'bg-gray-600/10',
-                          'hover:bg-gray-400/20',
-                          mode === 'light' ? 'text-gray-700' : 'text-gray-400'
-                        )}
-                      >
-                        <div>
-                          <strong className='text-sm'>{account.subtype}</strong>
-                          <p className='truncate text-sm lowercase'>
-                            {account.name}
-                          </p>
-                        </div>
-                        <p className='text-xl font-semibold'>
-                          ${' '}
-                          {account.subtype === 'credit card'
-                            ? -account.balance
-                            : account.balance}
+            <Carousel
+              maxNumberOfChildrensInFrame={2.3}
+              widthClass='w-full'
+              heightClass='h-28'
+            >
+              {selectedBank.map((account, i) => (
+                <li key={`selected-bank-acc-${i}`} className='list-none'>
+                  <CarouselItem>
+                    <div
+                      className={clsx(
+                        'h-full w-36 whitespace-nowrap py-2 pl-2',
+                        'border-r ',
+                        'flex flex-col justify-between',
+                        mode === 'light'
+                          ? 'border-gray-600/50'
+                          : 'border-gray-300/20',
+                        'bg-gray-600/10',
+                        'hover:bg-gray-400/20',
+                        mode === 'light' ? 'text-gray-700' : 'text-gray-400'
+                      )}
+                    >
+                      <div>
+                        <strong className='text-sm'>{account.subtype}</strong>
+                        <p className='truncate text-sm lowercase'>
+                          {account.name}
                         </p>
                       </div>
-                    </CarouselItem>
-                  </li>
-                ))}
-              </Carousel>
-            </div>
+                      <p className='text-xl font-semibold'>
+                        ${' '}
+                        {account.subtype === 'credit card'
+                          ? -account.balance
+                          : account.balance}
+                      </p>
+                    </div>
+                  </CarouselItem>
+                </li>
+              ))}
+            </Carousel>
           )}
         </section>
       </div>
@@ -205,8 +207,12 @@ function AllBanks({ banksData }: { banksData: BanksData }) {
   const { mode } = useTheme();
 
   return (
-    <Wrapper className='h-28'>
-      <Carousel maxNumberOfChildrensInFrame={6}>
+    <Wrapper>
+      <Carousel
+        maxNumberOfChildrensInFrame={6}
+        widthClass='w-full'
+        heightClass='h-28'
+      >
         {Object.entries(banksDict).map(([name, bank]) => (
           <li key={`bank-cards ${name}`} className='list-none'>
             <CarouselItem>
@@ -259,7 +265,7 @@ function Wrapper({
   className,
 }: {
   children: ReactNode;
-  className: string;
+  className?: string;
 }) {
   const { mode } = useTheme();
   return (
