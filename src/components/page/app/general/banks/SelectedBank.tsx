@@ -1,130 +1,41 @@
 import { useEffect, useState } from 'react';
-import clsx from 'clsx';
-import { Carousel, CarouselItem } from '@/components/shared/Carousel';
-import { useTheme } from '@/context/ThemeProvider';
-import { useBankPageContext } from '@/pages/app/banks';
+
 import { getTotalBalanceByBank } from '@/lib/dataFormatingMethods';
-import Card from './Card';
-import { Account, Bank, ConnectedBanksDict } from '@/services/types';
-import { ChartDataFormat } from '@/components/charts/types';
-import DoughnutChart from '@/components/charts/Doughnut';
+
 import BarChart from '@/components/charts/BarChart';
 import { months } from '@/components/charts/defaults';
-import { RiBankFill } from 'react-icons/ri';
+import DoughnutChart from '@/components/charts/Doughnut';
+import { ChartDataFormat } from '@/components/charts/types';
+import Card from '@/components/page/app/Card';
 
-export function ListOfBanks({
+import { useBankPageContext } from '@/pages/app/banks';
+import { Account, ConnectedBanksDict } from '@/services/types';
+
+export default function BankSection({
   connectedBanksDict,
 }: {
   connectedBanksDict: ConnectedBanksDict;
 }) {
-  const banks = Object.keys(connectedBanksDict);
+  const { selectedBank } = useBankPageContext();
+  const bankTotal =
+    selectedBank &&
+    getTotalBalanceByBank({
+      bank: selectedBank,
+      data: connectedBanksDict,
+    });
 
   return (
-    <Card withBorder className='px-0' title={'Connected banks'}>
-      <Carousel maxNumberOfChildrensInFrame={8}>
-        {banks.map((bank, i) => (
-          <li key={bank}>
-            <CarouselItem>
-              <BankCard
-                className='w-48'
-                bank={connectedBanksDict[bank]}
-                connectedBanksDict={connectedBanksDict}
-              />
-            </CarouselItem>
-          </li>
-        ))}
-      </Carousel>
-    </Card>
-  );
-}
-
-function BankCard({
-  bank,
-  className,
-  connectedBanksDict,
-}: {
-  bank: Bank;
-  className: string;
-  connectedBanksDict: ConnectedBanksDict;
-}) {
-  const { mode } = useTheme();
-  const { setSelectedBank, selectedBank } = useBankPageContext();
-
-  const [cardHover, setCardHover] = useState(false);
-  const bankName = bank[0].bank_name;
-  const bankTotal = getTotalBalanceByBank({
-    bank: bankName,
-    data: connectedBanksDict,
-  });
-
-  return (
-    <div
-      onClick={() => setSelectedBank(bankName)}
-      onMouseEnter={() => setCardHover(true)}
-      onMouseLeave={() => setCardHover(false)}
-      className={clsx(
-        'h-28',
-        'cursor-pointer',
-        'rounded',
-        'overflow-hidden border',
-        'flex flex-col items-center ',
-        mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
-        mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/20',
-        selectedBank === bankName
-          ? 'border-blue-600/50'
-          : cardHover && 'border-blue-600/50',
-        className
-      )}
-    >
-      <header
-        className={clsx(
-          'w-full px-3 ',
-          'transition-all duration-100 ease-in',
-          'flex flex-col items-center gap-1',
-          selectedBank === bankName
-            ? 'bg-blue-600/50'
-            : cardHover && 'bg-blue-600/50',
-          selectedBank === bankName
-            ? '-translate-y-7'
-            : cardHover
-            ? '-translate-y-7'
-            : 'translate-y-6'
-        )}
-      >
-        <RiBankFill
-          className={clsx(
-            'h-10 w-10',
-            selectedBank === bankName
-              ? 'scale-0'
-              : cardHover
-              ? 'scale-0'
-              : 'scale-100',
-            'transition-all duration-200 ease-in'
-          )}
-        />
-        <h6 className={clsx('text-lg font-semibold drop-shadow-md')}>
-          {bankName}
-        </h6>
-      </header>
-
-      <div
-        className={clsx(
-          'transition-all duration-200 ease-in',
-          selectedBank === bankName
-            ? '-translate-y-4 scale-y-100'
-            : cardHover
-            ? '-translate-y-4 scale-y-100'
-            : 'translate-y-12 scale-y-0'
-        )}
-      >
-        <h6 className='px-3 text-sm drop-shadow-md'>
-          Connected accounts {`${bank.length}`}
-        </h6>
-        <div className='inline-flex w-full items-end justify-between px-3'>
-          <p className='text-sm drop-shadow-md'>Total</p>
-          <h3 className='text-xl font-normal drop-shadow-md'>$ {bankTotal}</h3>
-        </div>
+    <div>
+      <div className='mb-6 flex items-center justify-start gap-10 px-2'>
+        <h4 className='text-2xl'>
+          {selectedBank ? selectedBank : 'Select bank'}
+        </h4>
+        <h5 className='text-2xl'>$ {selectedBank ? bankTotal : 'xxxxx'}</h5>
       </div>
+      <section className='my-0 flex h-full flex-col gap-x-4 lg:flex-row'>
+        <AccountsSection connectedBanksDict={connectedBanksDict} />
+        <StatisticSection />
+      </section>
     </div>
   );
 }
@@ -166,7 +77,7 @@ export function AccountsSection({
   return (
     <Card
       withBorder
-      title={'Accounts'}
+      title='Accounts'
       className='flex h-fit w-full flex-col justify-start'
     >
       <div className='flex h-40 flex-col justify-between'>
@@ -280,23 +191,23 @@ export function StatisticSection() {
   };
 
   return (
-    <Card withBorder title={'Statistics'} className='h-fit w-full'>
+    <Card withBorder title='Statistics' className='h-fit w-full'>
       <div className='h-48 w-5/6'>
         <BarChart
-          width={'100%'}
-          height={'100%'}
-          title={'Bank balance dynamic'}
+          width='100%'
+          height='100%'
+          title='Bank balance dynamic'
           incomingData={chartData}
-          styleOptions={'APP'}
+          styleOptions='APP'
         />
       </div>
       <div className='h-48 w-5/6'>
         <BarChart
-          width={'100%'}
-          height={'100%'}
-          title={'Income/Expense by months'}
+          width='100%'
+          height='100%'
+          title='Income/Expense by months'
           incomingData={chartData2}
-          styleOptions={'APP'}
+          styleOptions='APP'
         />
       </div>
     </Card>

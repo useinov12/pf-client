@@ -7,21 +7,14 @@ import {
   useState,
 } from 'react';
 
-import { getTotalBalanceByBank } from '@/lib/dataFormatingMethods';
-
-import {
-  AccountsSection,
-  ListOfBanks,
-  StatisticSection,
-} from '@/components/page/app/Banks';
+import ListOfBanks from '@/components/page/app/general/banks/BankList';
+import BankSection from '@/components/page/app/general/banks/SelectedBank';
 import Layout from '@/components/page/app/Layout';
 
 import { demoData } from '@/constant/demoData';
-import { useAppPageContext } from '@/context/AppPageContext';
 import { Bank, ConnectedBanksDict } from '@/services/types';
 
 export default function BanksPage() {
-  const { openSidebar } = useAppPageContext();
   const connectedBanksDict = demoData.connectedBanksDict;
 
   return (
@@ -29,10 +22,10 @@ export default function BanksPage() {
       <Layout>
         <section
           className={clsx(
-            'pt-4',
-            'overflow-y-scroll',
-            'flex h-full flex-col gap-4',
-            openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]'
+            'flex',
+            'px-2 md:px-6',
+            'flex-col',
+            'h-max w-full gap-6'
           )}
         >
           <ListOfBanks connectedBanksDict={connectedBanksDict} />
@@ -40,35 +33,6 @@ export default function BanksPage() {
         </section>
       </Layout>
     </BankPageProvider>
-  );
-}
-
-function BankSection({
-  connectedBanksDict,
-}: {
-  connectedBanksDict: ConnectedBanksDict;
-}) {
-  const { selectedBank } = useBankPageContext();
-  const bankTotal =
-    selectedBank &&
-    getTotalBalanceByBank({
-      bank: selectedBank,
-      data: connectedBanksDict,
-    });
-
-  return (
-    <div>
-      <div className='mb-6 flex items-center justify-start gap-10 px-2'>
-        <h4 className='text-2xl'>
-          {selectedBank ? selectedBank : 'Select bank'}
-        </h4>
-        <h5 className='text-2xl'>$ {selectedBank ? bankTotal : 'xxxxx'}</h5>
-      </div>
-      <section className='my-0 flex h-full flex-col gap-x-4 lg:flex-row'>
-        <AccountsSection connectedBanksDict={connectedBanksDict} />
-        <StatisticSection />
-      </section>
-    </div>
   );
 }
 
