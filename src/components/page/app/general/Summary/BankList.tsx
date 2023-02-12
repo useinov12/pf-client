@@ -20,8 +20,8 @@ export default function BankList({
   const { mode } = useTheme();
 
   return (
-    <section className=''>
-      <ul className={clsx('h-full w-full list-none', 'flex flex-wrap gap-1')}>
+    <section className='h-fit'>
+      <ul className='flex h-full w-full list-none flex-wrap gap-1'>
         <li>
           <button
             onClick={() => {

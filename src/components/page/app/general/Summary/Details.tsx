@@ -24,7 +24,7 @@ export default function Details({
   return (
     <section
       className={clsx(
-        'h-full lg:h-3/5',
+        'h-full lg:h-4/5',
         'rounded border',
         'bg-gray-600/10',
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
@@ -119,16 +119,6 @@ function SelectedBankAnalytics({
     datasetsLabels: ['Saving change', 'Checking change', 'Credit Change'],
   };
 
-  const arr = new Array(20).fill(0);
-
-  const transactions = arr.map((_, i) => {
-    return {
-      amount: faker.finance.amount(-2000, 3000),
-      type: faker.finance.transactionType(),
-      desc: faker.finance.transactionDescription(),
-    };
-  });
-
   return (
     <div className='flex h-screen w-full flex-col gap-1 lg:h-full lg:flex-row '>
       <section
@@ -142,6 +132,7 @@ function SelectedBankAnalytics({
       >
         <div
           className={clsx(
+            'relative',
             'h-full w-full  py-1  lg:border-r',
             mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
           )}
@@ -159,42 +150,13 @@ function SelectedBankAnalytics({
               <strong className='w-1/2 text-sm'>amount</strong>
             </div>
           </li>
-          <ul
-            className={clsx(
-              'h-full w-full overflow-y-scroll',
-              'flex flex-col '
-            )}
-          >
-            {transactions.map((trans, i) => (
-              <li
-                key={`trans-${i}`}
-                className={clsx(
-                  'cursor-pointer',
-                  'inline-flex gap-1 border-b py-1  pl-2',
-                  mode === 'light'
-                    ? 'border-gray-600/50'
-                    : 'border-gray-300/20',
-                  'bg-gray-600/10',
-                  'hover:bg-gray-400/20',
-                  mode === 'light' ? 'text-gray-700' : 'text-gray-400'
-                )}
-              >
-                <div className='w-1/2 text-sm'>
-                  {trans.desc.split(' ').splice(2).join(' ')}
-                </div>
-                <div className='inline-flex w-1/2 justify-between '>
-                  <p className='w-1/2 text-sm'>{trans.type}</p>
-                  <p className='w-1/2 text-sm'>$ {trans.amount}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <Transactions />
         </div>
       </section>
       <section className='h-1/2 grow lg:h-full'>
         <div
           className={clsx(
-            ' h-1/2 w-full pl-2',
+            ' h-1/2 w-full',
             'border-b',
             mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
           )}
@@ -204,20 +166,64 @@ function SelectedBankAnalytics({
             width='100%'
             height='100%'
             styleOptions='APP'
-            title={`${selectedBank[0].bank_name} balance dynamic`}
+            // title={`${selectedBank[0].bank_name} balance dynamic`}
             showScales={true}
           />
         </div>
-        <div className='h-1/2 w-full pl-2'>
+        <div className='h-1/2 w-full'>
           <BarChart
             incomingData={stackedBarChartData}
             width='100%'
             height='100%'
             styleOptions='APP'
-            title={`${selectedBank[0].bank_name} monthly change by account type`}
+            // title={`${selectedBank[0].bank_name} monthly change by account type`}
           />
         </div>
       </section>
     </div>
+  );
+}
+
+function Transactions() {
+  const { mode } = useTheme();
+  const arr = new Array(20).fill(0);
+
+  const transactions = arr.map((_, i) => {
+    return {
+      amount: faker.finance.amount(-2000, 3000),
+      type: faker.finance.transactionType(),
+      desc: faker.finance.transactionDescription(),
+    };
+  });
+  return (
+    <ul
+      className={clsx(
+        'h-full w-full overflow-y-scroll',
+        'flex flex-col ',
+        'absolute top-16'
+      )}
+    >
+      {transactions.map((trans, i) => (
+        <li
+          key={`trans-${i}`}
+          className={clsx(
+            'cursor-pointer',
+            'inline-flex gap-1 border-b py-1  pl-2',
+            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
+            'bg-gray-600/10',
+            'hover:bg-gray-400/20',
+            mode === 'light' ? 'text-gray-700' : 'text-gray-400'
+          )}
+        >
+          <div className='w-1/2 text-sm'>
+            {trans.desc.split(' ').splice(2).join(' ')}
+          </div>
+          <div className='inline-flex w-1/2 justify-between '>
+            <p className='w-1/2 text-sm'>{trans.type}</p>
+            <p className='w-1/2 text-sm'>$ {trans.amount}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 }

@@ -44,31 +44,61 @@ export function AccountsSection({ banksData }: { banksData: BanksData }) {
   return (
     <div
       className={clsx(
-        'h-full w-full',
+        'h-full w-2/5',
         'flex  flex-col justify-start',
         'rounded border',
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
       )}
     >
-      <header
+      <section
         className={clsx(
-          'flex ',
-          'items-center justify-between gap-10',
-          'py-2 pl-4 pr-20',
-          mode === 'light' ? 'bg-gray-400' : 'bg-gray-600'
+          'px-3 py-2',
+          'inline-flex w-full flex-none justify-between',
+          'border-b',
+          mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
         )}
       >
-        <h2>{selectedBank ? selectedBank : 'Select bank'}</h2>
-        <h2 className=''>$ {selectedBank ? bankTotal : 'xxxxx'}</h2>
-      </header>
+        <div className='w-full whitespace-nowrap '>
+          <p className='whitespace-nowrap text-sm font-medium opacity-70'>
+            Selected bank
+          </p>
+          <strong className='text-xl'>
+            {selectedBank ? selectedBank : ''}
+          </strong>
+        </div>
+        <div className='flex w-full flex-nowrap '>
+          <div className='flex w-1/2 flex-col items-end'>
+            <p className='whitespace-nowrap text-sm font-medium opacity-70'>
+              Total Balance
+            </p>
+            <h2 className='text-center text-xl'>{`$ ${
+              bankTotal ? bankTotal : 0
+            }`}</h2>
+          </div>
+          <div className='flex w-1/2 flex-col items-end'>
+            <p className='whitespace-nowrap text-sm font-medium opacity-70'>
+              Total Debt
+            </p>
+            <h2 className='text-center text-xl'>{`$ ${0}`}</h2>
+          </div>
+        </div>
+      </section>
+
       <section className='h-full'>
-        <div className='h-1/2 w-full p-2'>
+        <div
+          className={clsx(
+            'h-1/2 w-full',
+            'border-b',
+            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+          )}
+        >
           <LineChart
             incomingData={lineChartDataset}
             width='100%'
             height='100%'
             styleOptions='APP'
-            title='Accounts share'
+            title=''
             showScales
           />
         </div>
@@ -92,8 +122,10 @@ function AccountsTable({ bankData }: { bankData: Bank | null }) {
         <thead
           className={clsx(
             'rounded',
-            'sticky top-0 text-xl',
-            mode === 'light' ? 'bg-gray-400' : 'bg-gray-600'
+            'sticky top-0 text-lg',
+            'border-b',
+            mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
+            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
           )}
         >
           <tr>
@@ -221,7 +253,7 @@ export function StatisticSection() {
   return (
     <div
       className={clsx(
-        'h-full w-full',
+        'h-full w-3/5',
         'flex  flex-col justify-start',
         'rounded border',
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
@@ -231,14 +263,22 @@ export function StatisticSection() {
         className={clsx(
           'flex ',
           'items-center justify-between gap-10',
-          'py-2 pl-4 pr-20',
-          mode === 'light' ? 'bg-gray-400' : 'bg-gray-600'
+          'py-4 pl-4 pr-20',
+          'border-b',
+          mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
         )}
       >
-        <h2>Statistics</h2>
+        <h3>Statistics</h3>
       </header>
-      <section className='h-full  px-4'>
-        <div className='h-1/3 w-full '>
+      <section className='h-full'>
+        <div
+          className={clsx(
+            'h-1/3 w-full',
+            'border-b px-4 py-2',
+            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+          )}
+        >
           <DoughnutChart
             incomingData={dougnnutData}
             width='100%'
@@ -248,7 +288,13 @@ export function StatisticSection() {
           />
         </div>
 
-        <div className='h-1/3 w-5/6'>
+        <div
+          className={clsx(
+            'h-1/3 w-5/6',
+            'border-b px-4',
+            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+          )}
+        >
           <BarChart
             width='100%'
             height='100%'
@@ -257,7 +303,7 @@ export function StatisticSection() {
             styleOptions='APP'
           />
         </div>
-        <div className='h-1/3 w-5/6'>
+        <div className='h-1/3 w-5/6 px-4'>
           <BarChart
             width='100%'
             height='100%'

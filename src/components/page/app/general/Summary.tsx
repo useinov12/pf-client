@@ -20,13 +20,11 @@ export default function Summary({
   const [selectedBank, setSelectedBank] = useState<Bank | undefined>(undefined);
 
   return (
-    <Card
-      className={clsx('p-0', 'flex flex-col justify-start gap-2', className)}
-    >
-      <div className='flex items-center justify-between'>
+    <Card className={clsx('flex flex-col justify-start gap-2 p-0', className)}>
+      {/* <div className='flex items-center justify-between'>
         <strong>Summary</strong>
-        <div>{/* <AddBankButton /> */}</div>
-      </div>
+
+      </div> */}
       <BankList
         banksData={banksData}
         openBankId={openBankId}

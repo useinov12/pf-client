@@ -23,13 +23,13 @@ export default function Overview({
   banksData: BanksData;
 }) {
   return (
-    <>
+    <div className='h-fit'>
       {selectedBank ? (
         <SelectedBank banksData={banksData} selectedBank={selectedBank} />
       ) : (
         <AllBanks banksData={banksData} />
       )}
-    </>
+    </div>
   );
 }
 

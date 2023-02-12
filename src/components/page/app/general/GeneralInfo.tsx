@@ -24,12 +24,10 @@ export default function GeneralInfo({
   banksData: BanksData;
 }) {
   return (
-    <Card
-      className={clsx('p-0', 'flex flex-col justify-start gap-2 ', className)}
-    >
-      <div className='flex items-center justify-between'>
+    <Card className={clsx('flex flex-col justify-start gap-2 p-0 ', className)}>
+      {/* <div className='flex items-center justify-between'>
         <strong>General Info</strong>
-      </div>
+      </div> */}
       <AccountDetails banksData={banksData} />
     </Card>
   );
@@ -58,14 +56,22 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
       className={clsx(
         'h-full ',
         'flex-col items-center justify-between',
-        'rounded border px-3 py-2',
+        'rounded border ',
         'bg-gray-600/10',
         mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
-        mode === 'light' ? 'text-gray-700' : 'text-gray-400'
+        'overflow-hidden'
       )}
     >
-      <section className='inline-flex w-full flex-none justify-between'>
-        <div className='w-full whitespace-nowrap'>
+      <section
+        className={clsx(
+          'px-3 py-2',
+          'inline-flex w-full flex-none justify-between',
+          'border-b',
+          mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+        )}
+      >
+        <div className='w-full whitespace-nowrap '>
           <p className='whitespace-nowrap pl-1 text-sm font-medium opacity-70'>
             Account
           </p>
@@ -88,7 +94,14 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
         </div>
       </section>
 
-      <section className='flex flex-none  flex-col'>
+      <section
+        className={clsx(
+          'flex flex-none  flex-col px-3 py-1',
+          mode === 'light' ? 'text-gray-700' : 'text-gray-400',
+          'border-b',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+        )}
+      >
         <div className='flex-col'>
           <InfoLine title='Connected banks' data={connectedBanks.length} />
           <InfoLine title='Saving accounts' data='7' />
@@ -101,22 +114,24 @@ function AccountDetails({ banksData }: { banksData: BanksData }) {
         </div>
       </section>
 
-      {/* <section className='h-full w-full border border-red-500'>
-        <h1>content</h1>
-      </section> */}
-
-      <section className='h-[50vh] grow md:h-3/5'>
-        <div className='h-1/3'>
+      <section className='h-[50vh] grow md:h-2/3'>
+        <div
+          className={clsx(
+            'h-2/5',
+            'border-b',
+            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+          )}
+        >
           <LineChart
             incomingData={lineChartDataset}
             width='100%'
             height='100%'
             styleOptions='APP'
-            title='All banks balance dynamic'
+            title=''
             showScales={true}
           />
         </div>
-        <div className='h-2/3'>
+        <div className='h-3/5 py-2 px-3'>
           <DoughnutChart
             incomingData={doughnutChartDataset}
             width='100%'
