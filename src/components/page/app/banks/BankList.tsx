@@ -4,7 +4,6 @@ import { RiBankFill } from 'react-icons/ri';
 
 import { getTotalBalanceByBank } from '@/lib/dataFormatingMethods';
 
-import Card from '@/components/page/app/Card';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 
 import { useTheme } from '@/context/ThemeProvider';
@@ -17,9 +16,10 @@ export default function ListOfBanks({
   connectedBanksDict: ConnectedBanksDict;
 }) {
   const banks = Object.keys(connectedBanksDict);
+  const { mode } = useTheme();
 
   return (
-    <Card className='px-0 '>
+    <div className='px-0 '>
       <div className='mb-2 flex items-center justify-between px-1'>
         <strong>Connected banks</strong>
       </div>
@@ -27,9 +27,13 @@ export default function ListOfBanks({
         maxNumberOfChildrensInFrame={7}
         widthClass='w-full'
         heightClass='h-28'
+        className={clsx(
+          'overflow-hidden rounded border',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+        )}
       >
         {banks.map((bank) => (
-          <li key={`bank-${bank}`} className='mx-1 list-none'>
+          <li key={`bank-${bank}`} className='list-none'>
             <CarouselItem>
               <BankCard
                 className=' w-48'
@@ -40,7 +44,7 @@ export default function ListOfBanks({
           </li>
         ))}
       </Carousel>
-    </Card>
+    </div>
   );
 }
 
@@ -71,14 +75,10 @@ function BankCard({
       className={clsx(
         'h-28',
         'cursor-pointer',
-        'rounded',
-        'overflow-hidden border',
+        'overflow-hidden border-r',
         'flex flex-col items-center ',
         mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
         mode === 'light' ? 'bg-gray-300/50' : 'bg-gray-700/20',
-        selectedBank === bankName
-          ? 'border-blue-600/50'
-          : cardHover && 'border-blue-600/50',
         className
       )}
     >
