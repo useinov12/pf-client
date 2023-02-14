@@ -1,40 +1,28 @@
 import Button from '@/components/buttons/Button';
-import clsx from 'clsx';
-import { MenuSection, MenuHeader } from '../Menu';
-import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
-import { BsBoxArrowInRight } from 'react-icons/bs';
-import ButtonLink from '@/components/links/ButtonLink';
-import ConnectedBanks from '../ConnectedBanks';
-
-import { useConnectedBanks } from '@/services/data/queries';
 import { Spinner } from '@/components/shared/Loading';
 
-export default function BankMenu() {
-  const { data, isLoading } = useConnectedBanks();
+import { BankQuery } from '@/pages/app/cabinet';
+import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
 
-  const connectedBanksData = data?.data.detail.data;
+import ConnectedBanks from '../ConnectedBanks';
+import Card from '../../app/Card';
 
+export default function BankMenu({ bankQuery }: { bankQuery: BankQuery }) {
   return (
-    <MenuSection
-      className={clsx(
-        'w-full grow',
-        'relative',
-        'overflow-y-scroll',
-        'relative'
-      )}
-    >
-      <MenuHeader>
-        <h4>Connected Banks</h4>
-        <AddBankButton />
-      </MenuHeader>
+    <Card className='flex w-full flex-col justify-start gap-2 p-0'>
+      <div className='flex items-center justify-between'>
+        <strong className='font-mono uppercase'>Connected Banks</strong>
+        <div>
+          <AddBankButton />
+        </div>
+      </div>
 
-      {isLoading ? (
+      {bankQuery.isLoading ? (
         <Spinner />
       ) : (
-        <ConnectedBanks banksData={connectedBanksData} />
+        <ConnectedBanks banksData={bankQuery.data} />
       )}
-      <OpenAppButton className='fixed bottom-6 right-6' />
-    </MenuSection>
+    </Card>
   );
 }
 
@@ -48,18 +36,5 @@ const AddBankButton = () => {
     >
       Add bank
     </Button>
-  );
-};
-
-const OpenAppButton = ({ className }: { className?: string }) => {
-  return (
-    <ButtonLink
-      href='/app/overview'
-      variant='theme-dependent'
-      className={clsx('flex gap-2 py-1', className)}
-    >
-      <span className='text-sm'>Open app</span>
-      <BsBoxArrowInRight className='text-xl' />
-    </ButtonLink>
   );
 };
