@@ -1,11 +1,13 @@
-import logger from '@/lib/logger';
 import {
-  useState,
-  useMemo,
   createContext,
   useCallback,
   useContext,
+  useMemo,
+  useState,
 } from 'react';
+
+import logger from '@/lib/logger';
+
 import { requestLinkToken } from './actions';
 
 interface PlaidLinkContextShape {
