@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { ReactNode } from 'react';
+
 import { useTheme } from '@/context/ThemeProvider';
 
 interface CardProps {
@@ -26,7 +27,7 @@ export default function Card({ title, className, children, withBorder }: CardPro
           className={clsx(
             'absolute -top-3 left-0 px-1',
             'rounded-lg bg-transparent',
-            mode === 'light' ? 'bg-gray-300' : 'bg-gray-900'
+            // mode === 'light' ? 'bg-gray-300' : 'bg-gray-900'
           )}
         >
           {title}
