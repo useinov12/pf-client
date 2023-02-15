@@ -4,7 +4,7 @@ import { Spinner } from '@/components/shared/Loading';
 
 import { BankQuery } from '@/pages/app/cabinet';
 
-import ConnectedBanks from '../ConnectedBanks';
+import ConnectedBanks from './ConnectedBanks';
 
 export default function BankMenu({ bankQuery }: { bankQuery: BankQuery }) {
   return (
