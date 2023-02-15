@@ -48,9 +48,10 @@ export function Navbar() {
       <nav
         className={clsx(
           ' rounded px-3 py-1',
-          'inline-flex gap-3 border',
-          mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
-          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+          'inline-flex gap-3 '
+          // 'border',
+          // mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
+          // mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
         )}
       >
         <NavLinks />
