@@ -34,7 +34,7 @@ export function Navbar() {
     <div
       className={clsx(
         'sticky top-0',
-        'px-7 py-3',
+        'px-7 py-2',
         'flex items-center justify-between ',
         'z-40',
         !onTop &&
