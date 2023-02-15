@@ -53,7 +53,7 @@ function Overview({ data }: { data: InitialData }) {
         />
         <Summary
           banksData={data}
-          className='h-full w-full lg:h-[89vh] lg:w-2/3'
+          className='h-full w-full lg:h-[87vh] lg:w-2/3'
         />
       </section>
     </Layout>

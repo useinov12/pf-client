@@ -21,7 +21,7 @@ export default function BankList({
   const { mode } = useTheme();
 
   return (
-    <section className='h-fit'>
+    <section className='h-fit flex-none'>
       <ul className='flex h-full w-full list-none flex-wrap gap-1'>
         <li>
           <button
