@@ -7,29 +7,29 @@ import {
   useState,
 } from 'react';
 
-import ListOfBanks from '@/components/page/app/general/banks/BankList';
-import BankSection from '@/components/page/app/general/banks/SelectedBank';
+import ListOfBanks from '@/components/page/app/banks/BankList';
+import BankSection from '@/components/page/app/banks/SelectedBank';
 import Layout from '@/components/page/app/Layout';
 
-import { demoData } from '@/constant/demoData';
+import { demoData } from '@/constant/demo-data/demoData';
 import { Bank, ConnectedBanksDict } from '@/services/types';
 
 export default function BanksPage() {
-  const connectedBanksDict = demoData.connectedBanksDict;
+  const banksData = demoData;
 
   return (
-    <BankPageProvider connectedBanksDict={connectedBanksDict}>
+    <BankPageProvider connectedBanksDict={banksData.connectedBanksDict}>
       <Layout>
         <section
           className={clsx(
             'flex',
             'px-2 md:px-6',
             'flex-col',
-            'h-max w-full gap-6'
+            'h-[85vh] w-full gap-6'
           )}
         >
-          <ListOfBanks connectedBanksDict={connectedBanksDict} />
-          <BankSection connectedBanksDict={connectedBanksDict} />
+          <ListOfBanks connectedBanksDict={banksData.connectedBanksDict} />
+          <BankSection banksData={banksData} />
         </section>
       </Layout>
     </BankPageProvider>
