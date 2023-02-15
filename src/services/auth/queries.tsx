@@ -22,6 +22,7 @@ export const useAuth = () => {
     },
     select: (data: AxiosResponse<CurrentUserData, any>) =>
       formatUserApiResponse(data),
+    useErrorBoundary: true,
   });
 };
 

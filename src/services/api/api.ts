@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-import logger from '@/lib/logger';
 import { Storage } from '@/lib/storage';
 
 import { InitialData } from '@/constant/demo-data/demoData';
@@ -32,10 +31,8 @@ export const refreshAccessToken = () => {
   return apiPublic.get<RefreshTokenData>(`/refresh`, { headers });
 };
 
-export const getMe = () =>
-  apiPrivate
-    .get<CurrentUserData>(`/user`)
-    .catch((e) => logger(e, '🛑 get user error'));
+export const getMe = () => apiPrivate.get<CurrentUserData>(`/user`);
+// .catch((e) => logger(e, '🛑 get user error'));
 
 /* PLAID API */
 export const exchangePublicToken = (token: { public_token: string }) =>
