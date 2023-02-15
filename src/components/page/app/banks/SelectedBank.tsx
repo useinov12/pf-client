@@ -9,7 +9,7 @@ import DoughnutChart from '@/components/charts/Doughnut';
 import LineChart from '@/components/charts/LineChart';
 import { ChartDataFormat } from '@/components/charts/types';
 
-import { BanksData } from '@/constant/demoData';
+import { BanksData } from '@/constant/demo-data/demoData';
 import { useTheme } from '@/context/ThemeProvider';
 import { useBankPageContext } from '@/pages/app/banks';
 import { Account, Bank } from '@/services/types';
