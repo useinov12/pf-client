@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { CgArrowsExchange } from 'react-icons/cg';
@@ -9,6 +8,7 @@ import { RiArrowDropRightLine } from 'react-icons/ri';
 import { RiApps2Line, RiUserSettingsFill } from 'react-icons/ri';
 import { TbBuildingBank } from 'react-icons/tb';
 
+import UnstyledLink from '@/components/links/UnstyledLink';
 import Logo from '@/components/shared/Logo';
 import ThemeSwitch from '@/components/shared/ThemeSwitch';
 
@@ -36,7 +36,7 @@ export function Navbar() {
         'sticky top-0',
         'px-7 py-3',
         'flex items-center justify-between ',
-        'z-40 ',
+        'z-40',
         !onTop &&
           'bg-opacity-80 bg-clip-padding backdrop-blur-2xl backdrop-filter '
       )}
@@ -47,27 +47,27 @@ export function Navbar() {
 
       <nav
         className={clsx(
-          'rounded px-3 py-1',
+          ' rounded px-3 py-1',
           'inline-flex gap-3 border',
           mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
           mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
         )}
       >
-        <Navigation />
+        <NavLinks />
         <ThemeSwitch />
       </nav>
     </div>
   );
 }
 
-function Navigation() {
+function NavLinks() {
   const { mode } = useTheme();
   const router = useRouter();
   const location = router.asPath;
   return (
     <ul
       className={clsx(
-        'hidden md:flex',
+        'hidden lg:flex',
         'items-center gap-1  px-5',
         'border-r',
         mode === 'light' ? 'border-dark/50' : 'border-gray-300/50'
@@ -77,9 +77,9 @@ function Navigation() {
       <p className='pl-1 text-sm opacity-70'>Account</p>
       <strong className='text-xl '>John Doe</strong>
     </li> */}
-      {list.map((link) => (
+      {navLinkslist.map((link) => (
         <li key={link.title}>
-          <Link href={link.path}>
+          <UnstyledLink href={link.path}>
             <div
               className={clsx(
                 'w-[4.5rem] py-1',
@@ -103,52 +103,10 @@ function Navigation() {
               <span className='text-2xl'>{link.icon}</span>
               <span className='text-sm'>{link.title}</span>
             </div>
-          </Link>
+          </UnstyledLink>
         </li>
       ))}
     </ul>
-  );
-}
-
-export function MobileSidebar() {
-  const { openSidebar } = useAppPageContext();
-  const { mode } = useTheme();
-  const router = useRouter();
-  const location = router.asPath.slice(5);
-
-  return (
-    <nav
-      className={clsx(
-        'block md:hidden',
-        'h-[90vh] w-full',
-        'top-15 absolute z-50',
-        'ease transition-all duration-300',
-        openSidebar && '-translate-x-[105%]',
-        mode === 'light' ? 'bg-gray-200' : 'bg-gray-900'
-      )}
-    >
-      <ul className='my-3 mt-20 flex h-full w-full flex-col justify-start gap-3'>
-        {list.map((item, i) => (
-          <li
-            key={item.title}
-            className={clsx(
-              'w-full cursor-pointer py-3 px-4',
-              'text-xl sm:text-2xl',
-              location === item.title.toLowerCase() && 'font-semibold'
-            )}
-          >
-            <Link href={item.path}>
-              <div className='flex h-full w-full items-center gap-2'>
-                <>
-                  <span className='text-3xl'>{item.icon}</span>
-                  <h1>{item.title}</h1>
-                </>
-              </div>
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </nav>
   );
 }
 
@@ -157,7 +115,7 @@ export const MobileMenuButton = () => {
   return (
     <button
       onClick={hanldeSidebar}
-      className='inline-flex items-center py-2 md:hidden'
+      className='inline-flex items-center py-2 lg:hidden'
     >
       <HiMenuAlt1 className='text-3xl' />
       <RiArrowDropRightLine
@@ -171,7 +129,7 @@ export const MobileMenuButton = () => {
   );
 };
 
-const list = [
+export const navLinkslist = [
   {
     icon: <RiApps2Line />,
     title: 'General',
@@ -195,6 +153,6 @@ const list = [
   {
     icon: <RiUserSettingsFill />,
     title: 'Cabinet',
-    path: '/cabinet',
+    path: '/app/cabinet',
   },
 ];
