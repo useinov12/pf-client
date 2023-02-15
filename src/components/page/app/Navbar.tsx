@@ -63,7 +63,7 @@ export function Navbar() {
 function NavLinks() {
   const { mode } = useTheme();
   const router = useRouter();
-  const location = router.asPath;
+  const location = router.pathname;
   return (
     <ul
       className={clsx(
@@ -85,14 +85,11 @@ function NavLinks() {
                 'w-[4.5rem] py-1',
                 'flex flex-col items-center  justify-center  font-semibold',
                 mode === 'light'
-                  ? location === link.path && 'text-blue-600 '
-                  : location === link.path && 'text-blue-500',
-                mode === 'light'
                   ? location === link.path
-                    ? ' text-gray-900'
+                    ? ' text-blue-600'
                     : 'text-gray-800'
                   : location === link.path
-                  ? 'text-white'
+                  ? 'text-blue-500'
                   : 'text-gray-400',
                 mode === 'light'
                   ? location !== link.path && 'hover:text-gray-700'
@@ -132,7 +129,7 @@ export const MobileMenuButton = () => {
 export const navLinkslist = [
   {
     icon: <RiApps2Line />,
-    title: 'General',
+    title: 'Overview',
     path: '/app/overview',
   },
   {
