@@ -38,6 +38,7 @@ function Overview({ data }: { data: InitialData }) {
   return (
     <Layout>
       <section
+        data-fade='1'
         className={clsx(
           'flex',
           'px-2 md:px-6',
@@ -62,7 +63,7 @@ function Overview({ data }: { data: InitialData }) {
 export function PageLoading() {
   return (
     <Layout>
-      <div className=' h-full w-full  lg:h-[87vh]'>
+      <div className=' h-full w-full  lg:h-[87vh]' data-fade='1'>
         <div className='flex h-full w-full flex-col items-center justify-center gap-5'>
           <Image src='/images/logo.png' width={70} height={66} alt='logo' />
           <Spinner />

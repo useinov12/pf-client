@@ -85,6 +85,7 @@ const Cabinet = ({ bankQuery }: CabinetProps) => {
     <>
       <Layout>
         <section
+          data-fade='1'
           className={clsx(
             'flex',
             'px-0 md:px-6',

@@ -54,7 +54,7 @@ export default function usePageProtection() {
       timer = setTimeout(() => {
         setPageIsValidated(true);
         validateUrlParams();
-      }, 100);
+      }, 800);
     }
     return () => clearTimeout(timer);
   }, [router.isReady]);

@@ -21,6 +21,7 @@ export default function BanksPage() {
     <BankPageProvider connectedBanksDict={banksData.connectedBanksDict}>
       <Layout>
         <section
+          data-fade='1'
           className={clsx(
             'flex',
             'px-2 md:px-6',
