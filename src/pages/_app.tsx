@@ -8,6 +8,7 @@ import '@/styles/globals.css';
 
 import { SignInForm as SignInFormPopup } from '@/components/LoginForm/Form';
 
+import { AppPageProvider } from '@/context/AppPageContext';
 import { LoginFormProvider } from '@/context/LoginFormProvider';
 import ThemeProvider from '@/context/ThemeProvider';
 
@@ -18,7 +19,7 @@ export default function MyApp(props: AppProps) {
     props as AppProps;
 
   return (
-    <>
+    <AppPageProvider>
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <LoginFormProvider>
@@ -28,7 +29,7 @@ export default function MyApp(props: AppProps) {
           </LoginFormProvider>
         </QueryClientProvider>
       </ThemeProvider>
-    </>
+    </AppPageProvider>
   );
 }
 
