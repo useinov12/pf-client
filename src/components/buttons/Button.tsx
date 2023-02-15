@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ImSpinner2 } from 'react-icons/im';
 
 import clsxm from '@/lib/clsxm';
+
 import { ThemeContext } from '@/context/ThemeProvider';
 
 enum ButtonVariant {
@@ -16,7 +17,7 @@ enum ButtonVariant {
   'red-outline',
   'green-outline',
   'theme-dependent',
-  'transparent'
+  'transparent',
 }
 
 type ButtonProps = {
@@ -58,7 +59,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             variant === 'transparent' && [
               'bg-transparent',
               'shadow-none',
-      
+
               'hover:opacity-80',
               'active:opacity-90',
               'disabled:bg-primary-400 disabled:hover:bg-primary-400',
@@ -78,11 +79,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
             ],
             variant === 'ghost' && [
-              'text-primary-500',
               'shadow-none',
-              'hover:bg-gray-800 active:bg-primary-100 disabled:bg-primary-100',
-              isDarkBg &&
-                'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
+              'border-t border-b border-gray-500/50 md:border',
+              mode === 'light'
+                ? 'bg-gray-700/30 hover:bg-gray-400/60'
+                : 'bg-gray-500/20 hover:bg-gray-500/40',
             ],
             variant === 'green-ghost' && [
               'text-green-500',
@@ -113,7 +114,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
               'hover:bg-green-700 active:bg-green-600 disabled:bg-gray-700',
             ],
             variant === 'red-outline' && [
-              'text-dark',
+              // 'text-dark',
               'border border-red-700',
               'hover:bg-red-300 active:bg-red-400 disabled:bg-gray-700',
               isDarkBg &&
