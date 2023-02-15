@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import ButtonLink from '@/components/links/ButtonLink';
 import { Navbar } from '@/components/page/app/Navbar';
 import { navLinkslist } from '@/components/page/app/Navbar';
-import { UserMenu } from '@/components/page/cabinet/sections/User';
+import { UserMenu } from '@/components/page/cabinet/User';
 
 import { useAppPageContext } from '@/context/AppPageContext';
 import { useTheme } from '@/context/ThemeProvider';
