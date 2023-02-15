@@ -143,90 +143,119 @@ function SelectedBankAnalytics({
   banksData: BanksData;
   selectedBank: Bank;
 }) {
-  const { mode } = useTheme();
-  const savingMonthlyChange = months.map((d, i) =>
-    Number(faker.finance.amount(1000, 5000))
+  return (
+    <div className='flex h-screen w-full flex-col gap-1 lg:h-full lg:flex-row '>
+      <Transactions />
+      <ChartGroup selectedBank={selectedBank} banksData={banksData} />
+    </div>
   );
-  const checkingMonthlyChange = months.map((d, i) =>
-    Number(faker.finance.amount(-3000, 5000))
-  );
-  const creditMonthlyChange = months.map((d, i) =>
-    Number(faker.finance.amount(-3000, 3000))
-  );
+}
 
+function ChartGroup({
+  selectedBank,
+  banksData,
+}: {
+  banksData: BanksData;
+  selectedBank: Bank;
+}) {
+  const { mode } = useTheme();
   const lineChartDataset: ChartDataFormat = {
     label: 'Total Dynamic',
     labels: banksData.monthlyBalanceDynamic.months.slice(0, 6),
     datasets: [banksData.monthlyBalanceDynamic.balances.slice(0, 6)],
   };
+
+  return (
+    <section className='h-1/2 grow lg:h-full'>
+      <div
+        className={clsx(
+          ' h-1/2 w-full',
+          'border-b',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+        )}
+      >
+        <LineChart
+          incomingData={lineChartDataset}
+          width='100%'
+          height='100%'
+          styleOptions='APP'
+          // title={`${selectedBank[0].bank_name} balance dynamic`}
+          showScales={true}
+        />
+      </div>
+      <AccountTotalsDynamicChart />
+    </section>
+  );
+}
+
+function AccountTotalsDynamicChart() {
+  const savingMonthlyChange = months.map((d, i) =>
+    Number(faker.finance.amount(1000, 5000))
+  );
+  const checkingMonthlyChange = months.map((d, i) =>
+    Number(faker.finance.amount(1000, 5000))
+  );
+  const creditMonthlyChange = months.map((d, i) =>
+    Number(faker.finance.amount(-3000, 3000))
+  );
+
+  const [dataset, setDataset] = useState<number[]>(savingMonthlyChange);
+
   const stackedBarChartData: ChartDataFormat = {
     label: 'Balance',
     labels: months.map((month) => month.slice(0, 3)),
-    datasets: [savingMonthlyChange, checkingMonthlyChange, creditMonthlyChange],
+    datasets: [dataset],
     datasetsLabels: ['Saving change', 'Checking change', 'Credit Change'],
   };
 
   return (
-    <div className='flex h-screen w-full flex-col gap-1 lg:h-full lg:flex-row '>
-      <section
-        className={clsx(
-          'h-1/2 lg:h-full',
-          'w-full lg:w-1/2',
-          'flex-none overflow-hidden',
-          'border-b lg:border-none',
-          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
-        )}
-      >
-        <div
+    <div className='flex h-1/2 flex-col'>
+      <div className='inline-flex w-full flex-none'>
+        <Button
+          variant='ghost'
+          onClick={() => setDataset(savingMonthlyChange)}
           className={clsx(
-            'relative',
-            'h-full w-full  py-1  lg:border-r',
-            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+            'px-1  py-0 text-sm',
+            'w-1/2 lowercase',
+            'lg:rounded-none lg:rounded-br ',
+            'border-l-transparent border-t-transparent'
           )}
         >
-          <strong className='pl-2 font-semibold'>Transactions</strong> <br />
-          <li
-            className={clsx(
-              'inline-flex w-full gap-1 border-b py-1 pl-2',
-              mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
-            )}
-          >
-            <strong className='w-1/2 truncate  text-sm'>information</strong>
-            <div className='inline-flex w-1/2 justify-between '>
-              <strong className='w-1/2 text-sm'>type</strong>
-              <strong className='w-1/2 text-sm'>amount</strong>
-            </div>
-          </li>
-          <Transactions />
-        </div>
-      </section>
-      <section className='h-1/2 grow lg:h-full'>
-        <div
+          saving
+        </Button>
+        <Button
+          variant='ghost'
+          onClick={() => setDataset(checkingMonthlyChange)}
           className={clsx(
-            ' h-1/2 w-full',
-            'border-b',
-            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+            'px-1  py-0 text-sm',
+            'w-1/2 lowercase',
+            'lg:rounded-none lg:rounded-br ',
+            'border-l-transparent border-t-transparent'
           )}
         >
-          <LineChart
-            incomingData={lineChartDataset}
-            width='100%'
-            height='100%'
-            styleOptions='APP'
-            // title={`${selectedBank[0].bank_name} balance dynamic`}
-            showScales={true}
-          />
-        </div>
-        <div className='h-1/2 w-full'>
-          <BarChart
-            incomingData={stackedBarChartData}
-            width='100%'
-            height='100%'
-            styleOptions='APP'
-            // title={`${selectedBank[0].bank_name} monthly change by account type`}
-          />
-        </div>
-      </section>
+          checking
+        </Button>
+        <Button
+          variant='ghost'
+          onClick={() => setDataset(creditMonthlyChange)}
+          className={clsx(
+            'px-1  py-0 text-sm',
+            'w-1/2 lowercase',
+            'lg:rounded-none lg:rounded-br ',
+            'border-l-transparent border-t-transparent'
+          )}
+        >
+          credit
+        </Button>
+      </div>
+      <div className='h-full w-full grow'>
+        <BarChart
+          incomingData={stackedBarChartData}
+          width='100%'
+          height='100%'
+          styleOptions='APP'
+        />
+      </div>
     </div>
   );
 }
@@ -243,34 +272,64 @@ function Transactions() {
     };
   });
   return (
-    <ul
+    <section
       className={clsx(
-        'h-full w-full overflow-y-scroll',
-        'flex flex-col ',
-        'absolute top-16'
+        'h-1/2 lg:h-full',
+        'w-full lg:w-1/2',
+        'flex-none overflow-hidden',
+        'border-b lg:border-none',
+        mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
       )}
     >
-      {transactions.map((trans, i) => (
-        <li
-          key={`trans-${i}`}
+      <div
+        className={clsx(
+          'relative',
+          'h-full w-full  py-1  lg:border-r',
+          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
+        )}
+      >
+        <header
           className={clsx(
-            'cursor-pointer',
-            'inline-flex gap-1 border-b py-1  pl-2',
-            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
-            'bg-gray-600/10',
-            'hover:bg-gray-400/20',
-            mode === 'light' ? 'text-gray-700' : 'text-gray-400'
+            'inline-flex w-full gap-1 border-b py-1 pl-2',
+            mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
           )}
         >
-          <div className='w-1/2 text-sm'>
-            {trans.desc.split(' ').splice(2).join(' ')}
-          </div>
+          <strong className='w-1/2 truncate  text-sm'>Transactions</strong>
           <div className='inline-flex w-1/2 justify-between '>
-            <p className='w-1/2 text-sm'>{trans.type}</p>
-            <p className='w-1/2 text-sm'>$ {trans.amount}</p>
+            <strong className='w-1/2 text-sm'>type</strong>
+            <strong className='w-1/2 text-sm'>amount</strong>
           </div>
-        </li>
-      ))}
-    </ul>
+        </header>
+        <ul
+          className={clsx(
+            'h-full w-full overflow-y-scroll',
+            'flex flex-col ',
+            'absolute top-9'
+          )}
+        >
+          {transactions.map((trans, i) => (
+            <li
+              key={`trans-${i}`}
+              className={clsx(
+                'cursor-pointer',
+                'inline-flex gap-1 border-b py-1  pl-2',
+                mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20',
+                'bg-gray-600/10',
+                'hover:bg-gray-400/20',
+                mode === 'light' ? 'text-gray-700' : 'text-gray-400'
+              )}
+            >
+              <div className='w-1/2 truncate text-sm'>
+                {trans.desc.split(' ').splice(2).join(' ')}
+              </div>
+              <div className='inline-flex w-1/2 justify-between '>
+                <p className='w-1/2 text-sm'>{trans.type}</p>
+                <p className='w-1/2 text-sm'>$ {trans.amount}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }
