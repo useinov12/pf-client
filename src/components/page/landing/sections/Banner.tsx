@@ -1,10 +1,12 @@
-import { ReactNode } from 'react';
 import clsx from 'clsx';
-import Button from '@/components/buttons/Button';
 import Link from 'next/link';
+import { ReactNode } from 'react';
+
+import Button from '@/components/buttons/Button';
+import Polkadot from '@/components/shared/Polkadot';
+
 import { useLoginForm } from '@/context/LoginFormProvider';
 import { useTheme } from '@/context/ThemeProvider';
-import Polkadot from '@/components/shared/Polkadot';
 
 export default function BannerSection() {
   return (
@@ -87,15 +89,18 @@ const Banner = () => {
           mind
         </p>
         <div className='z-10 my-4 flex gap-8'>
-          <Link href='/finance'>
-            <Button variant='light' className='rounded-lg px-12 py-2 text-lg whitespace-nowrap drop-shadow-lg'>
+          <Link href='/app/overview'>
+            <Button
+              variant='light'
+              className='whitespace-nowrap rounded-lg px-12 py-2 text-lg drop-shadow-lg'
+            >
               Try Demo
             </Button>
           </Link>
           <Button
             variant='light'
             onClick={() => setOpenLoginForm(true)}
-            className='rounded-lg px-12 py-2 text-lg whitespace-nowrap drop-shadow-lg'
+            className='whitespace-nowrap rounded-lg px-12 py-2 text-lg drop-shadow-lg'
           >
             Sign Up
           </Button>
