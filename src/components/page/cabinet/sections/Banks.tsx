@@ -1,40 +1,31 @@
-import Button from '@/components/buttons/Button';
+import clsx from 'clsx';
+
 import { Spinner } from '@/components/shared/Loading';
 
 import { BankQuery } from '@/pages/app/cabinet';
-import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
 
 import ConnectedBanks from '../ConnectedBanks';
-import Card from '../../app/Card';
 
 export default function BankMenu({ bankQuery }: { bankQuery: BankQuery }) {
   return (
-    <Card className='flex w-full flex-col justify-start gap-2 p-0'>
-      <div className='flex items-center justify-between'>
+    <main
+      className={clsx(
+        'h-full w-full ',
+        'flex flex-col ',
+        'justify-start gap-2 pt-6'
+      )}
+    >
+      <div className='flex h-fit items-center justify-between'>
         <strong className='font-mono uppercase'>Connected Banks</strong>
-        <div>
-          <AddBankButton />
-        </div>
       </div>
 
-      {bankQuery.isLoading ? (
-        <Spinner />
-      ) : (
-        <ConnectedBanks banksData={bankQuery.data} />
-      )}
-    </Card>
+      <section className='h-full overflow-auto'>
+        {bankQuery.isLoading ? (
+          <Spinner />
+        ) : (
+          <ConnectedBanks banksData={bankQuery.data} />
+        )}
+      </section>
+    </main>
   );
 }
-
-const AddBankButton = () => {
-  const { generateLinkToken } = usePlaidContext();
-  return (
-    <Button
-      variant='green'
-      className='w-24 whitespace-nowrap py-1 text-sm'
-      onClick={generateLinkToken}
-    >
-      Add bank
-    </Button>
-  );
-};
