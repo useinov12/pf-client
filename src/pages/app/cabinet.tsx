@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import usePageProtection from '@/hooks/usePageProtection';
 
 import Button from '@/components/buttons/Button';
-import Layout from '@/components/page/cabinet/Layout';
-import BankMenu from '@/components/page/cabinet/sections/Banks';
-import { UserMenu as DesktopUserMenu } from '@/components/page/cabinet/sections/User';
+import Layout from '@/components/page/app/Layout';
+import BankMenu from '@/components/page/cabinet/Banks';
+import { UserMenu as DesktopUserMenu } from '@/components/page/cabinet/User';
 import LaunchLink from '@/components/plaid/LaunchLink';
 import { Popup } from '@/components/shared/Popup';
 
