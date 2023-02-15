@@ -35,7 +35,7 @@ export function Carousel({
     >
       <button
         className={clsx(
-          'h-full px-1',
+          'h-full px-5',
           'absolute top-0 left-0 z-10',
           'transition-colors duration-100',
           'pointer-events-none opacity-0',
@@ -65,7 +65,7 @@ export function Carousel({
       </section>
       <button
         className={clsx(
-          'h-full px-1',
+          'h-full px-5',
           'absolute top-0 right-0',
           'transition-colors duration-100',
           'pointer-events-none opacity-0',
