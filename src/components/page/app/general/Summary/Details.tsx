@@ -65,10 +65,10 @@ function AllBanksAnalytics({ banksData }: { banksData: BanksData }) {
     Number(faker.finance.amount(1000, 5000))
   );
   const checkingMonthlyChange = months.map((d, i) =>
-    Number(faker.finance.amount(-3000, 5000))
+    Number(faker.finance.amount(1000, 5000))
   );
   const creditMonthlyChange = months.map((d, i) =>
-    Number(faker.finance.amount(-3000, 3000))
+    Number(faker.finance.amount(1000, 3000))
   );
   const barChartDataset: ChartDataFormat = {
     label: 'Balance',
@@ -144,7 +144,7 @@ function SelectedBankAnalytics({
   selectedBank: Bank;
 }) {
   return (
-    <div className='flex h-screen w-full flex-col gap-1 lg:h-full lg:flex-row '>
+    <div className='flex h-screen w-full flex-col lg:h-full lg:flex-row '>
       <Transactions />
       <ChartGroup selectedBank={selectedBank} banksData={banksData} />
     </div>
