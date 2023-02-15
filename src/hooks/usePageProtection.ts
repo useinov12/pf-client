@@ -49,11 +49,12 @@ export default function usePageProtection() {
    */
   useEffect(() => {
     let timer: NodeJS.Timeout;
+    /* runs on client, when path is ready */
     if (router.isReady) {
       timer = setTimeout(() => {
         setPageIsValidated(true);
         validateUrlParams();
-      }, 500);
+      }, 100);
     }
     return () => clearTimeout(timer);
   }, [router.isReady]);
