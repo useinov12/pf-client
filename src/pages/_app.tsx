@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import '@/styles/globals.css';
 
-import { SignInForm as SignInFormPopup } from '@/components/LoginForm/Form';
+import { SignInForm as SignInFormPopup } from '@/components/signin/Form';
 
 import { AppPageProvider } from '@/context/AppPageContext';
 import { LoginFormProvider } from '@/context/LoginFormProvider';
