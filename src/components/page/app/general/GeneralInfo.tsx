@@ -11,7 +11,7 @@ import DoughnutChart from '@/components/charts/Doughnut';
 import LineChart from '@/components/charts/LineChart';
 import { ChartDataFormat } from '@/components/charts/types';
 
-import { BanksData } from '@/constant/demoData';
+import { BanksData } from '@/constant/demo-data/demoData';
 import { useTheme } from '@/context/ThemeProvider';
 
 import Card from '../Card';
@@ -25,9 +25,6 @@ export default function GeneralInfo({
 }) {
   return (
     <Card className={clsx('flex flex-col justify-start gap-2 p-0 ', className)}>
-      {/* <div className='flex items-center justify-between'>
-        <strong>General Info</strong>
-      </div> */}
       <AccountDetails banksData={banksData} />
     </Card>
   );
