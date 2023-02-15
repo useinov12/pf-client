@@ -1,10 +1,10 @@
-import { useEffect, useCallback, ReactNode } from 'react';
+import { ReactNode, useCallback, useEffect } from 'react';
 import {
-  usePlaidLink,
-  PlaidLinkOptionsWithLinkToken,
-  PlaidLinkOnSuccess,
   PlaidLinkOnEvent,
   PlaidLinkOnExit,
+  PlaidLinkOnSuccess,
+  PlaidLinkOptionsWithLinkToken,
+  usePlaidLink,
 } from 'react-plaid-link';
 
 interface LinkLaunchProps {
@@ -14,12 +14,14 @@ interface LinkLaunchProps {
   children?: ReactNode;
 }
 
-import { requestAccessToken } from '@/services/plaid/actions';
-import logger from '@/lib/logger';
-import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
-import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
+
+import logger from '@/lib/logger';
 import { Storage } from '@/lib/storage';
+
+import { requestAccessToken } from '@/services/plaid/actions';
+import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
 
 /**
   Uses the usePlaidLink hook to manage the Plaid Link creation.\

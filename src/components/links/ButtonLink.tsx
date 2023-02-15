@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import clsxm from '@/lib/clsxm';
-import { useContext } from 'react';
-import { ThemeContext } from '@/context/ThemeProvider';
 
 import UnstyledLink, {
   UnstyledLinkProps,
 } from '@/components/links/UnstyledLink';
+
+import { ThemeContext } from '@/context/ThemeProvider';
 
 enum ButtonVariant {
   'primary',
@@ -20,6 +20,7 @@ enum ButtonVariant {
   'red-outline',
   'green-outline',
   'theme-dependent',
+  'transparent',
 }
 
 type ButtonLinkProps = {
@@ -38,12 +39,19 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
         ref={ref}
         {...rest}
         className={clsxm(
-          'inline-flex items-center rounded px-4 py-2 font-medium',
+          'inline-flex items-center rounded px-4 py-1 font-medium',
           'focus:outline-none focus-visible:ring focus-visible:ring-primary-500',
           'shadow-sm',
-          'transition-colors duration-75',
           //#region  //*=========== Variants ===========
           [
+            variant === 'transparent' && [
+              'bg-transparent',
+              'shadow-none',
+
+              'hover:opacity-80',
+              'active:opacity-90',
+              'disabled:bg-primary-400 disabled:hover:bg-primary-400',
+            ],
             variant === 'primary' && [
               'bg-primary-500 text-white',
               'border border-primary-600',
@@ -59,11 +67,11 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
                 'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
             ],
             variant === 'ghost' && [
-              'text-primary-500',
               'shadow-none',
-              'hover:bg-gray-800 active:bg-primary-100 disabled:bg-primary-100',
-              isDarkBg &&
-                'hover:bg-gray-900 active:bg-gray-800 disabled:bg-gray-800',
+              'border-t border-b border-gray-500/50 md:border',
+              mode === 'light'
+                ? 'bg-gray-700/30 hover:bg-gray-400/60'
+                : 'bg-gray-500/20 hover:bg-gray-500/40',
             ],
             variant === 'green-ghost' && [
               'text-green-500',
@@ -94,7 +102,7 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
               'hover:bg-green-700 active:bg-green-600 disabled:bg-gray-700',
             ],
             variant === 'red-outline' && [
-              'text-dark',
+              // 'text-dark',
               'border border-red-700',
               'hover:bg-red-300 active:bg-red-400 disabled:bg-gray-700',
               isDarkBg &&

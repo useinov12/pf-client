@@ -14,51 +14,25 @@ export const months = [
 ];
 
 export const defaultColorsStroke = [
-  'rgba(63, 81, 181, 1)', // Indigo
-  'rgba(103, 101, 261, 1)', // Indigo
-  'rgba(73, 121, 201, 1)', // Indigo
-  'rgba(73, 51, 171, 1)', // Indigo
-  'rgba(83, 101, 161, 1)', // Indigo
-  'rgba(103, 91, 191, 1)', // Indigo
-  'rgba(103, 91, 201, 1)', // Indigo
-  // 'rgba(0, 150, 136, 1)', // Teal
-  // 'rgba(255, 193, 7, 1)', // Amber
-  // 'rgba(156, 39, 176, 1)', // Purple
-  // 'rgba(236, 64, 122, 1)', // Rose pink
-  // 'rgba(243, 156, 18, 1)', // Mustard yellow
-  // 'rgba(255, 87, 34, 1)', // Coral
-  // 'rgba(153, 102, 204, 1)', // Purple
-  // 'rgba(76, 175, 80, 1)', // Green
-  // 'rgba(0, 188, 212, 1)', // Turquoise
-  // 'rgba(121, 85, 72, 1)', // Cocoa brown
-  // 'rgba(189, 189, 189, 1)', // Silver
-  // 'rgba(205, 220, 57, 1)', // Lime
-  // 'rgba(139, 195, 74, 1)', // Olive
-  // 'rgba(255, 235, 59, 1)', // Yellow
+  'rgba(20, 52, 164, 1)', // Egyptian Blue
+  'rgba(30, 144, 255, 1)', // Dodger Blue
+  'rgba(0, 191, 255, 1)', // Deep Sky Blue
+  'rgba(0, 71, 171, 1)', // Cobalt Blue
+  'rgba(65, 105, 225, 1)', // Medium Blue
+  'rgba(100, 149, 237, 1)', // Cornflower Blue
+  'rgba(25, 25, 112, 1)', // Midnight Blue
+  'rgba(70, 130, 180, 1)', // Steel Blue
 ];
 
 export const defaultColorsBackground = [
-  'rgba(63, 81, 181, .4)', // Indigo
-  'rgba(103, 101, 261, .4)', // Indigo
-  'rgba(73, 121, 201, .4)', // Indigo
-  'rgba(73, 51, 171, .4)', // Indigo
-  'rgba(83, 101, 161, .4)', // Indigo
-  'rgba(103, 91, 191, .4)', // Indigo
-  'rgba(103, 91, 201, .4)', // Indigo
-  // 'rgba(0, 150, 136, .4)', // Teal
-  // 'rgba(255, 193, 7, .4)', // Amber
-  // 'rgba(156, 39, 176, .4)', // Purple
-  // 'rgba(236, 64, 122, .4)', // Rose pink
-  // 'rgba(243, 156, 18, .4)', // Mustard yellow
-  // 'rgba(255, 87, 34, .4)', // Coral
-  // 'rgba(153, 102, 204, .4)', // Purple
-  // 'rgba(76, 175, 80, .4)', // Green
-  // 'rgba(0, 188, 212, .4)', // Turquoise
-  // 'rgba(121, 85, 72, .4)', // Cocoa brown
-  // 'rgba(189, 189, 189, .4)', // Silver
-  // 'rgba(205, 220, 57, .4)', // Lime
-  // 'rgba(139, 195, 74, .4)', // Olive
-  // 'rgba(255, 235, 59, .4)', // Yellow
+  'rgba(20, 52, 164, .4)', // Egyptian Blue
+  'rgba(30, 144, 255, 0.4)', // Dodger Blue
+  'rgba(0, 191, 255, 0.4)', // Deep Sky Blue
+  'rgba(0, 71, 171, .4)', // Cobalt Blue
+  'rgba(65, 105, 225, 0.4)', // Medium Blue
+  'rgba(100, 149, 237, 0.4)', // Cornflower Blue
+  'rgba(25, 25, 112, 0.4)', // Midnight Blue
+  'rgba(70, 130, 180, 0.4)', // Steel Blue
 ];
 
 export const grayShades = [

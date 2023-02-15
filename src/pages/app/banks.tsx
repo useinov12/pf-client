@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import {
   createContext,
   ReactNode,
@@ -5,69 +6,34 @@ import {
   useEffect,
   useState,
 } from 'react';
-import clsx from 'clsx';
+
+import ListOfBanks from '@/components/page/app/banks/BankList';
+import BankSection from '@/components/page/app/banks/SelectedBank';
 import Layout from '@/components/page/app/Layout';
-import { useAppPageContext } from '@/context/AppPageContext';
-import {
-  AccountsSection,
-  StatisticSection,
-  ListOfBanks,
-} from '@/components/page/app/Banks';
-import { demoData } from '@/constant/demoData';
+
+import { demoData } from '@/constant/demo-data/demoData';
 import { Bank, ConnectedBanksDict } from '@/services/types';
-import { getTotalBalanceByBank } from '@/lib/dataFunctions';
 
 export default function BanksPage() {
-  const { openSidebar } = useAppPageContext();
-  const connectedBanksDict = demoData.connectedBanksDict;
+  const banksData = demoData;
 
   return (
-    <BankPageProvider connectedBanksDict={connectedBanksDict}>
+    <BankPageProvider connectedBanksDict={banksData.connectedBanksDict}>
       <Layout>
         <section
+          data-fade='1'
           className={clsx(
-            'pt-8 md:px-6',
-            'flex h-full flex-col gap-4',
-            openSidebar ? 'w-full md:w-[88.2%]' : 'w-full md:w-[95.8%]',
-            'overflow-y-scroll'
+            'flex',
+            'px-2 md:px-6',
+            'flex-col',
+            'h-[85vh] w-full gap-6'
           )}
         >
-          <ListOfBanks connectedBanksDict={connectedBanksDict} />
-          <BankSection connectedBanksDict={connectedBanksDict} />
+          <ListOfBanks connectedBanksDict={banksData.connectedBanksDict} />
+          <BankSection banksData={banksData} />
         </section>
       </Layout>
     </BankPageProvider>
-  );
-}
-
-function BankSection({
-  connectedBanksDict,
-}: {
-  connectedBanksDict: ConnectedBanksDict;
-}) {
-  const { selectedBank } = useBankPageContext();
-  const bankTotal =
-    selectedBank &&
-    getTotalBalanceByBank({
-      bank: selectedBank,
-      data: connectedBanksDict,
-    });
-
-  return (
-    <div>
-      {
-        <div className='mb-6 flex items-center justify-start gap-10 px-2'>
-          <h4 className='text-2xl'>
-            {selectedBank ? selectedBank : 'Select bank'}
-          </h4>
-          <h5 className='text-2xl'>$ {selectedBank ? bankTotal : 'xxxxx'}</h5>
-        </div>
-      }
-      <section className='my-0 flex h-full flex-col gap-x-4 lg:flex-row'>
-        <AccountsSection connectedBanksDict={connectedBanksDict} />
-        <StatisticSection />
-      </section>
-    </div>
   );
 }
 

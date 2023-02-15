@@ -1,8 +1,15 @@
 import { ConnectedBanksDict } from '@/services/types';
-import { months } from '@/components/charts/defaults';
 
-const banksDict: ConnectedBanksDict = {
+export const connectedBanksSet: ConnectedBanksDict = {
   'Navy Federal': [
+    {
+      id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
+      subtype: 'credit card',
+      bank_name: 'Navy Federal',
+      balance: 230,
+      name: 'More Rewards Amex',
+      user_id: 6,
+    },
     {
       id: 'nMXbrOz4BRSMDVnyZV50hpYaOvgXmvHAxvR4P',
       subtype: 'credit card',
@@ -34,7 +41,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'American Express',
       balance: 430,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -52,7 +59,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Capital One',
       balance: 100,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
   ],
@@ -62,7 +69,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Bank of America',
       balance: 800,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -80,7 +87,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Chase JP Morgan',
       balance: 1230,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -106,7 +113,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'PNC',
       balance: 567,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
     {
@@ -132,7 +139,7 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Union Pay',
       balance: 5678,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
       user_id: 6,
     },
   ],
@@ -142,34 +149,28 @@ const banksDict: ConnectedBanksDict = {
       subtype: 'credit card',
       bank_name: 'Trust Bank',
       balance: 1200,
-      name: 'MAKSYM KALINCHENKO -91008',
+      name: 'John Doe -91008',
+      user_id: 6,
+    },
+  ],
+  'Eagle Bank': [
+    {
+      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
+      subtype: 'credit card',
+      bank_name: 'Eagle Bank',
+      balance: 1200,
+      name: 'John Doe -91008',
+      user_id: 6,
+    },
+  ],
+  'Sunrise Bank': [
+    {
+      id: 'Rav3jBBy1LULQ3P8OqeZCMprNDzZDkSVoopOa',
+      subtype: 'credit card',
+      bank_name: 'Sunrise Bank',
+      balance: 1200,
+      name: 'John Doe -91008',
       user_id: 6,
     },
   ],
 };
-
-const demoMonhtlyTotalBalance = [
-  1200, 1700, 1400, 1800, 2100, 1900, 1700, 2200, 2400, 1800, 2100,
-];
-
-const demoMonths = months
-  .filter((_, i) => i < demoMonhtlyTotalBalance.length)
-  .map((month) => month.slice(0, 3));
-
-const demoMonthlyDynamic = {
-  months: demoMonths,
-  balances: demoMonhtlyTotalBalance,
-};
-
-export const demoData = {
-  monthlyBalanceDynamic: demoMonthlyDynamic,
-  connectedBanksDict: banksDict,
-};
-
-export interface BanksData {
-  monthlyBalanceDynamic: {
-    months: string[];
-    balances: number[];
-  };
-  connectedBanksDict: ConnectedBanksDict;
-}

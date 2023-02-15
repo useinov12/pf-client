@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import clsx from 'clsx';
 import { ThemeContext } from '@/context/ThemeProvider';
-import { SignInForm } from '@/components/LoginForm/Form';
+import { SignInForm } from '@/components/signin/Form';
 
 export default function SignUpPage() {
   const { mode } = useContext(ThemeContext);
@@ -21,4 +21,3 @@ export default function SignUpPage() {
     </div>
   );
 }
-

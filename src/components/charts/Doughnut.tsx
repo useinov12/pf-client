@@ -1,9 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
 import { Chart as ChartJS, ChartData } from 'chart.js';
+import { useEffect, useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
-import { ChartProps } from './types';
 import 'chart.js/auto';
+
 import { getChartDataStructure } from '@/lib/chartHelpers';
+
+import { useTheme } from '@/context/ThemeProvider';
+
+import { ChartProps } from './types';
 
 interface DoughnutChartProps extends ChartProps {
   width: string;
@@ -13,11 +17,11 @@ interface DoughnutChartProps extends ChartProps {
 export default function DoughnutChart({
   width,
   height,
-  delay,
   incomingData,
   styleOptions: chartStyles,
   title,
 }: DoughnutChartProps) {
+  const { mode } = useTheme();
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'polarArea'>>({
     datasets: [],
@@ -30,21 +34,15 @@ export default function DoughnutChart({
       return;
     }
 
-    const formatedChartData = getChartDataStructure({
+    const data = getChartDataStructure({
       incomingData,
       chartStyles,
       chart,
     });
-
-    if (delay) {
-      const timer = setTimeout(() => {
-        setChartData(formatedChartData);
-      }, delay);
-      return () => clearTimeout(timer);
-    } else setChartData(formatedChartData);
+    setChartData(data);
   }, [incomingData]);
 
-  options.plugins.title.text = title;
+  const options = getDoughnutChartOptions({ title, theme: mode });
 
   return (
     <Chart
@@ -58,30 +56,46 @@ export default function DoughnutChart({
   );
 }
 
-/* type declaration because typescript Chart js type error */
+/* type declaration for typescript Chart js */
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
 const alignLegend: AlitnType = 'center';
 
-/* type declaration because typescript Chart js type error */
-type PositionType = "center" | "left" | "top" | "right" | "bottom" | "chartArea" | undefined ;
+/* type declaration for typescript Chart js */
+type PositionType =
+  | 'center'
+  | 'left'
+  | 'top'
+  | 'right'
+  | 'bottom'
+  | 'chartArea'
+  | undefined;
 const position: PositionType = 'left';
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: true,
-      align: alignLegend,
-      position:position
-    //   color: '#C0C0C0',
+function getDoughnutChartOptions({
+  title,
+  theme,
+}: {
+  title: string | undefined;
+  theme: 'light' | 'dark';
+}) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: true,
+        align: alignLegend,
+        position: position,
+        color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+      },
+      title: {
+        display: title ? true : false,
+        text: title,
+        align: alignTitle,
+        color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+      },
     },
-    title: {
-      display: true,
-      text: 'Title',
-      align: alignTitle,
-    //   color: '#C0C0C0',
-    },
-  },
-};
+    radius: '70%',
+  };
+}

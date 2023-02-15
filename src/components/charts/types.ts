@@ -1,8 +1,7 @@
 export interface ChartProps{
-  incomingData: ChartDataFormat;
-  delay?:number;
+  incomingData: ChartDataFormat | undefined;
   styleOptions:StyleOptions
-  title:string
+  title?:string
 }
 export type StyleOptions = 'LANDING' | 'APP'
 
@@ -12,6 +11,7 @@ export type ChartDataFormat = {
   labels: string[];
   label: string; // common label is definitoin of dataset. Not the same as labels
   datasets: IncomingDataset[]; // array of datasets
+  datasetsLabels?: string[]; // label for each IncomingDataset in IncomingDataset[]
 };
 
 /* IncomingData mapped and datasets created */

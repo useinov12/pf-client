@@ -1,14 +1,14 @@
-import { useState } from 'react';
 import clsx from 'clsx';
-import { ConnectedBanksDict, Account } from '@/services/types';
-import Collapse from '@/components/shared/Collapse';
-import { useTheme } from '@/context/ThemeProvider';
-
+import { useState } from 'react';
 import { FiSettings } from 'react-icons/fi';
-import { MdDelete } from 'react-icons/md';
 import { IoMdArrowDroprightCircle } from 'react-icons/io';
+import { MdDelete } from 'react-icons/md';
+
+import Collapse from '@/components/shared/Collapse';
 
 import { useCabinetPageContext } from '@/context/CabinetContext';
+import { useTheme } from '@/context/ThemeProvider';
+import { Account, ConnectedBanksDict } from '@/services/types';
 
 const getBankList = (data: ConnectedBanksDict) => Object.keys(data);
 const getAccountsByBank = (bank: string, data: ConnectedBanksDict) =>
@@ -22,7 +22,7 @@ export default function ConnectedBanks({
   if (!banksData) return null;
   const connectedBanksList = getBankList(banksData);
   return (
-    <ul className='md:px-4'>
+    <ul className=''>
       {connectedBanksList.map((bank) => (
         <li key={bank} className='md:my-2'>
           <BankInstance
@@ -40,6 +40,7 @@ interface BankMenuProps {
   accounts: Account[];
 }
 function BankInstance({ bankName, accounts }: BankMenuProps) {
+  const { mode } = useTheme();
   const [open, setOpen] = useState(false);
   function handleCollapse() {
     setOpen((p) => !p);
@@ -48,19 +49,22 @@ function BankInstance({ bankName, accounts }: BankMenuProps) {
     <div
       className={clsx(
         'md:rounded',
-        'h-full overflow-hidden',
+        'h-full  w-fit overflow-hidden',
         'border-t border-b border-gray-500/50 md:border',
-        'shadow-sm hover:shadow-gray-400/30'
+        'shadow-sm hover:shadow-gray-400/30',
+        mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20'
       )}
     >
-      <div className='relative flex items-center gap-2 py-1 px-2'>
+      <div className='relative flex w-full items-center gap-2 py-1 px-2'>
         <CollapseButton handleCollapse={handleCollapse} expanded={open} />
 
-        <h5 className='font-mono font-semibold'>{bankName}</h5>
+        <div className='inline-flex w-full items-center justify-between'>
+          <h5 className='font-mono font-semibold'>{bankName}</h5>
 
-        <div className='fixed right-3 md:right-10'>
-          <ConfigureBankButton />
-          <RemoveBankButton />
+          <div className=' right-3 md:right-20'>
+            <ConfigureBankButton />
+            <RemoveBankButton />
+          </div>
         </div>
       </div>
 

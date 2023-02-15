@@ -1,6 +1,15 @@
-import logger from '@/lib/logger';
+import { AxiosResponse } from 'axios';
 import { useQuery } from 'react-query';
-import { getConnectedBanks as apiGetConnectedBanks } from '../api/api';
+
+import logger from '@/lib/logger';
+
+import { InitialData } from '@/constant/demo-data/demoData';
+import { ConnectedBanksData } from '@/services/types';
+
+import {
+  getConnectedBanks as apiGetConnectedBanks,
+  nextApiGetDemoBanks,
+} from '../api/api';
 
 export const useConnectedBanks = () => {
   return useQuery(['banks'], apiGetConnectedBanks, {
@@ -8,6 +17,22 @@ export const useConnectedBanks = () => {
       logger(response, 'Connected banks response');
       // structure data
     },
-    // refetch:false
+    select: (response: AxiosResponse<ConnectedBanksData, unknown>) =>
+      response.data.detail.data,
+    // enabled: false, // disable this query from automatically running
   });
 };
+
+export function useDemoBanks() {
+  return useQuery(['demoData'], nextApiGetDemoBanks, {
+    onSuccess: (response) => {
+      // structure data
+      logger(response, 'DEMO DATA LOADED');
+    },
+    select: (response: AxiosResponse<InitialData, any>) => {
+      logger(response, 'DEMO DATA SELECTED');
+      return response.data;
+    },
+    enabled: false, // needed to handle refetchs manually
+  });
+}

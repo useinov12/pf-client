@@ -1,18 +1,18 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import https from 'https';
-import logger from '@/lib/logger';
-import { Storage } from '@/lib/storage';
-import { memoizeRefreshTokens } from '../auth/actions';
-import jwt from 'jsonwebtoken';
 import dayjs from 'dayjs';
 import jwt_decode from 'jwt-decode';
+
+import logger from '@/lib/logger';
+import { Storage } from '@/lib/storage';
+
+import { memoizeRefreshTokens } from '../auth/actions';
 
 /**
  * Axios API instance for requests that do not require **Auth**\
  * docs: https://github.com/axios/axios#config-defaults
  *  */
 export const apiPublic = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}`,
+  baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}/api/`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -23,7 +23,7 @@ export const apiPublic = axios.create({
  * docs: https://github.com/axios/axios#config-defaults
  *  */
 export const apiPrivate = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}`,
+  baseURL: `${process.env.NEXT_PUBLIC_SERVER_PATH}/api/`,
   // withCredentials: true,
 });
 

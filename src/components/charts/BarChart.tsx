@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
 import { Chart as ChartJS, ChartData } from 'chart.js';
 import { getChartDataStructure } from '@/lib/chartHelpers';
-import { ChartProps } from './types';
+import { ChartProps, StyleOptions } from './types';
 
 import 'chart.js/auto';
+import { shortSumFormatter } from '@/lib/sharedUtils';
+import { useTheme } from '@/context/ThemeProvider';
 
 interface BarChartProps extends ChartProps {
   width: string;
@@ -16,13 +18,13 @@ interface BarChartProps extends ChartProps {
 export default function BarChart({
   width,
   height,
-  delay,
   incomingData,
   stacked,
   vertical,
   styleOptions: chartStyles,
   title,
 }: BarChartProps) {
+  const { mode } = useTheme();
   const chartRef = useRef<ChartJS>(null);
   const [chartData, setChartData] = useState<ChartData<'line'>>({
     datasets: [],
@@ -31,9 +33,7 @@ export default function BarChart({
   useEffect(() => {
     const chart = chartRef.current;
 
-    if (!chart || !incomingData) {
-      return;
-    }
+    if (!chart || !incomingData) return;
 
     const chartData = getChartDataStructure({
       incomingData,
@@ -41,34 +41,17 @@ export default function BarChart({
       chart,
     });
 
-    if (delay) {
-      const timer = setTimeout(() => {
-        setChartData(chartData);
-      }, delay);
-      return () => clearTimeout(timer);
-    } else setChartData(chartData);
+    setChartData(chartData);
   }, [incomingData]);
 
-  /* Set Bar Chart options: Vertical, Stacked */
-  const options = vertical ? optionsVertical : optionsHorizontal;
-  options.plugins.title.text = title;
-  chartStyles === 'APP'
-    ? (options.scales.y.display = true)
-    : (options.scales.y.display = false);
-
-  // options.scales.y.ticks = {...dollarTicks};
-
-  useEffect(() => {
-    stacked
-      ? () => {
-          options.scales.x.stacked = true;
-          options.scales.y.stacked = true;
-        }
-      : () => {
-          options.scales.x.stacked = false;
-          options.scales.y.stacked = false;
-        };
-  }, []);
+  /* Set Bar Chart options: Vertical, Stacked, chartStyles, title */
+  const options = getBarChartOptions({
+    title,
+    vertical,
+    stacked,
+    chartStyles,
+    theme: mode,
+  });
 
   return (
     <Chart
@@ -86,74 +69,86 @@ export default function BarChart({
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
 
-/* Chart JS oprtions for Bar Chart*/
-const optionsCommon = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-      display: false,
-    },
-    title: {
-      display: true,
-      text: 'Title',
-      align: alignTitle,
-      // color: '#C0C0C0',
-    },
-  },
-  scales: {
-    y: {
-      display: true,
-      stacked: false,
-      grid: {
-        color: 'transparent',
+/* Accept all conditions and return Chart JS options object for BarChart */
+function getBarChartOptions({
+  title,
+  vertical,
+  stacked,
+  chartStyles,
+  theme,
+}: {
+  title: string | undefined;
+  vertical: boolean | undefined;
+  stacked: boolean | undefined;
+  chartStyles: StyleOptions;
+  theme: 'light' | 'dark';
+}) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'top' as const,
+        display: false,
       },
-      autoSkip: true,
-      ticks: {},
-      // ticks: {
-      // //   // color: '#C0C0C0',
-      // //   // Include a dollar sign in the ticks
-      //   callback: (value: string | number, index: number, ticks: any) => {
-      //     const formatter = Intl.NumberFormat('en', {
-      //       notation: 'compact',
-      //       compactDisplay: 'short',
-      //     });
-      //     return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
-      //   },
-      // },
-    },
-    x: {
-      display: true,
-      stacked: false,
-      grid: {
-        color: 'transparent',
-      },
-      ticks: {
-        // color: '#C0C0C0',
+      title: {
+        display: title ? true : false,
+        text: title ? title : 'none',
+        align: alignTitle,
+        color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+        padding: 15,
       },
     },
-  },
-};
+    indexAxis: vertical ? ('y' as const) : ('x' as const),
+    scales: {
+      y: {
+        display: chartStyles === 'APP' ? true : false,
+        stacked: stacked,
+        grid: {
+          color:
+            theme === 'light'
+              ? 'rgba(105, 105, 105, .4)'
+              : 'rgba(128, 128, 128, .4)',
+          drawOnChartArea: false,
+          drawTicks: false,
+        },
+        autoSkip: true,
+        ticks: vertical
+          ? {
+              color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+            }
+          : dollarTicks(theme),
+      },
+      x: {
+        display: true,
+        stacked: stacked,
+        grid: {
+          color:
+            theme === 'light'
+              ? 'rgba(105, 105, 105, .4)'
+              : 'rgba(128, 128, 128, .4)',
 
-const optionsVertical = {
-  ...optionsCommon,
-  indexAxis: 'y' as const,
-};
+          drawOnChartArea: false,
+          offset: true,
+        },
+        ticks: vertical
+          ? dollarTicks(theme)
+          : {
+              color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+            },
+      },
+    },
+  };
+}
 
-const optionsHorizontal = {
-  ...optionsCommon,
-  indexAxis: 'x' as const,
-};
-
-const dollarTicks = {
-  // color: '#C0C0C0',
-  // Include a dollar sign in the ticks
-  callback: (value: string | number, index: number, ticks: any) => {
-    const formatter = Intl.NumberFormat('en', {
-      notation: 'compact',
-      compactDisplay: 'short',
-    });
-    return index % 2 === 0 ? '$' + formatter.format(Number(value)) : '';
-  },
+const dollarTicks = (theme: 'light' | 'dark') => {
+  return {
+    padding: 9,
+    color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
+    callback: (value: string | number, index: number, ticks: any) => {
+      return index % 2 === 0
+        ? '$' + shortSumFormatter.format(Number(value))
+        : '';
+    },
+  };
 };

@@ -1,15 +1,17 @@
 import clsx from 'clsx';
-import { useTheme } from '@/context/ThemeProvider';
-import { useEffect, useState, useContext, ReactNode } from 'react';
 import Link from 'next/link';
+import { ReactNode, useContext, useEffect, useState } from 'react';
+import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from 'react-icons/bs';
+
 import Button from '@/components/buttons/Button';
-import { LoginFormContext } from '@/context/LoginFormProvider';
-import { useAuth } from '@/services/auth/queries';
-import ThemeButton from '../../shared/ThemeSwitch';
 import UnderlineLink from '@/components/links/UnderlineLink';
 import LayoutCommon from '@/components/shared/LayoutCommon';
-import { BsFacebook, BsInstagram, BsTwitter, BsGithub } from 'react-icons/bs';
-import { IconType } from 'react-icons/lib';
+
+import { LoginFormContext } from '@/context/LoginFormProvider';
+import { useTheme } from '@/context/ThemeProvider';
+import { useAuth } from '@/services/auth/queries';
+
+import ThemeButton from '../../shared/ThemeSwitch';
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -25,7 +27,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <LayoutCommon isLoaded={isLoaded}>
       <Navbar />
-      <main className='relative' data-fade='2'>
+      <main className='relative overflow-hidden' data-fade='2'>
         {children}
       </main>
       <Footer />
@@ -59,7 +61,6 @@ const Navbar = () => {
     </div>
   );
 };
-
 
 const AppLink = () => {
   return (
@@ -108,7 +109,7 @@ const Footer = () => {
       </ul>
 
       <section className='text-center'>
-        © {new Date().getFullYear()} {''}
+        © {new Date().getFullYear()}
         <UnderlineLink href='/' className='pl-1'>
           PersonalFinance
         </UnderlineLink>

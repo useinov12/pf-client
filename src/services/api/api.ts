@@ -1,15 +1,20 @@
+import axios from 'axios';
+
+import { Storage } from '@/lib/storage';
+
+import { InitialData } from '@/constant/demo-data/demoData';
+
 import { apiPrivate, apiPublic } from './instances';
 import {
+  ConnectedBanksData,
   CurrentUserData,
   LinkTokenData,
-  RegisterCredentials,
   LoginCredentials,
   LoginData,
-  RegisterData,
   RefreshTokenData,
-  ConnectedBanksData,
+  RegisterCredentials,
+  RegisterData,
 } from '../types';
-import { Storage } from '@/lib/storage';
 
 /* USER API */
 export const createNewUser = (credentials: RegisterCredentials) =>
@@ -38,3 +43,24 @@ export const getLinkToken = () =>
 /* DATA API */
 export const getConnectedBanks = () =>
   apiPrivate.get<ConnectedBanksData>('/accounts/get');
+
+export const nextApiGetDemoBanks = () =>
+  axios.get<InitialData>(`http://localhost:3000/api/demo-data`, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+// export const nextApiGetDemoBanks = async () => {
+//   try {
+//     const resp = await axios.get<InitialData>(
+//       `http://localhost:3000/api/demo-data`,
+//       {
+//         headers: { 'Content-Type': 'application/json' },
+//       }
+//     );
+//     if (resp.status === 200) {
+//       return resp.data;
+//     }
+//   } catch (e) {
+//     logger(e, '☹️ NEXT DEMO ERROR');
+//   }
+// };

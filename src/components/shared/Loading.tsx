@@ -1,7 +1,7 @@
-import { useLayoutEffect, useRef } from 'react';
 import clsx from 'clsx';
 import gsap from 'gsap';
 import Image from 'next/image';
+import { useLayoutEffect, useRef } from 'react';
 
 const Loading = () => {
   const timeline = useRef(gsap.timeline());
@@ -30,7 +30,7 @@ const Loading = () => {
     <div
       ref={loadingContainerRef}
       className={clsx(
-        'h-screen w-screen',
+        'h-full w-full',
         'transition-all delay-75 duration-150',
         'bg-gradient-to-bl from-gray-700 via-gray-900 to-black ',
         'cursor-none',
@@ -38,7 +38,7 @@ const Loading = () => {
       )}
     >
       <div ref={logoRef} className='flex flex-col items-center justify-center'>
-        <Image src={'/images/logo.png'} width={120} height={110} />
+        <Image src='/images/logo.png' width={120} height={110} alt='logo' />
         <Spinner />
       </div>
     </div>
@@ -48,6 +48,6 @@ export default Loading;
 
 export const Spinner = () => {
   return (
-    <div className='h-12 w-12 animate-spin rounded-full border-4 border-dashed border-primary-500' />
+    <div className='h-12 w-12 animate-spin rounded-full border-4 border-dashed border-primary-500 ' />
   );
 };

@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import SignUp from './SignUp';
-import Login from './Login';
-import { Popup } from '../shared/Popup';
-import Logo from '../shared/Logo';
+import { useEffect, useState } from 'react';
+
 import { useLoginForm } from '@/context/LoginFormProvider';
+
+import Login from './Login';
+import SignUp from './SignUp';
+import Logo from '../shared/Logo';
+import { Popup } from '../shared/Popup';
 
 interface SignInFormProps {
   withCloseBtn?: boolean;

@@ -1,5 +1,4 @@
-import { ConnectedBanksDict, Account, Bank } from '@/services/types';
-import { months } from '@/components/charts/defaults';
+import { Account, Bank, ConnectedBanksDict } from '@/services/types';
 
 // get list of all acounts from all banks
 export function getListOfAllAccounts(data: ConnectedBanksDict): Account[] {

@@ -13,7 +13,6 @@ interface PolarAreaChartProps extends ChartProps {
 export default function PolarAreaChart({
   width,
   height,
-  delay,
   incomingData,
   styleOptions: chartStyles,
   title,
@@ -26,25 +25,17 @@ export default function PolarAreaChart({
   useEffect(() => {
     const chart = chartRef.current;
 
-    if (!chart || !incomingData) {
-      return;
-    }
+    if (!chart || !incomingData) return;
 
-    const formatedChartData = getChartDataStructure({
+    const data = getChartDataStructure({
       incomingData,
       chartStyles,
       chart,
     });
-
-    if (delay) {
-      const timer = setTimeout(() => {
-        setChartData(formatedChartData);
-      }, delay);
-      return () => clearTimeout(timer);
-    } else setChartData(formatedChartData);
+    setChartData(data);
   }, [incomingData]);
 
-  options.plugins.title.text = title;
+  const options = getPolarAreaChartOptions({ title });
 
   return (
     <Chart
@@ -62,31 +53,32 @@ export default function PolarAreaChart({
 type AlitnType = 'start' | 'end' | 'center' | undefined;
 const alignTitle: AlitnType = 'start';
 
-const options = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: true,
-      text: 'Title',
-      align: alignTitle,
-      color: '#C0C0C0',
-    },
-  },
-  scales: {
-    r: {
-      grid: {
-        color: 'rgba(63, 81, 181, .4)',
+function getPolarAreaChartOptions({ title }: { title: string | undefined }) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        display: false,
       },
-      ticks:{
-        color: 'gray',
-        backdropColor: 'transparent',
-        z:100
-      }
-      
+      title: {
+        display: title ? true : false,
+        text: title,
+        align: alignTitle,
+        color: '#C0C0C0',
+      },
     },
-  },
-};
+    scales: {
+      r: {
+        grid: {
+          color: 'rgba(63, 81, 181, .4)',
+        },
+        ticks: {
+          color: 'gray',
+          backdropColor: 'transparent',
+          z: 100,
+        },
+      },
+    },
+  };
+}
