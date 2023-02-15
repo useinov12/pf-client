@@ -16,7 +16,7 @@ export default function OverviewPage() {
 
   const { data: user, isSuccess } = useAuth();
 
-  if (!pageIsValidated) return <Loading />;
+  if (!pageIsValidated) return <PageLoading />;
 
   const isLoggedIn = isSuccess && user;
 
@@ -59,7 +59,7 @@ function Overview({ data }: { data: InitialData }) {
   );
 }
 
-function Loading() {
+export function PageLoading() {
   return (
     <Layout>
       <div className=' h-full w-full  lg:h-[87vh]'>
