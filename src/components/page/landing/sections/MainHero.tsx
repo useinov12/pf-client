@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, {
   MutableRefObject,
   ReactNode,
@@ -5,16 +6,19 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import clsx from 'clsx';
-import ArrowLink from '@/components/links/ArrowLink';
-import Logo from '@/components/shared/Logo';
-import { useTheme } from '@/context/ThemeProvider';
-import Polkadot from '../../../shared/Polkadot';
-import { useAuth } from '@/services/auth/queries';
-import { useLoginForm } from '@/context/LoginFormProvider';
-import { gsap } from '@/lib/gsap';
-import ButtonLink from '@/components/links/ButtonLink';
 import { FaExternalLinkAlt } from 'react-icons/fa';
+
+import { gsap } from '@/lib/gsap';
+
+import ArrowLink from '@/components/links/ArrowLink';
+import ButtonLink from '@/components/links/ButtonLink';
+import Logo from '@/components/shared/Logo';
+
+import { useLoginForm } from '@/context/LoginFormProvider';
+import { useTheme } from '@/context/ThemeProvider';
+import { useAuth } from '@/services/auth/queries';
+
+import Polkadot from '../../../shared/Polkadot';
 
 export default function MainHeroSection() {
   /* to postpone the animation sequence until component is mounted */
@@ -33,7 +37,7 @@ export default function MainHeroSection() {
 
   return (
     <Container
-      className='mb-20 flex flex-col gap-6 overflow-hidden py-5 lg:flex-row'
+      className='mb-20 flex flex-col gap-6 py-5 lg:flex-row'
       isMounted={isMounted}
       timeline={masterTimeline}
     >
@@ -61,7 +65,7 @@ const Container = ({
   isMounted,
 }: SectionWrapperProps) => {
   return (
-    <div className='relative h-full w-screen overflow-hidden'>
+    <div className='relative h-full w-full'>
       <BgSurface timeline={timeline} isMounted={isMounted} />
       <div
         className={clsx(
@@ -119,14 +123,14 @@ const BgSurface = ({
     <div
       ref={BgSurfaceRef}
       className={clsx(
-        'opacity-0' /* opacity handeled by gsap animation */,
+        'opacity-0 ' /* opacity handeled by gsap animation */,
         'absolute',
         'mt-[24rem] lg:mt-0',
         'h-[70vh] md:h-[90vh]',
         'w-1/2 lg:w-1/3',
         'right-0',
         'rounded-tl-3xl rounded-bl-3xl',
-        mode === 'light' ? 'bg-gray-400/90' : 'bg-gray-900/50'
+        mode === 'light' ? 'bg-gray-300/90' : 'bg-gray-900/50'
       )}
     />
   );
@@ -144,6 +148,8 @@ const HeroDemo = ({
   const animationScope = useRef<HTMLDivElement | null>(null);
   const PolkadotRef = useRef<HTMLDivElement | null>(null);
   const DemoRef = useRef<HTMLDivElement | null>(null);
+
+  const { mode } = useTheme();
 
   /* animate Polkadot and DemoCard */
   useEffect(() => {
@@ -201,28 +207,30 @@ const HeroDemo = ({
       <div
         ref={DemoRef}
         className={clsx(
+          'border',
+          mode === 'light' ? 'border-dark/20' : 'border-gray-400/50',
           'opacity-0',
           'mt-28',
           'h-[30rem] w-[30rem]',
           'md:h-[40rem] md:w-[40rem]',
-          'rounded-2xl drop-shadow-lg',
+          'rounded-lg drop-shadow-lg',
           'translate-x-20 sm:translate-x-0',
           'relative overflow-hidden',
-          "bg-[url('/images/card.png')] bg-cover"
+          "bg-[url('/images/demoLight.png')] bg-cover"
         )}
       >
         <div
           className={clsx(
             'h-full w-full',
             'transition-all duration-300',
-            'flex items-center justify-center',
-            'bg-gradient-to-b from-transparent via-transparent to-dark/40'
+            'flex items-center justify-center'
+            // 'bg-gradient-to-b from-transparent via-transparent to-dark/20'
           )}
         >
           <ButtonLink
-            href='/app/overview'
+            href='/app/overview/?location=demo'
             variant='dark'
-            className='mt-80 inline-flex items-center gap-2 rounded-2xl px-8 text-xl'
+            className='mt-80 inline-flex items-center gap-2 rounded-2xl px-8 py-1 text-xl'
           >
             <FaExternalLinkAlt className='opacity-70' />
             <span>Demo</span>
