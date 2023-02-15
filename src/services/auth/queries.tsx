@@ -1,7 +1,9 @@
-import { useQuery } from 'react-query';
-import logger from '@/lib/logger';
-import { getMe } from '../api/api';
 import { AxiosResponse } from 'axios';
+import { useQuery } from 'react-query';
+
+import logger from '@/lib/logger';
+
+import { getMe } from '../api/api';
 import { CurrentUserData } from '../types';
 import { UserInContext } from '../types';
 
