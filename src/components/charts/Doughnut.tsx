@@ -1,10 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
 import { Chart as ChartJS, ChartData } from 'chart.js';
+import { useEffect, useRef, useState } from 'react';
 import { Chart } from 'react-chartjs-2';
-import { ChartProps } from './types';
 import 'chart.js/auto';
+
 import { getChartDataStructure } from '@/lib/chartHelpers';
+
 import { useTheme } from '@/context/ThemeProvider';
+
+import { ChartProps } from './types';
 
 interface DoughnutChartProps extends ChartProps {
   width: string;
@@ -93,5 +96,6 @@ function getDoughnutChartOptions({
         color: theme === 'dark' ? 'rgba(178, 178, 178, 1)' : '#000',
       },
     },
+    radius: '70%',
   };
 }
