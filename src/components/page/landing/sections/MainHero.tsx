@@ -270,7 +270,7 @@ const HeroText = ({ className }: { className?: string }) => {
               </span>
             </h2>
             <ArrowLink
-              href='/cabinet'
+              href='/app/cabinet'
               className='text-md bg-gradient-to-r from-primary-400 to-primary-600'
             >
               Go to cabinet
