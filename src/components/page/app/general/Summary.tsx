@@ -5,7 +5,7 @@ import BankList from '@/components/page/app/general/Summary/BankList';
 import Details from '@/components/page/app/general/Summary/Details';
 import Overview from '@/components/page/app/general/Summary/Overview';
 
-import { BanksData } from '@/constant/demoData';
+import { BanksData } from '@/constant/demo-data/demoData';
 import { Bank } from '@/services/types';
 
 import Card from '../Card';

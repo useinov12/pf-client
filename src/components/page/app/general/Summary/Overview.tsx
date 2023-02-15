@@ -11,7 +11,7 @@ import LineChart from '@/components/charts/LineChart';
 import { ChartDataFormat } from '@/components/charts/types';
 import { Carousel, CarouselItem } from '@/components/shared/Carousel';
 
-import { BanksData } from '@/constant/demoData';
+import { BanksData } from '@/constant/demo-data/demoData';
 import { useTheme } from '@/context/ThemeProvider';
 import { Bank } from '@/services/types';
 

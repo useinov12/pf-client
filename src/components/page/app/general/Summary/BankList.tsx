@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Dispatch, SetStateAction } from 'react';
 
-import { BanksData } from '@/constant/demoData';
+import { BanksData } from '@/constant/demo-data/demoData';
 import { useTheme } from '@/context/ThemeProvider';
 import { Bank } from '@/services/types';
 
