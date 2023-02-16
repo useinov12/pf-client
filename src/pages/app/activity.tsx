@@ -1,5 +1,5 @@
 import ComingSoonBanner from '@/components/ComingSoonBanner';
 
-export default function AccountsPage() {
+export default function TransactionsPage() {
   return <ComingSoonBanner />;
 }

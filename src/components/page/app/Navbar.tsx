@@ -45,15 +45,7 @@ export function Navbar() {
 
       <Logo width={60} height={55} className='scale-100 hover:scale-[1.03]' />
 
-      <nav
-        className={clsx(
-          ' rounded px-3 py-1',
-          'inline-flex gap-3 '
-          // 'border',
-          // mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
-          // mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
-        )}
-      >
+      <nav className={clsx(' rounded px-3 py-1', 'inline-flex gap-3 ')}>
         <NavLinks />
         <ThemeSwitch />
       </nav>
@@ -63,7 +55,6 @@ export function Navbar() {
 
 function NavLinks() {
   const { mode } = useTheme();
-  // const location = router.pathname;
   return (
     <ul
       className={clsx(
@@ -79,15 +70,9 @@ function NavLinks() {
     </li> */}
       {navLinkslist.map((link) => (
         <li key={link.title}>
-          {link.isReady ? (
-            <UnstyledLink href={link.path}>
-              <NavLink link={link} />
-            </UnstyledLink>
-          ) : (
-            <div className='cursor-not-allowed'>
-              <NavLink link={link} />
-            </div>
-          )}
+          <UnstyledLink href={link.path}>
+            <NavLink link={link} />
+          </UnstyledLink>
         </li>
       ))}
     </ul>
@@ -106,7 +91,6 @@ function NavLink({
 }) {
   const { mode } = useTheme();
   const { pathname } = useRouter();
-  // const location = router.pathname;
   return (
     <div
       className={clsx(
@@ -177,7 +161,7 @@ export const navLinkslist = [
   {
     icon: <CgArrowsExchange />,
     title: 'Activity',
-    path: '/app/transactions',
+    path: '/app/activity',
     isReady: false,
   },
 ];
