@@ -63,8 +63,7 @@ export function Navbar() {
 
 function NavLinks() {
   const { mode } = useTheme();
-  const router = useRouter();
-  const location = router.pathname;
+  // const location = router.pathname;
   return (
     <ul
       className={clsx(
@@ -80,31 +79,54 @@ function NavLinks() {
     </li> */}
       {navLinkslist.map((link) => (
         <li key={link.title}>
-          <UnstyledLink href={link.path}>
-            <div
-              className={clsx(
-                'w-[4.5rem] py-1',
-                'flex flex-col items-center  justify-center  font-semibold',
-                mode === 'light'
-                  ? location === link.path
-                    ? ' text-blue-600'
-                    : 'text-gray-800'
-                  : location === link.path
-                  ? 'text-blue-500'
-                  : 'text-gray-400',
-                mode === 'light'
-                  ? location !== link.path && 'hover:text-gray-700'
-                  : location !== link.path && 'hover:text-gray-300',
-                'cursor-pointer'
-              )}
-            >
-              <span className='text-2xl'>{link.icon}</span>
-              <span className='text-sm'>{link.title}</span>
+          {link.isReady ? (
+            <UnstyledLink href={link.path}>
+              <NavLink link={link} />
+            </UnstyledLink>
+          ) : (
+            <div className='cursor-not-allowed'>
+              <NavLink link={link} />
             </div>
-          </UnstyledLink>
+          )}
         </li>
       ))}
     </ul>
+  );
+}
+
+function NavLink({
+  link,
+}: {
+  link: {
+    icon: JSX.Element;
+    title: string;
+    path: string;
+    isReady: boolean;
+  };
+}) {
+  const { mode } = useTheme();
+  const { pathname } = useRouter();
+  // const location = router.pathname;
+  return (
+    <div
+      className={clsx(
+        'w-[4.5rem] py-1',
+        'flex flex-col items-center  justify-center  font-semibold',
+        mode === 'light'
+          ? pathname === link.path
+            ? ' text-blue-600'
+            : 'text-gray-800'
+          : pathname === link.path
+          ? 'text-blue-500'
+          : 'text-gray-400',
+        link.isReady && mode === 'light'
+          ? pathname !== link.path && 'hover:text-gray-700'
+          : pathname !== link.path && 'hover:text-gray-300'
+      )}
+    >
+      <span className='text-2xl'>{link.icon}</span>
+      <span className='text-sm'>{link.title}</span>
+    </div>
   );
 }
 
@@ -132,25 +154,30 @@ export const navLinkslist = [
     icon: <RiApps2Line />,
     title: 'Overview',
     path: '/app/overview',
+    isReady: true,
   },
   {
     icon: <TbBuildingBank />,
     title: 'Banks',
     path: '/app/banks',
-  },
-  {
-    icon: <MdOutlineSwitchAccount />,
-    title: 'Accounts',
-    path: '/app/accounts',
-  },
-  {
-    icon: <CgArrowsExchange />,
-    title: 'Activity',
-    path: '/app/transactions',
+    isReady: true,
   },
   {
     icon: <RiUserSettingsFill />,
     title: 'Cabinet',
     path: '/app/cabinet',
+    isReady: true,
+  },
+  {
+    icon: <MdOutlineSwitchAccount />,
+    title: 'Accounts',
+    path: '/app/accounts',
+    isReady: false,
+  },
+  {
+    icon: <CgArrowsExchange />,
+    title: 'Activity',
+    path: '/app/transactions',
+    isReady: false,
   },
 ];
