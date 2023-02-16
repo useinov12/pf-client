@@ -43,17 +43,17 @@ function Overview({ data }: { data: InitialData }) {
           'flex',
           'px-2 md:px-6',
           'flex-col lg:flex-row',
-          'h-[87vh] w-full gap-4',
+          'h-max w-full gap-4',
           'overflow-hidden'
         )}
       >
         <GeneralInfo
           banksData={data}
-          className='h-full w-full  lg:h-[89vh] lg:w-1/3'
+          className='h-full w-full  lg:h-[87vh] lg:w-1/3'
         />
         <Summary
           banksData={data}
-          className='h-full w-full lg:h-[89vh] lg:w-2/3'
+          className='h-full w-full lg:h-[87vh] lg:w-2/3'
         />
       </section>
     </Layout>

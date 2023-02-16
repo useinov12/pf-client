@@ -34,7 +34,7 @@ export function Navbar() {
     <div
       className={clsx(
         'sticky top-0',
-        'px-7 py-3',
+        'px-7 py-2',
         'flex items-center justify-between ',
         'z-40',
         !onTop &&
@@ -45,14 +45,7 @@ export function Navbar() {
 
       <Logo width={60} height={55} className='scale-100 hover:scale-[1.03]' />
 
-      <nav
-        className={clsx(
-          ' rounded px-3 py-1',
-          'inline-flex gap-3 border',
-          mode === 'light' ? 'bg-gray-400/50' : 'bg-gray-500/20',
-          mode === 'light' ? 'border-gray-600/50' : 'border-gray-300/20'
-        )}
-      >
+      <nav className={clsx(' rounded px-3 py-1', 'inline-flex gap-3 ')}>
         <NavLinks />
         <ThemeSwitch />
       </nav>
@@ -62,8 +55,6 @@ export function Navbar() {
 
 function NavLinks() {
   const { mode } = useTheme();
-  const router = useRouter();
-  const location = router.asPath;
   return (
     <ul
       className={clsx(
@@ -80,33 +71,46 @@ function NavLinks() {
       {navLinkslist.map((link) => (
         <li key={link.title}>
           <UnstyledLink href={link.path}>
-            <div
-              className={clsx(
-                'w-[4.5rem] py-1',
-                'flex flex-col items-center  justify-center  font-semibold',
-                mode === 'light'
-                  ? location === link.path && 'text-blue-600 '
-                  : location === link.path && 'text-blue-500',
-                mode === 'light'
-                  ? location === link.path
-                    ? ' text-gray-900'
-                    : 'text-gray-800'
-                  : location === link.path
-                  ? 'text-white'
-                  : 'text-gray-400',
-                mode === 'light'
-                  ? location !== link.path && 'hover:text-gray-700'
-                  : location !== link.path && 'hover:text-gray-300',
-                'cursor-pointer'
-              )}
-            >
-              <span className='text-2xl'>{link.icon}</span>
-              <span className='text-sm'>{link.title}</span>
-            </div>
+            <NavLink link={link} />
           </UnstyledLink>
         </li>
       ))}
     </ul>
+  );
+}
+
+function NavLink({
+  link,
+}: {
+  link: {
+    icon: JSX.Element;
+    title: string;
+    path: string;
+    isReady: boolean;
+  };
+}) {
+  const { mode } = useTheme();
+  const { pathname } = useRouter();
+  return (
+    <div
+      className={clsx(
+        'w-[4.5rem] py-1',
+        'flex flex-col items-center  justify-center  font-semibold',
+        mode === 'light'
+          ? pathname === link.path
+            ? ' text-blue-600'
+            : 'text-gray-800'
+          : pathname === link.path
+          ? 'text-blue-500'
+          : 'text-gray-400',
+        link.isReady && mode === 'light'
+          ? pathname !== link.path && 'hover:text-gray-700'
+          : pathname !== link.path && 'hover:text-gray-300'
+      )}
+    >
+      <span className='text-2xl'>{link.icon}</span>
+      <span className='text-sm'>{link.title}</span>
+    </div>
   );
 }
 
@@ -132,27 +136,32 @@ export const MobileMenuButton = () => {
 export const navLinkslist = [
   {
     icon: <RiApps2Line />,
-    title: 'General',
+    title: 'Overview',
     path: '/app/overview',
+    isReady: true,
   },
   {
     icon: <TbBuildingBank />,
     title: 'Banks',
     path: '/app/banks',
-  },
-  {
-    icon: <MdOutlineSwitchAccount />,
-    title: 'Accounts',
-    path: '/app/accounts',
-  },
-  {
-    icon: <CgArrowsExchange />,
-    title: 'Activity',
-    path: '/app/transactions',
+    isReady: true,
   },
   {
     icon: <RiUserSettingsFill />,
     title: 'Cabinet',
     path: '/app/cabinet',
+    isReady: true,
+  },
+  {
+    icon: <MdOutlineSwitchAccount />,
+    title: 'Accounts',
+    path: '/app/accounts',
+    isReady: false,
+  },
+  {
+    icon: <CgArrowsExchange />,
+    title: 'Activity',
+    path: '/app/activity',
+    isReady: false,
   },
 ];

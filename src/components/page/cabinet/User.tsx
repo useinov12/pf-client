@@ -8,9 +8,12 @@ import {
 } from 'react-icons/md';
 import { TbLogout } from 'react-icons/tb';
 
+import { Storage } from '@/lib/storage';
+
 import Button from '@/components/buttons/Button';
 
 import { useTheme } from '@/context/ThemeProvider';
+import { useAuth } from '@/services/auth/queries';
 import { usePlaidContext } from '@/services/plaid/PlaidLinkProvider';
 
 export function UserMenu({ isMobile }: { isMobile?: boolean | undefined }) {
@@ -130,8 +133,21 @@ function SettingsMenuButton({
 }
 
 function LogoutButton({ className }: { className: string }) {
+  const { refetch } = useAuth();
+
+  async function handleLogout() {
+    Storage.clear('accessToken');
+    Storage.clear('refreshToken');
+    /**
+     * If  `enabled` option used in useQuery than such queries are ignored by invalidateQueries.
+     * to logout - refetch after tokens removed
+     * https://tanstack.com/query/latest/docs/react/guides/disabling-queries
+     */
+    refetch();
+  }
+
   return (
-    <Button className={className} variant='ghost'>
+    <Button className={className} variant='ghost' onClick={handleLogout}>
       <span>Logout</span>
       <TbLogout className='text-2xl text-red-500' />
     </Button>

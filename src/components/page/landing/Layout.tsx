@@ -51,6 +51,7 @@ const Navbar = () => {
         <ul className='flex items-center justify-between'>
           <div />
           <ul className='inline-flex items-center gap-2'>
+            <li>{user && user.firstName}</li>
             <li>{user ? <AppLink /> : <LoginButton />}</li>
             <li>
               <ThemeButton />

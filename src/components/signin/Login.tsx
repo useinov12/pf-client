@@ -1,14 +1,17 @@
-import { ChangeEvent, useEffect, useState, FormEvent } from 'react';
 import clsx from 'clsx';
-import Button from '@/components/buttons/Button';
-import { isValidEmailInput } from '@/lib/formValidation';
-import toast from 'react-hot-toast';
-import { login, useCashedClient } from '@/services/auth/actions';
-import logger from '@/lib/logger';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/services/auth/queries';
+import { ChangeEvent, FormEvent,useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+
+import { isValidEmailInput } from '@/lib/formValidation';
+import { clearRedirect,getRedirect } from '@/lib/lastRedirect';
+import logger from '@/lib/logger';
+
+import Button from '@/components/buttons/Button';
+
 import { useLoginForm } from '@/context/LoginFormProvider';
-import { getRedirect, clearRedirect } from '@/lib/lastRedirect';
+import { login, useCashedClient } from '@/services/auth/actions';
+import { useAuth } from '@/services/auth/queries';
 
 export default function Login({ className }: { className?: string }) {
   return <Form className={className} />;
@@ -55,7 +58,7 @@ function Form({ className }: { className?: string }) {
         const lastVisited = getRedirect();
 
         if (!lastVisited || lastVisited === '/signup') {
-          router.push('/cabinet');
+          router.push('/app/cabinet');
         } else {
           router.push(lastVisited);
         }

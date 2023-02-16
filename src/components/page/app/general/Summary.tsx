@@ -3,12 +3,10 @@ import { useState } from 'react';
 
 import BankList from '@/components/page/app/general/Summary/BankList';
 import Details from '@/components/page/app/general/Summary/Details';
-import Overview from '@/components/page/app/general/Summary/Overview';
 
 import { BanksData } from '@/constant/demo-data/demoData';
 import { Bank } from '@/services/types';
 
-import Card from '../Card';
 export default function Summary({
   className,
   banksData,
@@ -20,19 +18,16 @@ export default function Summary({
   const [selectedBank, setSelectedBank] = useState<Bank | undefined>(undefined);
 
   return (
-    <Card className={clsx('flex flex-col justify-start gap-2 p-0', className)}>
-      {/* <div className='flex items-center justify-between'>
-        <strong>Summary</strong>
-
-      </div> */}
+    <main
+      className={clsx('flex flex-col justify-start gap-2 p-0 py-1', className)}
+    >
       <BankList
         banksData={banksData}
         openBankId={openBankId}
         setSelectedBank={setSelectedBank}
         setOpenBankId={setOpenBankId}
       />
-      <Overview banksData={banksData} selectedBank={selectedBank} />
       <Details banksData={banksData} selectedBank={selectedBank} />
-    </Card>
+    </main>
   );
 }

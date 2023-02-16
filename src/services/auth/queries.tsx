@@ -20,8 +20,11 @@ export const useAuth = () => {
       const response = await getMe();
       logger(response, '🔴 onError useQuery CB');
     },
-    select: (data: AxiosResponse<CurrentUserData, any>) =>
-      formatUserApiResponse(data),
+    select: (data: AxiosResponse<CurrentUserData, any> | undefined) => {
+      if (data) return formatUserApiResponse(data);
+    },
+    // useErrorBoundary: (error) => logger(error, 'Error'),
+    // useErrorBoundary: false,
   });
 };
 

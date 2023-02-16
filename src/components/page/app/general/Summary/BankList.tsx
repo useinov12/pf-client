@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Dispatch, SetStateAction } from 'react';
+import { BsPiggyBankFill } from 'react-icons/bs';
 
 import { BanksData } from '@/constant/demo-data/demoData';
 import { useTheme } from '@/context/ThemeProvider';
@@ -20,7 +21,7 @@ export default function BankList({
   const { mode } = useTheme();
 
   return (
-    <section className='h-fit'>
+    <section className='h-fit flex-none'>
       <ul className='flex h-full w-full list-none flex-wrap gap-1'>
         <li>
           <button
@@ -29,6 +30,7 @@ export default function BankList({
               setSelectedBank(undefined);
             }}
             className={clsx(
+              'text-lg',
               'border',
               'rounded px-3',
               'whitespace-nowrap',
@@ -38,10 +40,12 @@ export default function BankList({
               openBankId === -1 &&
                 'border-blue-600 text-blue-600 ring-2 ring-blue-600',
               'hover:border-blue-600',
-              ' hover:text-blue-600 '
+              ' hover:text-blue-600 ',
+              'inline-flex items-center gap-1'
             )}
           >
-            All banks
+            <BsPiggyBankFill />
+            <span>All banks</span>
           </button>
         </li>
         {Object.keys(banksDict).map((bank, i) => (
@@ -54,6 +58,7 @@ export default function BankList({
                 );
               }}
               className={clsx(
+                'text-lg',
                 'border',
                 'rounded px-3',
                 'whitespace-nowrap',

@@ -20,7 +20,8 @@ export default function Layout({ children }: { children: ReactNode }) {
     <LayoutCommon
       className={clsx(
         'h-auto min-h-screen w-screen',
-        isLoaded && 'fade-in-start'
+        isLoaded && 'fade-in-start',
+        'overflow-hidden'
       )}
       withWrapper
     >

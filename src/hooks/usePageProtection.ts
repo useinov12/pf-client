@@ -18,7 +18,7 @@ export default function usePageProtection() {
   const { handleOpenLoginForm } = useLoginForm();
 
   const { data: user, isSuccess } = useAuth();
-  const isLoggedIn = isSuccess && user;
+  const isLoggedIn = isSuccess && user?.firstName;
 
   /**
    * Using URL parameters to conditionally render Private/Public version of the page.
@@ -58,6 +58,11 @@ export default function usePageProtection() {
     }
     return () => clearTimeout(timer);
   }, [router.isReady]);
+
+  /* re-validate when user loged in/ loged out */
+  useEffect(() => {
+    validateUrlParams();
+  }, [user]);
 
   return { pageIsValidated };
 }

@@ -31,7 +31,16 @@ export const refreshAccessToken = () => {
   return apiPublic.get<RefreshTokenData>(`/refresh`, { headers });
 };
 
-export const getMe = () => apiPrivate.get<CurrentUserData>(`/user`);
+export const getMe = async () => {
+  try {
+    const resp = await apiPrivate.get<CurrentUserData>(`/user`);
+    if (resp.status === 200) return resp;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+// .catch((e) => logger(e, '🛑 get user error'));
 
 /* PLAID API */
 export const exchangePublicToken = (token: { public_token: string }) =>
