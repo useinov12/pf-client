@@ -5,7 +5,7 @@ import usePageProtection from '@/hooks/usePageProtection';
 import Button from '@/components/buttons/Button';
 import Layout from '@/components/page/app/Layout';
 import BankMenu from '@/components/page/cabinet/Banks';
-import { UserMenu as DesktopUserMenu } from '@/components/page/cabinet/User';
+import { UserMenu as UserMenuDesktop } from '@/components/page/cabinet/User';
 import LaunchLink from '@/components/plaid/LaunchLink';
 import { Popup } from '@/components/shared/Popup';
 
@@ -30,7 +30,7 @@ export default function CabinetPage() {
 
   if (!pageIsValidated) return <PageLoading />;
 
-  const isLoggedIn = isSuccess && user;
+  const isLoggedIn = isSuccess && user?.firstName;
 
   return (
     <CabinetPageProvider>
@@ -94,7 +94,7 @@ const Cabinet = ({ bankQuery }: CabinetProps) => {
             'overflow-hidden'
           )}
         >
-          <DesktopUserMenu />
+          <UserMenuDesktop />
           <BankMenu bankQuery={bankQuery} />
         </section>
       </Layout>

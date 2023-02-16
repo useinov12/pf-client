@@ -1,14 +1,16 @@
-import { RegisterCredentials, LoginCredentials, RefreshData } from '../types';
+import mem from 'mem';
+import { toast } from 'react-hot-toast';
+import { useQueryClient } from 'react-query';
+
+import logger from '@/lib/logger';
+import { Storage } from '@/lib/storage';
+
 import {
   createNewUser as apiCreateNewUser,
   loginUser as apiLoginUser,
   refreshAccessToken as apiRefreshAccessToken,
 } from '../api/api';
-import { toast } from 'react-hot-toast';
-import { useQueryClient } from 'react-query';
-import { Storage } from '@/lib/storage';
-import logger from '@/lib/logger';
-import mem from 'mem';
+import { LoginCredentials, RegisterCredentials } from '../types';
 
 /**
  *  Access react-query `useQueryClient()`*/
@@ -72,8 +74,8 @@ export async function refresh() {
     logger(response, '✅ REFRESH RESPONSE');
 
     /* save new tokens */
-    Storage.set('accessToken', response.data.data.jwt_token)
-    Storage.set('refreshToken', response.data.data.refresh_token)
+    Storage.set('accessToken', response.data.data.jwt_token);
+    Storage.set('refreshToken', response.data.data.refresh_token);
 
     return response.data.data.jwt_token;
   } catch (e: any) {
